@@ -28,7 +28,7 @@ void XSwitch::process(const ProcessArgs &args)
 
 SwitchWidget::SwitchWidget(XSwitch *module) : ModuleWidget()
 {
-	CREATE_PANEL(module, this, 10, "res/modules/Switch.svg");
+	CREATE_PANEL(module, this, 10, "res/modules/switch.svg");
 
 	float in_x = mm2px(2.500);
 	float mod_x = mm2px(17.306);
