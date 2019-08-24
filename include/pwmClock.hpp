@@ -9,6 +9,11 @@
 #define SWING_MAXVALUE (0.5)
 
 #define OUT_SOCKETS (21)
+#ifdef ARCH_MAC 
+typedef std::chrono::time_point<std::chrono::steady_clock> fuck_mac_os;
+#else
+typedef std::chrono::time_point<std::chrono::system_clock> fuck_mac_os;
+#endif
 struct PwmClock;
 struct PwmClockWidget : SequencerWidget
 {
@@ -69,7 +74,7 @@ struct MIDICLOCK_TIMER
 			if ((midiClockCounter++ % 24) == 0)
 			{
 				midiClockCounter = 0;
-				std::chrono::time_point<std::chrono::system_clock> now = std::chrono::high_resolution_clock::now();
+				fuck_mac_os now = std::chrono::high_resolution_clock::now();
 				long elapsed_msec = (long)std::chrono::duration_cast<std::chrono::milliseconds>(now - lastclockpulse).count();
 				if (elapsed_msec > 0)
 				{
@@ -86,11 +91,11 @@ struct MIDICLOCK_TIMER
 	private:
 		dsp::SchmittTrigger midiClock;
 		unsigned char midiClockCounter;
-		std::chrono::time_point<std::chrono::system_clock> lastclockpulse;
+		fuck_mac_os lastclockpulse;
 		float bpm = BPM_MINVALUE;
 		int meanCalcSamples;
 		float meanCalcTempValue;
-		std::chrono::time_point<std::chrono::system_clock> meanCalcStart;
+		fuck_mac_os meanCalcStart;
 		void resetStat()
 		{
 			meanCalcStart = std::chrono::high_resolution_clock::now();
@@ -98,7 +103,7 @@ struct MIDICLOCK_TIMER
 			meanCalcTempValue = 0.f;
 		}
 
-		bool addSample(std::chrono::time_point<std::chrono::system_clock> now, float v)
+		bool addSample(fuck_mac_os now, float v)
 		{
 			meanCalcSamples++;
 			meanCalcTempValue += v;
