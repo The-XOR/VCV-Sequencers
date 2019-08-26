@@ -7,12 +7,7 @@ void flop::process(const ProcessArgs &args)
 	bool compare = params[COMPAREMODE].value > 0.1;
 
 	for(int k = 0; k < NUM_FLOPS; k++)
-	{/*
-		if(outputs[OUT_1 + k].isConnected() || outputs[OUTNEG_1+k].isConnected())
-			process(k, hiz, compare);
-		else
-			lights[LED_A + k].value = lights[LED_B + k].value = lights[LED_OUTNEG + k].value = lights[LED_OUT + k].value = LED_OFF;
-			*/
+	{
 		process(k, hiz, compare);
 	}
 }
@@ -27,25 +22,18 @@ void flop::setOutput(int index, bool on)
 
 float flop::getVoltage(int index, bool hiz)
 {
-	if (hiz && !inputs[index].isConnected())
+	if(hiz && !inputs[index].isConnected())
 	{
-		if(random::uniform() > 0.6)
+		if((hizCounter++ == 4000))
 		{
-			float n = random::normal();
-			if (n > 2.1)
-				return random::uniform() * 9.2;
-			else if (n > 2.0)
-				return random::uniform() * 7.0;
-			else if (n > 1.0)
-				return random::uniform() * 5.0;
-			else if (n > 0.5)
-				return random::uniform() * 2.5;
-			else if (n < -1.0)
-				return random::uniform() * 1.0;
+			hizvalue = random::normal() * 2.3;
+		} else if(hizCounter == 6000)
+		{
+			hizCounter = 0;
+			hizvalue = 0;
 		}
-		
-		return 0;
-	} 
+		return hizvalue;
+	}
 
 	return inputs[index].getNormalVoltage(0.0);
 }

@@ -53,6 +53,8 @@ struct flop : Module
 			setOutput(k, false);
 		}
 		jk_state = sr_state = t_state = d_state = false;
+		hizvalue = 0;
+		hizCounter = 0;
 	}
 	void process(const ProcessArgs &args) override;
 
@@ -92,4 +94,6 @@ private:
 	bool d_state;
 	LogicSchmittTrigger a_Trig[NUM_FLOPS];
 	LogicSchmittTrigger b_Trig[NUM_FLOPS];
+	unsigned int hizCounter;
+	float hizvalue;
 };

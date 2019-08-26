@@ -7,21 +7,7 @@ void Boole::process(const ProcessArgs &args)
 	bool compare = params[COMPAREMODE].value > 0.1;
 
 	for(int k = 0; k < NUM_BOOL_OP; k++)
-	{/*
-		if(outputs[OUT_1 + k].isConnected())
-		{
-			bool o = process(k, hiz, compare);
-			if(params[INVERT_1 + k].value > 0.1)
-				o = !o;
-			lights[LED_OUT+k].value = o ? LED_ON : LED_OFF;
-			outputs[OUT_1 + k].value = o ? LVL_ON : LVL_OFF;
-		}
-		else
-		{
-			lights[LED_X + k].value = lights[LED_OUT + k].value = LED_OFF;
-			if(k>0)
-				lights[LED_Y + k].value = LED_OFF;
-		}*/
+	{
 		bool o = process(k, hiz, compare);
 		if(params[INVERT_1 + k].value > 0.1)
 			o = !o;
@@ -34,21 +20,15 @@ float Boole::getVoltage(int index, bool hiz)
 {
 	if (hiz && !inputs[index].isConnected())
 	{
-		if(random::uniform() > 0.6)
+		if((hizCounter++ == 4000))
 		{
-			float n = random::normal();
-			if (n > 2.1)
-				return random::uniform() * 9.2;
-			else if (n > 2.0)
-				return random::uniform() * 7.0;
-			else if (n > 1.0)
-				return random::uniform() * 5.0;
-			else if (n > 0.5)
-				return random::uniform() * 2.5;
-			else if (n < -1.0)
-				return random::uniform() * 1.0;
+			hizvalue = random::normal() * 2.3;
+		} else if(hizCounter == 6000)
+		{
+			hizCounter = 0;
+			hizvalue = 0;
 		}
-		return 0;
+		return hizvalue;
 	} 
 	
 	return inputs[index].getNormalVoltage(0.0);

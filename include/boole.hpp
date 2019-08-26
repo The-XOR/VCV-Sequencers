@@ -50,6 +50,8 @@ struct Boole : Module
 			if(k > 0)
 				configParam(Boole::THRESH_Y + k-1, LVL_MIN, LVL_MAX, LVL_OFF, "Threshold", "V");
 		}
+		hizvalue = 0;
+		hizCounter = 0;
 	}
 	void process(const ProcessArgs &args) override;
 
@@ -57,4 +59,6 @@ private:
 	bool process(int num_op, bool hiz, bool compare);
 	bool logicLevel(float v1, float v2, bool compare);
 	float getVoltage(int index, bool hiz);
+	unsigned int hizCounter;
+	float hizvalue;
 };
