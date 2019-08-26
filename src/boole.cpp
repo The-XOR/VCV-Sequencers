@@ -7,7 +7,7 @@ void Boole::process(const ProcessArgs &args)
 	bool compare = params[COMPAREMODE].value > 0.1;
 
 	for(int k = 0; k < NUM_BOOL_OP; k++)
-	{
+	{/*
 		if(outputs[OUT_1 + k].isConnected())
 		{
 			bool o = process(k, hiz, compare);
@@ -21,7 +21,12 @@ void Boole::process(const ProcessArgs &args)
 			lights[LED_X + k].value = lights[LED_OUT + k].value = LED_OFF;
 			if(k>0)
 				lights[LED_Y + k].value = LED_OFF;
-		}
+		}*/
+		bool o = process(k, hiz, compare);
+		if(params[INVERT_1 + k].value > 0.1)
+			o = !o;
+		lights[LED_OUT + k].value = o ? LED_ON : LED_OFF;
+		outputs[OUT_1 + k].value = o ? LVL_ON : LVL_OFF;
 	}
 }
 
