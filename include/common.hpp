@@ -274,6 +274,23 @@ struct TL1105HSw : app::SvgSwitch
 	};
 };
 
+struct TL1105HSwRed : app::SvgSwitch
+{
+	TL1105HSw()
+	{
+		randomizable = true;
+		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/TL1105_H0.svg")));
+		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/TL1105_HB0.svg")));
+	};
+
+	void randomize() override
+	{
+		if(randomizable)
+		app::SvgSwitch::randomize();
+	}
+	bool randomizable:
+};
+
 struct TL1105HBSw : app::SvgSwitch
 {
 	TL1105HBSw()
