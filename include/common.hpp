@@ -11,6 +11,7 @@
 #define LVL_ON    (10.0f)
 #define LED_OFF    (0.0f)
 #define LED_ON    (10.0f)
+#define MIDDLE_C  (4.0f)
 
 using namespace rack;
 extern Plugin *pluginInstance;

@@ -62,7 +62,7 @@ struct quattroStrip
 {
 public:
 	void Init(quattro *pmodule, int n);
-	void process(int forceStep, float deltaTime);
+	void process(int forceStep, float deltaTime, float trnsp);
 	void reset(float deltaTime);
 
 private:
@@ -77,7 +77,7 @@ private:
 	quattro *pModule = NULL;
 	dsp::SchmittTrigger resetTrig;
 	SchmittTrigger2 clockTrigger;
-	void beginPulse(bool silent = true);
+	void beginPulse(bool silent = true, float trnsp = MIDDLE_C);
 	void endPulse();
 	STEPMODE getStepMode();
 	void move_next();
@@ -111,7 +111,8 @@ struct quattro : Module
 		MRESET_IN = CLOCK1 + NUM_STRIPS,
 		RANDOMIZONE,
 		RANGE_IN,
-		NUM_INPUTS = RANGE_IN + outputRange::NUMSLOTS
+		TRANSPOSE_IN = RANGE_IN + outputRange::NUMSLOTS,
+		NUM_INPUTS 
 	};
 	enum OutputIds
 	{
