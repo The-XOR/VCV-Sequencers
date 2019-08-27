@@ -13,32 +13,123 @@ struct daviesVerySmall : _davies1900base
 	}
 };
 
-struct outputRange
+struct nag7Segm : TransparentWidget
+{
+private:
+	std::shared_ptr<Font> font;
+	NagSeq *pSeq;
+	nag *pNag;
+	void init(float x, float y)
+	{
+		box.size = Vec(27, 22);
+		box.pos = Vec(mm2px(x), yncscape(y, px2mm(box.size.y)));
+		font = APP->window->loadFont(asset::plugin(pluginInstance, "res/Segment7Standard.ttf"));
+	}
+
+public:
+	nag7Segm(NagSeq *sq, float x, float y)
+	{
+		pSeq = sq;
+		pNag = NULL;
+		init(x, y);
+	}
+	nag7Segm(nag *p, float x, float y)
+	{
+		pSeq = NULL;
+		pNag = p;
+		init(x, y);
+	}
+
+	void draw(const DrawArgs &args) override
+	{
+		// Background
+		NVGcolor backgroundColor = nvgRGB(0x20, 0x20, 0x20);
+		NVGcolor borderColor = nvgRGB(0x10, 0x10, 0x10);
+		nvgBeginPath(args.vg);
+		nvgRoundedRect(args.vg, 0.0, 0.0, box.size.x, box.size.y, 4.0);
+		nvgFillColor(args.vg, backgroundColor);
+		nvgFill(args.vg);
+		nvgStrokeWidth(args.vg, 1.0);
+		nvgStrokeColor(args.vg, borderColor);
+		nvgStroke(args.vg);
+		// text
+		nvgFontSize(args.vg, 18);
+		nvgFontFaceId(args.vg, font->handle);
+		nvgTextLetterSpacing(args.vg, 2.5);
+
+		Vec textPos = Vec(2, 18);
+		NVGcolor textColor = nvgRGB(0xdf, 0xd2, 0x2c);
+		nvgFillColor(args.vg, nvgTransRGBA(textColor, 16));
+		nvgText(args.vg, textPos.x, textPos.y, "~~", NULL);
+
+		textColor = nvgRGB(0xda, 0xe9, 0x29);
+		nvgFillColor(args.vg, nvgTransRGBA(textColor, 16));
+		nvgText(args.vg, textPos.x, textPos.y, "\\\\", NULL);
+
+		if(pSeq != NULL)
+		{
+			if(pSeq->enabled)
+			{
+				char n[20];
+				sprintf(n, "%2i", pSeq->numVertici);
+				textColor = nvgRGB(0xff, 0x00, 0x00);
+				nvgFillColor(args.vg, textColor);
+				nvgText(args.vg, textPos.x, textPos.y, n, NULL);
+			} else
+			{
+				textColor = nvgRGB(0x9f, 0x00, 0x00);
+				nvgFillColor(args.vg, textColor);
+				nvgText(args.vg, textPos.x, textPos.y, "--", NULL);
+			}
+		} else if(pNag != NULL)
+		{
+			char n[20];
+			sprintf(n, "%2i", pNag->degPerClock());
+			textColor = nvgRGB(0xff, 0x00, 0x00);
+			nvgFillColor(args.vg, textColor);
+			nvgText(args.vg, textPos.x, textPos.y, n, NULL);
+		}
+	}
+};
+struct outputRange : Widget
 {
 public:
-	static const int NUMSLOTS = 3;
+	outputRange()
+	{
+		setSvg(APP->window->loadSvg(asset::plugin(pluginInstance, "res/outputRange.svg")));
+	}
+
+	static const int NUMINPUTS = 4;
+	static const int RANGE_FROM = 0;
+	static const int RANGE_TO = 1;
+	static const int REC_TRANSPOSE = 2;
+	static const int REC_GATE - 3;
+	static const int NUMPARAMS = 5;
+	static const int REC_MODE = 2;
+
 	void Create(ModuleWidget *pWidget, float x, float y, int port, int param)
 	{
 		portID = port;
 		paramID = param;
-		pWidget->addInput(createInput<portSmall>(Vec(mm2px(x + 1.072f),  yncscape(y , 33.967f+0.595f)), pWidget->module, portID));
-		pWidget->addInput(createInput<portSmall>(Vec(mm2px(x + 1.072f), yncscape(y , 17.968f+0.595f)), pWidget->module, portID + 1));
-		pWidget->addInput(createInput<portSmall>(Vec(mm2px(x + 1.072f), yncscape(y , 1.472f+0.595f)), pWidget->module, portID + 2));
+		pWidget->addInput(createInput<portSmall>(Vec(mm2px(x + 1.072f),  yncscape(y , 59.367f+0.595f)), pWidget->module, portID+ RANGE_FROM));
+		pWidget->addInput(createInput<portSmall>(Vec(mm2px(x + 1.072f), yncscape(y , 43.368f+0.595f)), pWidget->module, portID + RANGE_TO));
+		pWidget->addInput(createInput<portSmall>(Vec(mm2px(x + 1.072f), yncscape(y, 33.377f + 0.595f)), pWidget->module, portID + REC_TRANSPOSE));
+		pWidget->addInput(createInput<portSmall>(Vec(mm2px(x + 1.072f), yncscape(y ,1.704f+0.595f)), pWidget->module, portID + REC_GATE));
 
-		ParamWidget *pwdg = createParam<daviesVerySmall>(Vec(mm2px(x + 1.015f), yncscape(y , 40.910+6.f)), pWidget->module, paramID);
+		ParamWidget *pwdg = createParam<daviesVerySmall>(Vec(mm2px(x + 1.015f), yncscape(y+66.310f , 1.704.f)), pWidget->module, paramID+ RANGE_FROM);
 		pWidget->addParam(pwdg);
 		#ifdef OSCTEST_MODULE
 		if(pWidget->module != NULL)
 			pWidget->module->oscDrv->Add(new oscControl("RangeMin"), pwdg);
 		#endif	
-		pwdg = createParam<daviesVerySmall>(Vec(mm2px(x + 1.015f), yncscape(y, 24.911f + 6.f)), pWidget->module, paramID + 1);
+		pwdg = createParam<daviesVerySmall>(Vec(mm2px(x + 0.712f), yncscape(y, 25.617f + 6.f)), pWidget->module, paramID + RANGE_TO);
 		pWidget->addParam(pwdg);
 		#ifdef OSCTEST_MODULE
 		if(pWidget->module != NULL)
 			pWidget->module->oscDrv->Add(new oscControl("RangeMax"), pwdg);
 		#endif
 
-		pwdg = createParam<TL1105HSwRed>(Vec(mm2px(x + 0.712f), yncscape(y, 8.416f + 4.477f)), pWidget->module, paramID + 2);
+		pwdg = createParam<TL1105HSwRed>(Vec(mm2px(x + 1.015f), yncscape(y, 25.617f + 4.477f)), pWidget->module, paramID + 2);
 		pwdg->randomizable = false;
 		pWidget->addParam(pwdg);
 		#ifdef OSCTEST_MODULE
@@ -57,8 +148,8 @@ public:
 			else
 				trnsps = module->inputs[portID+2].getNormalVoltage(MIDDLE_C) - MIDDLE_C;
 
-			float vmin = clamp(module->params[paramID].value + module->inputs[portID].getNormalVoltage(0.0), LVL_MIN, LVL_MAX);
-			float vmax = clamp(module->params[paramID + 1].value + module->inputs[portID + 1].getNormalVoltage(0.0), LVL_MIN, LVL_MAX);
+			float vmin = clamp(module->params[paramID].value + module->inputs[portID+ RANGE_FROM].getNormalVoltage(0.0), LVL_MIN, LVL_MAX);
+			float vmax = clamp(module->params[paramID + 1].value + module->inputs[portID + RANGE_TO].getNormalVoltage(0.0), LVL_MIN, LVL_MAX);
 			float vnt = rescale(v, 0.0, 1.0, std::min(vmin, vmax), std::max(vmin, vmax));
 			return clamp(vnt + trnsps, LVL_MIN, LVL_MAX);
 		}
@@ -90,8 +181,8 @@ public:
 	{
 		if(module != NULL && portID >= 0)
 		{
-			float vmin = clamp(module->params[paramID].value + module->inputs[portID].getNormalVoltage(0.0), LVL_MIN, LVL_MAX);
-			float vmax = clamp(module->params[paramID + 1].value + module->inputs[portID + 1].getNormalVoltage(0.0), LVL_MIN, LVL_MAX);
+			float vmin = clamp(module->params[paramID].value + module->inputs[portID+RANGE_FROM].getNormalVoltage(0.0), LVL_MIN, LVL_MAX);
+			float vmax = clamp(module->params[paramID + 1].value + module->inputs[portID + RANGE_TO].getNormalVoltage(0.0), LVL_MIN, LVL_MAX);
 			return clamp(rescale(v, 0.0, 1.0, std::min(vmin, vmax), std::max(vmin, vmax)), LVL_MIN, LVL_MAX);
 		}
 		return 0;
@@ -101,8 +192,8 @@ public:
 	{
 		if(module != NULL && portID >= 0)
 		{
-			float vmin = clamp(module->params[paramID].value + module->inputs[portID].getNormalVoltage(0.0), LVL_MIN, LVL_MAX);
-			float vmax = clamp(module->params[paramID + 1].value + module->inputs[portID + 1].getNormalVoltage(0.0), LVL_MIN, LVL_MAX);
+			float vmin = clamp(module->params[paramID].value + module->inputs[portID + RANGE_FROM].getNormalVoltage(0.0), LVL_MIN, LVL_MAX);
+			float vmax = clamp(module->params[paramID + 1].value + module->inputs[portID + RANGE_TO].getNormalVoltage(0.0), LVL_MIN, LVL_MAX);
 			return clamp(rescale(v, std::min(vmin, vmax), std::max(vmin, vmax), 0.0, 1.0), 0.0, 1.0);
 		}
 
