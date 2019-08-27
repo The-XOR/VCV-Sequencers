@@ -1,5 +1,5 @@
 ### the absolutely awful plugin suite
-![modules](/res/png/modules.png?raw=true "modules")
+![modules](/repository/modules.png?raw=true "modules")
 
 common characteristics:
 - these plugins are awful, you are advised to avoid them at all costs
