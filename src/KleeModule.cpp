@@ -177,10 +177,10 @@ void Klee::populate_outputs()
 	for(int k = 0; k < 8; k++)
 	{
 		if(shiftRegister.A[k])
-			a += orng.Value(params[PITCH_KNOB + k].value);
+			a += cvs.TransposeableValue(params[PITCH_KNOB + k].value);
 
 		if(shiftRegister.B[k])
-			b += orng.Value(params[PITCH_KNOB + k + 8].value);
+			b += cvs.TransposeableValue(params[PITCH_KNOB + k + 8].value);
 	}
 	outputs[CV_A].value = clamp(a, LVL_MIN, LVL_MAX);
 	outputs[CV_B].value = clamp(b, LVL_MIN, LVL_MAX);
@@ -234,7 +234,7 @@ void Klee::sr_rotate()
 void Klee::QuantizePitch()
 {
 	for(int k = 0; k < 16; k++)
-		params[PITCH_KNOB + k].value = pWidget->quantizePitch(PITCH_KNOB + k, params[PITCH_KNOB + k].value, orng);
+		params[PITCH_KNOB + k].value = pWidget->quantizePitch(PITCH_KNOB + k, params[PITCH_KNOB + k].value, cvs);
 }
 
 bool Klee::chance()
@@ -259,7 +259,7 @@ KleeWidget::KleeWidget(Klee *module) : SequencerWidget()
 	#endif
 	#endif
 
-	CREATE_PANEL(module, this, 48, "res/modules/KleeModule.svg");
+	CREATE_PANEL(module, this, 50, "res/modules/KleeModule.svg");
 
 	const float switch_dstx = 22.203 - 11.229;
 	for(int k = 0; k < 8; k++)
@@ -528,7 +528,7 @@ KleeWidget::KleeWidget(Klee *module) : SequencerWidget()
 	addInput(createInput<PJ301BPort>(Vec(mm2px(230.822), yncscape(9.863, 8.255)), module, Klee::RND_THRES_IN));
 
 	if(module != NULL)
-		module->orng.Create(this, 215.332f, 22.748f, Klee::RANGE_IN, Klee::RANGE);
+		module->cvs.Create(this, 241.724f, 41.284f, Klee::NUM_INPUTS - cvMiniStrip::CVMINISTRIP_INPUTS, Klee::NUM_PARAMS - cvMiniStrip::CVMINISTRIP_PARAMS);
 
 	// pitch Knobs + leds
 	float pot_x[8] = {39.440, 45.104, 60.976, 83.912, 109.368, 132.304, 148.175, 153.840};

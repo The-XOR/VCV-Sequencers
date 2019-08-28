@@ -33,24 +33,24 @@ struct cvMiniStrip
 		pw->wrap();
 		pWidget->addChild(pw);
 
-		addMiniStrip(pWidget, x, y);
+		addMiniStrip(pWidget, x, y, -45.508f);
 	}
 
 	protected:
-	void addMiniStrip(ModuleWidget *pWidget, float x, float y)
+	void addMiniStrip(ModuleWidget *pWidget, float x, float y, float corr)
 	{
-		pWidget->addInput(createInput<portSmall>(Vec(pos_x(x, 1.072f), pos_y(y, 74.942f, 5.885f)), pWidget->module, RANGE_FROM));
-		pWidget->addInput(createInput<portSmall>(Vec(pos_x(x, 1.072f), pos_y(y, 58.942f, 5.885f)), pWidget->module, RANGE_TO));
-		pWidget->addInput(createInput<portSmall>(Vec(pos_x(x, 1.072f), pos_y(y, 48.441f, 5.885f)), pWidget->module, CV_IN));
+		pWidget->addInput(createInput<portSmall>(Vec(pos_x(x, 1.072f), pos_y(y, corr+74.942f, 5.885f)), pWidget->module, RANGE_FROM));
+		pWidget->addInput(createInput<portSmall>(Vec(pos_x(x, 1.072f), pos_y(y, corr+58.942f, 5.885f)), pWidget->module, RANGE_TO));
+		pWidget->addInput(createInput<portSmall>(Vec(pos_x(x, 1.072f), pos_y(y, corr+48.441f, 5.885f)), pWidget->module, CV_IN));
 
-		ParamWidget *pwdg = createParam<daviesVerySmall>(Vec(pos_x(x, 1.015f), pos_y(y, 81.885f, 6.f)), pWidget->module, PARAM_FROM);
+		ParamWidget *pwdg = createParam<daviesVerySmall>(Vec(pos_x(x, 1.015f), pos_y(y, corr+81.885f, 6.f)), pWidget->module, PARAM_FROM);
 		pWidget->addParam(pwdg);
 #ifdef OSCTEST_MODULE
 		if(pWidget->module != NULL)
 			pWidget->module->oscDrv->Add(new oscControl("RangeMin"), pwdg);
 #endif	
 
-		pwdg = createParam<daviesVerySmall>(Vec(pos_x(x, 1.015f), pos_y(y, 65.886f, 6.f)), pWidget->module, PARAM_TO);
+		pwdg = createParam<daviesVerySmall>(Vec(pos_x(x, 1.015f), pos_y(y, corr+65.886f, 6.f)), pWidget->module, PARAM_TO);
 		pWidget->addParam(pwdg);
 #ifdef OSCTEST_MODULE
 		if(pWidget->module != NULL)
@@ -73,8 +73,8 @@ struct cvMiniStrip
 	{
 		module = pModule;
 		paramID = param;
-		module->configParam(PARAM_FROM, LVL_MIN, LVL_MAX, 0.0, "Output Range: Min Voltage", "V");
-		module->configParam(PARAM_TO, LVL_MIN, LVL_MAX, LVL_MAX / 2.f, "Output Range: Max Voltage", "V");
+		module->configParam(PARAM_FROM, LVL_MIN, LVL_MAX, -3.f, "Output Range: Min Voltage", "V");
+		module->configParam(PARAM_TO, LVL_MIN, LVL_MAX, 3.f, "Output Range: Max Voltage", "V");
 	}
 
 	float Value(float v) const //v normalizzato 0-1
@@ -94,7 +94,7 @@ struct cvMiniStrip
 	
 	float TransposeableValue(float v)
 	{
-		float trnsps = recording ? 0.f : module->inputs[CV_IN].getNormalVoltage(MIDDLE_C) - MIDDLE_C;
+		float trnsps = recording ? 0.f : module->inputs[CV_IN].getNormalVoltage(0.0);
 
 		float vmin = clamp(module->params[paramID].value + module->inputs[RANGE_FROM].getNormalVoltage(0.0), LVL_MIN, LVL_MAX);
 		float vmax = clamp(module->params[paramID + 1].value + module->inputs[RANGE_TO].getNormalVoltage(0.0), LVL_MIN, LVL_MAX);
@@ -196,7 +196,7 @@ struct cvStrip : cvMiniStrip
 		pw->wrap();
 		pWidget->addChild(pw);
 
-		addMiniStrip(pWidget, x, y);
+		addMiniStrip(pWidget, x, y, 0.f);
 		pWidget->addInput(createInput<portSmall>(Vec(pos_x(x, 1.072f), pos_y(y, 1.358f, 5.885f)), pWidget->module, GATE_IN));
 
 		ParamWidget *pwdg = createParam<TL1105HSwRed>(Vec(pos_x(x, 1.130f), pos_y(y, 37.650f, 4.477f)), pWidget->module, PARAM_REC);
@@ -237,39 +237,9 @@ struct cvStrip : cvMiniStrip
 		}
 	}
 
-	void process()
-	{
-		int stat = recTrig.process(module->params[PARAM_REC].getValue());
-		if(stat == 1)	// transizione off->on
-		{
-			rec_sample = NO_SAMPLE;
-			recording = true;
-		} else if(stat == -1)// transizione on->off
-		{
-			rec_sample = NO_SAMPLE;
-			recording = false;
-		}
-
-		process_keys();
-		if(recording)
-		{
-			bool manual_mode = module->params[PARAM_MANU].getValue() > 0.5;
-			if(gateIn.process(module->inputs[GATE_IN].getVoltage()))
-			{
-				recStep = curStep;
-				rec_sample = module->inputs[CV_IN].getNormalVoltage(0.0);
-
-				if(!manual_mode)
-				{
-					if(++curStep >= maxStep)
-						curStep = 0;
-				}
-			}
-		}
-	}
-
 	bool IsRecAvailable(float *smpl, int *step_n)
 	{
+		process();
 		if(recording && (rec_sample > NO_SAMPLE))
 		{
 			*smpl = Reverse(rec_sample);
@@ -302,6 +272,36 @@ struct cvStrip : cvMiniStrip
 		{
 			if(--curStep < 0)
 				curStep = maxStep - 1;
+		}
+	}
+
+	void process()
+	{
+		int stat = recTrig.process(module->params[PARAM_REC].getValue());
+		if(stat == 1)	// transizione off->on
+		{
+			rec_sample = NO_SAMPLE;
+			recording = true;
+		} else if(stat == -1)// transizione on->off
+		{
+			rec_sample = NO_SAMPLE;
+			recording = false;
+		}
+
+		process_keys();
+		if(recording)
+		{
+			bool manual_mode = module->params[PARAM_MANU].getValue() > 0.5;
+			if(gateIn.process(module->inputs[GATE_IN].getVoltage()))
+			{
+				recStep = curStep;
+				rec_sample = module->inputs[CV_IN].getNormalVoltage(0.0);
+				if(!manual_mode)
+				{
+					if(++curStep >= maxStep)
+						curStep = 0;
+				}
+			}
 		}
 	}
 };

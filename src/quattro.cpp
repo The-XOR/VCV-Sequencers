@@ -14,7 +14,6 @@ void quattro::process(const ProcessArgs &args)
 		if(pWidget != NULL && rndTrigger.process(inputs[RANDOMIZONE].value))
 			randrandrand();
 
-		cvs.process();
 		float rec_smp;
 		int rec_step;
 		if(cvs.IsRecAvailable(&rec_smp, &rec_step))
@@ -101,10 +100,8 @@ void quattro::randrandrand(int action)
 
 void quattro::QuantizePitch()
 {
-	/*dbg todo 
 	for(int k = 0; k < QUATTRO_NUM_STEPS; k++)
-		params[VOLTAGE_1 + k].value = pWidget->quantizePitch(VOLTAGE_1 + k, params[VOLTAGE_1 + k].value, orng);
-		*/
+		params[VOLTAGE_1 + k].value = pWidget->quantizePitch(VOLTAGE_1 + k, params[VOLTAGE_1 + k].value, cvs);
 }
 
 #define INCY(k) (-k * 14.798f)

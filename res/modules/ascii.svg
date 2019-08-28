@@ -9,12 +9,12 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="81.279427mm"
+   width="91.440002mm"
    height="128.4993mm"
-   viewBox="0 0 81.279426 128.4993"
+   viewBox="0 0 91.440002 128.4993"
    version="1.1"
    id="svg30767"
-   inkscape:version="0.92.2 (5c3e80d, 2017-08-06)"
+   inkscape:version="0.92.4 (5da689c313, 2019-01-14)"
    sodipodi:docname="ascii.svg">
   <defs
      id="defs30761">
@@ -156,8 +156,8 @@
     </clipPath>
     <inkscape:perspective
        id="perspective1401"
-       inkscape:persp3d-origin="0.13229168 : 10.490328 : 1"
-       inkscape:vp_z="0.2645834 : 15.735492 : 1"
+       inkscape:persp3d-origin="0.13229169 : 10.490328 : 1"
+       inkscape:vp_z="0.26458341 : 15.735492 : 1"
        inkscape:vp_y="0 : 999.99997 : 0"
        inkscape:vp_x="0 : 15.735492 : 1"
        sodipodi:type="inkscape:persp3d" />
@@ -305,19 +305,19 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1.979899"
-     inkscape:cx="27.506916"
-     inkscape:cy="240.43727"
+     inkscape:zoom="1.4"
+     inkscape:cx="115.32105"
+     inkscape:cy="273.14351"
      inkscape:document-units="mm"
-     inkscape:current-layer="layer3"
+     inkscape:current-layer="layer4"
      showgrid="false"
      fit-margin-top="0"
      fit-margin-left="0"
      fit-margin-right="0"
      fit-margin-bottom="0"
-     inkscape:window-width="1920"
+     inkscape:window-width="1858"
      inkscape:window-height="1057"
-     inkscape:window-x="1912"
+     inkscape:window-x="54"
      inkscape:window-y="-8"
      inkscape:window-maximized="1"
      inkscape:snap-bbox="true"
@@ -331,7 +331,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -339,7 +339,7 @@
      inkscape:label="sfondone"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(-30.557143,-52.920963)"
+     transform="translate(-30.557143,-52.920972)"
      style="display:inline">
     <rect
        style="opacity:1;fill:#333333;fill-opacity:1;stroke:#ff0000;stroke-width:0.03674108;stroke-linecap:square;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:fill markers stroke"
@@ -354,7 +354,7 @@
      id="layer4"
      inkscape:label="logo"
      style="display:inline"
-     transform="translate(0,6.6726685e-6)">
+     transform="translate(-2.9890907e-7,-2.2852982e-6)">
     <g
        style="display:inline"
        id="g910"
@@ -467,17 +467,17 @@
           <polygon
              id="_196665264"
              class="fil2 str0"
-             points="200.556,101.754 200.556,75.7262 207.953,75.7262 189.431,50.734 171.116,75.7262 178.83,75.7262 178.747,101.794 "
+             points="207.953,75.7262 189.431,50.734 171.116,75.7262 178.83,75.7262 178.747,101.794 200.556,101.754 200.556,75.7262 "
              style="fill:#000000;stroke:#000000;stroke-width:0.0762" />
           <polygon
              id="_196665048"
              class="fil0 str2"
-             points="200.556,228.625 200.556,202.598 207.953,202.598 189.431,177.606 171.116,202.598 178.83,202.598 178.747,228.666 "
+             points="207.953,202.598 189.431,177.606 171.116,202.598 178.83,202.598 178.747,228.666 200.556,228.625 200.556,202.598 "
              style="fill:#000000;stroke:#ffffff;stroke-width:0.0762" />
           <polygon
              id="_196666392"
              class="fil1 str1"
-             points="200.556,165.189 200.556,139.162 207.953,139.162 189.431,114.17 171.116,139.162 178.83,139.162 178.747,165.23 "
+             points="207.953,139.162 189.431,114.17 171.116,139.162 178.83,139.162 178.747,165.23 200.556,165.189 200.556,139.162 "
              style="fill:#000000;stroke:#ff0000;stroke-width:0.0762" />
         </g>
       </g>
@@ -487,17 +487,17 @@
      inkscape:groupmode="layer"
      id="layer2"
      inkscape:label="text"
-     style="display:inline"
-     transform="translate(0,6.6726685e-6)">
+     style="display:none"
+     transform="translate(-2.9890907e-7,-2.2852982e-6)">
     <text
        xml:space="preserve"
        style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.17499995px;line-height:1.25;font-family:Consolas;-inkscape-font-specification:'Consolas Italic';text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;display:inline;fill:#ff0000;fill-opacity:1;stroke:none;stroke-width:0.26458332;enable-background:new"
-       x="70.556915"
+       x="70.556938"
        y="9.3603964"
        id="text3635"><tspan
          sodipodi:role="line"
          id="tspan3633"
-         x="70.556915"
+         x="70.556938"
          y="9.3603964"
          style="font-style:italic;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:5.64444447px;font-family:Consolas;-inkscape-font-specification:'Consolas Bold Italic';fill:#ff0000;stroke-width:0.26458332">ascii</tspan></text>
     <text
@@ -535,7 +535,7 @@
          style="font-style:italic;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:2.82222223px;font-family:Consolas;-inkscape-font-specification:'Consolas Bold Italic';fill:#ffffff;stroke-width:0.26458332">reset</tspan></text>
   </g>
   <g
-     transform="translate(0,6.6726685e-6)"
+     transform="translate(-2.9890907e-7,-2.2852982e-6)"
      style="display:inline"
      inkscape:label="text copy"
      id="g1131"
@@ -675,7 +675,7 @@
      id="layer5"
      inkscape:label="serigrafia"
      style="display:inline"
-     transform="translate(0,6.6726685e-6)">
+     transform="translate(-2.9890907e-7,-2.2852982e-6)">
     <rect
        style="display:inline;opacity:1;vector-effect:none;fill:none;fill-opacity:0.50196078;fill-rule:evenodd;stroke:#ff0000;stroke-width:0.31900001;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:normal"
        id="rect33077-8"
@@ -690,8 +690,8 @@
      inkscape:groupmode="layer"
      id="layer3"
      inkscape:label="widgets"
-     style="display:inline"
-     transform="translate(0,6.6726685e-6)">
+     style="display:none"
+     transform="translate(-2.9890907e-7,-2.2852982e-6)">
     <rect
        style="opacity:1;vector-effect:none;fill:#ffff00;fill-opacity:0.50196078;fill-rule:evenodd;stroke:none;stroke-width:0.3141861;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:normal"
        id="rect33077"

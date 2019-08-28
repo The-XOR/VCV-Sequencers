@@ -446,6 +446,7 @@ private:
 
 #include "outRange.hpp"
 
+struct cvMiniStrip;
 class SequencerWidget : public ModuleWidget
 {
 public:
@@ -461,6 +462,7 @@ public:
 		}
 	}
 
+	float quantizePitch(int idx, float value, const cvMiniStrip &cvs);
 	float quantizePitch(int idx, float value, const outputRange &orng)
 	{
 		value = orng.Value(value);
@@ -504,6 +506,8 @@ protected:
 
 	virtual Menu *addContextMenu(Menu *menu) { return menu; }
 };
+#include "cvStrip.hpp"
+
 
 #if defined(LAUNCHPAD) || defined(OSC_ENABLE)
 struct DigitalLed : SvgWidget

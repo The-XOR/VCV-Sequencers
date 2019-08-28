@@ -70,12 +70,12 @@ void ascii::process(const ProcessArgs &args)
 
 float ascii::getValue(char c)
 {
-	return orng.Value(rescale(c, 32.0, 127.0, 0.0, 1.0));
+	return cvs.TransposeableValue(rescale(c, 32.0, 127.0, 0.0, 1.0));
 }
 
 asciiWidget::asciiWidget(ascii *module)
 {
-	CREATE_PANEL(module, this, 16, "res/modules/ascii.svg");
+	CREATE_PANEL(module, this, 18, "res/modules/ascii.svg");
 
 	textField = createWidget<LedDisplayTextField>(mm2px(Vec(3.39962, 14.8373)));
 	textField->box.size = mm2px(Vec(74.480, 98.753));
@@ -93,5 +93,6 @@ asciiWidget::asciiWidget(ascii *module)
 	addOutput(createOutput<PJ301GPort>(Vec(mm2px(62.092), yncscape(4.233, 8.255)), module, ascii::OUT));
 	addChild(createParam<BefacoPushBig>(Vec(mm2px(3.400), yncscape(116.611, 8.999)), module, ascii::M_RESET));
 	if(module != NULL)
-		module->orng.Create(this, 35.734f, 114.351f, ascii::RANGE_IN, ascii::RANGE);
+		module->cvs.Create(this, 80.179f, 41.284f, ascii::NUM_INPUTS - cvMiniStrip::CVMINISTRIP_INPUTS, ascii::NUM_PARAMS - cvMiniStrip::CVMINISTRIP_PARAMS);
+
 }

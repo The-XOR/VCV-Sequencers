@@ -1,5 +1,4 @@
 #include "common.hpp"
-#include "../include/cvStrip.hpp"
 
 using namespace rack;
 extern Plugin *pluginInstance;

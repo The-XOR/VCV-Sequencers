@@ -70,7 +70,7 @@ struct Klee : Module
 		BUS_MERGE,
 		BUS2_MODE = BUS_MERGE + 3,
 		RANGE,
-		NUM_PARAMS = RANGE + outputRange::NUMSLOTS
+		NUM_PARAMS = RANGE + cvMiniStrip::CVMINISTRIP_PARAMS
 	};
 
 	enum InputIds
@@ -80,7 +80,7 @@ struct Klee : Module
 		RND_THRES_IN,
 		RANDOMIZONE,
 		RANGE_IN,
-		NUM_INPUTS = RANGE_IN + outputRange::NUMSLOTS
+		NUM_INPUTS = RANGE_IN + cvMiniStrip::CVMINISTRIP_INPUTS
 	};
 
 	enum OutputIds
@@ -109,7 +109,7 @@ struct Klee : Module
 		theRandomizer = 0;
 
 		config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS);
-		orng.configure(this, RANGE);
+		cvs.configure(this, NUM_PARAMS - cvMiniStrip::CVMINISTRIP_PARAMS);
 
 		for(int k = 0; k < 8; k++)
 		{
@@ -192,7 +192,7 @@ struct Klee : Module
 	OSCDriver *oscDrv = NULL;
 	#endif
 	int theRandomizer;
-	outputRange orng;
+	cvMiniStrip cvs;
 
 private:
 	KleeWidget *pWidget;
