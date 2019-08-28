@@ -1,6 +1,5 @@
 #pragma once
 
-
 #define RANGE_FROM		(portID)
 #define RANGE_TO		(portID+1)
 #define CV_IN			(portID+2)
