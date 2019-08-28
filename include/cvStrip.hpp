@@ -1,7 +1,6 @@
 #pragma once
 
 
-// W=0.4 H=3.6 in = 10.160 x 91.440 mm
 #define RANGE_FROM		(portID)
 #define RANGE_TO		(portID+1)
 #define CV_IN			(portID+2)
@@ -13,7 +12,106 @@
 #define PARAM_NEXT		(paramID+4)
 #define PARAM_PREV      (paramID+5)
 
-struct cvStrip
+// 10.160 x 45.932 mm
+struct cvMiniStrip
+{
+	public:
+	static const int CVMINISTRIP_INPUTS = 3;
+	static const int CVMINISTRIP_PARAMS = 2;
+
+	cvMiniStrip()
+	{
+		recording = false;
+	}
+
+	void Create(ModuleWidget *pWidget, float x, float y, int port, int param)
+	{
+		portID = port;
+		paramID = param;
+
+		SvgWidget *pw = createWidget<SvgWidget>(Vec(mm2px(x), yncscape(y, 45.932f)));
+		pw->setSvg(APP->window->loadSvg(asset::plugin(pluginInstance, "res/cvMiniStrip.svg")));
+		pw->wrap();
+		pWidget->addChild(pw);
+
+		addMiniStrip(pWidget, x, y);
+	}
+
+	protected:
+	void addMiniStrip(ModuleWidget *pWidget, float x, float y)
+	{
+		pWidget->addInput(createInput<portSmall>(Vec(pos_x(x, 1.072f), pos_y(y, 74.942f, 5.885f)), pWidget->module, RANGE_FROM));
+		pWidget->addInput(createInput<portSmall>(Vec(pos_x(x, 1.072f), pos_y(y, 58.942f, 5.885f)), pWidget->module, RANGE_TO));
+		pWidget->addInput(createInput<portSmall>(Vec(pos_x(x, 1.072f), pos_y(y, 48.441f, 5.885f)), pWidget->module, CV_IN));
+
+		ParamWidget *pwdg = createParam<daviesVerySmall>(Vec(pos_x(x, 1.015f), pos_y(y, 81.885f, 6.f)), pWidget->module, PARAM_FROM);
+		pWidget->addParam(pwdg);
+#ifdef OSCTEST_MODULE
+		if(pWidget->module != NULL)
+			pWidget->module->oscDrv->Add(new oscControl("RangeMin"), pwdg);
+#endif	
+
+		pwdg = createParam<daviesVerySmall>(Vec(pos_x(x, 1.015f), pos_y(y, 65.886f, 6.f)), pWidget->module, PARAM_TO);
+		pWidget->addParam(pwdg);
+#ifdef OSCTEST_MODULE
+		if(pWidget->module != NULL)
+			pWidget->module->oscDrv->Add(new oscControl("RangeMax"), pwdg);
+#endif		
+	}
+
+	float pos_x(float x, float offs)
+	{
+		return mm2px(x + offs);
+	}
+
+	float pos_y(float y, float offs, float height)
+	{
+		return yncscape(y + offs, height);
+	}
+
+	public:
+	void configure(Module *pModule, int param)
+	{
+		module = pModule;
+		paramID = param;
+		module->configParam(PARAM_FROM, LVL_MIN, LVL_MAX, 0.0, "Output Range: Min Voltage", "V");
+		module->configParam(PARAM_TO, LVL_MIN, LVL_MAX, LVL_MAX / 2.f, "Output Range: Max Voltage", "V");
+	}
+
+	float Value(float v) const //v normalizzato 0-1
+	{
+		float vmin = clamp(module->params[paramID].value + module->inputs[RANGE_FROM].getNormalVoltage(0.0), LVL_MIN, LVL_MAX);
+		float vmax = clamp(module->params[paramID + 1].value + module->inputs[RANGE_TO].getNormalVoltage(0.0), LVL_MIN, LVL_MAX);
+		return clamp(rescale(v, 0.0, 1.0, std::min(vmin, vmax), std::max(vmin, vmax)), LVL_MIN, LVL_MAX);
+	}
+
+	float Reverse(float v) const
+	{
+		float vmin = clamp(module->params[PARAM_FROM].value + module->inputs[RANGE_FROM].getNormalVoltage(0.0), LVL_MIN, LVL_MAX);
+		float vmax = clamp(module->params[PARAM_TO].value + module->inputs[RANGE_TO].getNormalVoltage(0.0), LVL_MIN, LVL_MAX);
+		return clamp(rescale(v, std::min(vmin, vmax), std::max(vmin, vmax), 0.0, 1.0), 0.0, 1.0);
+	}
+
+	
+	float TransposeableValue(float v)
+	{
+		float trnsps = recording ? 0.f : module->inputs[CV_IN].getNormalVoltage(MIDDLE_C) - MIDDLE_C;
+
+		float vmin = clamp(module->params[paramID].value + module->inputs[RANGE_FROM].getNormalVoltage(0.0), LVL_MIN, LVL_MAX);
+		float vmax = clamp(module->params[paramID + 1].value + module->inputs[RANGE_TO].getNormalVoltage(0.0), LVL_MIN, LVL_MAX);
+		float vnt = rescale(v, 0.0, 1.0, std::min(vmin, vmax), std::max(vmin, vmax));
+		return clamp(vnt + trnsps, LVL_MIN, LVL_MAX);
+	}
+	
+	protected:
+	int portID = -1;
+	int paramID = -1;
+	Module *module = NULL;
+	bool recording = false;
+};
+
+// W=0.4 H=3.6 in = 10.160 x 91.440 mm
+struct cvStrip : cvMiniStrip
 {
 	private:
 	const float NO_SAMPLE = -1000.f;
@@ -71,10 +169,10 @@ struct cvStrip
 	};
 
 	public:
-	static const int CVSTRIP_INPUTS = 4;
-	static const int CVSTRIP_PARAMS = 6;
+	static const int CVSTRIP_INPUTS = CVMINISTRIP_INPUTS+1;
+	static const int CVSTRIP_PARAMS = CVMINISTRIP_PARAMS+4;
 
-	cvStrip()
+	cvStrip() : cvMiniStrip()
 	{
 		maxStep = 0;
 		curStep = 0;
@@ -99,26 +197,10 @@ struct cvStrip
 		pw->wrap();
 		pWidget->addChild(pw);
 
-		pWidget->addInput(createInput<portSmall>(Vec(pos_x(x, 1.072f), pos_y(y, 74.942f, 5.885f)), pWidget->module, RANGE_FROM));
-		pWidget->addInput(createInput<portSmall>(Vec(pos_x(x, 1.072f), pos_y(y, 58.942f, 5.885f)), pWidget->module, RANGE_TO));
-		pWidget->addInput(createInput<portSmall>(Vec(pos_x(x, 1.072f), pos_y(y, 48.441f, 5.885f)), pWidget->module, CV_IN));
+		addMiniStrip(pWidget, x, y);
 		pWidget->addInput(createInput<portSmall>(Vec(pos_x(x, 1.072f), pos_y(y, 1.358f, 5.885f)), pWidget->module, GATE_IN));
 
-		ParamWidget *pwdg = createParam<daviesVerySmall>(Vec(pos_x(x, 1.015f), pos_y(y, 81.885f, 6.f)), pWidget->module, PARAM_FROM);
-		pWidget->addParam(pwdg);
-#ifdef OSCTEST_MODULE
-		if(pWidget->module != NULL)
-			pWidget->module->oscDrv->Add(new oscControl("RangeMin"), pwdg);
-#endif	
-
-		pwdg = createParam<daviesVerySmall>(Vec(pos_x(x, 1.015f), pos_y(y, 65.886f, 6.f)), pWidget->module, PARAM_TO);
-		pWidget->addParam(pwdg);
-#ifdef OSCTEST_MODULE
-		if(pWidget->module != NULL)
-			pWidget->module->oscDrv->Add(new oscControl("RangeMax"), pwdg);
-#endif
-
-		pwdg = createParam<TL1105HSwRed>(Vec(pos_x(x, 1.130f), pos_y(y, 37.650f, 4.477f)), pWidget->module, PARAM_REC);
+		ParamWidget *pwdg = createParam<TL1105HSwRed>(Vec(pos_x(x, 1.130f), pos_y(y, 37.650f, 4.477f)), pWidget->module, PARAM_REC);
 		((TL1105HSwRed *)pwdg)->randomizable = false;
 		pWidget->addParam(pwdg);
 #ifdef OSCTEST_MODULE
@@ -154,14 +236,6 @@ struct cvStrip
 			display->setModule(this);
 			pWidget->addChild(display);			
 		}
-	}
-
-	void configure(Module *pModule, int param)
-	{
-		module = pModule;
-		paramID = param;
-		module->configParam(PARAM_FROM, LVL_MIN, LVL_MAX, 0.0, "Output Range: Min Voltage", "V");
-		module->configParam(PARAM_TO, LVL_MIN, LVL_MAX, LVL_MAX / 2.f, "Output Range: Max Voltage", "V");
 	}
 
 	void process()
@@ -208,37 +282,9 @@ struct cvStrip
 		return false;
 	}
 
-	float TransposeableValue(float v)
-	{
-		float trnsps = recording ? 0.f : module->inputs[CV_IN].getNormalVoltage(MIDDLE_C) - MIDDLE_C;
-
-		float vmin = clamp(module->params[paramID].value + module->inputs[RANGE_FROM].getNormalVoltage(0.0), LVL_MIN, LVL_MAX);
-		float vmax = clamp(module->params[paramID + 1].value + module->inputs[RANGE_TO].getNormalVoltage(0.0), LVL_MIN, LVL_MAX);
-		float vnt = rescale(v, 0.0, 1.0, std::min(vmin, vmax), std::max(vmin, vmax));
-		return clamp(vnt + trnsps, LVL_MIN, LVL_MAX);
-	}
-
-	float Value(float v) const //v normalizzato 0-1
-	{
-		float vmin = clamp(module->params[paramID].value + module->inputs[RANGE_FROM].getNormalVoltage(0.0), LVL_MIN, LVL_MAX);
-		float vmax = clamp(module->params[paramID + 1].value + module->inputs[RANGE_TO].getNormalVoltage(0.0), LVL_MIN, LVL_MAX);
-		return clamp(rescale(v, 0.0, 1.0, std::min(vmin, vmax), std::max(vmin, vmax)), LVL_MIN, LVL_MAX);
-	}
-
-	float Reverse(float v) const
-	{
-		float vmin = clamp(module->params[PARAM_FROM].value + module->inputs[RANGE_FROM].getNormalVoltage(0.0), LVL_MIN, LVL_MAX);
-		float vmax = clamp(module->params[PARAM_TO].value + module->inputs[RANGE_TO].getNormalVoltage(0.0), LVL_MIN, LVL_MAX);
-		return clamp(rescale(v, std::min(vmin, vmax), std::max(vmin, vmax), 0.0, 1.0), 0.0, 1.0);
-	}
-
 	private:
-	int portID = -1;
-	int paramID = -1;
-	Module *module = NULL;
 	SchmittTrigger2 recTrig;
 	dsp::SchmittTrigger gateIn;
-	bool recording = false;
 	int curStep;
 	int recStep;
 	int maxStep;
@@ -246,17 +292,7 @@ struct cvStrip
 	dsp::SchmittTrigger nxtStp;
 	dsp::SchmittTrigger prvStp;
 
-	private:
-	float pos_x(float x, float offs)
-	{
-		return mm2px(x + offs);
-	}
-
-	float pos_y(float y, float offs, float height)
-	{
-		return yncscape(y + offs, height);
-	}
-
+	private:	
 	void process_keys()
 	{
 		if(nxtStp.process(module->params[PARAM_NEXT].getValue()))
