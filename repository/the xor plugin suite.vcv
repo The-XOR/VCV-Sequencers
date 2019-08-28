@@ -176,7 +176,7 @@
         }
       ],
       "leftModuleId": 56,
-      "rightModuleId": 58,
+      "rightModuleId": 59,
       "data": {},
       "pos": [
         22,
@@ -206,13 +206,13 @@
           "value": 0.0
         }
       ],
-      "leftModuleId": 57,
-      "rightModuleId": 59,
+      "leftModuleId": 59,
+      "rightModuleId": 60,
       "data": {
         "counter": 2
       },
       "pos": [
-        38,
+        48,
         1
       ]
     },
@@ -239,13 +239,13 @@
           "value": 0.0
         }
       ],
-      "leftModuleId": 58,
-      "rightModuleId": 60,
+      "leftModuleId": 57,
+      "rightModuleId": 58,
       "data": {
         "num_outputs": 8
       },
       "pos": [
-        46,
+        38,
         1
       ]
     },
@@ -257,75 +257,75 @@
       "params": [
         {
           "id": 0,
-          "value": 0.125
+          "value": 0.543604314
         },
         {
           "id": 1,
-          "value": 0.125
+          "value": 0.372465611
         },
         {
           "id": 2,
-          "value": 0.125
+          "value": 0.310460091
         },
         {
           "id": 3,
-          "value": 0.125
+          "value": 0.748473585
         },
         {
           "id": 4,
-          "value": 0.125
+          "value": 0.712426543
         },
         {
           "id": 5,
-          "value": 0.125
+          "value": 0.970160484
         },
         {
           "id": 6,
-          "value": 0.125
+          "value": 0.377432227
         },
         {
           "id": 7,
-          "value": 0.125
+          "value": 0.276271433
         },
         {
           "id": 8,
-          "value": 0.125
+          "value": 0.130518541
         },
         {
           "id": 9,
-          "value": 0.125
+          "value": 0.680235565
         },
         {
           "id": 10,
-          "value": 0.125
+          "value": 0.961456001
         },
         {
           "id": 11,
-          "value": 0.125
+          "value": 0.461287588
         },
         {
           "id": 12,
-          "value": 0.125
+          "value": 0.381364614
         },
         {
           "id": 13,
-          "value": 0.125
+          "value": 0.351139367
         },
         {
           "id": 14,
-          "value": 0.125
+          "value": 0.406806201
         },
         {
           "id": 15,
-          "value": 0.125
+          "value": 0.681328595
         },
         {
           "id": 16,
-          "value": 2.0
+          "value": 0.0
         },
         {
           "id": 17,
-          "value": 2.0
+          "value": 0.0
         },
         {
           "id": 18,
@@ -333,11 +333,11 @@
         },
         {
           "id": 19,
-          "value": 2.0
+          "value": 0.0
         },
         {
           "id": 20,
-          "value": 2.0
+          "value": 1.0
         },
         {
           "id": 21,
@@ -349,19 +349,19 @@
         },
         {
           "id": 23,
-          "value": 2.0
+          "value": 1.0
         },
         {
           "id": 24,
-          "value": 2.0
+          "value": 1.0
         },
         {
           "id": 25,
-          "value": 2.0
+          "value": 0.0
         },
         {
           "id": 26,
-          "value": 2.0
+          "value": 0.0
         },
         {
           "id": 27,
@@ -369,7 +369,7 @@
         },
         {
           "id": 28,
-          "value": 2.0
+          "value": 1.0
         },
         {
           "id": 29,
@@ -385,7 +385,7 @@
         },
         {
           "id": 32,
-          "value": 0.0
+          "value": 1.0
         },
         {
           "id": 33,
@@ -393,7 +393,7 @@
         },
         {
           "id": 34,
-          "value": 0.0
+          "value": 1.0
         },
         {
           "id": 35,
@@ -405,7 +405,7 @@
         },
         {
           "id": 37,
-          "value": 0.0
+          "value": 1.0
         },
         {
           "id": 38,
@@ -413,7 +413,7 @@
         },
         {
           "id": 39,
-          "value": 0.0
+          "value": 1.0
         },
         {
           "id": 40,
@@ -421,7 +421,7 @@
         },
         {
           "id": 41,
-          "value": 0.0
+          "value": 1.0
         },
         {
           "id": 42,
@@ -437,11 +437,11 @@
         },
         {
           "id": 45,
-          "value": 0.0
+          "value": 1.0
         },
         {
           "id": 46,
-          "value": 0.0
+          "value": 1.0
         },
         {
           "id": 47,
@@ -465,11 +465,11 @@
         },
         {
           "id": 52,
-          "value": 0.0
+          "value": 1.0
         },
         {
           "id": 53,
-          "value": 0.0
+          "value": 0.90132916
         },
         {
           "id": 54,
@@ -477,11 +477,11 @@
         },
         {
           "id": 55,
-          "value": 0.0
+          "value": 1.0
         },
         {
           "id": 56,
-          "value": 0.0
+          "value": 1.0
         },
         {
           "id": 57,
@@ -489,7 +489,7 @@
         },
         {
           "id": 58,
-          "value": 1.0
+          "value": 0.0
         },
         {
           "id": 59,
@@ -500,7 +500,7 @@
           "value": 5.0
         }
       ],
-      "leftModuleId": 59,
+      "leftModuleId": 58,
       "rightModuleId": 69,
       "data": {
         "theRandomizer": 0
@@ -675,6 +675,22 @@
         {
           "id": 39,
           "value": 0.102662086
+        },
+        {
+          "id": 40,
+          "value": 0.0
+        },
+        {
+          "id": 41,
+          "value": 0.0
+        },
+        {
+          "id": 42,
+          "value": 0.0
+        },
+        {
+          "id": 43,
+          "value": 0.0
         }
       ],
       "rightModuleId": 62,
@@ -682,7 +698,7 @@
         "theRandomizer": 0
       },
       "pos": [
-        2,
+        0,
         2
       ]
     },
@@ -710,6 +726,7 @@
         }
       ],
       "leftModuleId": 61,
+      "rightModuleId": 63,
       "data": {
         "num_inputs": 8
       },
@@ -757,11 +774,13 @@
           "value": 0.0
         }
       ],
+      "leftModuleId": 62,
+      "rightModuleId": 65,
       "data": {
         "bpm_integer": 120
       },
       "pos": [
-        42,
+        41,
         2
       ]
     },
@@ -771,12 +790,13 @@
       "version": "1.1.1",
       "model": "Quantizer",
       "params": [],
+      "leftModuleId": 71,
       "data": {
         "scale": 0,
         "root": 0
       },
       "pos": [
-        156,
+        155,
         2
       ]
     },
@@ -895,11 +915,13 @@
           "value": 0.0
         }
       ],
+      "leftModuleId": 63,
+      "rightModuleId": 70,
       "data": {
         "theRandomizer": 0
       },
       "pos": [
-        58,
+        56,
         2
       ]
     },
@@ -1188,6 +1210,22 @@
         {
           "id": 69,
           "value": 2.56332207
+        },
+        {
+          "id": 70,
+          "value": 0.0
+        },
+        {
+          "id": 71,
+          "value": 0.0
+        },
+        {
+          "id": 72,
+          "value": 0.0
+        },
+        {
+          "id": 73,
+          "value": 0.0
         }
       ],
       "leftModuleId": 68,
@@ -1195,7 +1233,7 @@
         "theRandomizer": 0
       },
       "pos": [
-        126,
+        128,
         1
       ]
     },
@@ -1211,139 +1249,139 @@
         },
         {
           "id": 1,
-          "value": 0.0454587825
+          "value": 0.462937236
         },
         {
           "id": 2,
-          "value": 0.411783487
+          "value": 0.230841964
         },
         {
           "id": 3,
-          "value": 0.988047063
+          "value": 0.762144506
         },
         {
           "id": 4,
-          "value": 0.389684439
+          "value": 0.459478736
         },
         {
           "id": 5,
-          "value": 0.28211233
+          "value": 0.927943587
         },
         {
           "id": 6,
-          "value": 0.211531192
+          "value": 0.248090491
         },
         {
           "id": 7,
-          "value": 0.0673067197
+          "value": 0.373030305
         },
         {
           "id": 8,
-          "value": 0.377394587
+          "value": 0.627754807
         },
         {
           "id": 9,
-          "value": 0.0820624754
+          "value": 0.450178236
         },
         {
           "id": 10,
-          "value": 0.275278151
+          "value": 0.140742227
         },
         {
           "id": 11,
-          "value": 0.692425728
+          "value": 0.730722845
         },
         {
           "id": 12,
-          "value": 0.73343575
+          "value": 0.93795985
         },
         {
           "id": 13,
-          "value": 0.267335027
+          "value": 0.277395576
         },
         {
           "id": 14,
-          "value": 0.489201695
+          "value": 0.438999087
         },
         {
           "id": 15,
-          "value": 0.501347482
+          "value": 0.336285144
         },
         {
           "id": 16,
-          "value": 0.30013755
+          "value": 0.148000404
         },
         {
           "id": 17,
-          "value": 0.89529109
+          "value": 0.364738792
         },
         {
           "id": 18,
-          "value": 0.734419346
+          "value": 0.988472939
         },
         {
           "id": 19,
-          "value": 0.642669499
+          "value": 0.72162497
         },
         {
           "id": 20,
-          "value": 0.0662177876
+          "value": 0.542473853
         },
         {
           "id": 21,
-          "value": 0.974777102
+          "value": 0.884260535
         },
         {
           "id": 22,
-          "value": 0.144921437
+          "value": 0.809464753
         },
         {
           "id": 23,
-          "value": 0.776096046
+          "value": 0.528768361
         },
         {
           "id": 24,
-          "value": 0.259987473
+          "value": 0.192720681
         },
         {
           "id": 25,
-          "value": 0.301955789
+          "value": 0.560606718
         },
         {
           "id": 26,
-          "value": 0.140728623
+          "value": 0.616146088
         },
         {
           "id": 27,
-          "value": 0.480662525
+          "value": 0.837001681
         },
         {
           "id": 28,
-          "value": 0.399307966
+          "value": 0.482875168
         },
         {
           "id": 29,
-          "value": 0.453181118
+          "value": 0.593508244
         },
         {
           "id": 30,
-          "value": 0.14941372
+          "value": 0.055082351
         },
         {
           "id": 31,
-          "value": 0.102476723
+          "value": 0.693325043
         },
         {
           "id": 32,
-          "value": 0.227154806
+          "value": 0.756487668
         },
         {
           "id": 33,
-          "value": 2.0
+          "value": 1.0
         },
         {
           "id": 34,
-          "value": 2.0
+          "value": 1.0
         },
         {
           "id": 35,
@@ -1351,7 +1389,7 @@
         },
         {
           "id": 36,
-          "value": 2.0
+          "value": 1.0
         },
         {
           "id": 37,
@@ -1359,31 +1397,31 @@
         },
         {
           "id": 38,
-          "value": 12.0
+          "value": 2.0
         },
         {
           "id": 39,
-          "value": 31.0
+          "value": 27.0
         },
         {
           "id": 40,
-          "value": 8.0
+          "value": 23.0
         },
         {
           "id": 41,
-          "value": 9.0
+          "value": 29.0
         },
         {
           "id": 42,
-          "value": 19.0
+          "value": 3.0
         },
         {
           "id": 43,
-          "value": 7.0
+          "value": 4.0
         },
         {
           "id": 44,
-          "value": 2.0
+          "value": 3.0
         },
         {
           "id": 45,
@@ -1391,31 +1429,31 @@
         },
         {
           "id": 46,
-          "value": 6.0
+          "value": 4.0
         },
         {
           "id": 47,
-          "value": 7.0
+          "value": 2.0
         },
         {
           "id": 48,
-          "value": -2.28177929
+          "value": -0.706833839
         },
         {
           "id": 49,
-          "value": 2.40779877
+          "value": -6.40377903
         },
         {
           "id": 50,
-          "value": -5.17025423
+          "value": -9.55543613
         },
         {
           "id": 51,
-          "value": 3.85089111
+          "value": -2.48551369
         },
         {
           "id": 52,
-          "value": -3.61990356
+          "value": 5.62623787
         },
         {
           "id": 53,
@@ -1424,6 +1462,22 @@
         {
           "id": 54,
           "value": -1.75612354
+        },
+        {
+          "id": 55,
+          "value": 0.0
+        },
+        {
+          "id": 56,
+          "value": 0.0
+        },
+        {
+          "id": 57,
+          "value": 0.0
+        },
+        {
+          "id": 58,
+          "value": 0.0
         }
       ],
       "rightModuleId": 86,
@@ -1443,7 +1497,7 @@
       "params": [
         {
           "id": 0,
-          "value": 0.0
+          "value": -0.420000017
         },
         {
           "id": 1,
@@ -1462,7 +1516,7 @@
       "rightModuleId": 66,
       "data": {},
       "pos": [
-        114,
+        116,
         1
       ]
     },
@@ -1520,7 +1574,7 @@
       "leftModuleId": 60,
       "rightModuleId": 68,
       "pos": [
-        104,
+        106,
         1
       ]
     },
@@ -1605,11 +1659,29 @@
         {
           "id": 18,
           "value": 5.0
+        },
+        {
+          "id": 19,
+          "value": 0.0
+        },
+        {
+          "id": 20,
+          "value": 0.0
+        },
+        {
+          "id": 21,
+          "value": 0.0
+        },
+        {
+          "id": 22,
+          "value": 0.0
         }
       ],
+      "leftModuleId": 65,
+      "rightModuleId": 71,
       "data": {},
       "pos": [
-        104,
+        101,
         2
       ]
     },
@@ -1636,9 +1708,11 @@
           "value": 5.0
         }
       ],
-      "text": "struct XorPanel : SvgPanel\r\n{\r\n\tstruct bgGradient : TransparentWidget\r\n\t{\r\n\t\tbgGradient(const Vec &size)\r\n\t\t{\r\n\t\t\tbox.pos = Vec(0, 0);\r\n\t\t\tbox.size = size;\r\n\t\t}\r\n\r\n\t\tvoid draw(const Widget::DrawArgs &args) override\r\n\t\t{\r\n\t\t\tnvgBeginPath(args.vg);\r\n\t\t\tnvgRect(args.vg, 0, 0, box.size.x, box.size.y);\r\n\t\t\tnvgFillPaint(args.vg, nvgLinearGradient(args.vg, 0, 0, 0, box.size.y /*/ 2*/, nvgRGBAf(0.5f, 0.5f, 0.5f, 0.35f), nvgRGBAf(0.2f, 0.2f, 0.2f, 0.1f)));\r\n\t\t\tnvgFill(args.vg);\r\n\t\t}\r\n\t};\r\n\r\n\tXorPanel(ModuleWidget *pWidget, int units, const char *svg) : SvgPanel()\r\n\t{\r\n\t\tpWidget->box.size = box.size = Vec(units * RACK_GRID_WIDTH, RACK_GRID_HEIGHT);\r\n\t\tif (svg != NULL)\r\n\t\t\tsetBackground(APP->window->loadSvg(asset::plugin(pluginInstance, svg)));\r\n\t\taddChild(new bgGradient(box.size));\r\n\t}\r\n\r\n\tvoid AddScrews(ModuleWidget *pWidget)\r\n\t{\r\n\t\tpWidget->addChild(createWidget<ScrewBlack>(Vec(RACK_GRID_WIDTH, 0)));\r\n\t\tpWidget->addChild(createWidget<ScrewBlack>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, 0)));\r\n\t\tpWidget->addChild(createWidget<ScrewBlack>(Vec(RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));\r\n\t\tpWidget->addChild(createWidget<ScrewBlack>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));\r\n\t}\r\n};\r\n\r\n#define CREATE_PANEL(modul, widg,unit,svg)  { \\\r\n\tsetModule(modul); \\\r\n\tXorPanel *panel = new XorPanel(widg, unit, svg); \\\r\n\taddChild(panel); \\\r\n\tpanel->AddScrews(widg); \\\r\n}",
+      "leftModuleId": 70,
+      "rightModuleId": 64,
+      "text": "Manifesto dei futurismo.\n\n1. Noi vogliamo cantare l'amor del pericolo, l'abitudine all'energia e alla temerita'.\n2. Il coraggio, l'audacia, la ribellione, saranno elementi essenziali della nostra poesia.\n3. La letteratura esalto' fino ad oggi l'immobilita' pensosa, l'estasi e il sonno.Noi vogliamo esaltare il movimento aggressivo, l'insonnia febbrile, il passo di corsa, il salto mortale, lo schiaffo ed il pugno.\n4. Noi affermiamo che la magnificenza del mondo si e' arricchita di una bellezza nuova : la bellezza della velocita'.Un automobile da corsa col suo cofano adorno di grossi tubi simili a serpenti dall'alito esplosivo....un automobile ruggente, che sembra correre sulla mitraglia, e' piu' bello della Vittoria di Samotracia.\n5. Noi vogliamo inneggiare all'uomo che tiene il volante, la cui asta ideale attraversa la Terra, lanciata a corsa, essa pure, sul circuito della sua orbita.\n6. Bisogna che il poeta si prodighi, con ardore, sfarzo e munificenza, per aumentare l'entusiastico fervore degli elementi primordiali.\n7. Non v'e' piu' bellezza, se non nella lotta.Nessuna opera che non abbia un carattere aggressivo puo' essere un capolavoro.La poesia deve essere concepita come un violento assalto contro le forze ignote, per ridurle a prostrarsi davanti all'uomo.\n8. Noi siamo sul promontorio estremo dei secoli!..Perche' dovremmo guardarci alle spalle, se vogliamo sfondare le misteriose porte dell'Impossibile ? Il Tempo e lo Spazio morirono ieri.Noi viviamo gia' nell'assoluto, poiche' abbiamo gia' creata l'eterna velocita' onnipresente.\n9. Noi vogliamo glorificare la guerra - sola igiene del mondo - il militarismo, il patriottismo, il gesto distruttore dei libertarii, le belle idee per cui si muore e il disprezzo della donna.\n10. Noi vogliamo distruggere i musei, le biblioteche, le accademie d'ogni specie, e combattere contro il moralismo, il femminismo e contro ogni vilta' opportunistica o utilitaria.\n11. Noi canteremo le grandi folle agitate dal lavoro, dal piacere o dalla sommossa : canteremo le maree multicolori e polifoniche delle rivoluzioni nelle capitali moderne; canteremo il vibrante fervore notturno degli arsenali e dei cantieri incendiati da violente lune elettriche; le stazioni ingorde, divoratrici di serpi che fumano; le officine appese alle nuvole pei contorti fili dei loro fumi; i ponti simili a ginnasti giganti che scavalcano i fiumi, balenanti al sole con un luccichio di coltelli; i piroscafi avventurosi che fiutano l'orizzonte, le locomotive dall'ampio petto, che scalpitano sulle rotaie, come enormi cavalli d'acciaio imbrigliati di tubi, e il volo scivolante degli aereoplani, la cui elica garrisce al vento come una bandiera e sembra applaudire come una folla entusiasta.\n",
       "pos": [
-        139,
+        137,
         2
       ]
     },
@@ -1649,6 +1723,7 @@
       "model": "midyQuant",
       "params": [],
       "leftModuleId": 87,
+      "rightModuleId": 103,
       "data": {
         "scale": 0,
         "root": 0,
@@ -1658,7 +1733,7 @@
         }
       },
       "pos": [
-        152,
+        156,
         0
       ]
     },
@@ -1791,6 +1866,22 @@
         {
           "id": 30,
           "value": -6.16748524
+        },
+        {
+          "id": 31,
+          "value": 0.0
+        },
+        {
+          "id": 32,
+          "value": 0.0
+        },
+        {
+          "id": 33,
+          "value": 0.0
+        },
+        {
+          "id": 34,
+          "value": 0.0
         }
       ],
       "leftModuleId": 86,
@@ -1799,7 +1890,7 @@
         "theRandomizer": 0
       },
       "pos": [
-        60,
+        62,
         0
       ]
     },
@@ -1817,7 +1908,7 @@
       "leftModuleId": 67,
       "rightModuleId": 74,
       "pos": [
-        52,
+        54,
         0
       ]
     },
@@ -1871,7 +1962,7 @@
       "leftModuleId": 97,
       "rightModuleId": 73,
       "pos": [
-        138,
+        142,
         0
       ]
     },
@@ -1945,7 +2036,7 @@
       "leftModuleId": 74,
       "rightModuleId": 87,
       "pos": [
-        110,
+        114,
         0
       ]
     },
@@ -1964,8 +2055,9 @@
           "value": 0.0
         }
       ],
+      "leftModuleId": 73,
       "pos": [
-        161,
+        164,
         0
       ]
     }
