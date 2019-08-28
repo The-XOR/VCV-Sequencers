@@ -78,7 +78,14 @@ struct cvStrip
 	{
 		maxStep = 0;
 		curStep = 0;
+		recStep = 0;
 		rec_sample = NO_SAMPLE;
+	}
+
+	void Init(SequencerWidget *pWidget)
+	{
+		if(pWidget != NULL)
+			pWidget->SetValue(PARAM_REC, 0);
 	}
 
 	void Create(ModuleWidget *pWidget, float x, float y, int port, int param, int max_steps)
@@ -145,7 +152,7 @@ struct cvStrip
 		{
 			cv7segm *display = createWidget<cv7segm>(Vec(pos_x(x, 0.854), pos_y(y, 24.891, 4.606)));
 			display->setModule(this);
-			pWidget->addChild(display);
+			pWidget->addChild(display);			
 		}
 	}
 
@@ -176,12 +183,14 @@ struct cvStrip
 			bool manual_mode = module->params[PARAM_MANU].getValue() > 0.5;
 			if(gateIn.process(module->inputs[GATE_IN].getVoltage()))
 			{
+				recStep = curStep;
+				rec_sample = module->inputs[CV_IN].getNormalVoltage(0.0);
+
 				if(!manual_mode)
 				{
 					if(++curStep >= maxStep)
 						curStep = 0;
 				}
-				rec_sample = module->inputs[CV_IN].getNormalVoltage(0.0);
 			}
 		}
 	}
@@ -191,7 +200,7 @@ struct cvStrip
 		if(recording && (rec_sample > NO_SAMPLE))
 		{
 			*smpl = Reverse(rec_sample);
-			*step_n = curStep;
+			*step_n = recStep;
 			rec_sample = NO_SAMPLE;
 			return true;
 		}
@@ -231,6 +240,7 @@ struct cvStrip
 	dsp::SchmittTrigger gateIn;
 	bool recording = false;
 	int curStep;
+	int recStep;
 	int maxStep;
 	float rec_sample;
 	dsp::SchmittTrigger nxtStp;

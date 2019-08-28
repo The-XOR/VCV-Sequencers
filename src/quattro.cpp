@@ -49,6 +49,7 @@ void quattro::on_loaded()
 	connected = 0;
 	#endif
 	load();
+	cvs.Init(pWidget);
 }
 
 void quattro::load()

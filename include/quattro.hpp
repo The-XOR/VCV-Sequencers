@@ -169,6 +169,7 @@ struct quattro : Module
 	}
 	json_t *dataToJson() override
 	{
+		INFO("to json");
 		json_t *rootJ = json_object();
 		json_t *rndJson = json_integer(theRandomizer);
 		json_object_set_new(rootJ, "theRandomizer", rndJson);
