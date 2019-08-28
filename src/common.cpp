@@ -1,7 +1,7 @@
 #include "../include/common.hpp"
 
 
-float SequencerWidget::quantizePitch(int idx, float value, const cvMiniStrip &cvs)
+float SequencerWidget::quantizePitch(int idx, float value, const cvMicroStrip &cvs)
 {
 	value = cvs.Value(value);
 	value = cvs.Reverse(NearestSemitone(value));

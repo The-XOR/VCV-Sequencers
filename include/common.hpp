@@ -444,9 +444,7 @@ private:
 	int action;
 };
 
-#include "outRange.hpp"
-
-struct cvMiniStrip;
+struct cvMicroStrip;
 class SequencerWidget : public ModuleWidget
 {
 public:
@@ -462,20 +460,8 @@ public:
 		}
 	}
 
-	float quantizePitch(int idx, float value, const cvMiniStrip &cvs);
-	float quantizePitch(int idx, float value, const outputRange &orng)
-	{
-		value = orng.Value(value);
-		value = orng.Reverse(NearestSemitone(value));
-		int index = getParamIndex(idx);
-		if(index >= 0)
-		{
-			params[index]->paramQuantity->setValue(value);
-		}
-
-		return value;
-	}
-
+	float quantizePitch(int idx, float value, const cvMicroStrip &cvs);
+	
 	void SetValue(int idx, float value)
 	{
 		int index = getParamIndex(idx);

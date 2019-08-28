@@ -11,16 +11,17 @@
 #define PARAM_NEXT		(paramID+4)
 #define PARAM_PREV      (paramID+5)
 
-// 10.160 x 45.932 mm
-struct cvMiniStrip
-{
-	public:
-	static const int CVMINISTRIP_INPUTS = 3;
-	static const int CVMINISTRIP_PARAMS = 2;
+// 10.160 x 33.728 mm
 
-	cvMiniStrip()
+struct cvMicroStrip
+{
+public:
+	static const int CVMICROSTRIP_INPUTS = 2;
+	static const int CVMICROSTRIP_PARAMS = 2;
+
+	cvMicroStrip()
 	{
-		recording = false;
+
 	}
 
 	void Create(ModuleWidget *pWidget, float x, float y, int port, int param)
@@ -28,47 +29,14 @@ struct cvMiniStrip
 		portID = port;
 		paramID = param;
 
-		SvgWidget *pw = createWidget<SvgWidget>(Vec(mm2px(x), yncscape(y, 45.932f)));
-		pw->setSvg(APP->window->loadSvg(asset::plugin(pluginInstance, "res/cvMiniStrip.svg")));
+		SvgWidget *pw = createWidget<SvgWidget>(Vec(mm2px(x), yncscape(y, 33.728f)));
+		pw->setSvg(APP->window->loadSvg(asset::plugin(pluginInstance, "res/cvMicroStrip.svg")));
 		pw->wrap();
 		pWidget->addChild(pw);
 
-		addMiniStrip(pWidget, x, y, -45.508f);
+		addMicroStrip(pWidget, x, y, -57.712f);
 	}
 
-	protected:
-	void addMiniStrip(ModuleWidget *pWidget, float x, float y, float corr)
-	{
-		pWidget->addInput(createInput<portSmall>(Vec(pos_x(x, 1.072f), pos_y(y, corr+74.942f, 5.885f)), pWidget->module, RANGE_FROM));
-		pWidget->addInput(createInput<portSmall>(Vec(pos_x(x, 1.072f), pos_y(y, corr+58.942f, 5.885f)), pWidget->module, RANGE_TO));
-		pWidget->addInput(createInput<portSmall>(Vec(pos_x(x, 1.072f), pos_y(y, corr+48.441f, 5.885f)), pWidget->module, CV_IN));
-
-		ParamWidget *pwdg = createParam<daviesVerySmall>(Vec(pos_x(x, 1.015f), pos_y(y, corr+81.885f, 6.f)), pWidget->module, PARAM_FROM);
-		pWidget->addParam(pwdg);
-#ifdef OSCTEST_MODULE
-		if(pWidget->module != NULL)
-			pWidget->module->oscDrv->Add(new oscControl("RangeMin"), pwdg);
-#endif	
-
-		pwdg = createParam<daviesVerySmall>(Vec(pos_x(x, 1.015f), pos_y(y, corr+65.886f, 6.f)), pWidget->module, PARAM_TO);
-		pWidget->addParam(pwdg);
-#ifdef OSCTEST_MODULE
-		if(pWidget->module != NULL)
-			pWidget->module->oscDrv->Add(new oscControl("RangeMax"), pwdg);
-#endif		
-	}
-
-	float pos_x(float x, float offs)
-	{
-		return mm2px(x + offs);
-	}
-
-	float pos_y(float y, float offs, float height)
-	{
-		return yncscape(y + offs, height);
-	}
-
-	public:
 	void configure(Module *pModule, int param)
 	{
 		module = pModule;
@@ -91,7 +59,76 @@ struct cvMiniStrip
 		return clamp(rescale(v, std::min(vmin, vmax), std::max(vmin, vmax), 0.0, 1.0), 0.0, 1.0);
 	}
 
-	
+protected:
+	void addMicroStrip(ModuleWidget *pWidget, float x, float y, float corr)
+	{
+		pWidget->addInput(createInput<portSmall>(Vec(pos_x(x, 1.072f), pos_y(y, corr + 74.942f, 5.885f)), pWidget->module, RANGE_FROM));
+		pWidget->addInput(createInput<portSmall>(Vec(pos_x(x, 1.072f), pos_y(y, corr + 58.942f, 5.885f)), pWidget->module, RANGE_TO));
+
+		ParamWidget *pwdg = createParam<daviesVerySmall>(Vec(pos_x(x, 1.015f), pos_y(y, corr + 81.885f, 6.f)), pWidget->module, PARAM_FROM);
+		pWidget->addParam(pwdg);
+		#ifdef OSCTEST_MODULE
+		if(pWidget->module != NULL)
+			pWidget->module->oscDrv->Add(new oscControl("RangeMin"), pwdg);
+		#endif	
+
+		pwdg = createParam<daviesVerySmall>(Vec(pos_x(x, 1.015f), pos_y(y, corr + 65.886f, 6.f)), pWidget->module, PARAM_TO);
+		pWidget->addParam(pwdg);
+		#ifdef OSCTEST_MODULE
+		if(pWidget->module != NULL)
+			pWidget->module->oscDrv->Add(new oscControl("RangeMax"), pwdg);
+		#endif		
+	}
+
+	float pos_x(float x, float offs)
+	{
+		return mm2px(x + offs);
+	}
+
+	float pos_y(float y, float offs, float height)
+	{
+		return yncscape(y + offs, height);
+	}
+
+protected:
+	int portID = -1;
+	int paramID = -1;
+	Module *module = NULL;
+};
+
+// 10.160 x 45.932 mm
+struct cvMiniStrip : cvMicroStrip
+{
+	public:
+	static const int CVMINISTRIP_INPUTS = CVMICROSTRIP_INPUTS+1;
+	static const int CVMINISTRIP_PARAMS = CVMICROSTRIP_PARAMS;
+
+	cvMiniStrip() : cvMicroStrip()
+	{
+		recording = false;
+	}
+
+	void Create(ModuleWidget *pWidget, float x, float y, int port, int param)
+	{
+		portID = port;
+		paramID = param;
+
+		SvgWidget *pw = createWidget<SvgWidget>(Vec(mm2px(x), yncscape(y, 45.932f)));
+		pw->setSvg(APP->window->loadSvg(asset::plugin(pluginInstance, "res/cvMiniStrip.svg")));
+		pw->wrap();
+		pWidget->addChild(pw);
+
+		addMiniStrip(pWidget, x, y, -45.508f);
+	}
+
+	protected:
+	void addMiniStrip(ModuleWidget *pWidget, float x, float y, float corr)
+	{
+		pWidget->addInput(createInput<portSmall>(Vec(pos_x(x, 1.072f), pos_y(y, corr + 48.441f, 5.885f)), pWidget->module, CV_IN));
+		addMicroStrip(pWidget, x, y, corr);
+	}
+
+	public:		
 	float TransposeableValue(float v)
 	{
 		float trnsps = recording ? 0.f : module->inputs[CV_IN].getNormalVoltage(0.0);
@@ -103,9 +140,6 @@ struct cvMiniStrip
 	}
 	
 	protected:
-	int portID = -1;
-	int paramID = -1;
-	Module *module = NULL;
 	bool recording = false;
 };
 

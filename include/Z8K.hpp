@@ -27,7 +27,7 @@ struct Z8K : Module
 		VOLTAGE_1,
 		M_RESET = VOLTAGE_1 + 16,
 		RANGE,
-		NUM_PARAMS = RANGE + outputRange::NUMSLOTS
+		NUM_PARAMS = RANGE + cvStrip::CVSTRIP_PARAMS
 	};
 
 	enum InputIds
@@ -51,7 +51,7 @@ struct Z8K : Module
 		MASTERRESET,
 
 		RANGE_IN,
-		NUM_INPUTS = RANGE_IN + outputRange::NUMSLOTS
+		NUM_INPUTS = RANGE_IN + cvStrip::CVSTRIP_INPUTS
 	};
 
 	enum OutputIds
@@ -94,7 +94,7 @@ struct Z8K : Module
 				configParam(Z8K::VOLTAGE_1 + n, 0.0, 1.0, 0.0, "Voltage", "V");
 			}
 		}
-		orng.configure(this, RANGE);
+		cvs.configure(this, NUM_PARAMS - cvStrip::CVSTRIP_PARAMS);
 		/*
 		#ifdef LAUNCHPAD
 		drv = new LaunchpadBindingDriver(this, Scene4, 1);
@@ -129,7 +129,7 @@ struct Z8K : Module
 		json_t *rootJ = json_object();
 		return rootJ;
 	}
-	outputRange orng;
+	cvStrip cvs;
 
 	#ifdef DIGITAL_EXT
 	float connected;

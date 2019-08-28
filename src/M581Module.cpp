@@ -17,7 +17,7 @@ void BefacoSlidePotFix::onDragStart(const event::DragStart &e)
 float M581::getLastNoteValue()
 {
 	if(lastSliderMoved >= 0)
-		return orng.Value(params[lastSliderMoved].value);
+		return cvs.TransposeableValue(params[lastSliderMoved].value);
 		
 	return -100;
 }
@@ -28,6 +28,7 @@ void M581::on_loaded()
 	connected = 0;
 	#endif
 	load();
+	cvs.Init(pWidget);
 }
 
 void M581::load()
@@ -100,6 +101,13 @@ void M581::process(const ProcessArgs &args)
 		if(pWidget != NULL && rndTrigger.process(inputs[RANDOMIZONE].value))
 			randrandrand();
 
+		float rec_smp;
+		int rec_step;
+		if(cvs.IsRecAvailable(&rec_smp, &rec_step))
+		{
+			pWidget->SetValue(M581::STEP_NOTES + rec_step, rec_smp);
+		}
+
 		Timer.Step();
 
 		if(clockTrigger.process(inputs[CLOCK].value) && any())
@@ -131,7 +139,7 @@ void M581::process(const ProcessArgs &args)
 void M581::QuantizePitch()
 {
 	for(int k = 0; k < 8; k++)
-		params[STEP_NOTES + k].value = pWidget->quantizePitch(STEP_NOTES + k, params[STEP_NOTES + k].value, orng);
+		params[STEP_NOTES + k].value = pWidget->quantizePitch(STEP_NOTES + k, params[STEP_NOTES + k].value, cvs);
 }
 
 void M581::beginNewStep()
@@ -176,7 +184,7 @@ M581Widget::M581Widget(M581 *module) : SequencerWidget()
 	if(module != NULL)
 		module->setWidget(this);
 
-	CREATE_PANEL(module, this, 29, "res/modules/M581Module.svg");
+	CREATE_PANEL(module, this, 31, "res/modules/M581Module.svg");
 
 	float dist_h = 11.893;
 	for(int k = 0; k < 8; k++)
@@ -381,7 +389,7 @@ M581Widget::M581Widget(M581 *module) : SequencerWidget()
 	#endif
 
 	if(module != NULL)
-		module->orng.Create(this, 122.042f, 109.649f, M581::RANGE_IN, M581::RANGE);
+		module->cvs.Create(this, 146.802f, 18.530f, M581::NUM_INPUTS - cvStrip::CVSTRIP_INPUTS, M581::NUM_PARAMS - cvStrip::CVSTRIP_PARAMS, 8);
 
 	#ifdef DIGITAL_EXT
 	if(module != NULL)
@@ -430,7 +438,7 @@ bool ParamGetter::IsEnabled(int numstep) { return pModule->params[M581::STEP_ENA
 bool ParamGetter::IsSlide(int numstep) { return pModule->params[M581::STEP_ENABLE + numstep].value > 1.0; }
 int ParamGetter::GateMode(int numstep) { return std::round(pModule->params[M581::GATE_SWITCH + numstep].value); }
 int ParamGetter::PulseCount(int numstep) { return std::round(pModule->params[M581::COUNTER_SWITCH + numstep].value); }
-float ParamGetter::Note(int numstep) { return pModule->orng.Value(pModule->params[M581::STEP_NOTES + numstep].value); }
+float ParamGetter::Note(int numstep) { return pModule->cvs.TransposeableValue(pModule->params[M581::STEP_NOTES + numstep].value); }
 int ParamGetter::RunMode() { return std::round(pModule->params[M581::RUN_MODE].value); }
 int ParamGetter::NumSteps() { return std::round(pModule->params[M581::NUM_STEPS].value); }
 float ParamGetter::SlideTime() { return pModule->params[M581::SLIDE_TIME].value; }

@@ -7,6 +7,7 @@ void Z8K::on_loaded()
 	connected = 0;
 	#endif
 	load();
+	cvs.Init(pWidget);
 }
 
 void Z8K::load()
@@ -42,7 +43,7 @@ void Z8K::reset()
 void Z8K::QuantizePitch()
 {
 	for(int k = 0; k < 16; k++)
-		params[VOLTAGE_1 + k].value = pWidget->quantizePitch(VOLTAGE_1 + k, params[VOLTAGE_1 + k].value, orng);
+		params[VOLTAGE_1 + k].value = pWidget->quantizePitch(VOLTAGE_1 + k, params[VOLTAGE_1 + k].value, cvs);
 }
 
 void Z8K::process(const ProcessArgs &args)
@@ -57,6 +58,13 @@ void Z8K::process(const ProcessArgs &args)
 	{
 		if (randomizeTrigger.process(inputs[RANDOMIZE].value))
 			pWidget->std_randomize(VOLTAGE_1, VOLTAGE_1 + 16);
+
+		float rec_smp;
+		int rec_step;
+		if(cvs.IsRecAvailable(&rec_smp, &rec_step))
+		{
+			pWidget->SetValue(Z8K::VOLTAGE_1 + rec_step, rec_smp);
+		}
 
 		for (int k = 0; k < NUM_SEQUENCERS; k++)
 			activeSteps[seq[k].Step(this)]++;
@@ -103,7 +111,7 @@ Z8KWidget::Z8KWidget(Z8K *module) : SequencerWidget()
 	char name[60];
 	#endif
 
-	CREATE_PANEL(module, this, 34, "res/modules/Z8KModule.svg");
+	CREATE_PANEL(module, this, 36, "res/modules/Z8KModule.svg");
 
 	float dist_h = 22.225;
 	float dist_v = -18.697;
@@ -202,7 +210,7 @@ Z8KWidget::Z8KWidget(Z8K *module) : SequencerWidget()
 	addChild(createParam<BefacoPushBig>(Vec(mm2px(5.366), yncscape(115.070, 9.001)), module, Z8K::M_RESET));
 
 	if(module != NULL)
-		module->orng.Create(this, 146.682f, 4.802f, Z8K::RANGE_IN, Z8K::RANGE);
+		module->cvs.Create(this, 172.339f, 18.530f, Z8K::NUM_INPUTS - cvStrip::CVSTRIP_INPUTS, Z8K::NUM_PARAMS - cvStrip::CVSTRIP_PARAMS, 16);
 
 	#ifdef DIGITAL_EXT
 	if(module != NULL)
@@ -228,7 +236,7 @@ int z8kSequencer::Step(Z8K *pModule)
 		}
 
 		if(pOutput->isConnected())
-			pOutput->value = pModule->orng.Value(sequence[curStep]->value);
+			pOutput->value = pModule->cvs.TransposeableValue(sequence[curStep]->value);
 		for(int k = 0; k < numSteps; k++)
 			leds[k]->value = k == curStep ? LED_ON : LED_OFF;
 	}

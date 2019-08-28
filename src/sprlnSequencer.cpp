@@ -68,9 +68,9 @@ int spiraloneSequencer::getInput(Spiralone *pSpir, int input_id, int knob_id, fl
 
 void spiraloneSequencer::outputVoltage(Spiralone *pSpir)
 {
-	float v = AccessParam(pSpir, seq, Spiralone::XPOSE_1) + AccessInput(pSpir, seq, Spiralone::INXPOSE_1)->getNormalVoltage(0.0);
+	float v =  AccessInput(pSpir, seq, Spiralone::INXPOSE_1)->getNormalVoltage(0.0);
 	v += AccessParam(pSpir, Spiralone::VOLTAGE_1 + curPos);
-	*AccessOutput(pSpir, seq, Spiralone::CV_1) = pSpir->orng.Value(v);
+	*AccessOutput(pSpir, seq, Spiralone::CV_1) = pSpir->cvs.TransposeableValue(v)+AccessParam(pSpir, seq, Spiralone::XPOSE_1);
 }
 
 void spiraloneSequencer::gate(int clk, Spiralone *pSpir)

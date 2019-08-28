@@ -69,7 +69,7 @@ struct Renato : Module
 		VOLTAGE_1 = GATEY_1 + 16,
 		M_RESET = VOLTAGE_1 + 16,
 		RANGE,
-		NUM_PARAMS = RANGE + outputRange::NUMSLOTS
+		NUM_PARAMS = RANGE + cvStrip::CVSTRIP_PARAMS
 	};
 
 	enum InputIds
@@ -82,7 +82,7 @@ struct Renato : Module
 		GATEY_IN1 = GATEX_IN1 + 16,
 		RANDOMIZONE = GATEY_IN1 + 16,
 		RANGE_IN,
-		NUM_INPUTS = RANGE_IN + outputRange::NUMSLOTS
+		NUM_INPUTS = RANGE_IN + cvStrip::CVSTRIP_INPUTS
 	};
 
 	enum OutputIds
@@ -122,7 +122,7 @@ struct Renato : Module
 				configParam(Renato::VOLTAGE_1 + n, 0.0, 1.0, 0.0, "Voltage", "V");
 			}
 		}
-		orng.configure(this, RANGE);
+		cvs.configure(this, NUM_PARAMS - cvStrip::CVSTRIP_PARAMS);
 
 		#ifdef LAUNCHPAD
 		drv = new LaunchpadBindingDriver(this, Scene3, 2);
@@ -178,7 +178,7 @@ struct Renato : Module
 	OSCDriver *oscDrv = NULL;
 	#endif
 	int theRandomizer;
-	outputRange orng;
+	cvStrip cvs;
 
 private:
 	float getStatus(int pid, int iid)

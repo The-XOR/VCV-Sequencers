@@ -12,7 +12,7 @@ struct Spiralone : Module
 		STRIDE_1 = LENGHT_1 + NUM_SEQUENCERS,
 		XPOSE_1 = STRIDE_1 + NUM_SEQUENCERS,
 		RANGE = XPOSE_1 + NUM_SEQUENCERS,
-		NUM_PARAMS = RANGE + cvMiniStrip::CVMINISTRIP_PARAMS
+		NUM_PARAMS = RANGE + cvStrip::CVSTRIP_PARAMS
 	};
 
 	enum InputIds
@@ -24,7 +24,7 @@ struct Spiralone : Module
 		INXPOSE_1 = INSTRIDE_1 + NUM_SEQUENCERS,
 		CLOCK_1 = INXPOSE_1 + NUM_SEQUENCERS,
 		RANGE_IN = CLOCK_1 + NUM_SEQUENCERS,
-		NUM_INPUTS = RANGE_IN + cvMiniStrip::CVMINISTRIP_INPUTS
+		NUM_INPUTS = RANGE_IN + cvStrip::CVSTRIP_INPUTS
 	};
 
 	enum OutputIds
@@ -56,7 +56,7 @@ struct Spiralone : Module
 			configParam(Spiralone::STRIDE_1 + seq, 1.0, 8.0, 1.0, "Stride", "#");
 			configParam(Spiralone::XPOSE_1 + seq, LVL_MIN, LVL_MAX, 0.0, "Transpose", "V");
 		}
-		cvs.configure(this, NUM_PARAMS - cvMiniStrip::CVMINISTRIP_PARAMS);
+		cvs.configure(this, NUM_PARAMS - cvStrip::CVSTRIP_PARAMS);
 
 		#ifdef LAUNCHPAD
 		drv = new LaunchpadBindingDriver(this, Scene5, 1);
@@ -112,7 +112,7 @@ struct Spiralone : Module
 	OSCDriver *oscDrv = NULL;
 	#endif
 	spiraloneSequencer sequencer[NUM_SEQUENCERS];
-	cvMiniStrip cvs;
+	cvStrip cvs;
 
 private:
 	void on_loaded();

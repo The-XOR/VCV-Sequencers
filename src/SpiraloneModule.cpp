@@ -68,6 +68,7 @@ void Spiralone::on_loaded()
 	connected = 0;
 	#endif
 	load();
+	cvs.Init(pWidget);
 }
 
 void Spiralone::load()
@@ -87,6 +88,13 @@ void Spiralone::process(const ProcessArgs &args)
 		{
 			if(rndTrigger.process(inputs[RANDOMIZONE].value))
 				randrandrand();
+		}
+
+		float rec_smp;
+		int rec_step;
+		if(cvs.IsRecAvailable(&rec_smp, &rec_step))
+		{
+			pWidget->SetValue(Spiralone::VOLTAGE_1 + rec_step, rec_smp);
 		}
 
 		for(int k = 0; k < NUM_SEQUENCERS; k++)
@@ -241,7 +249,7 @@ SpiraloneWidget::SpiraloneWidget(Spiralone *module) : SequencerWidget()
 	addInput(createInput<PJ301HPort>(Vec(mm2px(62.766), yncscape(59.593, 8.255)), module, Spiralone::RANDOMIZONE));
 
 	if(module != NULL)
-		module->cvs.Create(this, 258.022f, 41.284f, ascii::NUM_INPUTS - cvMiniStrip::CVMINISTRIP_INPUTS, ascii::NUM_PARAMS - cvMiniStrip::CVMINISTRIP_PARAMS);
+		module->cvs.Create(this, 258.022f, 18.530f, Spiralone::NUM_INPUTS - cvStrip::CVSTRIP_INPUTS, Spiralone::NUM_PARAMS - cvStrip::CVSTRIP_PARAMS, TOTAL_STEPS);
 
 	#ifdef DIGITAL_EXT
 	if(module != NULL)
