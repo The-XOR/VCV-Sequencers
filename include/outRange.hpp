@@ -1,17 +1,4 @@
 #pragma once
-struct portSmall : _ioPort
-{
-	portSmall() : _ioPort("res/PJ301Bsmall.svg") {}
-};
-
-struct daviesVerySmall : _davies1900base
-{
-	daviesVerySmall() : _davies1900base("res/Davies1900hBlackVerySmall.svg") {}
-	void randomize() override
-	{
-		// do NOT randomaiz
-	}
-};
 
 struct outputRange
 {

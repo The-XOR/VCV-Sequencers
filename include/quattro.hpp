@@ -1,4 +1,5 @@
 #include "common.hpp"
+#include "../include/cvStrip.hpp"
 
 using namespace rack;
 extern Plugin *pluginInstance;
@@ -62,7 +63,7 @@ struct quattroStrip
 {
 public:
 	void Init(quattro *pmodule, int n);
-	void process(int forceStep, float deltaTime, float trnsp);
+	void process(int forceStep, float deltaTime);
 	void reset(float deltaTime);
 
 private:
@@ -77,7 +78,7 @@ private:
 	quattro *pModule = NULL;
 	dsp::SchmittTrigger resetTrig;
 	SchmittTrigger2 clockTrigger;
-	void beginPulse(bool silent = true, float trnsp = MIDDLE_C);
+	void beginPulse(bool silent = true);
 	void endPulse();
 	STEPMODE getStepMode();
 	void move_next();
@@ -100,7 +101,7 @@ struct quattro : Module
 		DIRECTION1 = STRIPSEL_1 + QUATTRO_NUM_STEPS,
 		M_RESET = DIRECTION1 + NUM_STRIPS,
 		RANGE,
-		NUM_PARAMS = RANGE + outputRange::NUMSLOTS
+		NUM_PARAMS = RANGE + cvStrip::CVSTRIP_PARAMS
 	};
 	enum InputIds
 	{
@@ -111,8 +112,7 @@ struct quattro : Module
 		MRESET_IN = CLOCK1 + NUM_STRIPS,
 		RANDOMIZONE,
 		RANGE_IN,
-		TRANSPOSE_IN = RANGE_IN + outputRange::NUMSLOTS,
-		NUM_INPUTS 
+		NUM_INPUTS = RANGE_IN + cvStrip::CVSTRIP_INPUTS
 	};
 	enum OutputIds
 	{
@@ -143,7 +143,7 @@ struct quattro : Module
 			configParam(STRIPSEL_1 + k, 0.0, 3.0, 0.0);
 		}
 
-		orng.configure(this, RANGE);
+		cvs.configure(this, NUM_PARAMS - cvStrip::CVSTRIP_PARAMS);
 		for(int k = 0; k < NUM_STRIPS; k++)
 		{
 			configParam(DIRECTION1 + k, 0.0, 2.0, 0.0);
@@ -156,7 +156,7 @@ struct quattro : Module
 	void setWidget(quattroWidget *pwdg) { pWidget = pwdg; }
 	static int ledStrips[4];
 	int theRandomizer;
-	outputRange orng;
+	cvStrip cvs;
 	void onReset() override { load(); }
 	void onRandomize() override { load(); }
 	void dataFromJson(json_t *root) override

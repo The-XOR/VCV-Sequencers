@@ -14,6 +14,14 @@ void quattro::process(const ProcessArgs &args)
 		if(pWidget != NULL && rndTrigger.process(inputs[RANDOMIZONE].value))
 			randrandrand();
 
+		cvs.process();
+		float rec_smp;
+		int rec_step;
+		if(cvs.IsRecAvailable(&rec_smp, &rec_step))
+		{
+			pWidget->SetValue(quattro::VOLTAGE_1 + rec_step, rec_smp);
+		}
+
 		int forceStep = -1;
 		for(int k = 0; k < QUATTRO_NUM_STEPS && forceStep == -1; k++)
 		{
@@ -24,9 +32,8 @@ void quattro::process(const ProcessArgs &args)
 			}
 		}
 
-		float trnsp = inputs[TRANSPOSE_IN].getNormalVoltage(MIDDLE_C);
 		for(int k = 0; k < NUM_STRIPS; k++)
-			strip[k].process(forceStep, deltaTime, trnsp);
+			strip[k].process(forceStep, deltaTime);
 	}
 }
 
@@ -93,8 +100,10 @@ void quattro::randrandrand(int action)
 
 void quattro::QuantizePitch()
 {
+	/*dbg todo 
 	for(int k = 0; k < QUATTRO_NUM_STEPS; k++)
 		params[VOLTAGE_1 + k].value = pWidget->quantizePitch(VOLTAGE_1 + k, params[VOLTAGE_1 + k].value, orng);
+		*/
 }
 
 #define INCY(k) (-k * 14.798f)
@@ -107,13 +116,11 @@ quattroWidget::quattroWidget(quattro *module) : SequencerWidget()
 	if(module != NULL)
 		module->setWidget(this);
 
-	CREATE_PANEL(module, this, 50, "res/modules/quattro.svg");
-
-	addInput(createInput<PJ301BPort>(Vec(mm2px(239.028), yncscape(11.761, 8.255)), module, quattro::TRANSPOSE_IN));
+	CREATE_PANEL(module, this, 52, "res/modules/quattro.svg");
 
 	addInput(createInput<PJ301HPort>(Vec(mm2px(231.288f), yncscape(90.796f, 8.255)), module, quattro::RANDOMIZONE));
 	if(module != NULL)
-		module->orng.Create(this, 224.846f, 108.285f, quattro::RANGE_IN, quattro::RANGE);
+		module->cvs.Create(this, 251.717f, 18.530f, quattro::NUM_INPUTS-cvStrip::CVSTRIP_INPUTS, quattro::NUM_PARAMS - cvStrip::CVSTRIP_PARAMS, QUATTRO_NUM_STEPS);
 
 	#ifdef DIGITAL_EXT
 	if(module != NULL)
@@ -250,7 +257,7 @@ void quattroStrip::Init(quattro *pmodule, int n)
 	beginPulse();
 }
 
-void quattroStrip::process(int forceStep, float deltaTime, float trnsp)
+void quattroStrip::process(int forceStep, float deltaTime)
 {
 	if(pModule != NULL)
 	{
@@ -268,7 +275,7 @@ void quattroStrip::process(int forceStep, float deltaTime, float trnsp)
 				if(clk == 1)
 				{
 					move_next();
-					beginPulse(false, trnsp);
+					beginPulse(false);
 				} else if(clk == -1)
 					endPulse();
 
@@ -380,10 +387,10 @@ quattroStrip::STEPMODE quattroStrip::getStepMode()
 	return  (quattroStrip::STEPMODE)(int)(pModule->params[quattro::MODE + curStep].value);
 }
 
-void quattroStrip::beginPulse(bool silent, float trnsp)
+void quattroStrip::beginPulse(bool silent)
 {
 	int abcd = (int)roundf(pModule->params[quattro::STRIPSEL_1 + curStep].value);
-	pModule->outputs[quattro::CV1 + stripID].value = pModule->orng.TransposeableValue(pModule->params[quattro::VOLTAGE_1 + curStep].value, trnsp);
+	pModule->outputs[quattro::CV1 + stripID].value = pModule->cvs.TransposeableValue(pModule->params[quattro::VOLTAGE_1 + curStep].value);
 	pModule->outputs[quattro::GATE1 + stripID].value = silent ? LVL_OFF : LVL_ON;
 	if(stripID == abcd)
 		pModule->outputs[quattro::CURSTEP1 + curStep].value = LVL_ON;

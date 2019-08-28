@@ -169,6 +169,16 @@ struct Davies1900hFixRedKnobSmall : _davies1900base
 	Davies1900hFixRedKnobSmall() : _davies1900base("res/Davies1900hRedSmall.svg") {}
 };
 
+
+struct daviesVerySmall : _davies1900base
+{
+	daviesVerySmall() : _davies1900base("res/Davies1900hBlackVerySmall.svg") {}
+	void randomize() override
+	{
+		// do NOT randomaiz
+	}
+};
+
 struct _ioPort : SvgPort
 {
 	_ioPort(const char *res)
@@ -177,6 +187,11 @@ struct _ioPort : SvgPort
 		sw->wrap();
 		box.size = sw->box.size;
 	}
+};
+
+struct portSmall : _ioPort
+{
+	portSmall() : _ioPort("res/PJ301Bsmall.svg") {}
 };
 
 struct PJ301HPort : _ioPort
@@ -271,24 +286,24 @@ struct TL1105HSw : app::SvgSwitch
 	{
 		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/TL1105_H0.svg")));
 		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/TL1105_H1.svg")));
-	};
+	}
 };
 
 struct TL1105HSwRed : app::SvgSwitch
 {
-	TL1105HSw()
+	TL1105HSwRed()
 	{
 		randomizable = true;
 		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/TL1105_H0.svg")));
-		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/TL1105_HB0.svg")));
+		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/TL1105_HB1.svg")));
 	};
 
 	void randomize() override
 	{
 		if(randomizable)
-		app::SvgSwitch::randomize();
+			app::SvgSwitch::randomize();
 	}
-	bool randomizable:
+	bool randomizable;
 };
 
 struct TL1105HBSw : app::SvgSwitch
@@ -304,9 +319,16 @@ struct TL1105Sw : app::SvgSwitch
 {
 	TL1105Sw()
 	{
+		randomizable = true;
 		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/TL1105_0.svg")));
 		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/TL1105_1.svg")));
 	};
+	void randomize() override
+	{
+		if(randomizable)
+		app::SvgSwitch::randomize();
+	}
+	bool randomizable;
 };
 
 struct SchmittTrigger2
@@ -450,6 +472,15 @@ public:
 		}
 
 		return value;
+	}
+
+	void SetValue(int idx, float value)
+	{
+		int index = getParamIndex(idx);
+		if(index >= 0)
+		{
+			params[index]->paramQuantity->setValue(value);
+		}
 	}
 
 protected:
