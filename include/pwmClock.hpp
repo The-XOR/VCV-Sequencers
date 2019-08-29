@@ -63,7 +63,7 @@ struct MIDICLOCK_TIMER
 	{
 		midiClockCounter = 0;
 		lastclockpulse = std::chrono::high_resolution_clock::now();
-		bpm = BPM_MINVALUE;
+		//bpm = BPM_MINVALUE;
 		resetStat();	
 	}
 
