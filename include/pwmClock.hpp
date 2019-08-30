@@ -61,16 +61,19 @@ struct MIDICLOCK_TIMER
 {
 	void reset()
 	{
-		midiClockCounter = 0;
+		midiClockAccum = midiClockCounter = 0;
 		lastclockpulse = std::chrono::high_resolution_clock::now();
 		bpm = BPM_MINVALUE;
 		resetStat();	
 	}
 
+	void resetAccum() { midiClockAccum = 0; }
+	inline uint64_t clockCounter() { return midiClockAccum; }
 	float getBpm(float trigger)
 	{
 		if (midiClock.process(trigger))
 		{
+			midiClockAccum++;
 			if ((midiClockCounter++ % 24) == 0)
 			{
 				midiClockCounter = 0;
@@ -90,12 +93,13 @@ struct MIDICLOCK_TIMER
 
 	private:
 		dsp::SchmittTrigger midiClock;
-		unsigned char midiClockCounter;
+		int midiClockCounter;
 		fuck_mac_os lastclockpulse;
 		float bpm = BPM_MINVALUE;
 		int meanCalcSamples;
 		float meanCalcTempValue;
 		fuck_mac_os meanCalcStart;
+		uint64_t midiClockAccum;
 		void resetStat()
 		{
 			meanCalcStart = std::chrono::high_resolution_clock::now();
@@ -130,6 +134,7 @@ struct PwmClock : Module
 		SWING,
 		OFFON,
 		PULSE,
+		FOLLOWF8,
 		NUM_PARAMS
 	};
 	enum InputIds
@@ -223,13 +228,15 @@ private:
 
 	const float pulseTime = 0.1;      //2msec trigger
 	void process_keys();
-	void updateBpm(bool externalMidiClock);
-	void process_active(const ProcessArgs &args);
+	void updateBpm(bool externalMidiClock, bool followf8);
+	void process_active(const ProcessArgs &args, bool externalMidiClock, bool followf8);
 	void process_inactive(const ProcessArgs &args);
+	void process_extMidiClock(const ProcessArgs &args);
 
 	inline float getDuration(int n) 	{return odd_beat[n] ? swingAmt[n] : duration[n]; }
 	float duration[OUT_SOCKETS];
 	float swingAmt[OUT_SOCKETS];
+	static int ticks_24ppqn[OUT_SOCKETS];
 	bool odd_beat[OUT_SOCKETS];
 	void on_loaded();
 	void load();

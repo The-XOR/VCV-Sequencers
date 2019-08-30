@@ -557,11 +557,15 @@ public:
 			nvgTextLetterSpacing(args.vg, 2.5);
 
 			std::stringstream to_display;
-			if(precision == 0)
-				to_display << std::setw(digits) << std::round(*value);
+			if(*value == std::numeric_limits<float>::epsilon())
+				to_display << "---";
 			else
-				to_display << std::fixed << std::setw(digits) << std::setprecision(precision) << *value;
-
+			{
+				if(precision == 0)
+					to_display << std::setw(digits) << std::round(*value);
+				else
+					to_display << std::fixed << std::setw(digits) << std::setprecision(precision) << *value;
+			}
 			Vec textPos = Vec(3, 17);
 
 			NVGcolor textColor = nvgRGB(0xdf, 0xd2, 0x2c);

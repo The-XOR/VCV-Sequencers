@@ -1,6 +1,16 @@
 #include "../include/pwmClock.hpp"
 #include <GLFW/glfw3.h>
 
+int PwmClock::ticks_24ppqn[OUT_SOCKETS] = {
+96	,144		,64
+,48	,72		,32
+,24	,36		,16
+,12	,18		,8
+,6	,9		,4
+,3	,4/*4.5*/		,2
+,1/*1.5*/	,2/*2.25*/	,1
+};
+
 
 void PwmClock::on_loaded()
 {
@@ -20,17 +30,22 @@ void PwmClock::_reset()
 		sa_timer[k].Reset();
 		odd_beat[k] = false;
 	}
-	//midiClock.reset();
 }
 
 void PwmClock::load()
 {
 	pendingKey = 0;
-	updateBpm(false);
+	updateBpm(false, false);
 }
 
-void PwmClock::updateBpm(bool externalMidiClock)
+void PwmClock::updateBpm(bool externalMidiClock, bool followf8)
 {
+	if(followf8)
+	{
+		bpm = std::numeric_limits<float>::epsilon();
+		return;
+	}
+
 	bool updated = false;
 	float new_bpm;
 	if(externalMidiClock)
@@ -87,29 +102,50 @@ void PwmClock::process_keys()
 	}
 }
 
-void PwmClock::process_active(const ProcessArgs &args)
+void PwmClock::process_active(const ProcessArgs &args, bool externalMidiClock, bool followf8)
 {
 	onStopPulse.reset();
 	onManualStep.reset();
 	if(resetTrigger.process(inputs[RESET].value))
 	{
 		_reset();
-	} else
+		midiClock.reset();
+	} else 
 	{
-		for(int k = 0; k < OUT_SOCKETS; k++)
+		if(externalMidiClock && followf8)
+			process_extMidiClock(args);
+		else
 		{
-			if(outputs[OUT_1 + k].isConnected())
+			for(int k = 0; k < OUT_SOCKETS; k++)
 			{
-				float gate_len = getDuration(k) * getPwm();
-				sa_timer[k].Step();
-				float elps = sa_timer[k].Elapsed();
-				if(elps >= getDuration(k))
+				if(outputs[OUT_1 + k].isConnected())
 				{
-					elps = sa_timer[k].Reset();
-					odd_beat[k] = !odd_beat[k];
+					float gate_len = getDuration(k) * getPwm();
+					sa_timer[k].Step();
+					float elps = sa_timer[k].Elapsed();
+					if(elps >= getDuration(k))
+					{
+						elps = sa_timer[k].Reset();
+						odd_beat[k] = !odd_beat[k];
+					}
+					outputs[OUT_1 + k].value = elps <= gate_len ? LVL_ON : LVL_OFF;
 				}
-				outputs[OUT_1 + k].value = elps <= gate_len ? LVL_ON : LVL_OFF;
 			}
+		}
+	}
+}
+
+void PwmClock::process_extMidiClock(const ProcessArgs &args)
+{
+	uint64_t cc = midiClock.clockCounter();
+	for(int k = 0; k < OUT_SOCKETS; k++)
+	{
+		if(outputs[OUT_1 + k].isConnected())
+		{
+			if((cc % ticks_24ppqn[k]) == 0)
+				outputs[OUT_1 + k].value = LVL_ON;
+			else if(outputs[OUT_1 + k].value > 0)
+				outputs[OUT_1 + k].value = LVL_OFF;
 		}
 	}
 }
@@ -200,17 +236,20 @@ void PwmClock::process(const ProcessArgs &args)
 
 	bool active = isGeneratorActive();
 	bool externalMidiClock = inputs[MIDI_CLOCK].isConnected();
+	bool followf8;
 	if(!externalMidiClock)
 	{
 		process_keys();
 		bpm_integer = roundf(params[BPM].value);
-	}
+		followf8 = false;
+	} else
+		followf8 = params[FOLLOWF8].getValue() > 0.5;
 
-	updateBpm(externalMidiClock);
+	updateBpm(externalMidiClock, followf8);
 
 	if(active)
 	{
-		process_active(args);
+		process_active(args, externalMidiClock, followf8);
 	} else
 	{
 		process_inactive(args);
@@ -221,6 +260,7 @@ void PwmClock::process(const ProcessArgs &args)
 		_reset();
 		if(active)
 		{
+			midiClock.resetAccum();
 			lights[ACTIVE].value = LED_ON;
 		} else
 		{
@@ -275,6 +315,7 @@ PwmClockWidget::PwmClockWidget(PwmClock *module) : SequencerWidget()
 
 	addParam(createParam<Davies1900hFixBlackKnob>(Vec(mm2px(48.511), yncscape(17.603, 9.525)), module, PwmClock::PWM));
 	addInput(createInput<PJ301BPort>(Vec(mm2px(63.162), yncscape(18.238, 8.255)), module, PwmClock::PWM_IN));
+	addParam(createParam<TL1105HSw>(Vec(mm2px(49.970), yncscape(82.362, 4.477)), module, PwmClock::FOLLOWF8));
 
 	float col_x[3] = {7.875, 21.633, 35.392};
 	float pos_y = yncscape(70.175, 8.255);
