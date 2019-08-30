@@ -63,7 +63,7 @@ struct MIDICLOCK_TIMER
 	{
 		midiClockCounter = 0;
 		lastclockpulse = std::chrono::high_resolution_clock::now();
-		//bpm = BPM_MINVALUE;
+		bpm = BPM_MINVALUE;
 		resetStat();	
 	}
 
@@ -75,10 +75,10 @@ struct MIDICLOCK_TIMER
 			{
 				midiClockCounter = 0;
 				fuck_mac_os now = std::chrono::high_resolution_clock::now();
-				long elapsed_msec = (long)std::chrono::duration_cast<std::chrono::milliseconds>(now - lastclockpulse).count();
-				if (elapsed_msec > 0)
+				float elapsed_msec = std::chrono::duration_cast<std::chrono::microseconds>(now - lastclockpulse).count();
+				if (elapsed_msec > 0.0)
 				{
-					if (addSample(now, roundf(600000.0f / elapsed_msec) / 10.0))
+					if (addSample(now, elapsed_msec))
 						bpm = clamp(readStat(), (float)BPM_MINVALUE, (float)BPM_MAXVALUE);
 					lastclockpulse = now;
 				}
@@ -112,7 +112,10 @@ struct MIDICLOCK_TIMER
 
 		float readStat()
 		{
-			float rv = meanCalcTempValue / meanCalcSamples;
+			float mean = meanCalcTempValue / meanCalcSamples;  // elapsed_time medio
+			float rv;
+			if(mean > 0.000001)
+				rv = (1000000.0f / mean / 24.0f) * 60.f;
 			resetStat();
 			return rv;
 		}

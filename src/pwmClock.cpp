@@ -9,6 +9,7 @@ void PwmClock::on_loaded()
 	swing = 0;
 	_reset();
 	load();
+	midiClock.reset();
 }
 
 void PwmClock::_reset()
@@ -19,7 +20,7 @@ void PwmClock::_reset()
 		sa_timer[k].Reset();
 		odd_beat[k] = false;
 	}
-	midiClock.reset();
+	//midiClock.reset();
 }
 
 void PwmClock::load()
