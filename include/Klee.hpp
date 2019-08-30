@@ -207,7 +207,6 @@ private:
 	void randrandrand(int action);
 	void populate_outputs();
 	void check_triggers(float deltaTime);
-	bool isSwitchOn(int ptr);
 	int getValue3(int k);
 	dsp::SchmittTrigger loadTrigger;
 	SchmittTrigger2 clockTrigger;

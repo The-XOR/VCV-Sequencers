@@ -95,7 +95,7 @@ void Klee::load()
 {
 	for(int k = 0; k < 16; k++)
 	{
-		shiftRegister.P[k] = isSwitchOn(LOAD_BUS + k);
+		shiftRegister.P[k] = isSwitchOn(this, LOAD_BUS + k);
 	}
 }
 
@@ -113,13 +113,13 @@ void Klee::update_bus()
 			bus_active[getValue3(k)] = true;
 		}
 	}
-	if(isSwitchOn(BUS2_MODE))
+	if(isSwitchOn(this, BUS2_MODE))
 		bus_active[1] = bus_active[0] && bus_active[2];
 	else
 		bus_active[1] &= !(bus_active[0] || bus_active[2]);  //BUS 2: NOR 0 , 3
 
 	//bus1 load
-	if(isSwitchOn(BUS1_LOAD) && !bus1 && bus_active[0])
+	if(isSwitchOn(this, BUS1_LOAD) && !bus1 && bus_active[0])
 		load();
 }
 
@@ -127,11 +127,6 @@ int Klee::getValue3(int k)
 {
 	int v = roundf(params[GROUPBUS + k].value);
 	return 2 - v;
-}
-
-bool Klee::isSwitchOn(int ptr)
-{
-	return params[ptr].value > 0.1;
 }
 
 void Klee::check_triggers(float deltaTime)
@@ -155,7 +150,7 @@ void Klee::populate_gate(int clk)
 			outputs[GATE_OUT + k].value = bus_active[k] ? LVL_ON : LVL_OFF;
 		} else // fall
 		{
-			if(!bus_active[k] || !isSwitchOn(BUS_MERGE + k))
+			if(!bus_active[k] || !isSwitchOn(this, BUS_MERGE + k))
 				outputs[GATE_OUT + k].value = LVL_OFF;
 		}
 	}
@@ -203,14 +198,14 @@ void Klee::showValues()
 
 void Klee::sr_rotate()
 {
-	if(!isSwitchOn(X28_X16))  // mode 1 x 16
+	if(!isSwitchOn(this, X28_X16))  // mode 1 x 16
 	{
 		int fl = shiftRegister.P[15];
 		for(int k = 15; k > 0; k--)
 		{
 			shiftRegister.P[k] = shiftRegister.P[k - 1];
 		}
-		if(isSwitchOn(RND_PAT))
+		if(isSwitchOn(this, RND_PAT))
 			shiftRegister.P[0] = chance();
 		else
 			shiftRegister.P[0] = fl;
@@ -223,11 +218,11 @@ void Klee::sr_rotate()
 			shiftRegister.A[k] = shiftRegister.A[k - 1];
 			shiftRegister.B[k] = shiftRegister.B[k - 1];
 		}
-		if(isSwitchOn(RND_PAT))
+		if(isSwitchOn(this, RND_PAT))
 			shiftRegister.A[0] = chance();
 		else
 			shiftRegister.A[0] = fla;
-		shiftRegister.B[0] = isSwitchOn(B_INV) ? !flb : flb;
+		shiftRegister.B[0] = isSwitchOn(this, B_INV) ? !flb : flb;
 	}
 }
 

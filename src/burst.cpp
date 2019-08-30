@@ -54,7 +54,7 @@ void Burst::prepare_step()
 	activating_params.cycle_counter = activating_params.out_span = 0;
 	activating_params.max_span = (int)roundf(getModulableParam(this, OUT_SPAN, OUT_SPAN_IN, 1, NUM_BURST_PORTS));
 	activating_params.mode = (enum Burst::MODE)roundf(params[MODE].value);
-	activating_params.invert_mode = roundf(params[MODE_INVERT].value) > 0.5;
+	activating_params.invert_mode = isSwitchOn(this, MODE_INVERT);
 	activating_params.retrogade = false;	
 	activating_params.max_cycle = (int)roundf(getModulableParam(this, EVENT_COUNT, EVENT_COUNT_IN, 0, 23)) + 1;
 	trigger_pending = false;

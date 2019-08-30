@@ -194,10 +194,10 @@ bool PwmClock::isGeneratorActive()
 	{
 		pendingKey = 0;
 		active = inputs[REMOTE_IN].getNormalVoltage(0.0) > SWITCH_ON;
-		if(active && (params[OFFON].value < 0.5))
+		if(active && !isSwitchOn(this, OFFON))
 		{
 			pWidget->params[OFFON]->dirtyValue = params[OFFON].value = 1.0;
-		} else if(!active && (params[OFFON].value > 0.5))
+		} else if(!active && isSwitchOn(this, OFFON))
 		{
 			pWidget->params[OFFON]->dirtyValue = params[OFFON].value = 0.0;
 		}
@@ -214,7 +214,7 @@ bool PwmClock::isGeneratorActive()
 		active = true;
 	} else
 	{
-		active = params[OFFON].value > 0.5;
+		active = isSwitchOn(this, OFFON);
 		if(pendingKey != 0)
 		{
 			switch(pendingKey)
@@ -249,7 +249,7 @@ void PwmClock::process(const ProcessArgs &args)
 		bpm_integer = roundf(params[BPM].value);
 		followf8 = false;
 	} else
-		followf8 = params[FOLLOWF8].getValue() > 0.5;
+		followf8 = isSwitchOn(this, FOLLOWF8);
 
 	updateBpm(externalMidiClock, followf8);
 

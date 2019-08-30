@@ -63,7 +63,7 @@ void Renato::process(const ProcessArgs &args)
 			pWidget->SetValue(Renato::VOLTAGE_1 + rec_step, rec_smp);
 		}
 
-		bool seek_mode = params[SEEKSLEEP].value > 0;
+		bool seek_mode = isSwitchOn(this, SEEKSLEEP);
 		int clkX = seqX.Step(inputs[XCLK].getVoltage(), params[COUNTMODE_X].getValue(), seek_mode, this, true);
 		int clkY = seqY.Step(inputs[YCLK].getVoltage(), params[COUNTMODE_Y].getValue(), seek_mode, this, false);
 		int n = xy(seqX.Position(), seqY.Position());
