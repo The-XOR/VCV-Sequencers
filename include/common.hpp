@@ -12,6 +12,7 @@
 #define LED_OFF    (0.0f)
 #define LED_ON    (10.0f)
 #define MIDDLE_C  (4.0f)
+#define PULSE_TIME (0.001)
 
 using namespace rack;
 extern Plugin *pluginInstance;

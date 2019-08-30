@@ -168,7 +168,7 @@ void Klee::populate_outputs()
 		if(bus_active[k])
 		{
 			outputs[TRIG_OUT + k].value = LVL_ON;
-			triggers[k].trigger(pulseTime);
+			triggers[k].trigger(PULSE_TIME);
 		}
 	}
 

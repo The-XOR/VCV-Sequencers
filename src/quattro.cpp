@@ -412,7 +412,7 @@ void quattroStrip::reset(float deltaTime)
 		reset_curstep(getDirection());
 		moving_bwd = false;
 		prenotazioneDiChiamata = -1;
-		resetPulseGuard.trigger(pulseTime);
+		resetPulseGuard.trigger(PULSE_TIME);
 		beginPulse();
 	}
 }

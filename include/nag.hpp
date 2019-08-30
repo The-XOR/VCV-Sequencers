@@ -66,7 +66,6 @@ struct NagSeq
 {
 private:
 	dsp::PulseGenerator banged;
-	const float PULSE_TIME = 0.05;
 
 public:
 	int numVertici;

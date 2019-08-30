@@ -83,7 +83,6 @@ private:
 	void move_next();
 	PulseGenerator2 resetPulseGuard;
 	bool resetting;
-	const float pulseTime = 0.001;
 	int prenotazioneDiChiamata;
 	bool moving_bwd;
 	int getDirection();

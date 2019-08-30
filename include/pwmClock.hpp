@@ -226,7 +226,6 @@ private:
 	dsp::PulseGenerator onManualStep;
 	bool optimize_manualStep;
 
-	const float pulseTime = 0.1;      //2msec trigger
 	void process_keys();
 	void updateBpm(bool externalMidiClock, bool followf8);
 	void process_active(const ProcessArgs &args, bool externalMidiClock, bool followf8);
@@ -238,6 +237,7 @@ private:
 	float swingAmt[OUT_SOCKETS];
 	static int ticks_24ppqn[OUT_SOCKETS];
 	bool odd_beat[OUT_SOCKETS];
+	dsp::PulseGenerator midiClockTrig[OUT_SOCKETS];
 	void on_loaded();
 	void load();
 	void _reset();

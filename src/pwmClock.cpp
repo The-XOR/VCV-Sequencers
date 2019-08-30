@@ -29,6 +29,7 @@ void PwmClock::_reset()
 	{
 		sa_timer[k].Reset();
 		odd_beat[k] = false;
+		midiClockTrig[k].reset();
 	}
 }
 
@@ -138,14 +139,20 @@ void PwmClock::process_active(const ProcessArgs &args, bool externalMidiClock, b
 void PwmClock::process_extMidiClock(const ProcessArgs &args)
 {
 	uint64_t cc = midiClock.clockCounter();
+	float deltaTime = 1.0 / args.sampleRate;
+
 	for(int k = 0; k < OUT_SOCKETS; k++)
 	{
+		if(outputs[OUT_1 + k].value  > 0.5 && !midiClockTrig[k].process(deltaTime))
+			outputs[OUT_1 + k].value = LVL_OFF;
+		
 		if(outputs[OUT_1 + k].isConnected())
 		{
 			if((cc % ticks_24ppqn[k]) == 0)
+			{
+				midiClockTrig[k].trigger(PULSE_TIME);
 				outputs[OUT_1 + k].value = LVL_ON;
-			else if(outputs[OUT_1 + k].value > 0)
-				outputs[OUT_1 + k].value = LVL_OFF;
+			}
 		}
 	}
 }
@@ -155,7 +162,7 @@ void PwmClock::process_inactive(const ProcessArgs &args)
 	float deltaTime = 1.0 / args.sampleRate;
 
 	if(current_status && !onStopPulse.process(deltaTime))
-		onStopPulse.trigger(pulseTime);
+		onStopPulse.trigger(PULSE_TIME);
 
 	if(!onManualStep.process(deltaTime))
 	{
@@ -170,7 +177,7 @@ void PwmClock::process_inactive(const ProcessArgs &args)
 		}
 		if((manualTrigger.process(params[PULSE].value) || pulseTrigger.process(inputs[PULSE_IN].value)))
 		{
-			onManualStep.trigger(pulseTime);
+			onManualStep.trigger(PULSE_TIME);
 			optimize_manualStep = true;
 			for(int k = 0; k < OUT_SOCKETS; k++)
 				outputs[OUT_1 + k].value = LVL_ON;

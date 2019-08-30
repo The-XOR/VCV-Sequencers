@@ -93,7 +93,7 @@ void Counter::process(const ProcessArgs &args)
 void Counter::trig_out()
 {
 	curCounter = 0;
-	outPulse.trigger(pulseTime);
+	outPulse.trigger(PULSE_TIME);
 	toggle_status = !toggle_status;
 	lights[TOGGLESTAT].value = toggle_status ? LED_ON : LED_OFF;
 	outputs[OUT_TGL].value =   toggle_status ? LVL_ON : LVL_OFF;
