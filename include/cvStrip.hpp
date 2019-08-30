@@ -47,15 +47,15 @@ public:
 
 	float Value(float v) const //v normalizzato 0-1
 	{
-		float vmin = clamp(module->params[paramID].value + module->inputs[RANGE_FROM].getNormalVoltage(0.0), LVL_MIN, LVL_MAX);
-		float vmax = clamp(module->params[paramID + 1].value + module->inputs[RANGE_TO].getNormalVoltage(0.0), LVL_MIN, LVL_MAX);
+		float vmin = getModulableParam(module, PARAM_FROM, RANGE_FROM, LVL_MIN, LVL_MAX);
+		float vmax = getModulableParam(module, PARAM_TO, RANGE_TO, LVL_MIN, LVL_MAX);
 		return clamp(rescale(v, 0.0, 1.0, std::min(vmin, vmax), std::max(vmin, vmax)), LVL_MIN, LVL_MAX);
 	}
 
 	float Reverse(float v) const
 	{
-		float vmin = clamp(module->params[PARAM_FROM].value + module->inputs[RANGE_FROM].getNormalVoltage(0.0), LVL_MIN, LVL_MAX);
-		float vmax = clamp(module->params[PARAM_TO].value + module->inputs[RANGE_TO].getNormalVoltage(0.0), LVL_MIN, LVL_MAX);
+		float vmin = getModulableParam(module, PARAM_FROM, RANGE_FROM, LVL_MIN, LVL_MAX);
+		float vmax = getModulableParam(module, PARAM_TO, RANGE_TO, LVL_MIN, LVL_MAX);
 		return clamp(rescale(v, std::min(vmin, vmax), std::max(vmin, vmax), 0.0, 1.0), 0.0, 1.0);
 	}
 
@@ -132,9 +132,8 @@ struct cvMiniStrip : cvMicroStrip
 	float TransposeableValue(float v)
 	{
 		float trnsps = recording ? 0.f : module->inputs[CV_IN].getNormalVoltage(0.0);
-
-		float vmin = clamp(module->params[paramID].value + module->inputs[RANGE_FROM].getNormalVoltage(0.0), LVL_MIN, LVL_MAX);
-		float vmax = clamp(module->params[paramID + 1].value + module->inputs[RANGE_TO].getNormalVoltage(0.0), LVL_MIN, LVL_MAX);
+		float vmin = getModulableParam(module, PARAM_FROM, RANGE_FROM, LVL_MIN, LVL_MAX);
+		float vmax = getModulableParam(module, PARAM_TO, RANGE_TO, LVL_MIN, LVL_MAX);
 		float vnt = rescale(v, 0.0, 1.0, std::min(vmin, vmax), std::max(vmin, vmax));
 		return clamp(vnt + trnsps, LVL_MIN, LVL_MAX);
 	}
@@ -325,7 +324,7 @@ struct cvStrip : cvMiniStrip
 		process_keys();
 		if(recording)
 		{
-			bool manual_mode = module->params[PARAM_MANU].getValue() > 0.5;
+			bool manual_mode = isSwitchOn(module, PARAM_MANU);
 			if(gateIn.process(module->inputs[GATE_IN].getVoltage()))
 			{
 				recStep = curStep;

@@ -64,8 +64,8 @@ void Renato::process(const ProcessArgs &args)
 		}
 
 		bool seek_mode = params[SEEKSLEEP].value > 0;
-		int clkX = seqX.Step(inputs[XCLK].value, params[COUNTMODE_X].value, seek_mode, this, true);
-		int clkY = seqY.Step(inputs[YCLK].value, params[COUNTMODE_Y].value, seek_mode, this, false);
+		int clkX = seqX.Step(inputs[XCLK].getVoltage(), params[COUNTMODE_X].getValue(), seek_mode, this, true);
+		int clkY = seqY.Step(inputs[YCLK].getVoltage(), params[COUNTMODE_Y].getValue(), seek_mode, this, false);
 		int n = xy(seqX.Position(), seqY.Position());
 
 		if(_access(n))

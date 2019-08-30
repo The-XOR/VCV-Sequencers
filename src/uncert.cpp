@@ -29,7 +29,7 @@ void Uncertain::out_quantized(int clk)
 {
 	if(clk == 1)
 	{
-		int position = getInt(QUANTIZED_AMT, IN_QUANTIZED, 0.0, 5.0) + 1;
+		int position = (int)roundf(getModulableParam(this, QUANTIZED_AMT, IN_QUANTIZED, 0.0, 5.0)) + 1;
 		outputs[OUT_QUANTIZED_N1].value = roundf(rescale(random::uniform(), 0.0, 1.0, 0.0, position));		// 1V
 		float n2= roundf(rescale(random::uniform(), 0.0, 1.0, 1.0, 2 << position));
 		outputs[OUT_QUANTIZED_2N].value = clamp(SEMITONE*n2, LVL_OFF, LVL_ON);

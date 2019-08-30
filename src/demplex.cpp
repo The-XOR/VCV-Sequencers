@@ -48,32 +48,29 @@ void Dmplex::process(const ProcessArgs &args)
 
 	if(reset.process(inputs[RESET].value))
 	{
-		set_output( 0);
-	}
-	else if (inputs[CV].isConnected())
+		set_output(0);
+	} else if(inputs[CV].isConnected())
 	{
 		cur_sel = clamp((int)(std::numeric_limits<float>::epsilon() + inputs[CV].getNormalVoltage(0.0)), 0, num_outputs - 1);
 		set_output(cur_sel);
 	} else
-	{ 
-		if (random.process(inputs[RANDOM].value))
+	{
+		if(random.process(inputs[RANDOM].value))
 		{
 			set_output(getRand(num_outputs_f));
-		}
-		else if (upTrigger.process(params[BTDN].value + inputs[INDN].value))
+		} else if(upTrigger.process(params[BTDN].value + inputs[INDN].value))
 		{
-			if (++cur_sel >= num_outputs)
+			if(++cur_sel >= num_outputs)
 				cur_sel = 0;
 			set_output(cur_sel);
-		}
-		else if (dnTrigger.process(params[BTUP].value + inputs[INUP].value))
+		} else if(dnTrigger.process(params[BTUP].value + inputs[INUP].value))
 		{
-			if (--cur_sel < 0)
+			if(--cur_sel < 0)
 				cur_sel = num_outputs - 1;
 			set_output(cur_sel);
 		}
 	}
-	outputs[OUT_1+cur_sel].value = inputs[IN_1].value;
+	outputs[OUT_1 + cur_sel].value = inputs[IN_1].value;
 }
 
 DmplexWidget::DmplexWidget(Dmplex *module) : ModuleWidget()
@@ -84,14 +81,14 @@ DmplexWidget::DmplexWidget(Dmplex *module) : ModuleWidget()
 	addParam(createParam<BefacoPushBig>(Vec(mm2px(15.267), yncscape(33.452, 8.999)), module, Dmplex::BTDN));
 	addInput(createInput<PJ301BPort>(Vec(mm2px(15.640), yncscape(71.230, 8.255)), module, Dmplex::INUP));
 	addInput(createInput<PJ301BPort>(Vec(mm2px(15.640), yncscape(49.014, 8.255)), module, Dmplex::INDN));
-	
+
 	addInput(createInput<PJ301GRPort>(Vec(mm2px(3.558), yncscape(60.122, 8.255)), module, Dmplex::IN_1));
 
-	addInput(createInput<PJ301YPort>(Vec(mm2px(3.558), yncscape(108.243,8.255)), module, Dmplex::RESET));
+	addInput(createInput<PJ301YPort>(Vec(mm2px(3.558), yncscape(108.243, 8.255)), module, Dmplex::RESET));
 	addInput(createInput<PJ301BPort>(Vec(mm2px(3.558), yncscape(96.422, 8.255)), module, Dmplex::RANDOM));
 	addInput(createInput<PJ301BPort>(Vec(mm2px(3.558), yncscape(19.939, 8.255)), module, Dmplex::CV));
 
-	addParam(createParam<UPSWITCH>(Vec(mm2px(3.127), yncscape(10.727,4.115)), module, Dmplex::OUTPUT_INC));
+	addParam(createParam<UPSWITCH>(Vec(mm2px(3.127), yncscape(10.727, 4.115)), module, Dmplex::OUTPUT_INC));
 	addParam(createParam<DNSWITCH>(Vec(mm2px(3.127), yncscape(5.926, 4.115)), module, Dmplex::OUTPUT_DEC));
 
 	SigDisplayWidget *display = new SigDisplayWidget(1, 0);
@@ -109,7 +106,7 @@ DmplexWidget::DmplexWidget(Dmplex *module) : ModuleWidget()
 	for(int k = 0; k < NUM_DEMULTIPLEX_OUTPUTS; k++)
 	{
 		addOutput(createOutput<PJ301GPort>(Vec(mm2px(x), yncscape(y, 8.255)), module, Dmplex::OUT_1 + k));
-		addChild(createLight<SmallLight<RedLight>>(Vec(mm2px(led_x), yncscape(y-y_offs, 2.176)), module, Dmplex::LED_1 + k));
+		addChild(createLight<SmallLight<RedLight>>(Vec(mm2px(led_x), yncscape(y - y_offs, 2.176)), module, Dmplex::LED_1 + k));
 		y += delta_y;
 		if(k == 3)
 			y -= 2.117;

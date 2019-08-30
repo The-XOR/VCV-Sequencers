@@ -19,7 +19,7 @@ bool isSwitchOn(Module *pm, int paramId)
 	return (pm->params[paramId].getValue() > SWITCH_ON);
 }
 
-bool getModulableSwitch(Module *pm, int paramId, int inputId) 
+bool getModulableSwitch(Module *pm, int paramId, int inputId)
 { 
 	return (pm->inputs[inputId].getNormalVoltage(0.0) > SWITCH_ON) || isSwitchOn(pm, paramId); 
 }

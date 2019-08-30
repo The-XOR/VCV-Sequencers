@@ -36,7 +36,7 @@ void o88o::process(const ProcessArgs &args)
 			randPattrn();
 		
 		int clk = clockTrigger.process(inputs[CLOCK_IN].value); // 1=rise, -1=fall
-		bool gate = (params[GATE].value > 0.5 || inputs[GATE_IN].getNormalVoltage(0.0) >= 1.0);
+		bool gate = getModulableSwitch(this, GATE, GATE_IN);
 		if(clk == 1 && gate)
 		{
 			next_step();

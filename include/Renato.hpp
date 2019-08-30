@@ -180,11 +180,7 @@ struct Renato : Module
 	int theRandomizer;
 	cvStrip cvs;
 
-private:
-	float getStatus(int pid, int iid)
-	{
-		return inputs[iid].getNormalVoltage(0.0) + params[pid].value;
-	}
+private:	
 	void randrandrand();
 	void randrandrand(int action);
 
@@ -200,9 +196,9 @@ private:
 	void led(int n);
 	void setOut(int n, bool on);
 	int xy(int x, int y) { return 4 * y + x; }
-	bool _access(int n) { return getStatus(ACCESS_1 + n, ACCESS_IN1 + n) > 0; }
-	bool _gateX(int n) { return  getStatus(GATEX_1 + n, GATEX_IN1 + n) > 0; }
-	bool _gateY(int n) { return  getStatus(GATEY_1 + n, GATEY_IN1 + n) > 0; }
+	bool _access(int n) { return getModulableSwitch(this, ACCESS_1 + n, ACCESS_IN1 + n) > 0; }
+	bool _gateX(int n) { return  getModulableSwitch(this, GATEX_1 + n, GATEX_IN1 + n) > 0; }
+	bool _gateY(int n) { return  getModulableSwitch(this, GATEY_1 + n, GATEY_IN1 + n) > 0; }
 	rntSequencer seqX;
 	rntSequencer seqY;
 };

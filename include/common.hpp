@@ -22,7 +22,7 @@ inline float px2mm(float px) { return px * (MM_PER_IN / SVG_DPI); }
 inline float yncscape(float y, float height) { return RACK_GRID_HEIGHT - mm2px(y + height); }
 static constexpr float SEMITONE = 1.0f / 12.0f;// 1/12 V
 inline float NearestSemitone(float v) {return round(v / SEMITONE) * SEMITONE;}
-bool getModulableSwitch(Module *pm, int paramId, int inputId) ;
+bool getModulableSwitch(Module *pm, int paramId, int inputId);
 float getModulableParam(Module *pm, int paramId, int inputId, float minVal, float maxVal);
 bool isSwitchOn(Module *pm, int paramId);
 

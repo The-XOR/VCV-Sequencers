@@ -238,8 +238,8 @@ void Klee::QuantizePitch()
 }
 
 bool Klee::chance()
-{
-	return rand() <= (params[RND_THRESHOLD].value + inputs[RND_THRES_IN].value) * RAND_MAX;
+{	
+	return rand() <= getModulableParam(this, RND_THRESHOLD, RND_THRES_IN, 0, LVL_MAX) * RAND_MAX;
 }
 
 KleeWidget::KleeWidget(Klee *module) : SequencerWidget()

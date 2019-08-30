@@ -49,27 +49,23 @@ void Mplex::process(const ProcessArgs &args)
 	if(reset.process(inputs[RESET].value))
 	{
 		set_output(0);
-	}
-	else if (inputs[CV].isConnected())
+	} else if(inputs[CV].isConnected())
 	{
-		cur_sel = clamp((int)(std::numeric_limits<float>::epsilon()+inputs[CV].getNormalVoltage(0.0)), 0, num_inputs - 1);
+		cur_sel = clamp((int)(std::numeric_limits<float>::epsilon() + inputs[CV].getNormalVoltage(0.0)), 0, num_inputs - 1);
 		set_output(cur_sel);
-	}
-	else
+	} else
 	{
-		if (random.process(inputs[RANDOM].value))
+		if(random.process(inputs[RANDOM].value))
 		{
 			set_output(getRand(num_inputs_f));
-		}
-		else if (upTrigger.process(params[BTDN].value + inputs[INDN].value))
+		} else if(upTrigger.process(params[BTDN].value + inputs[INDN].value))
 		{
-			if (++cur_sel >= num_inputs)
+			if(++cur_sel >= num_inputs)
 				cur_sel = 0;
 			set_output(cur_sel);
-		}
-		else if (dnTrigger.process(params[BTUP].value + inputs[INUP].value))
+		} else if(dnTrigger.process(params[BTUP].value + inputs[INUP].value))
 		{
-			if (--cur_sel < 0)
+			if(--cur_sel < 0)
 				cur_sel = num_inputs - 1;
 			set_output(cur_sel);
 		}
@@ -87,11 +83,11 @@ MplexWidget::MplexWidget(Mplex *module) : ModuleWidget()
 	addInput(createInput<PJ301BPort>(Vec(mm2px(25.694), yncscape(49.014, 8.255)), module, Mplex::INDN));
 	addOutput(createOutput<PJ301GPort>(Vec(mm2px(40.045), yncscape(60.122, 8.255)), module, Mplex::OUT_1));
 
-	addInput(createInput<PJ301YPort>(Vec(mm2px(40.045), yncscape(108.243,8.255)), module, Mplex::RESET));
+	addInput(createInput<PJ301YPort>(Vec(mm2px(40.045), yncscape(108.243, 8.255)), module, Mplex::RESET));
 	addInput(createInput<PJ301BPort>(Vec(mm2px(40.045), yncscape(96.422, 8.255)), module, Mplex::RANDOM));
 	addInput(createInput<PJ301BPort>(Vec(mm2px(40.045), yncscape(19.939, 8.255)), module, Mplex::CV));
 
-	addParam(createParam<UPSWITCH>(Vec(mm2px(36.932), yncscape(8.814,4.115)), module, Mplex::OUTPUT_INC));
+	addParam(createParam<UPSWITCH>(Vec(mm2px(36.932), yncscape(8.814, 4.115)), module, Mplex::OUTPUT_INC));
 	addParam(createParam<DNSWITCH>(Vec(mm2px(36.932), yncscape(4.025, 4.115)), module, Mplex::OUTPUT_DEC));
 
 	SigDisplayWidget *display = new SigDisplayWidget(1, 0);
@@ -109,7 +105,7 @@ MplexWidget::MplexWidget(Mplex *module) : ModuleWidget()
 	for(int k = 0; k < NUM_MPLEX_INPUTS; k++)
 	{
 		addInput(createInput<PJ301GRPort>(Vec(mm2px(x), yncscape(y, 8.255)), module, Mplex::IN_1 + k));
-		addChild(createLight<SmallLight<RedLight>>(Vec(mm2px(led_x), yncscape(y-y_offs, 2.176)), module, Mplex::LED_1 + k));
+		addChild(createLight<SmallLight<RedLight>>(Vec(mm2px(led_x), yncscape(y - y_offs, 2.176)), module, Mplex::LED_1 + k));
 		y += delta_y;
 		if(k == 3)
 			y -= 2.117;

@@ -241,9 +241,9 @@ private:
 	void on_loaded();
 	void load();
 	void _reset();
-	inline float getPwm() { return clamp(rescale(inputs[PWM_IN].getNormalVoltage(0.0), LVL_OFF, LVL_ON, PWM_MINVALUE, PWM_MAXVALUE) + params[PWM].value, PWM_MINVALUE, PWM_MAXVALUE); }
+	inline float getPwm() { return getModulableParam(this, PWM, PWM_IN, PWM_MINVALUE, PWM_MAXVALUE); }
 
-	inline float getSwing() { return clamp(rescale(inputs[SWING_IN].getNormalVoltage(0.0), LVL_OFF, LVL_ON, SWING_MINVALUE, SWING_MAXVALUE) + params[SWING].value, SWING_MINVALUE, SWING_MAXVALUE); }
+	inline float getSwing() { return getModulableParam(this, SWING, SWING_IN, SWING_MINVALUE, SWING_MAXVALUE); }
 	bool isGeneratorActive();
 	SA_TIMER sa_timer[OUT_SOCKETS];
 	MIDICLOCK_TIMER midiClock;
