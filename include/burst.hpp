@@ -70,7 +70,6 @@ private:
 	void on_loaded();
 	void load();
 	void all_off();
-	int getInt(ParamIds p_id, InputIds i_id, float minValue, float maxValue);
 	void prepare_step();
 	void next_step();
 	void end_step();

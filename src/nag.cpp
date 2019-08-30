@@ -99,10 +99,7 @@ void nag::sclocca(bool dm, float dt)
 
 int nag::getInput(int index, int input_id, int knob_id, float mi, float ma)
 {
-	if (inputs[input_id + index].isConnected())
-		return (int)roundf(rescale(clamp(inputs[input_id + index].getNormalVoltage(0.0), LVL_OFF, LVL_ON), LVL_OFF, LVL_ON, mi, ma));
-	
-	return (int)roundf(params[knob_id + index].value);
+	return (int)roundf(getModulableParam(this, knob_id + index, input_id + index, mi, ma));
 }
 
 nagWidget::nagWidget(nag *module) : SequencerWidget()

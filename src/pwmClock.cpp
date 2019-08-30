@@ -54,10 +54,9 @@ void PwmClock::updateBpm(bool externalMidiClock, bool followf8)
 		new_bpm = midiClock.getBpm(inputs[MIDI_CLOCK].value);
 	} else
 	{
-		if(inputs[EXT_BPM].isConnected())
-			new_bpm = rescale(inputs[EXT_BPM].value, LVL_OFF, LVL_ON, BPM_MINVALUE, BPM_MAXVALUE);
-		else
-			new_bpm = (roundf(params[BPMDEC].value) + 10 * bpm_integer) / 10.0;
+		new_bpm = (roundf(params[BPMDEC].value) + 10 * bpm_integer) / 10.0;
+		new_bpm += (inputs[EXT_BPM].value/LVL_MAX) * BPM_MAXVALUE;
+		new_bpm = clamp(new_bpm, BPM_MINVALUE, BPM_MAXVALUE);
 	}
 
 	if(bpm != new_bpm)

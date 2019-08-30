@@ -285,8 +285,7 @@ void quattroStrip::process(int forceStep, float deltaTime)
 
 int quattroStrip::getDirection()
 {
-	return clamp((int)roundf(pModule->inputs[quattro::DIRECTION_IN1 + stripID].isConnected() ?
-			 pModule->inputs[quattro::DIRECTION_IN1 + stripID].getVoltage() : pModule->params[quattro::DIRECTION1 + stripID].value), 0, 2);
+	return (int)roundf(getModulableParam(pModule, quattro::DIRECTION1 + stripID, quattro::DIRECTION_IN1 + stripID, 0, 2));
 }
 
 void quattroStrip::reset_curstep(int movement)

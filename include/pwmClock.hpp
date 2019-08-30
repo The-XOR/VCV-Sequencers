@@ -1,8 +1,8 @@
 #pragma once
 #include "common.hpp"
 #include <chrono>
-#define BPM_MINVALUE (10)
-#define BPM_MAXVALUE (300)
+#define BPM_MINVALUE (10.0)
+#define BPM_MAXVALUE (300.0)
 #define PWM_MINVALUE (0.05)
 #define PWM_MAXVALUE (0.95)
 #define SWING_MINVALUE (0.0)

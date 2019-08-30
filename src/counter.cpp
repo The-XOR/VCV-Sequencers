@@ -48,17 +48,10 @@ void Counter::process(const ProcessArgs &args)
 {
 	bool oneshot_mode = params[ONESHOT].value > 0.1;
 
-	int n;
-	if(inputs[IN_COUNTER].isConnected())
-	{
-		n = clamp((int)rescale(inputs[IN_COUNTER].value, LVL_OFF, LVL_ON, COUNTER_MINVALUE, COUNTER_MAXVALUE), COUNTER_MINVALUE, COUNTER_MAXVALUE);
-		counter_f = n;
-	} else
-	{
-		process_keys();
-		counter_f = params[COUNTER].value;
-		n = roundf(counter_f);
-	}
+	process_keys();
+	int n = (int)roundf(getModulableParam(this, COUNTER, IN_COUNTER, COUNTER_MINVALUE, COUNTER_MAXVALUE));
+	counter_f = n;
+	
 	countDown = n - curCounter;
 	float deltaTime = 1.0 / args.sampleRate;
 

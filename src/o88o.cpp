@@ -28,11 +28,9 @@ void o88o::process(const ProcessArgs &args)
 		reset();
 	} else
 	{
-		invert_active = getSwitch(SWITCH_INVERT, SWVERT_IN);
-		if(inputs[PATTERN_IN].isConnected())
-			curPtn = clamp((int)rescale(inputs[PATTERN_IN].getNormalVoltage(0.0), LVL_OFF, LVL_MAX, 0, NUM_PATTERNS - 1), 0, NUM_PATTERNS - 1);
-		else
-			curPtn = params[PATTERN].value - 1;
+		invert_active = getModulableSwitch(this, SWITCH_INVERT, SWVERT_IN);
+
+		curPtn = (int)roundf(getModulableParam(this, PATTERN, PATTERN_IN, 0, NUM_PATTERNS-1));
 
 		if(curPtn == 0 && (rndTrigger.process(inputs[RANDOMIZE_IN].value) || rndBtnTrig.process(params[RANDOMIZE].value)))
 			randPattrn();
@@ -57,34 +55,21 @@ void o88o::randPattrn()
 
 void o88o::getPatternLimits()
 {
-	int a, b;
-	if(inputs[FIRSTROW_IN].isConnected())
-		a = clamp((int)roundf(inputs[FIRSTROW_IN].getNormalVoltage(0.0)), 0, NUM_o88o_RECT-1);
-	else
-		a = params[FIRSTROW].value - 1;
-	if(inputs[LASTROW_IN].isConnected())
-		b = clamp((int)roundf(inputs[LASTROW_IN].getNormalVoltage(0.0)), 0, NUM_o88o_RECT - 1);
-	else
-		b = params[LASTROW].value - 1;
+	int a = (int)roundf(getModulableParam(this, FIRSTROW, FIRSTROW_IN, 0, NUM_o88o_RECT-1));
+	int b = (int)roundf(getModulableParam(this, LASTROW, LASTROW_IN, 0, NUM_o88o_RECT-1));
 	firstRow = std::min(a, b);
 	lastRow = std::max(a, b);
 
-	if(inputs[FIRSTCOL_IN].isConnected())
-		a = clamp((int)roundf(inputs[FIRSTCOL_IN].getNormalVoltage(0.0)), 0, NUM_o88o_RECT - 1);
-	else
-		a = params[FIRSTCOL].value - 1;
-	if(inputs[LASTCOL_IN].isConnected())
-		b = clamp((int)roundf(inputs[LASTCOL_IN].getNormalVoltage(0.0)), 0, NUM_o88o_RECT - 1);
-	else
-		b = params[LASTCOL].value - 1;
+	a = (int)roundf(getModulableParam(this, FIRSTCOL, FIRSTCOL_IN, 0, NUM_o88o_RECT-1));
+	b = (int)roundf(getModulableParam(this, LASTCOL, LASTCOL_IN, 0, NUM_o88o_RECT-1));
 	firstCol = std::min(a, b);
 	lastCol = std::max(a, b);
 }
 
 void o88o::reset()
 {
-	bool back = getSwitch(SWITCH_BACKW, SWBACK_IN);
-	bool loop = getSwitch(SWITCH_LOOP, SWLOOP_IN);
+	bool back = getModulableSwitch(this, SWITCH_BACKW, SWBACK_IN);
+	bool loop = getModulableSwitch(this, SWITCH_LOOP, SWLOOP_IN);
 	if(back)
 	{
 		curCol = loop ? lastCol : NUM_o88o_RECT - 1;
@@ -122,9 +107,9 @@ void o88o::close_gate()
 
 void o88o::next_step()
 {
-	bool loop = getSwitch(SWITCH_LOOP, SWLOOP_IN);
-	bool vert = getSwitch(SWITCH_VERT, SWVERT_IN);
-	bool back = getSwitch(SWITCH_BACKW, SWBACK_IN);
+	bool loop = getModulableSwitch(this, SWITCH_LOOP, SWLOOP_IN);
+	bool vert = getModulableSwitch(this, SWITCH_VERT, SWVERT_IN);
+	bool back = getModulableSwitch(this, SWITCH_BACKW, SWBACK_IN);
 	if(vert)
 		next_row(vert, back, loop);
 	else

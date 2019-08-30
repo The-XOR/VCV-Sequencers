@@ -47,9 +47,7 @@ struct XSwitch : Module
 private:
 	bool getSwitch(int n)
 	{
-		if(params[INV_1 + n].value > 0.5)
-			return (inputs[MOD_1 + n].getNormalVoltage(0.0) + params[SW_1 + n].value) <= 0.5;
-		else
-			return (inputs[MOD_1 + n].getNormalVoltage(0.0) + params[SW_1 + n].value) > 0.5;
+		bool stat = getModulableSwitch(this, SW_1+n, MOD_1+n);
+		return isSwitchOn(this, INV_1 + n) ? !stat : stat;
 	}
 };

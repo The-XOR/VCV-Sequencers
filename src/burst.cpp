@@ -28,7 +28,7 @@ void Burst::process(const ProcessArgs &args)
 	{
 		if(!active && !trigger_pending)
 		{
-			float tv = inputs[TRIGGER_THRESH_IN].isConnected() && inputs[TRIGGER_THRESH_IN].value > params[TRIG_THRESH].value ? 1.0 : 0.0;
+			float tv = inputs[TRIGGER_THRESH_IN].isConnected() && inputs[TRIGGER_THRESH_IN].getVoltage() > params[TRIG_THRESH].getValue() ? 1.0 : 0.0;
 			trigger_pending = trigger.process(params[TRIGGER].value + tv);
 		}
 
@@ -52,11 +52,11 @@ void Burst::prepare_step()
 {
 	activating_params.first_cycle = true;
 	activating_params.cycle_counter = activating_params.out_span = 0;
-	activating_params.max_span = getInt(OUT_SPAN, OUT_SPAN_IN, 1, NUM_BURST_PORTS);
+	activating_params.max_span = (int)roundf(getModulableParam(this, OUT_SPAN, OUT_SPAN_IN, 1, NUM_BURST_PORTS));
 	activating_params.mode = (enum Burst::MODE)roundf(params[MODE].value);
 	activating_params.invert_mode = roundf(params[MODE_INVERT].value) > 0.5;
 	activating_params.retrogade = false;	
-	activating_params.max_cycle = getInt(EVENT_COUNT, EVENT_COUNT_IN, 0, 23) + 1;
+	activating_params.max_cycle = (int)roundf(getModulableParam(this, EVENT_COUNT, EVENT_COUNT_IN, 0, 23)) + 1;
 	trigger_pending = false;
 	active = true;
 }
@@ -165,12 +165,6 @@ void Burst::next_step()
 		}
 		break;
 	}
-}
-
-int Burst::getInt(ParamIds p_id, InputIds i_id, float minValue, float maxValue)
-{
-	float offs = inputs[i_id].isConnected() ? rescale(inputs[i_id].value, LVL_OFF, LVL_MAX, 0.0, maxValue) : 0.0;
-	return (int)clamp(offs + params[p_id].value, minValue, maxValue);
 }
 
 BurstWidget::BurstWidget(Burst *module) : SequencerWidget()
