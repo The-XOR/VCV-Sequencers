@@ -3,13 +3,13 @@
 
 void Boole::process(const ProcessArgs &args)
 {
-	bool hiz = params[HIZ].value > 0.1;
-	bool compare = params[COMPAREMODE].value > 0.1;
+	bool hiz = isSwitchOn(this, HIZ);
+	bool compare = isSwitchOn(this, COMPAREMODE);
 
 	for(int k = 0; k < NUM_BOOL_OP; k++)
 	{
 		bool o = process(k, hiz, compare);
-		if(params[INVERT_1 + k].value > 0.1)
+		if(isSwitchOn(this, INVERT_1 + k))
 			o = !o;
 		lights[LED_OUT + k].value = o ? LED_ON : LED_OFF;
 		outputs[OUT_1 + k].value = o ? LVL_ON : LVL_OFF;

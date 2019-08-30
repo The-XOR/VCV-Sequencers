@@ -46,7 +46,7 @@ void Counter::process_keys()
 
 void Counter::process(const ProcessArgs &args)
 {
-	bool oneshot_mode = params[ONESHOT].value > 0.1;
+	bool oneshot_mode = isSwitchOn(this, ONESHOT);
 
 	process_keys();
 	int n = (int)roundf(getModulableParam(this, COUNTER, IN_COUNTER, COUNTER_MINVALUE, COUNTER_MAXVALUE));

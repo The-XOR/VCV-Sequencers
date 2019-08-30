@@ -3,8 +3,8 @@
 
 void flop::process(const ProcessArgs &args)
 {
-	bool hiz = params[HIZ].value > 0.1;
-	bool compare = params[COMPAREMODE].value > 0.1;
+	bool hiz = isSwitchOn(this, HIZ);
+	bool compare = isSwitchOn(this, COMPAREMODE);
 
 	for(int k = 0; k < NUM_FLOPS; k++)
 	{

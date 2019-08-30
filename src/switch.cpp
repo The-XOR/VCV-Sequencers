@@ -16,7 +16,7 @@ void XSwitch::process(const ProcessArgs &args)
 		} else
 		{
 			lights[LED_1 + k].value = LED_OFF;
-			if(params[OUTMODE].value < 0.5)
+			if(!isSwitchOn(this, OUTMODE))
 				outputs[OUT_1 + k].value = LVL_OFF;
 		}
 	}
