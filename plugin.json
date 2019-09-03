@@ -183,6 +183,14 @@
       ]
     },
     {
+      "slug": "Nordschleife",
+      "name": "Nordschleife",
+      "description": "the only sequencer with Karussell",
+      "tags": [
+        "Sequencer"
+      ]
+    },
+    {
       "slug": "empty",
       "name": "empty",
       "description": "a strategy to waste your precious rack space",
