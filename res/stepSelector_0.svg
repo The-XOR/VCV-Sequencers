@@ -14,7 +14,7 @@
    viewBox="0 0 9.5249996 1.7290956"
    version="1.1"
    id="svg3504"
-   inkscape:version="0.92.4 (5da689c313, 2019-01-14)"
+   inkscape:version="0.92.2 (5c3e80d, 2017-08-06)"
    sodipodi:docname="stepSelector_0.svg">
   <defs
      id="defs3498">
@@ -41,7 +41,7 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="31.678384"
-     inkscape:cx="12.202643"
+     inkscape:cx="1.9432812"
      inkscape:cy="0.7590946"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
@@ -50,11 +50,11 @@
      fit-margin-left="0"
      fit-margin-right="0"
      fit-margin-bottom="0"
-     inkscape:window-width="1858"
-     inkscape:window-height="1057"
-     inkscape:window-x="54"
-     inkscape:window-y="-8"
-     inkscape:window-maximized="1" />
+     inkscape:window-width="716"
+     inkscape:window-height="405"
+     inkscape:window-x="1946"
+     inkscape:window-y="26"
+     inkscape:window-maximized="0" />
   <metadata
      id="metadata3501">
     <rdf:RDF>
@@ -78,6 +78,6 @@
        height="1.7290956"
        width="9.5249996"
        id="rect8218"
-       style="clip-rule:evenodd;display:inline;fill:#000000;fill-opacity:1;stroke:#ffffff;stroke-width:0.15000001;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:0.15000001, 0.15000000999999999;stroke-opacity:1;stroke-dashoffset:0" />
+       style="clip-rule:evenodd;display:inline;fill:#333333;fill-opacity:1;stroke:#4d4d4d;stroke-width:0.15000001;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;stroke-dashoffset:0" />
   </g>
 </svg>

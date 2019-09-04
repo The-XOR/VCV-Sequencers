@@ -2,7 +2,7 @@
 
 using namespace rack;
 extern Plugin *pluginInstance;
-#define NORDSTEPS	48
+#define NORDSTEPS	64
 #define NORDCARS	4
 
 struct Nordschleife;
@@ -33,18 +33,18 @@ struct Nordschleife : Module
 	{
 		CAR_RESET,
 		CAR_CLOCK = CAR_RESET + NORDCARS,
-		RANGE_IN = CAR_CLOCK + NORDCARS,
+		RANDOMIZONE=CAR_CLOCK + NORDCARS,
+		RANGE_IN,
 		NUM_INPUTS = RANGE_IN + cvStrip::CVSTRIP_INPUTS
 	};
 	enum OutputIds
 	{
-		LOTUS_OUT,
-		BRABHAM_OUT = LOTUS_OUT + NORDSTEPS,
-		FERRARI_OUT = BRABHAM_OUT + NORDSTEPS,
-		HESKETH_OUT = FERRARI_OUT + NORDSTEPS,
-		CAR_CV = HESKETH_OUT + NORDSTEPS,
+		OUT_A,
+		OUT_B = OUT_A + NORDSTEPS,
+		CAR_CV = OUT_B + NORDSTEPS,
 		CAR_GATE = CAR_CV + NORDCARS,
-		NUM_OUTPUTS = CAR_GATE + NORDCARS
+		CAR_LAP = CAR_GATE + NORDCARS,
+		NUM_OUTPUTS = CAR_LAP + NORDCARS
 	};
 	enum LightIds
 	{
