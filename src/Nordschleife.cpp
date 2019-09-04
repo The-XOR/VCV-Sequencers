@@ -1,84 +1,34 @@
 #include "../include/Nordschleife.hpp"
+#include "../include/nordschleifeUI.hpp"
 
-struct PurpleLight : GrayModuleLightWidget
-{
-	PurpleLight()
-	{
-		addBaseColor(SCHEME_PURPLE);
-	}
-};
-
-struct CKD6B : app::SvgSwitch
-{
-	CKD6B()
-	{
-		momentary = true;
-		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/CKD6B_0.svg")));
-		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/CKD6B_1.svg")));
-	}
-};
-
-struct StepSelector : app::SvgSwitch
-{
-	StepSelector()
-	{
-		momentary = true;
-		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/stepSelector_0.svg")));
-		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/stepSelector_1.svg")));
-	}
-};
-
-struct nordDisplay : TransparentWidget
-{
-private:
-	std::shared_ptr<Font> font;
-	Nordschleife *pStrip;
-
-public:
-	nordDisplay()
-	{
-		pStrip = NULL;
-		font = APP->window->loadFont(asset::plugin(pluginInstance, "res/Segment7Standard.ttf"));
-	}
-
-	void setModule(Nordschleife *strp)
-	{
-		box.size = mm2px(Vec(41.f, 41.f));
-		pStrip = strp;
-	}
-
-	void draw(const DrawArgs &args) override
-	{
-		// Background
-		NVGcolor backgroundColor = nvgRGB(0x10, 0x10, 0x10);
-		nvgBeginPath(args.vg);
-		nvgRoundedRect(args.vg, 0.0, 0.0, box.size.x, box.size.y, 4.0);
-		nvgFillColor(args.vg, backgroundColor);
-		nvgFill(args.vg);
-		// text
-		nvgFontSize(args.vg, 9);
-		nvgFontFaceId(args.vg, font->handle);
-		nvgTextLetterSpacing(args.vg, 1.1);
-
-		Vec textPos = Vec(3, 10);
-		//Vec textPos = Vec(3, 17);
-		NVGcolor textColor = nvgRGB(0xdf, 0x2c, 0x2c);
-		nvgFillColor(args.vg, nvgTransRGBA(textColor, 16));
-		nvgText(args.vg, textPos.x, textPos.y, "~~", NULL);
-
-		textColor = nvgRGB(0xff, 0x09, 0x09);
-		nvgFillColor(args.vg, nvgTransRGBA(textColor, 16));
-		nvgText(args.vg, textPos.x, textPos.y, "\\\\", NULL);
-
-		if(pStrip != NULL)
-		{
-		
-		}
-	}
-};
 void Nordschleife::process(const ProcessArgs &args)
 {
+	car_select();
+	step_select();
+}
 
+void Nordschleife::car_select()
+{
+	for(int k = 0; k < NORDCARS; k++)
+	{
+		if(carSelectTrigger[k].process(params[CAR_SELECT+k].getValue()))
+		{
+			setCar(k);
+			break;
+		}
+	}
+}
+
+void Nordschleife::step_select()
+{
+	for(int k = 0; k < NORDSTEPS; k++)
+	{
+		if(stepSelectTrigger[k].process(params[STEPSELECT_1+k].getValue()))
+		{
+			setStep(k);
+			break;
+		}
+	}
 }
 
 NordschleifeWidget::NordschleifeWidget(Nordschleife *module)

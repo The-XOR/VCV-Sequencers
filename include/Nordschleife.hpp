@@ -33,7 +33,7 @@ struct Nordschleife : Module
 	{
 		CAR_RESET,
 		CAR_CLOCK = CAR_RESET + NORDCARS,
-		RANDOMIZONE=CAR_CLOCK + NORDCARS,
+		RANDOMIZONE = CAR_CLOCK + NORDCARS,
 		RANGE_IN,
 		NUM_INPUTS = RANGE_IN + cvStrip::CVSTRIP_INPUTS
 	};
@@ -53,7 +53,7 @@ struct Nordschleife : Module
 		FERRARI_LED = BRABHAM_LED + NORDSTEPS,
 		HESKETH_LED = FERRARI_LED + NORDSTEPS,
 		NUM_LIGHTS = HESKETH_LED + NORDSTEPS
-		
+
 	};
 
 	Nordschleife() : Module()
@@ -63,6 +63,25 @@ struct Nordschleife : Module
 	void process(const ProcessArgs &args) override;
 
 	cvStrip cvs;
-private:
+	int selectedCar = 0;
+	int selectedStep = 0;
 
+	private:
+	void car_select();
+	void step_select();
+	inline void setCar(int n)
+	{
+		selectedCar = n;
+		for(int k = 0; k < NORDCARS; k++)
+			params[CAR_SELECT + k].setValue(k == selectedCar);
+	}
+	inline void setStep(int n)
+	{
+		selectedStep = n;
+		for(int k = 0; k < NORDSTEPS; k++)
+			params[STEPSELECT_1 + k].setValue(k == selectedStep);
+	}
+	private:
+	dsp::SchmittTrigger carSelectTrigger[NORDCARS];
+	dsp::SchmittTrigger stepSelectTrigger[NORDSTEPS];
 };
