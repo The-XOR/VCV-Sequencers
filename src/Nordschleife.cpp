@@ -42,7 +42,7 @@ void Nordschleife::data_entry()
 	else if(consumeKey(GLFW_KEY_KP_ADD) || downKey.process(params[DATAENTRY_DOWN].getValue()))
 		move = GLFW_KEY_KP_ADD;
 
-	if(params[DATAENTRY_MODE].getValue() == 0)  //move by step?
+	if(moveByStep())
 	{
 		int r = selectedStep / 8;
 		int c = selectedStep % 8;
@@ -68,6 +68,9 @@ void Nordschleife::data_entry()
 				setStep(curStep);
 				break;
 		}
+	} else // move by field?
+	{
+		display->moveField(move);
 	}
 }
 
@@ -121,6 +124,20 @@ void Nordschleife::QuantizePitch()
 		params[VOLTAGE_1 + k].value = pWidget->quantizePitch(VOLTAGE_1 + k, params[VOLTAGE_1 + k].value, cvs);
 }
 
+void Nordschleife::declareFields()
+{
+	nsFields[NordschleifeFields::shlfStep].set("Step:", 1, 64, &);
+	nsFields[NordschleifeFields::shlfDirection].set("Direction:", 0, 64, &)
+}
+
+TransparentWidget *Nordschleife::createDisplay(Vec pos)
+{
+	display = createWidget<nordDisplay>(pos);
+	display->setModule(this);
+	return display;
+}
+
+
 NordschleifeWidget::NordschleifeWidget(Nordschleife *module)
 {
 	CREATE_PANEL(module, this, 49, "res/modules/Nordschleife.svg");
@@ -134,10 +151,7 @@ NordschleifeWidget::NordschleifeWidget(Nordschleife *module)
 	if(module != NULL)
 	{
 		module->setWidget(this);
-		nordDisplay *display = createWidget<nordDisplay>(Vec(mm2px(185.942), yncscape(82.4f, 41.f)));
-		display->setModule(module);
-		addChild(display);
-
+		addChild(module->createDisplay(Vec(mm2px(185.942), yncscape(82.4f, 41.f))));
 		module->cvs.Create(this, 236.228f, 15.367f, Nordschleife::NUM_INPUTS - cvStrip::CVSTRIP_INPUTS, Nordschleife::NUM_PARAMS - cvStrip::CVSTRIP_PARAMS, NORDSTEPS);
 	}
 	addInput(createInput<PJ301HPort>(Vec(mm2px(236.274), yncscape(3.936f, 8.255f)), module, Nordschleife::RANDOMIZONE));

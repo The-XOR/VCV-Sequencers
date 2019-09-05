@@ -5,7 +5,33 @@ extern Plugin *pluginInstance;
 #define NORDSTEPS	64
 #define NORDCARS	4
 
+enum NordschleifeFields
+{
+	shlfStep,
+	shlfDirection,
+
+	NORDFIELDS
+};
+
+struct NordschleifeField
+{
+	std::string label;
+	int minValue;
+	int maxValue;
+	int *currentValue;
+
+	void set(const char *lbl, int mi, int ma, int *p)
+	{
+		label = lbl;
+		minValue=mi;
+		maxValue=ma;
+		currentValue=p;
+	}
+};
+
+
 struct Nordschleife;
+struct nordDisplay;
 struct NordschleifeWidget : SequencerWidget
 {
 	enum MENUACTIONS
@@ -26,7 +52,7 @@ struct NordschleifeWidget : SequencerWidget
 
 	struct RandomizeItem : ui::MenuItem
 	{
-	public:
+		public:
 		RandomizeItem(Module *m)
 		{
 			md = m;
@@ -40,7 +66,7 @@ struct NordschleifeWidget : SequencerWidget
 			sub_menu->addChild(new RandomizeSubItemItem(md, "Ov Power", RANDOMIZE_LAQUALUNQUE));
 			return sub_menu;
 		}
-	private:
+		private:
 		Module *md;
 	};
 
@@ -99,17 +125,36 @@ struct Nordschleife : Module
 
 	Nordschleife() : Module()
 	{
+		display = NULL;
 		pWidget = NULL;
 		theRandomizer = 0;
+		declareFields();
 		config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS);
 	}
 	void process(const ProcessArgs &args) override;
 
 	cvStrip cvs;
-	int selectedCar = 0;
-	int selectedStep = 0;
 	int theRandomizer;
+	nsFields[NORDFIELDS];
 
+	TransparentWidget *createDisplay(Vec pos);
+
+	void QuantizePitch();
+	void setWidget(NordschleifeWidget *pwdg) { pWidget = pwdg; }
+	inline void setCar(int n)
+	{
+		selectedCar = n;
+		for(int k = 0; k < NORDCARS; k++)
+			params[CAR_SELECT + k].setValue(k == selectedCar);
+	}
+	inline void toggleDataEntryMode()
+	{
+		params[DATAENTRY_MODE].setValue(params[DATAENTRY_MODE].getValue() == 0);
+	}
+	inline bool moveByStep() { return params[DATAENTRY_MODE].getValue() == 0; }
+	inline void setKey(int code) { key = code; }
+
+	protected:
 	void dataFromJson(json_t *root) override
 	{
 		Module::dataFromJson(root);
@@ -126,51 +171,38 @@ struct Nordschleife : Module
 		json_object_set_new(rootJ, "theRandomizer", rndJson);
 		return rootJ;
 	}
-	void QuantizePitch();
-	void setWidget(NordschleifeWidget *pwdg) { pWidget = pwdg; }
-	inline void setCar(int n)
-	{
-		selectedCar = n;
-		for(int k = 0; k < NORDCARS; k++)
-			params[CAR_SELECT + k].setValue(k == selectedCar);
-	}
-	inline void toggleDataEntryMode()
-	{
-		params[DATAENTRY_MODE].setValue(params[DATAENTRY_MODE].getValue() == 0);
-	}
-	inline void setKey(int code) { key = code; }
 
 	private:
 	void car_select();
 	void step_select();
-	
+
 	inline void setStep(int n)
 	{
 		selectedStep = n;
 		for(int k = 0; k < NORDSTEPS; k++)
 			params[STEPSELECT_1 + k].setValue(k == selectedStep);
 	}
-private:
-		void randrandrand();
-		void randrandrand(int action);
-		void on_loaded();
-		void load();
-		void data_entry();
-		NordschleifeWidget *pWidget;
-		void reset() 
-		{
-			lazyCheck = 0;
-		}
 
-		inline bool consumeKey(int code)
+	void randrandrand();
+	void randrandrand(int action);
+	void on_loaded();
+	void load();
+	void data_entry();
+	void declareFields();
+	void reset()
+	{
+		lazyCheck = 0;
+	}
+
+	inline bool consumeKey(int code)
+	{
+		if(key == code)
 		{
-			if(key == code)
-			{
-				key = 0;
-				return true;
-			}
-			return false;
+			key = 0;
+			return true;
 		}
+		return false;
+	}
 
 	dsp::SchmittTrigger carSelectTrigger[NORDCARS];
 	dsp::SchmittTrigger stepSelectTrigger[NORDSTEPS];
@@ -181,4 +213,8 @@ private:
 	dsp::SchmittTrigger downKey;
 	int lazyCheck = 0;
 	int key = 0;
+	int selectedCar = 0;
+	int selectedStep = 0;
+	NordschleifeWidget *pWidget;
+	nordDisplay *display;
 };

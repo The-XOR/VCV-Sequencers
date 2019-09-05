@@ -42,23 +42,30 @@ void Main()
 	,new int[] { 0, 7, 3, 4, 9, 14, 10, 13, 16, 23, 19, 20, 25, 30, 26, 29, 32, 39, 35, 36, 41, 46, 42, 45, 48, 55, 51, 52, 57, 58, 61, 62, 1, 6, 11, 12, 17, 22, 27, 28, 33, 38, 43, 44, 49, 54, 59, 60, 2, 5, 8, 15, 18, 21, 24, 31, 34, 37, 40, 47, 50, 53, 56, 63 }
 	};
 
-	
-	preambolo();
-	
-	for(int r = 0; r<8;     r++)
+
+	int prcs=1;
+	foreach(var p in percorsi)
 	{
-		for(int c = 0; c <8; c++)
+		string nome=$@"d:\temp\perc{prcs}.svg";
+		preambolo(nome);
+
+		for (int r = 0; r < 8; r++)
 		{
-			cerchio(c,r);	
+			for (int c = 0; c < 8; c++)
+			{
+				cerchio(nome, c, r);
+			}
 		}
+		percorsino(nome, p);
+
+		chiusura(nome);
+		prcs++;
 	}
-	percorsino(percorsi[1], 0);
-	
-	chiusura();
 }
 
-private void percorsino(int[] n, int id)
+private void percorsino(string nome, int[] n)
 {
+	int id=1;
 	for(int k = 0; k < n.Length-1; k++)
 	{
 		int c = n[k] % 8;
@@ -72,27 +79,29 @@ private void percorsino(int[] n, int id)
 		float to_cx = 20.0f + c * dist_h;
 		float to_cy = 200.0f - r * dist_v;
  		string i=$"<path style = 'fill:none;stroke:#ff0000;stroke-width:0.5px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1' d='M {from_cx}, {from_cy} L {to_cx},{to_cy}' id='{1000 + id}' inkscape:connector-curvature = '0' />";
-		File.AppendAllText(@"d:\temp\provola.svg", i.Replace('\'', '"'));
+		File.AppendAllText(nome, i.Replace('\'', '"'));
 	}
 }
-private void cerchio(int c, int r)
+
+private void cerchio(string nome, int c, int r)
 {
 	int id = c+1+(r*8);
 	int cx = 20 + c*dist_h;
 	int cy = 200 - r *dist_v;
 	string i = $"<circle style = 'opacity:1;fill:#000000;fill-opacity:1;stroke:none' id = 'path{id}' cx = '{cx}' cy = '{cy}' r = '{raggio}' />\n";
-	File.AppendAllText(@"d:\temp\provola.svg", i.Replace('\'', '"'));
+	File.AppendAllText(nome, i.Replace('\'', '"'));
 }
 
-private void chiusura()
+private void chiusura(string nome)
 {
 	string i = @"
   </g>
 </svg>
 ";
-	File.AppendAllText(@"d:\temp\provola.svg", i.Replace('\'', '"'));
+	File.AppendAllText(nome, i.Replace('\'', '"'));
 }
-private void preambolo()
+
+private void preambolo(string nome)
 {
 string i = @"
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
@@ -150,5 +159,5 @@ string i = @"
      inkscape:groupmode='layer'
      id='layer1'>
 ";
-	File.WriteAllText(@"d:\temp\provola.svg", i.Replace('\'', '"'));
+	File.WriteAllText(nome, i.Replace('\'', '"'));
 }

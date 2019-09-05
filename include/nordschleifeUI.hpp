@@ -28,11 +28,20 @@ struct StepSelector : app::SvgSwitch
 
 struct nordDisplay : TransparentWidget
 {
-public:
+	public:
 	nordDisplay()
 	{
 		pNord = NULL;
-		font = APP->window->loadFont(asset::system("res/fonts/DejaVuSans.ttf"));
+		curField = 0;
+		font = APP->window->loadFont(asset::system("res/fonts/ShareTechMono-Regular.ttf"));
+		createFields();
+	}
+
+	~nordDisplay()
+	{
+		for(int k = 0; k < (int)fields.size(); k++)
+			delete fields[k];
+		fields.clear();
 	}
 
 	void setModule(Nordschleife *ns)
@@ -41,42 +50,153 @@ public:
 		pNord = ns;
 	}
 
-private:
+	void moveField(int code)
+	{
+		switch(code)
+		{
+			case GLFW_KEY_KP_DIVIDE:
+				if(--curField < 0)
+					curField = (int)fields.size() - 1;
+				break;
+
+			case GLFW_KEY_KP_MULTIPLY:
+				if(++curField >= (int)fields.size())
+					curField = 0;
+				break;
+
+			case GLFW_KEY_KP_SUBTRACT:
+				fields[curField]->dec();
+				break;
+			case GLFW_KEY_KP_ADD:
+				fields[curField]->inc();
+				break;
+		}
+	}
+
+	private:
 	struct drawData
 	{
 		float left;
 		float top;
 		float interleave;
+		float aveCharWidth;
 		NVGcontext *vg;
 	};
+
 	std::shared_ptr<Font> font;
 	Nordschleife *pNord;
-	
-private:
-
-
-	/*
-		void draw_info(const DrawArgs &args)
+	struct _field
 	{
-		NVGcolor textColor = nvgRGB(0xff, 0xff, 0xff);
+		public:
+		void inc()
+		{
+			if(++value > maxValue)
+				value = minValue;
+		}
+		void dec()
+		{
+			if(--value < minValue)
+				value = maxValue;
+		}
+		void draw(const drawData &ctx, bool asCurrent)
+		{
+			float y = ctx.interleave * _y;
+			float x=lblx * ctx.aveCharWidth;
 
-		nvgTextAlign(args.vg, NVG_ALIGN_LEFT);
-		nvgFontSize(args.vg, 9);
-		nvgFontFaceId(args.vg, font->handle);
-		nvgTextLetterSpacing(args.vg, -0.5);
-		float ascender, descender, lineh;
-		nvgTextMetrics(args.vg, &ascender, &descender, &lineh);
-		float interleave = descender + lineh + 2;
-		float y = interleave+1;
-		float x = 2;
-		nvgFillColor(args.vg, textColor);
-		char s[100];
-		sprintf(s, "Bank %s / #%i", module->GetBankName(), module->GetCurSampleNum()+1);
-		nvgText(args.vg, x, y, s, NULL);
-		y +=interleave;
-		nvgText(args.vg, x, y, module->GetSample().name.c_str(), NULL);
+			nvgFillColor(ctx.vg, lblColor);
+			x += 2/*margine*/+nvgText(ctx.vg, x, ctx.top + y, Nordschleife::label[myID], NULL);
+
+			const char *txt = getTxt(value);
+			if(asCurrent)
+			{
+				float bounds[4];
+				nvgTextBounds(ctx.vg, x, ctx.top + y, txt, NULL, bounds);
+				nvgBeginPath(ctx.vg);
+				nvgFillColor(ctx.vg, textColor);
+				nvgRect(ctx.vg, bounds[0], bounds[1], bounds[2] - bounds[0], bounds[3] - bounds[1]);
+				nvgFill(ctx.vg);
+				nvgFillColor(ctx.vg, textCurrentColor);
+			} else
+				nvgFillColor(ctx.vg, textColor);
+
+			nvgText(ctx.vg, x, ctx.top + y, txt, NULL);
+		}
+
+		protected:
+		_field(NordschleifeFields fieldID, int posx, int posy)
+		{
+			myID = fieldID;
+			lblx = posx;
+			_y = posy;
+		}
+		virtual const char *getTxt(int v) = 0;
+		void setBounds(int mi, int ma)
+		{
+			minValue = mi;
+			maxValue = ma;
+		}
+
+		private:
+		NVGcolor lblColor = nvgRGB(0xff, 0xff, 0xff);
+		NVGcolor textColor = nvgRGB(0xff, 0xff, 0xff);
+		NVGcolor textCurrentColor = nvgRGB(0x00, 0x00, 0x00);
+		float lblx;
+		float _y;
+		NordschleifeFields myID;
+		int minValue;
+		int maxValue;
+	};
+
+	struct numField : _field
+	{
+		numField(NordschleifeFields fieldID, int posx, int posy, int minv, int maxv, int precision = 2) :_field(fieldID, posx, posy)
+		{
+			setBounds(minv, maxv);
+			sprintf(fmt, "%%0%ii", precision);
+		}
+
+		private:
+		char fmt[20];
+		char s_value[20];
+
+		protected:
+		virtual const char *getTxt(int v) override
+		{
+			sprintf(s_value, fmt, v);
+			return s_value;
+		}
+	};
+
+	struct strField : _field
+	{
+		strField(NordschleifeFields fieldID, int posx, int posy, std::vector<std::string> valueList) :_field(fieldID, posx, posy)
+		{
+			values = valueList;
+			setBounds(0, (int)values.size() - 1);
+		}
+
+		private:
+		std::vector<std::string> values;
+
+		protected:
+		virtual const char *getTxt(int v) override
+		{
+			return values[v].c_str();
+		}
+	};
+
+	std::vector<_field *> fields;
+	int curField;
+
+	void createFields()
+	{
+		std::vector<std::string> direz = {"Forward", "Backward", "Alternate", "Brownian", "Random"};
+
+		// la posizione X,Y e' in CARATTERI, con (0,0) = toppo righto
+		fields.push_back(new numField(NordschleifeFields::shlfStep, 0, 0, 1, 64));
+		fields.push_back(new strField(NordschleifeFields::shlfDirection, 1, 1, direz));
 	}
-*/
+
 	void draw(const DrawArgs &args) override
 	{
 		// Background
@@ -84,38 +204,26 @@ private:
 		nvgRoundedRect(args.vg, 0.0, 0.0, box.size.x, box.size.y, 4.0);
 		nvgFillColor(args.vg, nvgRGB(0x00, 0x00, 0x00));
 		nvgFill(args.vg);
+
 		if(pNord == NULL)
 			return;
 
-		// inizializzaziun del contest
-		nvgFontSize(args.vg, 10);
-		nvgFontFaceId(args.vg, font->handle);
-		//nvgTextLetterSpacing(args.vg, -0.5);
+		// inizializzaziun del contesto
+		nvgFontSize(args.vg, 9);
+		nvgFontFaceId(args.vg, font->handle);		
 		float ascender, descender, lineh;
+		float bounds[4];
 		nvgTextMetrics(args.vg, &ascender, &descender, &lineh);
+		nvgTextBounds(args.vg, 0, 0, "a", NULL, bounds);
+
 		drawData context;
-		context.interleave = descender + lineh + 2;
-		context.top = 2;
+		context.aveCharWidth= bounds[2] - bounds[0];
+		context.interleave = descender + lineh;
+		context.top = context.interleave + 2/*margine*/;
 		context.left = 2;
 		context.vg = args.vg;
-		nvgFillColor(args.vg, nvgRGB(0,0x90,0));
 
-		/*
-		// text
-		nvgFontSize(args.vg, 9);
-		nvgFontFaceId(args.vg, font->handle);
-		nvgTextLetterSpacing(args.vg, 1.1);
-
-		Vec textPos = Vec(3, 10);
-		//Vec textPos = Vec(3, 17);
-		NVGcolor textColor = nvgRGB(0xdf, 0x2c, 0x2c);
-		nvgFillColor(args.vg, nvgTransRGBA(textColor, 16));
-		nvgText(args.vg, textPos.x, textPos.y, "~~", NULL);
-
-		textColor = nvgRGB(0xff, 0x09, 0x09);
-		nvgFillColor(args.vg, nvgTransRGBA(textColor, 16));
-		nvgText(args.vg, textPos.x, textPos.y, "\\\\", NULL);
-
-		*/
+		for(int k = 0; k < (int)fields.size(); k++)
+			fields[k]->draw(context, !pNord->moveByStep() && k == curField);
 	}
 };
