@@ -70,7 +70,20 @@ void Nordschleife::data_entry()
 		}
 	} else // move by field?
 	{
-		display->moveField(move);
+		switch(move)
+		{
+			case GLFW_KEY_KP_DIVIDE:
+			case GLFW_KEY_KP_MULTIPLY:
+				display->moveField(move);
+				break;
+
+			case GLFW_KEY_KP_SUBTRACT:
+				nsFields[display->getCurField()].dec();
+				break;
+			case GLFW_KEY_KP_ADD:
+				nsFields[display->getCurField()].inc();
+				break;
+		}
 	}
 }
 
@@ -126,8 +139,10 @@ void Nordschleife::QuantizePitch()
 
 void Nordschleife::declareFields()
 {
-	nsFields[NordschleifeFields::shlfStep].set("Step:", 1, 64, &);
-	nsFields[NordschleifeFields::shlfDirection].set("Direction:", 0, 64, &)
+	nsFields[NordschleifeFields::shlfStep].set(0, 0, "Step: ", 0, 63, [this] {return selectedStep;}, [this](int i) {setStep(i);}, 1);
+	
+	std::vector<std::string> direz = {"Forward", "Backward", "Alternate", "Brownian", "Random"};
+	nsFields[NordschleifeFields::shlfDirection].set(29,0, "Dir: ", direz, [this] {return selectedMovement;}, [this](int i){selectedMovement=i;});
 }
 
 TransparentWidget *Nordschleife::createDisplay(Vec pos)

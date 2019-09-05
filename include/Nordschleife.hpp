@@ -1,4 +1,5 @@
 #include "common.hpp"
+#include <functional>
 
 using namespace rack;
 extern Plugin *pluginInstance;
@@ -18,14 +19,57 @@ struct NordschleifeField
 	std::string label;
 	int minValue;
 	int maxValue;
-	int *currentValue;
+	std::function<void(int)> setter;
+	std::function<int(void)> getter;
+	std::vector<std::string> values;
+	int pos_x;
+	int pos_y;
+	int display_offset;
 
-	void set(const char *lbl, int mi, int ma, int *p)
+	void set(int x, int y, const char *lbl, std::vector<std::string> strngs, std::function<int(void)> gtr, std::function<void(int)> str)
 	{
+		set(x,y, lbl, 0, (int)strngs.size()-1, gtr, str);
+		values = strngs;
+	}
+
+	void set(int x, int y, const char *lbl, int mi, int ma, std::function<int(void)> gtr, std::function<void(int)> str, int dispoff = 0)
+	{
+		pos_x=x;
+		pos_y=y;
 		label = lbl;
 		minValue=mi;
 		maxValue=ma;
-		currentValue=p;
+		getter=gtr;
+		setter=str;
+		display_offset = dispoff;
+	}
+
+	void inc()
+	{
+		int value = getter();
+		if(++value > maxValue)
+			value = minValue;
+		setter(value);
+	}
+
+	void dec()
+	{
+		int value = getter();
+		if(--value < minValue)
+			value = maxValue;
+		setter(value);
+	}
+
+	std::string getText()
+	{
+		if(values.empty())
+		{
+			char n[20];
+			sprintf(n, "%02i", display_offset+getter());
+			return n;
+		}
+		
+		return values[getter()];
 	}
 };
 
@@ -135,7 +179,7 @@ struct Nordschleife : Module
 
 	cvStrip cvs;
 	int theRandomizer;
-	nsFields[NORDFIELDS];
+	NordschleifeField nsFields[NORDFIELDS];
 
 	TransparentWidget *createDisplay(Vec pos);
 
@@ -215,6 +259,7 @@ struct Nordschleife : Module
 	int key = 0;
 	int selectedCar = 0;
 	int selectedStep = 0;
+	int selectedMovement = 0;
 	NordschleifeWidget *pWidget;
 	nordDisplay *display;
 };

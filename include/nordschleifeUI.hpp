@@ -33,15 +33,8 @@ struct nordDisplay : TransparentWidget
 	{
 		pNord = NULL;
 		curField = 0;
-		font = APP->window->loadFont(asset::system("res/fonts/ShareTechMono-Regular.ttf"));
-		createFields();
-	}
-
-	~nordDisplay()
-	{
-		for(int k = 0; k < (int)fields.size(); k++)
-			delete fields[k];
-		fields.clear();
+		//font = APP->window->loadFont(asset::system("res/fonts/ShareTechMono-Regular.ttf"));
+		font = APP->window->loadFont(asset::plugin(pluginInstance, "res/FreeMonoBold.ttf"));
 	}
 
 	void setModule(Nordschleife *ns)
@@ -50,25 +43,20 @@ struct nordDisplay : TransparentWidget
 		pNord = ns;
 	}
 
+	inline int getCurField() {return curField;}
+
 	void moveField(int code)
 	{
 		switch(code)
 		{
 			case GLFW_KEY_KP_DIVIDE:
 				if(--curField < 0)
-					curField = (int)fields.size() - 1;
+					curField = NORDFIELDS - 1;
 				break;
 
 			case GLFW_KEY_KP_MULTIPLY:
-				if(++curField >= (int)fields.size())
+				if(++curField >= NORDFIELDS)
 					curField = 0;
-				break;
-
-			case GLFW_KEY_KP_SUBTRACT:
-				fields[curField]->dec();
-				break;
-			case GLFW_KEY_KP_ADD:
-				fields[curField]->inc();
 				break;
 		}
 	}
@@ -85,118 +73,37 @@ struct nordDisplay : TransparentWidget
 
 	std::shared_ptr<Font> font;
 	Nordschleife *pNord;
-	struct _field
+	int curField;
+
+	void drawField(const drawData &ctx, NordschleifeField *pField, bool asCurrent)
 	{
-		public:
-		void inc()
-		{
-			if(++value > maxValue)
-				value = minValue;
-		}
-		void dec()
-		{
-			if(--value < minValue)
-				value = maxValue;
-		}
-		void draw(const drawData &ctx, bool asCurrent)
-		{
-			float y = ctx.interleave * _y;
-			float x=lblx * ctx.aveCharWidth;
-
-			nvgFillColor(ctx.vg, lblColor);
-			x += 2/*margine*/+nvgText(ctx.vg, x, ctx.top + y, Nordschleife::label[myID], NULL);
-
-			const char *txt = getTxt(value);
-			if(asCurrent)
-			{
-				float bounds[4];
-				nvgTextBounds(ctx.vg, x, ctx.top + y, txt, NULL, bounds);
-				nvgBeginPath(ctx.vg);
-				nvgFillColor(ctx.vg, textColor);
-				nvgRect(ctx.vg, bounds[0], bounds[1], bounds[2] - bounds[0], bounds[3] - bounds[1]);
-				nvgFill(ctx.vg);
-				nvgFillColor(ctx.vg, textCurrentColor);
-			} else
-				nvgFillColor(ctx.vg, textColor);
-
-			nvgText(ctx.vg, x, ctx.top + y, txt, NULL);
-		}
-
-		protected:
-		_field(NordschleifeFields fieldID, int posx, int posy)
-		{
-			myID = fieldID;
-			lblx = posx;
-			_y = posy;
-		}
-		virtual const char *getTxt(int v) = 0;
-		void setBounds(int mi, int ma)
-		{
-			minValue = mi;
-			maxValue = ma;
-		}
-
-		private:
 		NVGcolor lblColor = nvgRGB(0xff, 0xff, 0xff);
 		NVGcolor textColor = nvgRGB(0xff, 0xff, 0xff);
 		NVGcolor textCurrentColor = nvgRGB(0x00, 0x00, 0x00);
-		float lblx;
-		float _y;
-		NordschleifeFields myID;
-		int minValue;
-		int maxValue;
-	};
 
-	struct numField : _field
-	{
-		numField(NordschleifeFields fieldID, int posx, int posy, int minv, int maxv, int precision = 2) :_field(fieldID, posx, posy)
+		float y = ctx.top +ctx.interleave * pField->pos_y;
+		float x= ctx.left + pField->pos_x;
+
+		nvgFillColor(ctx.vg, lblColor);
+		
+		x = nvgText(ctx.vg, x, y, pField->label.c_str(), NULL);
+		
+		std::string txt = pField->getText();
+		if(asCurrent)
 		{
-			setBounds(minv, maxv);
-			sprintf(fmt, "%%0%ii", precision);
-		}
+			float bounds[4];
+			nvgTextBounds(ctx.vg, x,  y, txt.c_str(), NULL, bounds);
+			nvgBeginPath(ctx.vg);
+			nvgFillColor(ctx.vg, textColor);
+			nvgRect(ctx.vg, bounds[0], bounds[1], bounds[2] - bounds[0], bounds[3] - bounds[1]);
+			nvgFill(ctx.vg);
+			nvgFillColor(ctx.vg, textCurrentColor);
+		} else
+			nvgFillColor(ctx.vg, textColor);
 
-		private:
-		char fmt[20];
-		char s_value[20];
-
-		protected:
-		virtual const char *getTxt(int v) override
-		{
-			sprintf(s_value, fmt, v);
-			return s_value;
-		}
-	};
-
-	struct strField : _field
-	{
-		strField(NordschleifeFields fieldID, int posx, int posy, std::vector<std::string> valueList) :_field(fieldID, posx, posy)
-		{
-			values = valueList;
-			setBounds(0, (int)values.size() - 1);
-		}
-
-		private:
-		std::vector<std::string> values;
-
-		protected:
-		virtual const char *getTxt(int v) override
-		{
-			return values[v].c_str();
-		}
-	};
-
-	std::vector<_field *> fields;
-	int curField;
-
-	void createFields()
-	{
-		std::vector<std::string> direz = {"Forward", "Backward", "Alternate", "Brownian", "Random"};
-
-		// la posizione X,Y e' in CARATTERI, con (0,0) = toppo righto
-		fields.push_back(new numField(NordschleifeFields::shlfStep, 0, 0, 1, 64));
-		fields.push_back(new strField(NordschleifeFields::shlfDirection, 1, 1, direz));
+		nvgText(ctx.vg, x, y, txt.c_str(), NULL);
 	}
-
+	
 	void draw(const DrawArgs &args) override
 	{
 		// Background
@@ -209,21 +116,17 @@ struct nordDisplay : TransparentWidget
 			return;
 
 		// inizializzaziun del contesto
-		nvgFontSize(args.vg, 9);
+		nvgFontSize(args.vg, 8);
 		nvgFontFaceId(args.vg, font->handle);		
 		float ascender, descender, lineh;
-		float bounds[4];
 		nvgTextMetrics(args.vg, &ascender, &descender, &lineh);
-		nvgTextBounds(args.vg, 0, 0, "a", NULL, bounds);
-
 		drawData context;
-		context.aveCharWidth= bounds[2] - bounds[0];
 		context.interleave = descender + lineh;
-		context.top = context.interleave + 2/*margine*/;
-		context.left = 2;
+		context.top = context.interleave + 1/*margine*/;
+		context.left = 1;
 		context.vg = args.vg;
 
-		for(int k = 0; k < (int)fields.size(); k++)
-			fields[k]->draw(context, !pNord->moveByStep() && k == curField);
+		for(int k = 0; k < NORDFIELDS; k++)
+			drawField(context, &pNord->nsFields[k], !pNord->moveByStep() && k == curField);
 	}
 };
