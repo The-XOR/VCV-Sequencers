@@ -104,6 +104,17 @@ struct nordDisplay : TransparentWidget
 		nvgText(ctx.vg, x, y, txt.c_str(), NULL);
 	}
 	
+	void draw_info(drawData &ctx)
+	{
+		nvgFontSize(ctx.vg, 16);
+		float ascender, descender, lineh;
+		nvgTextMetrics(ctx.vg, &ascender, &descender, &lineh);
+		ctx.top = descender + lineh + 1/*margine*/;
+
+		nvgFillColor(ctx.vg, nvgRGB(0xff, 0x00, 0x00));
+		nvgText(ctx.vg, 0, ctx.top, pNord->carName[pNord->selectedCar], NULL);
+	}
+
 	void draw(const DrawArgs &args) override
 	{
 		// Background
@@ -116,15 +127,18 @@ struct nordDisplay : TransparentWidget
 			return;
 
 		// inizializzaziun del contesto
-		nvgFontSize(args.vg, 8);
 		nvgFontFaceId(args.vg, font->handle);		
-		float ascender, descender, lineh;
-		nvgTextMetrics(args.vg, &ascender, &descender, &lineh);
+	
 		drawData context;
-		context.interleave = descender + lineh;
-		context.top = context.interleave + 1/*margine*/;
 		context.left = 1;
 		context.vg = args.vg;
+		draw_info(context);
+
+		nvgFontSize(args.vg, 8);
+		float ascender, descender, lineh;
+		nvgTextMetrics(args.vg, &ascender, &descender, &lineh);
+		context.interleave = descender + lineh;
+		context.top += context.interleave;
 
 		for(int k = 0; k < NORDFIELDS; k++)
 			drawField(context, &pNord->nsFields[k], !pNord->moveByStep() && k == curField);

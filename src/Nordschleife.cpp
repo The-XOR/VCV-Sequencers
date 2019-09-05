@@ -1,6 +1,8 @@
 #include "../include/Nordschleife.hpp"
 #include "../include/nordschleifeUI.hpp"
 
+const char *Nordschleife::carName[NORDCARS] = {"Lotus", "Brabham", "Ferrari", "Hesketh" };
+
 void Nordschleife::process(const ProcessArgs &args)
 {
 	if(pWidget != NULL && rndTrigger.process(inputs[RANDOMIZONE].value))
@@ -139,19 +141,25 @@ void Nordschleife::QuantizePitch()
 
 void Nordschleife::declareFields()
 {
+	/*
+	step:
+off on skip legato reset 
+out a e b (link a car)
+probabilita
+
+*/
+	float scnd_half = -6+display->box.size.x/2;
 	nsFields[NordschleifeFields::shlfStep].set(0, 0, "Step: ", 0, 63, [this] {return selectedStep;}, [this](int i) {setStep(i);}, 1);
-	
-	std::vector<std::string> direz = {"Forward", "Backward", "Alternate", "Brownian", "Random"};
-	nsFields[NordschleifeFields::shlfDirection].set(29,0, "Dir: ", direz, [this] {return selectedMovement;}, [this](int i){selectedMovement=i;});
+	nsFields[NordschleifeFields::shlfDirection].set(scnd_half, 0, "Dir: ", {"Forward", "Backward", "Alternate", "Brownian", "Random"}, [this] {return selectedMovement;}, [this](int i){selectedMovement=i;});
 }
 
 TransparentWidget *Nordschleife::createDisplay(Vec pos)
 {
 	display = createWidget<nordDisplay>(pos);
 	display->setModule(this);
+	declareFields();
 	return display;
 }
-
 
 NordschleifeWidget::NordschleifeWidget(Nordschleife *module)
 {

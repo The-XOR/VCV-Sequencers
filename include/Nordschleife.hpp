@@ -172,7 +172,6 @@ struct Nordschleife : Module
 		display = NULL;
 		pWidget = NULL;
 		theRandomizer = 0;
-		declareFields();
 		config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS);
 	}
 	void process(const ProcessArgs &args) override;
@@ -180,6 +179,8 @@ struct Nordschleife : Module
 	cvStrip cvs;
 	int theRandomizer;
 	NordschleifeField nsFields[NORDFIELDS];
+	static const char *carName[NORDCARS];
+	int selectedCar = 0;
 
 	TransparentWidget *createDisplay(Vec pos);
 
@@ -257,7 +258,6 @@ struct Nordschleife : Module
 	dsp::SchmittTrigger downKey;
 	int lazyCheck = 0;
 	int key = 0;
-	int selectedCar = 0;
 	int selectedStep = 0;
 	int selectedMovement = 0;
 	NordschleifeWidget *pWidget;
