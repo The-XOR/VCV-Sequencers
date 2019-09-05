@@ -8,8 +8,17 @@ extern Plugin *pluginInstance;
 
 enum NordschleifeFields
 {
-	shlfStep,
 	shlfDirection,
+	shlfPath,
+	shlfCollision,
+	shlfFrom,
+	shlfTo,
+
+	shlfStep,
+	shlfOutA,
+	shlfOutB,
+	shlfMode,
+	shlfProbab,
 
 	NORDFIELDS
 };

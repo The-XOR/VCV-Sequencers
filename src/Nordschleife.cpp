@@ -142,6 +142,7 @@ void Nordschleife::QuantizePitch()
 void Nordschleife::declareFields()
 {
 	/*
+	
 	step:
 off on skip legato reset 
 out a e b (link a car)
@@ -149,8 +150,22 @@ probabilita
 
 */
 	float scnd_half = -6+display->box.size.x/2;
-	nsFields[NordschleifeFields::shlfStep].set(0, 0, "Step: ", 0, 63, [this] {return selectedStep;}, [this](int i) {setStep(i);}, 1);
-	nsFields[NordschleifeFields::shlfDirection].set(scnd_half, 0, "Dir: ", {"Forward", "Backward", "Alternate", "Brownian", "Random"}, [this] {return selectedMovement;}, [this](int i){selectedMovement=i;});
+
+	// cars
+	nsFields[NordschleifeFields::shlfDirection].set(0, 0, "Dir: ", {"Forward", "Backward", "Alternate", "Brownian", "Random"}, [this] {return selectedMovement;}, [this](int i){selectedMovement=i;});
+	nsFields[NordschleifeFields::shlfCollision].set(scnd_half, 0, "Collision: ", {"Ignore", "Invert", "90° left", "90° right"}, [this] {return selectedMovement;}, [this](int i){selectedMovement=i;});
+	nsFields[NordschleifeFields::shlfFrom].set(0, 1, "From step: ", 0, 63, [this] {return selectedStep;}, [this](int i) {setStep(i);}, 1);
+	nsFields[NordschleifeFields::shlfTo].set(scnd_half, 1, "To step: ", 0, 63, [this] {return selectedStep;}, [this](int i) {setStep(i);}, 1);
+
+	// steps
+	nsFields[NordschleifeFields::shlfStep].set(0, 2, "Step: ", 0, 63, [this] {return selectedStep;}, [this](int i) {setStep(i);}, 1);
+	nsFields[NordschleifeFields::shlfMode].set(scnd_half, 2, "Mode: ", {"Off", "On", "Skip", "Legato", "Reset"}, [this] {return selectedMovement;}, [this](int i){selectedMovement=i;});
+
+		shlfOutA,
+	shlfOutB,
+	,
+	shlfProbab,
+
 }
 
 TransparentWidget *Nordschleife::createDisplay(Vec pos)
