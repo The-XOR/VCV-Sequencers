@@ -67,6 +67,7 @@ struct nordDisplay : TransparentWidget
 		float left;
 		float top;
 		float interleave;
+		float interleaveBig;
 		float aveCharWidth;
 		NVGcontext *vg;
 	};
@@ -81,7 +82,17 @@ struct nordDisplay : TransparentWidget
 		NVGcolor textColor = nvgRGB(0xff, 0xff, 0xff);
 		NVGcolor textCurrentColor = nvgRGB(0x00, 0x00, 0x00);
 
-		float y = ctx.top +ctx.interleave * pField->pos_y;
+		float y;
+		if(pField->bigField)
+		{
+			nvgFontSize(ctx.vg, 14);
+			y = ctx.top + ctx.interleaveBig * pField->pos_y;
+		} else
+		{
+			nvgFontSize(ctx.vg, 8);
+			y = ctx.top + ctx.interleave * pField->pos_y;
+		}
+		y += 2;//margin
 		float x= ctx.left + pField->pos_x;
 
 		nvgFillColor(ctx.vg, lblColor);
@@ -106,13 +117,13 @@ struct nordDisplay : TransparentWidget
 	
 	void draw_info(drawData &ctx)
 	{
-		nvgFontSize(ctx.vg, 16);
+		nvgFontSize(ctx.vg, 14);
 		float ascender, descender, lineh;
 		nvgTextMetrics(ctx.vg, &ascender, &descender, &lineh);
 		ctx.top = descender + lineh + 1/*margine*/;
 
-		nvgFillColor(ctx.vg, nvgRGB(0xff, 0x00, 0x00));
-		nvgText(ctx.vg, 0, ctx.top, pNord->cars[pNord->selectedCar].name.c_str(), NULL);
+		nvgFillColor(ctx.vg, nvgRGB(0xff, 0xff, 0xff));
+		nvgText(ctx.vg, ctx.left, ctx.top, pNord->cars[pNord->selectedCar].name.c_str(), NULL);
 	}
 
 	void draw(const DrawArgs &args) override
@@ -130,15 +141,19 @@ struct nordDisplay : TransparentWidget
 		nvgFontFaceId(args.vg, font->handle);		
 	
 		drawData context;
-		context.left = 1;
+		context.left = 4;
 		context.vg = args.vg;
 		draw_info(context);
 
-		nvgFontSize(args.vg, 8);
 		float ascender, descender, lineh;
+		nvgFontSize(args.vg, 14);
+		nvgTextMetrics(args.vg, &ascender, &descender, &lineh);
+		context.interleaveBig = descender + lineh;
+
+		nvgFontSize(args.vg, 8);
 		nvgTextMetrics(args.vg, &ascender, &descender, &lineh);
 		context.interleave = descender + lineh;
-		context.top += context.interleave;
+		context.top += context.interleave+2/*margin*/;
 
 		for(int k = 0; k < NORDFIELDS; k++)
 			drawField(context, &pNord->nsFields[k], !pNord->moveByStep() && k == curField);

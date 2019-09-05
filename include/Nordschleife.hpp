@@ -15,10 +15,11 @@ enum NordschleifeFields
 	shlfTo,
 
 	shlfStep,
-	shlfOutA,
-	shlfOutB,
 	shlfMode,
 	shlfProbab,
+	shlfRepeats,
+	shlfOutA,
+	shlfOutB,
 
 	NORDFIELDS
 };
@@ -34,14 +35,15 @@ struct NordschleifeField
 	int pos_x;
 	int pos_y;
 	int display_offset;
+	bool bigField;
 
-	void set(int x, int y, const char *lbl, std::vector<std::string> strngs, std::function<int(void)> gtr, std::function<void(int)> str)
+	void set(int x, int y, const char *lbl, std::vector<std::string> strngs, std::function<int(void)> gtr, std::function<void(int)> str, bool big = false)
 	{
-		set(x,y, lbl, 0, (int)strngs.size()-1, gtr, str);
+		set(x,y, lbl, 0, (int)strngs.size()-1, gtr, str, 0, big);
 		values = strngs;
 	}
 
-	void set(int x, int y, const char *lbl, int mi, int ma, std::function<int(void)> gtr, std::function<void(int)> str, int dispoff = 0)
+	void set(int x, int y, const char *lbl, int mi, int ma, std::function<int(void)> gtr, std::function<void(int)> str, int dispoff = 0, bool big = false)
 	{
 		pos_x=x;
 		pos_y=y;
@@ -51,6 +53,7 @@ struct NordschleifeField
 		getter=gtr;
 		setter=str;
 		display_offset = dispoff;
+		bigField = big;
 	}
 
 	void inc()
@@ -74,7 +77,7 @@ struct NordschleifeField
 		if(values.empty())
 		{
 			char n[20];
-			sprintf(n, "%02i", display_offset+getter());
+			sprintf(n, "%i", display_offset+getter());
 			return n;
 		}
 		
@@ -91,11 +94,12 @@ struct NordschleifeCar
 	CarCollision collision;
 	int stepFrom;
 	int stepTo;
+	int path;
 
 	void Init(const char *nm)
 	{
 		name = nm;
-		stepFrom = 0;
+		path = stepFrom = 0;
 		stepTo = NORDSTEPS;
 		direction = carForward;
 		collision = carIgnore;
@@ -121,6 +125,16 @@ struct NordschleifeCar
 		json_object_set_new(rootJ, ("carto_" + myID).c_str(), json_integer(stepTo));
 		return rootJ;
 	}
+};
+
+struct NordschleifeStep
+{
+	enum StepMode { Off, On, Skip, Legato, Reset };
+	StepMode mode = On;
+	int outA = 0;
+	int outB = 1;
+	int probability = 100;
+	int repeats = 1;
 };
 
 struct Nordschleife;
@@ -221,10 +235,8 @@ struct Nordschleife : Module
 		pWidget = NULL;
 		theRandomizer = 0;
 		config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS);
-		cars[0].Init("Lotus");
-		cars[1].Init("Brabham");
-		cars[2].Init("Ferrari");
-		cars[3].Init("Hesketh");
+		for(int k = 0; k < NORDCARS; k++)
+			cars[k].Init(carNames[k].c_str());
 	}
 
 	void process(const ProcessArgs &args) override;
@@ -233,7 +245,11 @@ struct Nordschleife : Module
 	int theRandomizer;
 	NordschleifeField nsFields[NORDFIELDS];
 	NordschleifeCar cars[NORDCARS];
+	NordschleifeStep steps[NORDSTEPS];
 	int selectedCar = 0;
+	int selectedStep = 0;
+	static int paths[12][64];
+	static std::vector<std::string> pathNames;
 
 	TransparentWidget *createDisplay(Vec pos);
 
@@ -320,7 +336,7 @@ struct Nordschleife : Module
 	dsp::SchmittTrigger downKey;
 	int lazyCheck = 0;
 	int key = 0;
-	int selectedStep = 0;
 	NordschleifeWidget *pWidget;
 	nordDisplay *display;
+	static std::vector<std::string> carNames;
 };
