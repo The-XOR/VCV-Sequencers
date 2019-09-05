@@ -82,6 +82,46 @@ struct NordschleifeField
 	}
 };
 
+struct NordschleifeCar
+{
+	enum CarDirection {carForward, carBackward, carAlternate, carBrownian, carRandom };
+	enum CarCollision { carIgnore, carInvert, car90lef, car90right };
+	std::string name;
+	CarDirection direction;
+	CarCollision collision;
+	int stepFrom;
+	int stepTo;
+
+	void Init(const char *nm)
+	{
+		name = nm;
+		stepFrom = 0;
+		stepTo = NORDSTEPS;
+		direction = carForward;
+		collision = carIgnore;
+	}
+
+	void dataFromJson(json_t *root, std::string myID)
+	{
+		json_t *rndJson = json_object_get(root, ("cardir_"+myID).c_str());
+		if(rndJson) direction = (CarDirection)json_integer_value(rndJson);
+		rndJson = json_object_get(root, ("carcoll_" + myID).c_str());
+		if(rndJson) collision = (CarCollision)json_integer_value(rndJson);
+		rndJson = json_object_get(root, ("carfrom_" + myID).c_str());
+		if(rndJson) stepFrom = json_integer_value(rndJson);
+		rndJson = json_object_get(root, ("carto_" + myID).c_str());
+		if(rndJson) stepTo = json_integer_value(rndJson);
+	}
+
+	json_t *dataToJson(json_t *rootJ, std::string myID)
+	{
+		json_object_set_new(rootJ, ("cardir_" + myID).c_str(), json_integer(direction));
+		json_object_set_new(rootJ, ("carcoll_" + myID).c_str(), json_integer(collision));
+		json_object_set_new(rootJ, ("carfrom_" + myID).c_str(), json_integer(stepFrom));
+		json_object_set_new(rootJ, ("carto_" + myID).c_str(), json_integer(stepTo));
+		return rootJ;
+	}
+};
 
 struct Nordschleife;
 struct nordDisplay;
@@ -131,7 +171,6 @@ struct NordschleifeWidget : SequencerWidget
 	void createDataEntry(Nordschleife *module);
 	void onMenu(int action);
 	Menu *addContextMenu(Menu *menu) override;
-
 };
 
 struct Nordschleife : Module
@@ -182,13 +221,18 @@ struct Nordschleife : Module
 		pWidget = NULL;
 		theRandomizer = 0;
 		config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS);
+		cars[0].Init("Lotus");
+		cars[1].Init("Brabham");
+		cars[2].Init("Ferrari");
+		cars[3].Init("Hesketh");
 	}
+
 	void process(const ProcessArgs &args) override;
 
 	cvStrip cvs;
 	int theRandomizer;
 	NordschleifeField nsFields[NORDFIELDS];
-	static const char *carName[NORDCARS];
+	NordschleifeCar cars[NORDCARS];
 	int selectedCar = 0;
 
 	TransparentWidget *createDisplay(Vec pos);
@@ -215,21 +259,31 @@ struct Nordschleife : Module
 		json_t *rndJson = json_object_get(root, "theRandomizer");
 		if(rndJson)
 			theRandomizer = json_integer_value(rndJson);
+		for(int k = 0; k < NORDCARS; k++)
+		{
+			char id[30];
+			sprintf(id, "%i", k);
+			cars[k].dataFromJson(root, id);
+		}
 		on_loaded();
 	}
 	json_t *dataToJson() override
 	{
-		INFO("to json");
 		json_t *rootJ = json_object();
 		json_t *rndJson = json_integer(theRandomizer);
 		json_object_set_new(rootJ, "theRandomizer", rndJson);
+		for(int k = 0; k < NORDCARS; k++)
+		{
+			char id[30];
+			sprintf(id, "%i", k);
+			cars[k].dataToJson(rootJ, id);
+		}
 		return rootJ;
 	}
 
 	private:
 	void car_select();
 	void step_select();
-
 	inline void setStep(int n)
 	{
 		selectedStep = n;
@@ -247,7 +301,6 @@ struct Nordschleife : Module
 	{
 		lazyCheck = 0;
 	}
-
 	inline bool consumeKey(int code)
 	{
 		if(key == code)
@@ -268,7 +321,6 @@ struct Nordschleife : Module
 	int lazyCheck = 0;
 	int key = 0;
 	int selectedStep = 0;
-	int selectedMovement = 0;
 	NordschleifeWidget *pWidget;
 	nordDisplay *display;
 };

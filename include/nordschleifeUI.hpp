@@ -112,7 +112,7 @@ struct nordDisplay : TransparentWidget
 		ctx.top = descender + lineh + 1/*margine*/;
 
 		nvgFillColor(ctx.vg, nvgRGB(0xff, 0x00, 0x00));
-		nvgText(ctx.vg, 0, ctx.top, pNord->carName[pNord->selectedCar], NULL);
+		nvgText(ctx.vg, 0, ctx.top, pNord->cars[pNord->selectedCar].name.c_str(), NULL);
 	}
 
 	void draw(const DrawArgs &args) override
