@@ -2,6 +2,7 @@
 #include "../include/nordschleifeUI.hpp"
 
 std::vector<std::string> Nordschleife::carNames = {"Lotus", "Brabham", "Ferrari", "Hesketh"};
+std::vector<std::string> Nordschleife::pathNames = {"Tiergarten", "Karussell", "Adenauer Forst", "Metzgesfeld","Eiskurve", "Aremberg", "Flugplatz", "Hohe Acht", "Pflanzgarten", "Kallenhard","Steilstrecke","Eschbach"};
 int Nordschleife::paths[12][64] =
 {
 	{0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63},
@@ -18,17 +19,28 @@ int Nordschleife::paths[12][64] =
 	{0,7,3,4,9,14,10,13,16,23,19,20,25,30,26,29,32,39,35,36,41,46,42,45,48,55,51,52,57,58,61,62,1,6,11,12,17,22,27,28,33,38,43,44,49,54,59,60,2,5,8,15,18,21,24,31,34,37,40,47,50,53,56,63}
 };
 
-std::vector<std::string> Nordschleife::pathNames = {"Tiergarten", "Karussell", "Adenauer Forst", "Metzgesfeld","Eiskurve", "Aremberg", "Flugplatz", "Hohe Acht", "Pflanzgarten", "Kallenhard","Steilstrecke","Eschbach" };
-
 void Nordschleife::process(const ProcessArgs &args)
 {
 	if(pWidget != NULL && rndTrigger.process(inputs[RANDOMIZONE].value))
 		randrandrand();
 
-	car_select();
 	if(lazyCheck++ % 20 == 0)
+	{
 		step_select();
-	data_entry();
+		car_select();
+		data_entry();
+	}
+
+	float rec_smp;
+	int rec_step;
+	if(cvs.IsRecAvailable(&rec_smp, &rec_step))
+	{
+		pWidget->SetValue(Nordschleife::VOLTAGE_1 + rec_step, rec_smp);
+	}
+
+	// race starts here!
+	for(int k=0; k < NORDCARS; k++)
+		cars[k].process();
 }
 
 void Nordschleife::car_select()
@@ -68,20 +80,20 @@ void Nordschleife::data_entry()
 		int curStep = selectedStep;
 		switch(move)
 		{
-			case GLFW_KEY_KP_DIVIDE:
+			case GLFW_KEY_KP_SUBTRACT:
 				if(--curStep < r * 8) curStep = r * 8 + 7;
 				setStep(curStep);
 				break;
-			case GLFW_KEY_KP_MULTIPLY:
-				if(++curStep > 7+r * 8) curStep = r * 8;
-				setStep(curStep);
-				break;
-			case GLFW_KEY_KP_SUBTRACT:
-				curStep -= 8;
-				if(curStep< 0) curStep = 56+c;
-				setStep(curStep);
-				break;
 			case GLFW_KEY_KP_ADD:
+				if(++curStep > 7 + r * 8) curStep = r * 8;
+				setStep(curStep);
+				break;
+			case GLFW_KEY_KP_DIVIDE:
+				curStep -= 8;
+				if(curStep < 0) curStep = 56 + c;
+				setStep(curStep);
+				break;
+			case GLFW_KEY_KP_MULTIPLY:
 				curStep += 8;
 				if(curStep > 63) curStep = c;
 				setStep(curStep);
@@ -91,15 +103,15 @@ void Nordschleife::data_entry()
 	{
 		switch(move)
 		{
-			case GLFW_KEY_KP_DIVIDE:
-			case GLFW_KEY_KP_MULTIPLY:
+			case GLFW_KEY_KP_SUBTRACT:
+			case GLFW_KEY_KP_ADD:
 				display->moveField(move);
 				break;
 
-			case GLFW_KEY_KP_SUBTRACT:
+			case GLFW_KEY_KP_DIVIDE:
 				nsFields[display->getCurField()].dec();
 				break;
-			case GLFW_KEY_KP_ADD:
+			case GLFW_KEY_KP_MULTIPLY:
 				nsFields[display->getCurField()].inc();
 				break;
 		}
@@ -158,25 +170,25 @@ void Nordschleife::QuantizePitch()
 
 void Nordschleife::declareFields()
 {
-	float scnd_half = -6+display->box.size.x/2;
+	float scnd_half = -6 + display->box.size.x / 2;
 
 	// cars
 	int row = 0;
 	nsFields[NordschleifeFields::shlfDirection].set(0, row++, "Direction: ", {"Forward", "Backward", "Alternate", "Brownian", "Random"}, [this] {return cars[selectedCar].direction; }, [this](int i) {cars[selectedCar].direction = (NordschleifeCar::CarDirection)i; });
 	nsFields[NordschleifeFields::shlfPath].set(0, row++, "Path: ", Nordschleife::pathNames, [this] {return cars[selectedCar].path; }, [this](int i) {cars[selectedCar].path = i; });
-	nsFields[NordschleifeFields::shlfCollision].set(0, row++, "On Collision: ", {"Ignore", "Invert", "90 left", "90 right"}, [this] {return cars[selectedCar].collision; }, [this](int i) {cars[selectedCar].collision = (NordschleifeCar::CarCollision)i; });
-	nsFields[NordschleifeFields::shlfFrom].set(0, row, "From: ", 0, 63, [this] {return cars[selectedCar].stepFrom;}, [this](int i) {cars[selectedCar].stepFrom = i;}, 1);
-	nsFields[NordschleifeFields::shlfTo].set(scnd_half+8, row++, "To: ", 0, 63, [this] {return cars[selectedCar].stepTo;}, [this](int i) {cars[selectedCar].stepTo = i;}, 1);
-	
+	nsFields[NordschleifeFields::shlfCollision].set(0, row++, "On Collision: ", {"Ignore", "Invert", "90° left", "90° right"}, [this] {return cars[selectedCar].collision; }, [this](int i) {cars[selectedCar].collision = (NordschleifeCar::CarCollision)i; });
+	nsFields[NordschleifeFields::shlfFrom].set(0, row, "From: ", 0, 62, [this] {return cars[selectedCar].stepFrom; }, [this](int i) {cars[selectedCar].stepFrom = i; }, 1);
+	nsFields[NordschleifeFields::shlfTo].set(scnd_half + 8, row++, "To: ", 1, 63, [this] {return cars[selectedCar].stepTo; }, [this](int i) {cars[selectedCar].stepTo = i; }, 1);
+
 	// steps
-	nsFields[NordschleifeFields::shlfStep].set(0, row, "Step #", 0, 63, [this] {return selectedStep;}, [this](int i) {setStep(i);}, 1, true);
+	nsFields[NordschleifeFields::shlfStep].set(0, row, "Step #", 0, 63, [this] {return selectedStep; }, [this](int i) {setStep(i); }, 1, true);
 	row += 5;
 	nsFields[NordschleifeFields::shlfMode].set(0, row++, "Mode: ", {"Off", "On", "Skip", "Legato", "Reset"}, [this] {return steps[selectedStep].mode; }, [this](int i) {steps[selectedStep].mode = (NordschleifeStep::StepMode)i; });
 	nsFields[NordschleifeFields::shlfProbab].set(0, row++, "Probability: ", 1, 100, [this] {return steps[selectedStep].probability; }, [this](int i) {steps[selectedStep].probability = i; });
 	nsFields[NordschleifeFields::shlfRepeats].set(0, row++, "Reps: ", 1, 8, [this] {return steps[selectedStep].repeats; }, [this](int i) {steps[selectedStep].repeats = i; });
-	
+
 	nsFields[NordschleifeFields::shlfOutA].set(0, row++, "Out A: ", Nordschleife::carNames, [this] {return steps[selectedStep].outA; }, [this](int i) {steps[selectedStep].outA = i; });
-	nsFields[NordschleifeFields::shlfOutB].set(0, row++, "Out B: ", Nordschleife::carNames, [this] {return steps[selectedStep].outB;}, [this](int i){steps[selectedStep].outB=i;});
+	nsFields[NordschleifeFields::shlfOutB].set(0, row++, "Out B: ", Nordschleife::carNames, [this] {return steps[selectedStep].outB; }, [this](int i) {steps[selectedStep].outB = i; });
 }
 
 TransparentWidget *Nordschleife::createDisplay(Vec pos)

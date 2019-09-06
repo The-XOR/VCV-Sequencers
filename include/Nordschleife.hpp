@@ -85,6 +85,7 @@ struct NordschleifeField
 	}
 };
 
+struct Nordschleife;
 struct NordschleifeCar
 {
 	enum CarDirection {carForward, carBackward, carAlternate, carBrownian, carRandom };
@@ -96,35 +97,53 @@ struct NordschleifeCar
 	int stepTo;
 	int path;
 
-	void Init(const char *nm)
+	void Init(Nordschleife *p, int id, int lightid);
+
+	void dataFromJson(json_t *root)
 	{
-		name = nm;
-		path = stepFrom = 0;
-		stepTo = NORDSTEPS;
-		direction = carForward;
-		collision = carIgnore;
+		json_t *r = json_object_get(root, ("cardir_"+myIDstr).c_str());
+		if(r) direction = (CarDirection)json_integer_value(r);
+		r = json_object_get(root, ("carcoll_" + myIDstr).c_str());
+		if(r) collision = (CarCollision)json_integer_value(r);
+		r = json_object_get(root, ("carfrom_" + myIDstr).c_str());
+		if(r) stepFrom = json_integer_value(r);
+		r = json_object_get(root, ("carto_" + myIDstr).c_str());
+		if(r) stepTo = json_integer_value(r);
 	}
 
-	void dataFromJson(json_t *root, std::string myID)
+	json_t *dataToJson(json_t *rootJ)
 	{
-		json_t *rndJson = json_object_get(root, ("cardir_"+myID).c_str());
-		if(rndJson) direction = (CarDirection)json_integer_value(rndJson);
-		rndJson = json_object_get(root, ("carcoll_" + myID).c_str());
-		if(rndJson) collision = (CarCollision)json_integer_value(rndJson);
-		rndJson = json_object_get(root, ("carfrom_" + myID).c_str());
-		if(rndJson) stepFrom = json_integer_value(rndJson);
-		rndJson = json_object_get(root, ("carto_" + myID).c_str());
-		if(rndJson) stepTo = json_integer_value(rndJson);
-	}
-
-	json_t *dataToJson(json_t *rootJ, std::string myID)
-	{
-		json_object_set_new(rootJ, ("cardir_" + myID).c_str(), json_integer(direction));
-		json_object_set_new(rootJ, ("carcoll_" + myID).c_str(), json_integer(collision));
-		json_object_set_new(rootJ, ("carfrom_" + myID).c_str(), json_integer(stepFrom));
-		json_object_set_new(rootJ, ("carto_" + myID).c_str(), json_integer(stepTo));
+		json_object_set_new(rootJ, ("cardir_" + myIDstr).c_str(), json_integer(direction));
+		json_object_set_new(rootJ, ("carcoll_" + myIDstr).c_str(), json_integer(collision));
+		json_object_set_new(rootJ, ("carfrom_" + myIDstr).c_str(), json_integer(stepFrom));
+		json_object_set_new(rootJ, ("carto_" + myIDstr).c_str(), json_integer(stepTo));
 		return rootJ;
 	}
+
+	inline int getLap() const {return lapCounter / NORDSTEPS;}
+
+	// ------------------------ race control ---------------------------
+	void process();
+
+private:
+	void reset();	
+	void beginPulse(bool silent);
+	void endPulse();
+	int move_next();
+	void ledOff();
+	void ledOn();
+
+private:
+	Nordschleife *pNord = NULL;
+	bool moving_bwd;
+	int myID;
+	int curStepCounter;
+	int step_n =0;
+	std::string myIDstr;
+	SchmittTrigger2 clockTrigger;
+	dsp::SchmittTrigger resetTrig;
+	int lightid;
+	int lapCounter;
 };
 
 struct NordschleifeStep
@@ -135,9 +154,32 @@ struct NordschleifeStep
 	int outB = 1;
 	int probability = 100;
 	int repeats = 1;
+
+	void dataFromJson(json_t *root, std::string myID)
+	{
+		json_t *r = json_object_get(root, ("stepmode_"+myID).c_str());
+		if(r) mode = (StepMode)json_integer_value(r);
+		r = json_object_get(root, ("stepouta_"+myID).c_str());
+		if(r) outA = (StepMode)json_integer_value(r);
+		r = json_object_get(root, ("stepoutb_"+myID).c_str());
+		if(r) outB = (StepMode)json_integer_value(r);
+		r = json_object_get(root, ("stepprob_"+myID).c_str());
+		if(r) probability = (StepMode)json_integer_value(r);
+		r = json_object_get(root, ("stepreps_"+myID).c_str());
+		if(r) repeats = (StepMode)json_integer_value(r);
+	}
+
+	json_t *dataToJson(json_t *rootJ, std::string myID)
+	{
+		json_object_set_new(rootJ, ("stepmode_" + myID).c_str(), json_integer(mode));
+		json_object_set_new(rootJ, ("step_outa" + myID).c_str(), json_integer(outA));
+		json_object_set_new(rootJ, ("step_outb" + myID).c_str(), json_integer(outB));
+		json_object_set_new(rootJ, ("stepprob_" + myID).c_str(), json_integer(probability));
+		json_object_set_new(rootJ, ("stepreps_" + myID).c_str(), json_integer(repeats));
+		return rootJ;
+	}
 };
 
-struct Nordschleife;
 struct nordDisplay;
 struct NordschleifeWidget : SequencerWidget
 {
@@ -226,7 +268,6 @@ struct Nordschleife : Module
 		FERRARI_LED = BRABHAM_LED + NORDSTEPS,
 		HESKETH_LED = FERRARI_LED + NORDSTEPS,
 		NUM_LIGHTS = HESKETH_LED + NORDSTEPS
-
 	};
 
 	Nordschleife() : Module()
@@ -235,8 +276,11 @@ struct Nordschleife : Module
 		pWidget = NULL;
 		theRandomizer = 0;
 		config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS);
+		cvs.configure(this, NUM_PARAMS - cvStrip::CVSTRIP_PARAMS);
+
+		int l[NORDCARS] = {LOTUS_LED, BRABHAM_LED, FERRARI_LED, HESKETH_LED};
 		for(int k = 0; k < NORDCARS; k++)
-			cars[k].Init(carNames[k].c_str());
+			cars[k].Init(this, k, l[k]);
 	}
 
 	void process(const ProcessArgs &args) override;
@@ -250,6 +294,7 @@ struct Nordschleife : Module
 	int selectedStep = 0;
 	static int paths[12][64];
 	static std::vector<std::string> pathNames;
+	static std::vector<std::string> carNames;
 
 	TransparentWidget *createDisplay(Vec pos);
 
@@ -276,11 +321,11 @@ struct Nordschleife : Module
 		if(rndJson)
 			theRandomizer = json_integer_value(rndJson);
 		for(int k = 0; k < NORDCARS; k++)
-		{
-			char id[30];
-			sprintf(id, "%i", k);
-			cars[k].dataFromJson(root, id);
-		}
+			cars[k].dataFromJson(root);
+		
+		for(int k = 0; k < NORDSTEPS; k++)
+			steps[k].dataFromJson(root, std::to_string(k));
+
 		on_loaded();
 	}
 	json_t *dataToJson() override
@@ -289,11 +334,10 @@ struct Nordschleife : Module
 		json_t *rndJson = json_integer(theRandomizer);
 		json_object_set_new(rootJ, "theRandomizer", rndJson);
 		for(int k = 0; k < NORDCARS; k++)
-		{
-			char id[30];
-			sprintf(id, "%i", k);
-			cars[k].dataToJson(rootJ, id);
-		}
+			cars[k].dataToJson(rootJ);
+		
+		for(int k = 0; k < NORDSTEPS; k++)
+			steps[k].dataToJson(rootJ, std::to_string(k));
 		return rootJ;
 	}
 
@@ -315,6 +359,8 @@ struct Nordschleife : Module
 	void declareFields();
 	void reset()
 	{
+		setCar(0);
+		setStep(0);
 		lazyCheck = 0;
 	}
 	inline bool consumeKey(int code)
@@ -338,5 +384,4 @@ struct Nordschleife : Module
 	int key = 0;
 	NordschleifeWidget *pWidget;
 	nordDisplay *display;
-	static std::vector<std::string> carNames;
 };

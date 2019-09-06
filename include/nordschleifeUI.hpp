@@ -49,12 +49,12 @@ struct nordDisplay : TransparentWidget
 	{
 		switch(code)
 		{
-			case GLFW_KEY_KP_DIVIDE:
+			case GLFW_KEY_KP_SUBTRACT:
 				if(--curField < 0)
 					curField = NORDFIELDS - 1;
 				break;
 
-			case GLFW_KEY_KP_MULTIPLY:
+			case GLFW_KEY_KP_ADD:
 				if(++curField >= NORDFIELDS)
 					curField = 0;
 				break;
@@ -124,6 +124,11 @@ struct nordDisplay : TransparentWidget
 
 		nvgFillColor(ctx.vg, nvgRGB(0xff, 0xff, 0xff));
 		nvgText(ctx.vg, ctx.left, ctx.top, pNord->cars[pNord->selectedCar].name.c_str(), NULL);
+
+		nvgFontSize(ctx.vg, 8);
+		char n[80];
+		sprintf(n, "Lap #%i", pNord->cars[pNord->selectedCar].getLap());
+		nvgText(ctx.vg, ctx.left, box.size.y-1, n, NULL);
 	}
 
 	void draw(const DrawArgs &args) override
