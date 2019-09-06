@@ -196,7 +196,10 @@ struct Nordschleife : Module
 		selectedCar = n;
 		for(int k = 0; k < NORDCARS; k++)
 			params[CAR_SELECT + k].setValue(k == selectedCar);
+		for(int k = 0; k < NORDSTEPS; k++)
+			steps[k].Init(k);
 	}
+
 	inline void toggleDataEntryMode()
 	{
 		params[DATAENTRY_MODE].setValue(params[DATAENTRY_MODE].getValue() == 0);
@@ -248,14 +251,18 @@ struct Nordschleife : Module
 	void load();
 	void data_entry();
 	void declareFields();
-	void reset()
+
+	virtual void onReset() override
 	{
 		setCar(0);
 		setStep(0);
 		lazyCheck = 0;
 		for(int k = 0; k < NORDCARS; k++)
-			raceCollisions[k]=-1;
+		{
+			cars[k].init();
+		}
 	}
+
 	inline bool consumeKey(int code)
 	{
 		if(key == code)
@@ -277,5 +284,4 @@ struct Nordschleife : Module
 	int key = 0;
 	NordschleifeWidget *pWidget;
 	nordDisplay *display;
-	int raceCollisions[NORDCARS];
 };

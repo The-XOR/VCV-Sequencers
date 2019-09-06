@@ -42,13 +42,16 @@ void Nordschleife::process(const ProcessArgs &args)
 	float deltaTime = 1.0 / args.sampleRate;
 	for(int k=0; k < NORDCARS; k++)
 	{
-		raceCollisions[k] = cars[k].process(deltaTime);
-		for(int j = 0; j <NORDCARS; j++)
+		int step = cars[k].process(deltaTime);
+		if(step >= 0)
 		{
-			if(j!=k && raceCollisions[j] == raceCollisions[k])	// collisione tra due macchine 
+			for(int j = 0; j < NORDCARS; j++)
 			{
-				cars[k].onCollision();
-				break;
+				if(j != k && cars[j].crashWith(step))
+				{
+					cars[k].onCollision();
+					break;
+				}
 			}
 		}
 	}
@@ -149,7 +152,7 @@ void Nordschleife::on_loaded()
 
 void Nordschleife::load()
 {
-	reset();
+	onReset();
 }
 
 void Nordschleife::randrandrand()
@@ -187,7 +190,7 @@ void Nordschleife::declareFields()
 	int row = 0;
 	nsFields[NordschleifeFields::shlfDirection].set(0, row++, "Direction: ", {"Forward", "Backward", "Alternate", "Brownian", "Random"}, [this] {return cars[selectedCar].direction; }, [this](int i) {cars[selectedCar].direction = (NordschleifeCar::CarDirection)i; });
 	nsFields[NordschleifeFields::shlfPath].set(0, row++, "Path: ", Nordschleife::pathNames, [this] {return cars[selectedCar].path; }, [this](int i) {cars[selectedCar].path = i; });
-	nsFields[NordschleifeFields::shlfCollision].set(0, row++, "On Collision: ", {"Ignore", "Invert", "90° left", "90° right"}, [this] {return cars[selectedCar].collision; }, [this](int i) {cars[selectedCar].collision = (NordschleifeCar::CarCollision)i; });
+	nsFields[NordschleifeFields::shlfCollision].set(0, row++, "On Collision: ", {"Ignore", "Invert", "90 left", "90 right"}, [this] {return cars[selectedCar].collision; }, [this](int i) {cars[selectedCar].collision = (NordschleifeCar::CarCollision)i; });
 	nsFields[NordschleifeFields::shlfFrom].set(0, row, "From: ", 0, 62, [this] {return cars[selectedCar].stepFrom; }, [this](int i) {cars[selectedCar].stepFrom = i; }, 1);
 	nsFields[NordschleifeFields::shlfTo].set(scnd_half + 8, row++, "To: ", 1, 63, [this] {return cars[selectedCar].stepTo; }, [this](int i) {cars[selectedCar].stepTo = i; }, 1);
 
@@ -232,7 +235,7 @@ TransparentWidget *Nordschleife::createDisplay(Vec pos)
 
 NordschleifeWidget::NordschleifeWidget(Nordschleife *module)
 {
-	CREATE_PANEL(module, this, 49, "res/modules/Nordschleife.svg");
+	CREATE_PANEL(module, this, 50, "res/modules/Nordschleife.svg");
 	for(int k = 0; k < NORDSTEPS; k++)
 		createStep(module, k);
 	for(int k = 0; k < NORDCARS; k++)
@@ -244,9 +247,9 @@ NordschleifeWidget::NordschleifeWidget(Nordschleife *module)
 	{
 		module->setWidget(this);
 		addChild(module->createDisplay(Vec(mm2px(185.942), yncscape(82.4f, 41.f))));
-		module->cvs.Create(this, 236.228f, 15.367f, Nordschleife::NUM_INPUTS - cvStrip::CVSTRIP_INPUTS, Nordschleife::NUM_PARAMS - cvStrip::CVSTRIP_PARAMS, NORDSTEPS);
+		module->cvs.Create(this, 240.991f, 16.955f, Nordschleife::NUM_INPUTS - cvStrip::CVSTRIP_INPUTS, Nordschleife::NUM_PARAMS - cvStrip::CVSTRIP_PARAMS, NORDSTEPS);
 	}
-	addInput(createInput<PJ301HPort>(Vec(mm2px(236.274), yncscape(3.936f, 8.255f)), module, Nordschleife::RANDOMIZONE));
+	addInput(createInput<PJ301HPort>(Vec(mm2px(239.461), yncscape(3.936f, 8.255f)), module, Nordschleife::RANDOMIZONE));
 
 }
 

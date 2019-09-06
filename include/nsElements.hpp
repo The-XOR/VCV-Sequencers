@@ -1,4 +1,5 @@
 #pragma once
+#define STEP_RESET		-200
 
 struct Nordschleife;
 enum NordschleifeFields
@@ -30,6 +31,7 @@ struct NordschleifeCar
 	int path;
 
 	void Init(Nordschleife *p, int id, int lightid);
+	void init();
 
 	void dataFromJson(json_t *root)
 	{
@@ -61,15 +63,15 @@ struct NordschleifeCar
 	// ------------------------ race control ---------------------------
 	int process(float deltaTime);
 	void onCollision();
+	inline bool crashWith(int stp) { return step_n != STEP_RESET && stp == step_n; }
 
 private:
-	void reset();	
-	void beginPulse(bool silent);
-	void endPulse();
 	int move_next();
-	void ledOff();
-	void ledOn();
+	int get_next_step();
+	inline void ledOff();
+	inline void ledOn();
 	void pulseTrig();
+	void reset();
 
 private:
 	Nordschleife *pNord = NULL;
@@ -84,6 +86,7 @@ private:
 	int lightid;
 	int lapCounter;
 	int angle = 0;
+	int repetitions;
 };
 
 struct NordschleifeStep
@@ -118,4 +121,17 @@ struct NordschleifeStep
 		json_object_set_new(rootJ, ("stepreps_" + myID).c_str(), json_integer(repeats));
 		return rootJ;
 	}
+	int beginPulse(Nordschleife *pNord, int carID);
+	bool endPulse(Nordschleife *pNord, int carID, float deltaTime, bool end);
+	void Init(int id)
+	{
+		myID = id;
+	}
+	int repCount;
+
+private:
+	int myID;
+	dsp::PulseGenerator stepPulseA;
+	dsp::PulseGenerator stepPulseB;
+
 };
