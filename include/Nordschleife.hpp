@@ -6,23 +6,7 @@ extern Plugin *pluginInstance;
 #define NORDSTEPS	64
 #define NORDCARS	4
 
-enum NordschleifeFields
-{
-	shlfDirection,
-	shlfPath,
-	shlfCollision,
-	shlfFrom,
-	shlfTo,
-
-	shlfStep,
-	shlfMode,
-	shlfProbab,
-	shlfRepeats,
-	shlfOutA,
-	shlfOutB,
-
-	NORDFIELDS
-};
+#include "../include/nsElements.hpp"
 
 struct NordschleifeField
 {
@@ -82,101 +66,6 @@ struct NordschleifeField
 		}
 		
 		return values[getter()];
-	}
-};
-
-struct Nordschleife;
-struct NordschleifeCar
-{
-	enum CarDirection {carForward, carBackward, carAlternate, carBrownian, carRandom };
-	enum CarCollision { carIgnore, carInvert, car90lef, car90right };
-	std::string name;
-	CarDirection direction;
-	CarCollision collision;
-	int stepFrom;
-	int stepTo;
-	int path;
-
-	void Init(Nordschleife *p, int id, int lightid);
-
-	void dataFromJson(json_t *root)
-	{
-		json_t *r = json_object_get(root, ("cardir_"+myIDstr).c_str());
-		if(r) direction = (CarDirection)json_integer_value(r);
-		r = json_object_get(root, ("carcoll_" + myIDstr).c_str());
-		if(r) collision = (CarCollision)json_integer_value(r);
-		r = json_object_get(root, ("carfrom_" + myIDstr).c_str());
-		if(r) stepFrom = json_integer_value(r);
-		r = json_object_get(root, ("carto_" + myIDstr).c_str());
-		if(r) stepTo = json_integer_value(r);
-	}
-
-	json_t *dataToJson(json_t *rootJ)
-	{
-		json_object_set_new(rootJ, ("cardir_" + myIDstr).c_str(), json_integer(direction));
-		json_object_set_new(rootJ, ("carcoll_" + myIDstr).c_str(), json_integer(collision));
-		json_object_set_new(rootJ, ("carfrom_" + myIDstr).c_str(), json_integer(stepFrom));
-		json_object_set_new(rootJ, ("carto_" + myIDstr).c_str(), json_integer(stepTo));
-		return rootJ;
-	}
-
-	inline int getLap() const {return lapCounter / NORDSTEPS;}
-
-	// ------------------------ race control ---------------------------
-	void process();
-
-private:
-	void reset();	
-	void beginPulse(bool silent);
-	void endPulse();
-	int move_next();
-	void ledOff();
-	void ledOn();
-
-private:
-	Nordschleife *pNord = NULL;
-	bool moving_bwd;
-	int myID;
-	int curStepCounter;
-	int step_n =0;
-	std::string myIDstr;
-	SchmittTrigger2 clockTrigger;
-	dsp::SchmittTrigger resetTrig;
-	int lightid;
-	int lapCounter;
-};
-
-struct NordschleifeStep
-{
-	enum StepMode { Off, On, Skip, Legato, Reset };
-	StepMode mode = On;
-	int outA = 0;
-	int outB = 1;
-	int probability = 100;
-	int repeats = 1;
-
-	void dataFromJson(json_t *root, std::string myID)
-	{
-		json_t *r = json_object_get(root, ("stepmode_"+myID).c_str());
-		if(r) mode = (StepMode)json_integer_value(r);
-		r = json_object_get(root, ("stepouta_"+myID).c_str());
-		if(r) outA = (StepMode)json_integer_value(r);
-		r = json_object_get(root, ("stepoutb_"+myID).c_str());
-		if(r) outB = (StepMode)json_integer_value(r);
-		r = json_object_get(root, ("stepprob_"+myID).c_str());
-		if(r) probability = (StepMode)json_integer_value(r);
-		r = json_object_get(root, ("stepreps_"+myID).c_str());
-		if(r) repeats = (StepMode)json_integer_value(r);
-	}
-
-	json_t *dataToJson(json_t *rootJ, std::string myID)
-	{
-		json_object_set_new(rootJ, ("stepmode_" + myID).c_str(), json_integer(mode));
-		json_object_set_new(rootJ, ("step_outa" + myID).c_str(), json_integer(outA));
-		json_object_set_new(rootJ, ("step_outb" + myID).c_str(), json_integer(outB));
-		json_object_set_new(rootJ, ("stepprob_" + myID).c_str(), json_integer(probability));
-		json_object_set_new(rootJ, ("stepreps_" + myID).c_str(), json_integer(repeats));
-		return rootJ;
 	}
 };
 
@@ -275,6 +164,7 @@ struct Nordschleife : Module
 		display = NULL;
 		pWidget = NULL;
 		theRandomizer = 0;
+		init_tables();
 		config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS);
 		cvs.configure(this, NUM_PARAMS - cvStrip::CVSTRIP_PARAMS);
 
@@ -290,6 +180,7 @@ struct Nordschleife : Module
 	NordschleifeField nsFields[NORDFIELDS];
 	NordschleifeCar cars[NORDCARS];
 	NordschleifeStep steps[NORDSTEPS];
+	int rotation[4][NORDSTEPS]; // 0 90 180 270
 	int selectedCar = 0;
 	int selectedStep = 0;
 	static int paths[12][64];
@@ -350,7 +241,7 @@ struct Nordschleife : Module
 		for(int k = 0; k < NORDSTEPS; k++)
 			params[STEPSELECT_1 + k].setValue(k == selectedStep);
 	}
-
+	void init_tables();
 	void randrandrand();
 	void randrandrand(int action);
 	void on_loaded();
@@ -362,6 +253,8 @@ struct Nordschleife : Module
 		setCar(0);
 		setStep(0);
 		lazyCheck = 0;
+		for(int k = 0; k < NORDCARS; k++)
+			raceCollisions[k]=-1;
 	}
 	inline bool consumeKey(int code)
 	{
@@ -384,4 +277,5 @@ struct Nordschleife : Module
 	int key = 0;
 	NordschleifeWidget *pWidget;
 	nordDisplay *display;
+	int raceCollisions[NORDCARS];
 };

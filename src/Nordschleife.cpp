@@ -39,8 +39,19 @@ void Nordschleife::process(const ProcessArgs &args)
 	}
 
 	// race starts here!
+	float deltaTime = 1.0 / args.sampleRate;
 	for(int k=0; k < NORDCARS; k++)
-		cars[k].process();
+	{
+		raceCollisions[k] = cars[k].process(deltaTime);
+		for(int j = 0; j <NORDCARS; j++)
+		{
+			if(j!=k && raceCollisions[j] == raceCollisions[k])	// collisione tra due macchine 
+			{
+				cars[k].onCollision();
+				break;
+			}
+		}
+	}
 }
 
 void Nordschleife::car_select()
@@ -189,6 +200,26 @@ void Nordschleife::declareFields()
 
 	nsFields[NordschleifeFields::shlfOutA].set(0, row++, "Out A: ", Nordschleife::carNames, [this] {return steps[selectedStep].outA; }, [this](int i) {steps[selectedStep].outA = i; });
 	nsFields[NordschleifeFields::shlfOutB].set(0, row++, "Out B: ", Nordschleife::carNames, [this] {return steps[selectedStep].outB; }, [this](int i) {steps[selectedStep].outB = i; });
+}
+
+void Nordschleife::init_tables()
+{
+	for (int n = 0; n < NORDSTEPS; n++)
+	{
+		int r=n/8;
+		int c=n%8;
+		rotation[0][n] = n;
+		
+		rotation[1][n] = 56 - c * 8 + r;
+
+		r = rotation[1][n] / 8;
+		c = rotation[1][n] % 8;
+		rotation[2][n] = 56 - c * 8 + r;
+
+		r = rotation[2][n] / 8;
+		c = rotation[2][n] % 8;
+		rotation[3][n] = 56 - c * 8 + r;
+	}
 }
 
 TransparentWidget *Nordschleife::createDisplay(Vec pos)

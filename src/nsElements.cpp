@@ -2,8 +2,16 @@
 #include "../include/nordschleifeUI.hpp"
 
 #define STEP_RESET		-200
-void NordschleifeCar::process()
+int NordschleifeCar::process(float deltaTime)
 {
+	if(lapPulse.process(deltaTime))
+	{
+		pNord->outputs[Nordschleife::CAR_LAP+myID].value = LVL_ON;
+	} else
+	{
+		pNord->outputs[Nordschleife::CAR_LAP+myID].value = LVL_OFF;
+	}
+
 	if(resetTrig.process(pNord->inputs[Nordschleife::CAR_RESET+myID].value))
 	{
 		reset();
@@ -19,17 +27,47 @@ void NordschleifeCar::process()
 		} else if(clk == -1)
 			endPulse();
 	}
+
+	return step_n;
+}
+
+void NordschleifeCar::onCollision()
+{
+	switch(collision)
+	{
+		case carIgnore:
+			break;
+
+		case car90left: 
+			angle = (angle+1) % 4;
+			break;
+		
+		case car90right: 
+			if(--angle < 0)
+				angle=3;
+			break;
+
+		case carInvert: 
+			angle = (angle+2) % 4;
+			break;
+	}
+}
+
+void NordschleifeCar::pulseTrig()
+{
+	lapPulse.trigger(PULSE_TIME);
+	pNord->outputs[Nordschleife::CAR_LAP+myID].value = LVL_ON;
 }
 
 void NordschleifeCar::beginPulse(bool silent)
 {
-	pNord->outputs[Nordschleife::CAR_CV + myID].value = pNord->cvs.TransposeableValue(pNord->params[Nordschleife::VOLTAGE_1 + step_n].value);
-	pNord->outputs[Nordschleife::CAR_GATE + myID].value = silent ? LVL_OFF : LVL_ON;
+//	pNord->outputs[Nordschleife::CAR_CV + myID].value = pNord->cvs.TransposeableValue(pNord->params[Nordschleife::VOLTAGE_1 + step_n].value);
+//	pNord->outputs[Nordschleife::CAR_GATE + myID].value = silent ? LVL_OFF : LVL_ON;
 }
 
 void NordschleifeCar::endPulse()
 {
-	pNord->outputs[Nordschleife::CAR_GATE + myID].value = LVL_OFF;
+	//pNord->outputs[Nordschleife::CAR_GATE + myID].value = LVL_OFF;
 }
 
 int NordschleifeCar::move_next()
@@ -104,7 +142,7 @@ int NordschleifeCar::move_next()
 	}
 
 	lapCounter++;
-	return Nordschleife::paths[path][curStepCounter];
+	return Nordschleife::paths[path][pNord->rotation[angle][curStepCounter]];
 }
 
 void NordschleifeCar::ledOff()
@@ -123,6 +161,7 @@ void NordschleifeCar::ledOn()
 
 void NordschleifeCar::reset()
 {
+	lapPulse.reset();
 	endPulse();
 	ledOff();
 	moving_bwd = false;
