@@ -71,6 +71,7 @@ struct nordDisplay : TransparentWidget
 		float aveCharWidth;
 		NVGcontext *vg;
 	};
+	const int fntSize = 9;
 
 	std::shared_ptr<Font> font;
 	Nordschleife *pNord;
@@ -89,7 +90,7 @@ struct nordDisplay : TransparentWidget
 			y = ctx.top + ctx.interleaveBig * pField->pos_y;
 		} else
 		{
-			nvgFontSize(ctx.vg, 8);
+			nvgFontSize(ctx.vg, fntSize);
 			y = ctx.top + ctx.interleave * pField->pos_y;
 		}
 		y += 2;//margin
@@ -125,7 +126,7 @@ struct nordDisplay : TransparentWidget
 		nvgFillColor(ctx.vg, nvgRGB(0xff, 0xff, 0xff));
 		nvgText(ctx.vg, ctx.left, ctx.top, pNord->cars[pNord->selectedCar].name.c_str(), NULL);
 
-		nvgFontSize(ctx.vg, 8);
+		nvgFontSize(ctx.vg, fntSize);
 		char n[80];
 		sprintf(n, "Lap #%i", pNord->cars[pNord->selectedCar].getLap());
 		nvgText(ctx.vg, ctx.left, box.size.y-1, n, NULL);
@@ -155,7 +156,7 @@ struct nordDisplay : TransparentWidget
 		nvgTextMetrics(args.vg, &ascender, &descender, &lineh);
 		context.interleaveBig = descender + lineh;
 
-		nvgFontSize(args.vg, 8);
+		nvgFontSize(args.vg, fntSize);
 		nvgTextMetrics(args.vg, &ascender, &descender, &lineh);
 		context.interleave = descender + lineh;
 		context.top += context.interleave+2/*margin*/;

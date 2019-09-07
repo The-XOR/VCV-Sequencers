@@ -42,18 +42,9 @@ void Nordschleife::process(const ProcessArgs &args)
 	float deltaTime = 1.0 / args.sampleRate;
 	for(int k=0; k < NORDCARS; k++)
 	{
-		int step = cars[k].process(deltaTime);
-		if(step >= 0)
-		{
-			for(int j = 0; j < NORDCARS; j++)
-			{
-				if(j != k && cars[j].crashWith(step))
-				{
-					cars[k].onCollision();
-					break;
-				}
-			}
-		}
+		cars[k].process(deltaTime);
+		if(NordschleifeStep::Collision(k))
+			cars[k].onCollision();
 	}
 }
 
@@ -152,7 +143,7 @@ void Nordschleife::on_loaded()
 
 void Nordschleife::load()
 {
-	onReset();
+	reset();
 }
 
 void Nordschleife::randrandrand()
@@ -190,13 +181,13 @@ void Nordschleife::declareFields()
 	int row = 0;
 	nsFields[NordschleifeFields::shlfDirection].set(0, row++, "Direction: ", {"Forward", "Backward", "Alternate", "Brownian", "Random"}, [this] {return cars[selectedCar].direction; }, [this](int i) {cars[selectedCar].direction = (NordschleifeCar::CarDirection)i; });
 	nsFields[NordschleifeFields::shlfPath].set(0, row++, "Path: ", Nordschleife::pathNames, [this] {return cars[selectedCar].path; }, [this](int i) {cars[selectedCar].path = i; });
-	nsFields[NordschleifeFields::shlfCollision].set(0, row++, "On Collision: ", {"Ignore", "Invert", "90 left", "90 right"}, [this] {return cars[selectedCar].collision; }, [this](int i) {cars[selectedCar].collision = (NordschleifeCar::CarCollision)i; });
+	nsFields[NordschleifeFields::shlfCollision].set(0, row++, "On Crash: ", {"Ignore", "Invert", "90 left", "90 right"}, [this] {return cars[selectedCar].collision; }, [this](int i) {cars[selectedCar].collision = (NordschleifeCar::CarCollision)i; });
 	nsFields[NordschleifeFields::shlfFrom].set(0, row, "From: ", 0, 62, [this] {return cars[selectedCar].stepFrom; }, [this](int i) {cars[selectedCar].stepFrom = i; }, 1);
 	nsFields[NordschleifeFields::shlfTo].set(scnd_half + 8, row++, "To: ", 1, 63, [this] {return cars[selectedCar].stepTo; }, [this](int i) {cars[selectedCar].stepTo = i; }, 1);
 
 	// steps
 	nsFields[NordschleifeFields::shlfStep].set(0, row, "Step #", 0, 63, [this] {return selectedStep; }, [this](int i) {setStep(i); }, 1, true);
-	row += 5;
+	row += 4;
 	nsFields[NordschleifeFields::shlfMode].set(0, row++, "Mode: ", {"Off", "On", "Skip", "Legato", "Reset"}, [this] {return steps[selectedStep].mode; }, [this](int i) {steps[selectedStep].mode = (NordschleifeStep::StepMode)i; });
 	nsFields[NordschleifeFields::shlfProbab].set(0, row++, "Probability: ", 1, 100, [this] {return steps[selectedStep].probability; }, [this](int i) {steps[selectedStep].probability = i; });
 	nsFields[NordschleifeFields::shlfRepeats].set(0, row++, "Reps: ", 1, 8, [this] {return steps[selectedStep].repeats; }, [this](int i) {steps[selectedStep].repeats = i; });

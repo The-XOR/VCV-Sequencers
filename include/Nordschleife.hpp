@@ -168,9 +168,11 @@ struct Nordschleife : Module
 		config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS);
 		cvs.configure(this, NUM_PARAMS - cvStrip::CVSTRIP_PARAMS);
 
-		int l[NORDCARS] = {LOTUS_LED, BRABHAM_LED, FERRARI_LED, HESKETH_LED};
 		for(int k = 0; k < NORDCARS; k++)
-			cars[k].Init(this, k, l[k]);
+			cars[k].Init(this, k);
+
+		for(int k = 0; k < NORDSTEPS; k++)
+			steps[k].Init(k);
 	}
 
 	void process(const ProcessArgs &args) override;
@@ -196,8 +198,6 @@ struct Nordschleife : Module
 		selectedCar = n;
 		for(int k = 0; k < NORDCARS; k++)
 			params[CAR_SELECT + k].setValue(k == selectedCar);
-		for(int k = 0; k < NORDSTEPS; k++)
-			steps[k].Init(k);
 	}
 
 	inline void toggleDataEntryMode()
@@ -254,13 +254,22 @@ struct Nordschleife : Module
 
 	virtual void onReset() override
 	{
-		setCar(0);
-		setStep(0);
-		lazyCheck = 0;
 		for(int k = 0; k < NORDCARS; k++)
 		{
 			cars[k].init();
 		}
+		reset();
+	}
+
+	void reset() 
+	{
+		setCar(0);
+		setStep(0);
+		lazyCheck = 0;
+		for(int k = 0; k < NORDCARS; k++)
+			cars[k].reset();
+		for(int k = 0; k < NORDSTEPS; k++)
+			steps[k].reset();
 	}
 
 	inline bool consumeKey(int code)

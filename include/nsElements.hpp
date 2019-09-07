@@ -30,7 +30,7 @@ struct NordschleifeCar
 	int stepTo;
 	int path;
 
-	void Init(Nordschleife *p, int id, int lightid);
+	void Init(Nordschleife *p, int id);
 	void init();
 
 	void dataFromJson(json_t *root)
@@ -58,45 +58,42 @@ struct NordschleifeCar
 	}
 
 	std::string name;
+	static int CarLed[NORDCARS];
 	inline int getLap() const {return lapCounter / NORDSTEPS;}
 
 	// ------------------------ race control ---------------------------
-	int process(float deltaTime);
-	void onCollision();
-	inline bool crashWith(int stp) { return step_n != STEP_RESET && stp == step_n; }
+	void process(float deltaTime);
+	void onCollision();	
+	void reset();
 
 private:
 	int move_next();
 	int get_next_step();
-	inline void ledOff();
-	inline void ledOn();
 	void pulseTrig();
-	void reset();
 
 private:
+	float stopWatch;
+	float lastPulseDuration;
 	Nordschleife *pNord = NULL;
 	bool moving_bwd;
 	int myID;
 	int curStepCounter;
-	int step_n = 0;
 	std::string myIDstr;
 	SchmittTrigger2 clockTrigger;
 	dsp::SchmittTrigger resetTrig;
 	dsp::PulseGenerator lapPulse;
-	int lightid;
 	int lapCounter;
 	int angle = 0;
-	int repetitions;
 };
 
 struct NordschleifeStep
 {
 	enum StepMode { Off, On, Skip, Legato, Reset };
-	StepMode mode = On;
-	int outA = 0;
-	int outB = 1;
-	int probability = 100;
-	int repeats = 1;
+	StepMode mode;
+	int outA;
+	int outB;
+	int probability;
+	int repeats;
 
 	void dataFromJson(json_t *root, std::string myID)
 	{
@@ -111,7 +108,6 @@ struct NordschleifeStep
 		r = json_object_get(root, ("stepreps_"+myID).c_str());
 		if(r) repeats = (StepMode)json_integer_value(r);
 	}
-
 	json_t *dataToJson(json_t *rootJ, std::string myID)
 	{
 		json_object_set_new(rootJ, ("stepmode_" + myID).c_str(), json_integer(mode));
@@ -121,17 +117,62 @@ struct NordschleifeStep
 		json_object_set_new(rootJ, ("stepreps_" + myID).c_str(), json_integer(repeats));
 		return rootJ;
 	}
-	int beginPulse(Nordschleife *pNord, int carID);
-	bool endPulse(Nordschleife *pNord, int carID, float deltaTime, bool end);
+
+	inline static void Mute(Nordschleife *pNord, int carID);
+	inline static StepMode EndPulse(Nordschleife *pNord, int carID);
+	inline static void  Process(Nordschleife *pNord, int carID, float deltaTime);
+	void beginPulse(Nordschleife *pNord, int carID, float lastPulseDuration);
+	static bool Collision(int carID)
+	{
+		if(NordschleifeStep::selectedByCar[carID] != STEP_RESET)
+		{
+			for(int k = 0; k < NORDCARS; k++)
+			{
+				if(carID != k && NordschleifeStep::selectedByCar[k] == NordschleifeStep::selectedByCar[carID])
+					return true;
+			}
+		}
+
+		return false;
+	}
+
 	void Init(int id)
 	{
 		myID = id;
+		mode = On;
+		outA = 0;
+		outB = 1;
+		probability = 100;
+		repeats = 1;
+		reset();
 	}
-	int repCount;
+	void reset()
+	{
+		for(int k = 0; k < NORDCARS; k++)
+		{
+			repCount[k] = 0;
+			playing[k] = false;
+			NordschleifeStep::selectedByCar[k] = STEP_RESET;
+		}
+	}
 
 private:
 	int myID;
 	dsp::PulseGenerator stepPulseA;
 	dsp::PulseGenerator stepPulseB;
+	int repCount[NORDCARS];
+	static int selectedByCar[NORDCARS];
+	bool playing[NORDCARS];
+	float timeSlice[NORDCARS];
+	bool repeat_gateStatus[NORDCARS];
+	float stopWatch[NORDCARS];
 
+private:
+	StepMode endPulse(Nordschleife *pNord, int carID);
+	void process(Nordschleife *pNord, int carID, float elapsedTime);
+	void mute(Nordschleife *pNord, int carID)
+	{
+		endPulse(pNord, carID);
+		NordschleifeStep::selectedByCar[carID] = STEP_RESET;
+	}
 };
