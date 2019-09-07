@@ -5,13 +5,13 @@ int NordschleifeCar::CarLed[NORDCARS] = {Nordschleife::LightIds::LOTUS_LED, Nord
 
 void NordschleifeCar::process(float deltaTime)
 {
-	if(lapPulse.process(deltaTime))
-	{
-		pNord->outputs[Nordschleife::CAR_LAP+myID].value = LVL_ON;
-	} else
+	if(!lapPulse.process(deltaTime))
 	{
 		pNord->outputs[Nordschleife::CAR_LAP+myID].value = LVL_OFF;
 	}
+	if(!ledLapPulse.process(deltaTime))
+		pNord->lights[Nordschleife::LAP_LED + myID].value = LED_OFF;
+
 
 	if(resetTrig.process(pNord->inputs[Nordschleife::CAR_RESET+myID].value))
 	{
@@ -94,7 +94,9 @@ void NordschleifeCar::onCollision()
 void NordschleifeCar::pulseTrig()
 {
 	lapPulse.trigger(PULSE_TIME);
-	pNord->outputs[Nordschleife::CAR_LAP+myID].value = LVL_ON;
+	ledLapPulse.trigger(0.1);
+	pNord->outputs[Nordschleife::CAR_LAP + myID].value = LVL_ON;
+	pNord->lights[Nordschleife::LAP_LED +myID].value = LED_ON;
 }
 
 int NordschleifeCar::get_next_step()
@@ -183,12 +185,16 @@ int NordschleifeCar::move_next()
 
 	totalCounter++;
 	lapCounter = totalCounter / NORDSTEPS;
+	if((totalCounter % NORDSTEPS) == 0)
+		pulseTrig();
+
 	return rv;
 }
 
 void NordschleifeCar::reset()
 {
 	lapPulse.reset();
+	ledLapPulse.reset();
 	NordschleifeStep::Mute(pNord, myID);
 	moving_bwd = false;
 	curStepCounter=STEP_RESET;
@@ -288,6 +294,11 @@ NordschleifeStep::StepMode NordschleifeStep::endPulse(Nordschleife *pNord, int c
 
 void NordschleifeStep::process(Nordschleife *pNord, int carID, float deltaTime)
 {
+	if(!stepPulseA.process(deltaTime))
+		pNord->outputs[Nordschleife::OUT_A + myID].value = LVL_OFF;
+	if(!stepPulseB.process(deltaTime))
+		pNord->outputs[Nordschleife::OUT_B + myID].value = LVL_OFF;
+
 	if(repeats > 1 && repCount[carID] > 0 && timeSlice[carID] > 0)
 	{
 		// quanto e' passato dall'ultimo cambio di stato?

@@ -99,6 +99,7 @@ private:
 	SchmittTrigger2 clockTrigger;
 	dsp::SchmittTrigger resetTrig;
 	dsp::PulseGenerator lapPulse;
+	dsp::PulseGenerator ledLapPulse;
 	int totalCounter;
 	int lapCounter;
 	int angle = 0;
@@ -159,12 +160,7 @@ struct NordschleifeStep
 	void Init(int id)
 	{
 		myID = id;
-		mode = On;
-		outA = 0;
-		outB = 1;
-		probability = 100;
-		repeats = 1;
-		reset();
+		init();
 	}
 	void reset()
 	{
@@ -174,6 +170,16 @@ struct NordschleifeStep
 			playing[k] = false;
 			NordschleifeStep::selectedByCar[k] = STEP_RESET;
 		}
+	}
+
+	void init()
+	{
+		mode = On;
+		outA = 0;
+		outB = 1;
+		probability = 100;
+		repeats = 1;
+		reset();
 	}
 
 private:

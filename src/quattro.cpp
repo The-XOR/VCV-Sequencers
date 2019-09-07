@@ -126,7 +126,7 @@ quattroWidget::quattroWidget(quattro *module) : SequencerWidget()
 	#endif
 
 	ParamWidget *pwdg = createParam<BefacoPushBig>(Vec(mm2px(24.889f), yncscape(112.537f, 8.999)), module, quattro::M_RESET);
-	addChild(pwdg);
+	addParam(pwdg);
 	#ifdef OSCTEST_MODULE
 	if(module != NULL)
 	{

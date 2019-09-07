@@ -75,7 +75,13 @@ struct NordschleifeWidget : SequencerWidget
 	enum MENUACTIONS
 	{
 		RANDOMIZE_PITCH = 0x01,
-		RANDOMIZE_LAQUALUNQUE = 0x10,
+		RANDOMIZE_MODE = 0x02,
+		RANDOMIZE_PROBABILITY = 0x04,
+		RANDOMIZE_REPETITIONS = 0x08,
+		RANDOMIZE_DIRECTION = 0x10,
+		RANDOMIZE_PATH = 0x20,
+		RANDOMIZE_ONCRASH = 0x40,
+		RANDOMIZE_LAQUALUNQUE = 0x80,
 		QUANTIZE_PITCH
 	};
 
@@ -101,6 +107,12 @@ struct NordschleifeWidget : SequencerWidget
 		{
 			Menu *sub_menu = new Menu;
 			sub_menu->addChild(new RandomizeSubItemItem(md, "Ov Pitch", RANDOMIZE_PITCH));
+			sub_menu->addChild(new RandomizeSubItemItem(md, "Ov Mode", RANDOMIZE_MODE ));
+			sub_menu->addChild(new RandomizeSubItemItem(md, "Ov Probability", RANDOMIZE_PROBABILITY ));
+			sub_menu->addChild(new RandomizeSubItemItem(md, "Ov Repetition", RANDOMIZE_REPETITIONS ));
+			sub_menu->addChild(new RandomizeSubItemItem(md, "Ov Direction", RANDOMIZE_DIRECTION ));
+			sub_menu->addChild(new RandomizeSubItemItem(md, "Ov Path", RANDOMIZE_PATH ));
+			sub_menu->addChild(new RandomizeSubItemItem(md, "Ov Collision", RANDOMIZE_ONCRASH ));
 			sub_menu->addChild(new RandomizeSubItemItem(md, "Ov Power", RANDOMIZE_LAQUALUNQUE));
 			return sub_menu;
 		}
@@ -130,6 +142,7 @@ struct Nordschleife : Module
 		DATAENTRY_DOWN,
 		DATAENTRY_LEFT,
 		DATAENTRY_RIGHT,
+		M_RESET,
 		RANGE,
 		NUM_PARAMS = RANGE + cvStrip::CVSTRIP_PARAMS
 	};
@@ -138,6 +151,7 @@ struct Nordschleife : Module
 		CAR_RESET,
 		CAR_CLOCK = CAR_RESET + NORDCARS,
 		RANDOMIZONE = CAR_CLOCK + NORDCARS,
+		MRESET_IN,
 		RANGE_IN,
 		NUM_INPUTS = RANGE_IN + cvStrip::CVSTRIP_INPUTS
 	};
@@ -156,7 +170,8 @@ struct Nordschleife : Module
 		BRABHAM_LED = LOTUS_LED + NORDSTEPS,
 		FERRARI_LED = BRABHAM_LED + NORDSTEPS,
 		HESKETH_LED = FERRARI_LED + NORDSTEPS,
-		NUM_LIGHTS = HESKETH_LED + NORDSTEPS
+		LAP_LED = HESKETH_LED + NORDSTEPS,
+		NUM_LIGHTS = LAP_LED + NORDCARS
 	};
 
 	Nordschleife() : Module()
@@ -206,6 +221,7 @@ struct Nordschleife : Module
 	}
 	inline bool moveByStep() { return params[DATAENTRY_MODE].getValue() == 0; }
 	inline void setKey(int code) { key = code; }
+	void randrandrand(int action);
 
 	protected:
 	void dataFromJson(json_t *root) override
@@ -246,7 +262,6 @@ struct Nordschleife : Module
 	}
 	void init_tables();
 	void randrandrand();
-	void randrandrand(int action);
 	void on_loaded();
 	void load();
 	void data_entry();
@@ -258,6 +273,8 @@ struct Nordschleife : Module
 		{
 			cars[k].init();
 		}
+		for(int k = 0; k < NORDSTEPS; k++)
+			steps[k].init();
 		reset();
 	}
 
@@ -293,4 +310,5 @@ struct Nordschleife : Module
 	int key = 0;
 	NordschleifeWidget *pWidget;
 	nordDisplay *display;
+	dsp::SchmittTrigger masterReset;
 };
