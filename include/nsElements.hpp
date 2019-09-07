@@ -9,6 +9,8 @@ enum NordschleifeFields
 	shlfCollision,
 	shlfFrom,
 	shlfTo,
+	shlfStrtgEvery,
+	shlfStrtgFor,
 
 	shlfStep,
 	shlfMode,
@@ -29,6 +31,8 @@ struct NordschleifeCar
 	int stepFrom;
 	int stepTo;
 	int path;
+	int strategyEvery;
+	int strategyFor;
 
 	void Init(Nordschleife *p, int id);
 	void init();
@@ -45,6 +49,10 @@ struct NordschleifeCar
 		if(r) stepTo = json_integer_value(r);
 		r = json_object_get(root, ("carpath_" + myIDstr).c_str());
 		if(r) path = json_integer_value(r);
+		r = json_object_get(root, ("carstrevery_" + myIDstr).c_str());
+		if(r) strategyEvery = json_integer_value(r);
+		r = json_object_get(root, ("carstrfor_" + myIDstr).c_str());
+		if(r) strategyFor = json_integer_value(r);
 	}
 
 	json_t *dataToJson(json_t *rootJ)
@@ -54,12 +62,20 @@ struct NordschleifeCar
 		json_object_set_new(rootJ, ("carfrom_" + myIDstr).c_str(), json_integer(stepFrom));
 		json_object_set_new(rootJ, ("carto_" + myIDstr).c_str(), json_integer(stepTo));
 		json_object_set_new(rootJ, ("carpath_" + myIDstr).c_str(), json_integer(path));
+		json_object_set_new(rootJ, ("carstrevery_" + myIDstr).c_str(), json_integer(strategyEvery));
+		json_object_set_new(rootJ, ("carstrfor_" + myIDstr).c_str(), json_integer(strategyFor));
 		return rootJ;
 	}
 
 	std::string name;
 	static int CarLed[NORDCARS];
-	inline int getLap() const {return lapCounter / NORDSTEPS;}
+	inline std::string getLap() const 
+	{
+		if(pitstop)
+			return "Lap #"+std::to_string(lapCounter) + " *** PIT ***";
+		else
+			return "Lap #" + std::to_string(lapCounter);
+	}
 
 	// ------------------------ race control ---------------------------
 	void process(float deltaTime);
@@ -70,6 +86,7 @@ private:
 	int move_next();
 	int get_next_step();
 	void pulseTrig();
+	bool inPit();
 
 private:
 	float stopWatch;
@@ -82,8 +99,11 @@ private:
 	SchmittTrigger2 clockTrigger;
 	dsp::SchmittTrigger resetTrig;
 	dsp::PulseGenerator lapPulse;
+	int totalCounter;
 	int lapCounter;
 	int angle = 0;
+	int pitStopCounter;
+	bool pitstop;
 };
 
 struct NordschleifeStep

@@ -25,22 +25,48 @@ void NordschleifeCar::process(float deltaTime)
 		if(clk == 1)
 		{
 			stopWatch = 0.f;
-			pNord->steps[move_next()].beginPulse(pNord, myID, lastPulseDuration);
+			int stp = move_next();
+			if(!inPit())
+				pNord->steps[stp].beginPulse(pNord, myID, lastPulseDuration);
 		} else 
 		{			
 			if(clk == -1)
 			{
 				lastPulseDuration = stopWatch;
-				NordschleifeStep::StepMode m = NordschleifeStep::EndPulse(pNord, myID);
-				if(m == NordschleifeStep::StepMode::Reset)		// reset step?
-					curStepCounter = STEP_RESET;
+				if(!pitstop)
+				{
+					NordschleifeStep::StepMode m = NordschleifeStep::EndPulse(pNord, myID);
+					if(m == NordschleifeStep::StepMode::Reset)		// reset step?
+						curStepCounter = STEP_RESET;
+				}
 			} else
 			{
 				stopWatch += deltaTime; // tempo trascorso dall'inizio del clock
-				NordschleifeStep::Process(pNord, myID, deltaTime);
+				if(!pitstop)
+					NordschleifeStep::Process(pNord, myID, deltaTime);
 			}
 		}
 	}
+}
+
+bool NordschleifeCar::inPit()
+{
+	if(strategyEvery > 0)
+	{
+		if((lapCounter - pitStopCounter) == strategyEvery)
+			pitstop = true;
+		else if((lapCounter - pitStopCounter) == strategyEvery + strategyFor)
+		{
+			pitStopCounter = lapCounter;
+			pitstop = false;
+		}
+	} else
+	{
+		pitstop = false;
+		pitStopCounter = 0;
+	}
+
+	return pitstop;
 }
 
 void NordschleifeCar::onCollision()
@@ -155,7 +181,8 @@ int NordschleifeCar::move_next()
 			break;
 	} 
 
-	lapCounter++;
+	totalCounter++;
+	lapCounter = totalCounter / NORDSTEPS;
 	return rv;
 }
 
@@ -165,7 +192,8 @@ void NordschleifeCar::reset()
 	NordschleifeStep::Mute(pNord, myID);
 	moving_bwd = false;
 	curStepCounter=STEP_RESET;
-	lapCounter = 0;
+	totalCounter = lapCounter = pitStopCounter = 0;
+	pitstop = false;
 	pNord->outputs[Nordschleife::CAR_GATE + myID].value = LVL_OFF;
 }
 
@@ -186,6 +214,8 @@ void NordschleifeCar::init()
 	stepTo = NORDSTEPS - 1;
 	direction = carForward;
 	collision = carIgnore;
+	strategyEvery = 0;
+	strategyFor = 1;
 	reset();
 }
 

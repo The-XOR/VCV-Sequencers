@@ -184,6 +184,8 @@ void Nordschleife::declareFields()
 	nsFields[NordschleifeFields::shlfCollision].set(0, row++, "On Crash: ", {"Ignore", "Invert", "90 left", "90 right"}, [this] {return cars[selectedCar].collision; }, [this](int i) {cars[selectedCar].collision = (NordschleifeCar::CarCollision)i; });
 	nsFields[NordschleifeFields::shlfFrom].set(0, row, "From: ", 0, 62, [this] {return cars[selectedCar].stepFrom; }, [this](int i) {cars[selectedCar].stepFrom = i; }, 1);
 	nsFields[NordschleifeFields::shlfTo].set(scnd_half + 8, row++, "To: ", 1, 63, [this] {return cars[selectedCar].stepTo; }, [this](int i) {cars[selectedCar].stepTo = i; }, 1);
+	nsFields[NordschleifeFields::shlfStrtgEvery].set(0, row, "Pit every:", 0, 24, [this] {return cars[selectedCar].strategyEvery; }, [this](int i) {cars[selectedCar].strategyEvery = i; });
+	nsFields[NordschleifeFields::shlfStrtgFor].set(scnd_half+15, row, "for: ", 1, 12, [this] {return cars[selectedCar].strategyFor; }, [this](int i) {cars[selectedCar].strategyFor = i; });
 
 	// steps
 	nsFields[NordschleifeFields::shlfStep].set(0, row, "Step #", 0, 63, [this] {return selectedStep; }, [this](int i) {setStep(i); }, 1, true);
@@ -328,7 +330,7 @@ NordschleifeWidget::RandomizeSubItemItem::RandomizeSubItemItem(Module *m, const 
 void NordschleifeWidget::onHoverKey(const event::HoverKey &e)
 {
 	SequencerWidget::onHoverKey(e);
-	if(module != NULL && !e.isConsumed() && e.action == GLFW_PRESS)
+	if(module != NULL && !e.isConsumed() && (e.action == GLFW_PRESS || e.action == GLFW_REPEAT))
 	{
 		switch(e.key)
 		{

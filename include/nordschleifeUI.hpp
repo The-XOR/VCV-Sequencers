@@ -35,6 +35,7 @@ struct nordDisplay : TransparentWidget
 		curField = 0;
 		//font = APP->window->loadFont(asset::system("res/fonts/ShareTechMono-Regular.ttf"));
 		font = APP->window->loadFont(asset::plugin(pluginInstance, "res/FreeMonoBold.ttf"));
+		//font = APP->window->loadFont(asset::system("res/fonts/DejaVuSans.ttf"));
 	}
 
 	void setModule(Nordschleife *ns)
@@ -127,9 +128,7 @@ struct nordDisplay : TransparentWidget
 		nvgText(ctx.vg, ctx.left, ctx.top, pNord->cars[pNord->selectedCar].name.c_str(), NULL);
 
 		nvgFontSize(ctx.vg, fntSize);
-		char n[80];
-		sprintf(n, "Lap #%i", pNord->cars[pNord->selectedCar].getLap());
-		nvgText(ctx.vg, ctx.left, box.size.y-1, n, NULL);
+		nvgText(ctx.vg, ctx.left, box.size.y-1, pNord->cars[pNord->selectedCar].getLap().c_str(), NULL);
 	}
 
 	void draw(const DrawArgs &args) override
