@@ -1,5 +1,5 @@
 ### the absolutely awful plugin suite
-![modules](/res/png/modules.png?raw=true "modules")
+![modules](/repository/modules.png?raw=true "modules")
 
 common characteristics:
 - these plugins are awful, you are advised to avoid them at all costs
@@ -8,7 +8,7 @@ common characteristics:
 - totally, miserably, hopelessy free
 - all input and output ports are color-coded as in figure:
 
-![legend](/repository/modules.png?raw=true "legend")
+![legend](/repository/legenda.png?raw=true "legend")
 
 - warning: the millboard front panels require special screws (polygonal holes). they are easy to miss and we do not provide spares.
 
