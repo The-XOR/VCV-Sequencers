@@ -1,10 +1,10 @@
 {
-  "version": "1.1.3",
+  "version": "1.1.4",
   "modules": [
     {
       "id": 55,
       "plugin": "TheXOR",
-      "version": "1.1.1",
+      "version": "1.1.2",
       "model": "AttAmp",
       "params": [
         {
@@ -62,14 +62,14 @@
       ],
       "rightModuleId": 56,
       "pos": [
-        0,
+        2,
         1
       ]
     },
     {
       "id": 56,
       "plugin": "TheXOR",
-      "version": "1.1.1",
+      "version": "1.1.2",
       "model": "Boole",
       "params": [
         {
@@ -140,14 +140,14 @@
       "leftModuleId": 55,
       "rightModuleId": 57,
       "pos": [
-        8,
+        10,
         1
       ]
     },
     {
       "id": 57,
       "plugin": "TheXOR",
-      "version": "1.1.1",
+      "version": "1.1.2",
       "model": "Burst",
       "params": [
         {
@@ -179,14 +179,14 @@
       "rightModuleId": 59,
       "data": {},
       "pos": [
-        22,
+        24,
         1
       ]
     },
     {
       "id": 58,
       "plugin": "TheXOR",
-      "version": "1.1.1",
+      "version": "1.1.2",
       "model": "Counter",
       "params": [
         {
@@ -212,14 +212,14 @@
         "counter": 2
       },
       "pos": [
-        48,
+        50,
         1
       ]
     },
     {
       "id": 59,
       "plugin": "TheXOR",
-      "version": "1.1.1",
+      "version": "1.1.2",
       "model": "Dmplex",
       "params": [
         {
@@ -245,14 +245,14 @@
         "num_outputs": 8
       },
       "pos": [
-        38,
+        40,
         1
       ]
     },
     {
       "id": 60,
       "plugin": "TheXOR",
-      "version": "1.1.1",
+      "version": "1.1.2",
       "model": "Klee",
       "params": [
         {
@@ -506,14 +506,14 @@
         "theRandomizer": 0
       },
       "pos": [
-        56,
+        58,
         1
       ]
     },
     {
       "id": 61,
       "plugin": "TheXOR",
-      "version": "1.1.1",
+      "version": "1.1.2",
       "model": "M581",
       "params": [
         {
@@ -698,14 +698,14 @@
         "theRandomizer": 0
       },
       "pos": [
-        0,
+        3,
         2
       ]
     },
     {
       "id": 62,
       "plugin": "TheXOR",
-      "version": "1.1.1",
+      "version": "1.1.2",
       "model": "Mplex",
       "params": [
         {
@@ -731,14 +731,14 @@
         "num_inputs": 8
       },
       "pos": [
-        31,
+        34,
         2
       ]
     },
     {
       "id": 63,
       "plugin": "TheXOR",
-      "version": "1.1.1",
+      "version": "1.1.2",
       "model": "PWMClock",
       "params": [
         {
@@ -772,6 +772,10 @@
         {
           "id": 7,
           "value": 0.0
+        },
+        {
+          "id": 8,
+          "value": 0.0
         }
       ],
       "leftModuleId": 62,
@@ -780,30 +784,31 @@
         "bpm_integer": 120
       },
       "pos": [
-        41,
+        44,
         2
       ]
     },
     {
       "id": 64,
       "plugin": "TheXOR",
-      "version": "1.1.1",
+      "version": "1.1.2",
       "model": "Quantizer",
       "params": [],
-      "leftModuleId": 71,
+      "leftModuleId": 66,
+      "rightModuleId": 103,
       "data": {
         "scale": 0,
         "root": 0
       },
       "pos": [
-        155,
-        2
+        95,
+        3
       ]
     },
     {
       "id": 65,
       "plugin": "TheXOR",
-      "version": "1.1.1",
+      "version": "1.1.2",
       "model": "nag",
       "params": [
         {
@@ -921,14 +926,14 @@
         "theRandomizer": 0
       },
       "pos": [
-        56,
+        59,
         2
       ]
     },
     {
       "id": 66,
       "plugin": "TheXOR",
-      "version": "1.1.1",
+      "version": "1.1.2",
       "model": "Renato",
       "params": [
         {
@@ -1228,19 +1233,20 @@
           "value": 0.0
         }
       ],
-      "leftModuleId": 68,
+      "leftModuleId": 104,
+      "rightModuleId": 64,
       "data": {
         "theRandomizer": 0
       },
       "pos": [
-        128,
-        1
+        54,
+        3
       ]
     },
     {
       "id": 67,
       "plugin": "TheXOR",
-      "version": "1.1.1",
+      "version": "1.1.2",
       "model": "Spiralone",
       "params": [
         {
@@ -1485,14 +1491,14 @@
         "theRandomizer": 0
       },
       "pos": [
-        1,
+        0,
         0
       ]
     },
     {
       "id": 68,
       "plugin": "TheXOR",
-      "version": "1.1.1",
+      "version": "1.1.2",
       "model": "Uncertain",
       "params": [
         {
@@ -1513,17 +1519,17 @@
         }
       ],
       "leftModuleId": 69,
-      "rightModuleId": 66,
+      "rightModuleId": 73,
       "data": {},
       "pos": [
-        116,
+        118,
         1
       ]
     },
     {
       "id": 69,
       "plugin": "TheXOR",
-      "version": "1.1.1",
+      "version": "1.1.2",
       "model": "XSwitch",
       "params": [
         {
@@ -1574,14 +1580,14 @@
       "leftModuleId": 60,
       "rightModuleId": 68,
       "pos": [
-        106,
+        108,
         1
       ]
     },
     {
       "id": 70,
       "plugin": "TheXOR",
-      "version": "1.1.1",
+      "version": "1.1.2",
       "model": "Z8K",
       "params": [
         {
@@ -1678,17 +1684,16 @@
         }
       ],
       "leftModuleId": 65,
-      "rightModuleId": 71,
       "data": {},
       "pos": [
-        101,
+        104,
         2
       ]
     },
     {
       "id": 71,
       "plugin": "TheXOR",
-      "version": "1.1.1",
+      "version": "1.1.2",
       "model": "ascii",
       "params": [
         {
@@ -1708,22 +1713,21 @@
           "value": 5.0
         }
       ],
-      "leftModuleId": 70,
-      "rightModuleId": 64,
+      "leftModuleId": 103,
+      "rightModuleId": 87,
       "text": "Manifesto dei futurismo.\n\n1. Noi vogliamo cantare l'amor del pericolo, l'abitudine all'energia e alla temerita'.\n2. Il coraggio, l'audacia, la ribellione, saranno elementi essenziali della nostra poesia.\n3. La letteratura esalto' fino ad oggi l'immobilita' pensosa, l'estasi e il sonno.Noi vogliamo esaltare il movimento aggressivo, l'insonnia febbrile, il passo di corsa, il salto mortale, lo schiaffo ed il pugno.\n4. Noi affermiamo che la magnificenza del mondo si e' arricchita di una bellezza nuova : la bellezza della velocita'.Un automobile da corsa col suo cofano adorno di grossi tubi simili a serpenti dall'alito esplosivo....un automobile ruggente, che sembra correre sulla mitraglia, e' piu' bello della Vittoria di Samotracia.\n5. Noi vogliamo inneggiare all'uomo che tiene il volante, la cui asta ideale attraversa la Terra, lanciata a corsa, essa pure, sul circuito della sua orbita.\n6. Bisogna che il poeta si prodighi, con ardore, sfarzo e munificenza, per aumentare l'entusiastico fervore degli elementi primordiali.\n7. Non v'e' piu' bellezza, se non nella lotta.Nessuna opera che non abbia un carattere aggressivo puo' essere un capolavoro.La poesia deve essere concepita come un violento assalto contro le forze ignote, per ridurle a prostrarsi davanti all'uomo.\n8. Noi siamo sul promontorio estremo dei secoli!..Perche' dovremmo guardarci alle spalle, se vogliamo sfondare le misteriose porte dell'Impossibile ? Il Tempo e lo Spazio morirono ieri.Noi viviamo gia' nell'assoluto, poiche' abbiamo gia' creata l'eterna velocita' onnipresente.\n9. Noi vogliamo glorificare la guerra - sola igiene del mondo - il militarismo, il patriottismo, il gesto distruttore dei libertarii, le belle idee per cui si muore e il disprezzo della donna.\n10. Noi vogliamo distruggere i musei, le biblioteche, le accademie d'ogni specie, e combattere contro il moralismo, il femminismo e contro ogni vilta' opportunistica o utilitaria.\n11. Noi canteremo le grandi folle agitate dal lavoro, dal piacere o dalla sommossa : canteremo le maree multicolori e polifoniche delle rivoluzioni nelle capitali moderne; canteremo il vibrante fervore notturno degli arsenali e dei cantieri incendiati da violente lune elettriche; le stazioni ingorde, divoratrici di serpi che fumano; le officine appese alle nuvole pei contorti fili dei loro fumi; i ponti simili a ginnasti giganti che scavalcano i fiumi, balenanti al sole con un luccichio di coltelli; i piroscafi avventurosi che fiutano l'orizzonte, le locomotive dall'ampio petto, che scalpitano sulle rotaie, come enormi cavalli d'acciaio imbrigliati di tubi, e il volo scivolante degli aereoplani, la cui elica garrisce al vento come una bandiera e sembra applaudire come una folla entusiasta.\n",
       "pos": [
-        137,
-        2
+        107,
+        3
       ]
     },
     {
       "id": 73,
       "plugin": "TheXOR",
-      "version": "1.1.1",
+      "version": "1.1.2",
       "model": "midyQuant",
       "params": [],
-      "leftModuleId": 87,
-      "rightModuleId": 103,
+      "leftModuleId": 68,
       "data": {
         "scale": 0,
         "root": 0,
@@ -1733,14 +1737,14 @@
         }
       },
       "pos": [
-        156,
-        0
+        130,
+        1
       ]
     },
     {
       "id": 74,
       "plugin": "TheXOR",
-      "version": "1.1.1",
+      "version": "1.1.2",
       "model": "quattro",
       "params": [
         {
@@ -1890,14 +1894,14 @@
         "theRandomizer": 0
       },
       "pos": [
-        62,
+        61,
         0
       ]
     },
     {
       "id": 86,
       "plugin": "TheXOR",
-      "version": "1.1.1",
+      "version": "1.1.2",
       "model": "empty",
       "params": [
         {
@@ -1908,14 +1912,14 @@
       "leftModuleId": 67,
       "rightModuleId": 74,
       "pos": [
-        54,
+        53,
         0
       ]
     },
     {
       "id": 87,
       "plugin": "TheXOR",
-      "version": "1.1.1",
+      "version": "1.1.2",
       "model": "flop",
       "params": [
         {
@@ -1959,17 +1963,16 @@
           "value": 0.0
         }
       ],
-      "leftModuleId": 97,
-      "rightModuleId": 73,
+      "leftModuleId": 71,
       "pos": [
-        142,
-        0
+        125,
+        3
       ]
     },
     {
       "id": 97,
       "plugin": "TheXOR",
-      "version": "1.1.1",
+      "version": "1.1.2",
       "model": "o88o",
       "params": [
         {
@@ -2034,16 +2037,15 @@
         }
       ],
       "leftModuleId": 74,
-      "rightModuleId": 87,
       "pos": [
-        114,
+        113,
         0
       ]
     },
     {
       "id": 103,
       "plugin": "TheXOR",
-      "version": "1.1.1",
+      "version": "1.1.2",
       "model": "volt",
       "params": [
         {
@@ -2055,10 +2057,959 @@
           "value": 0.0
         }
       ],
-      "leftModuleId": 73,
+      "leftModuleId": 64,
+      "rightModuleId": 71,
       "pos": [
-        164,
-        0
+        103,
+        3
+      ]
+    },
+    {
+      "id": 104,
+      "plugin": "TheXOR",
+      "version": "1.1.2",
+      "model": "Nordschleife",
+      "params": [
+        {
+          "id": 0,
+          "value": 0.0
+        },
+        {
+          "id": 1,
+          "value": 0.0
+        },
+        {
+          "id": 2,
+          "value": 0.0
+        },
+        {
+          "id": 3,
+          "value": 0.0
+        },
+        {
+          "id": 4,
+          "value": 0.0
+        },
+        {
+          "id": 5,
+          "value": 0.0
+        },
+        {
+          "id": 6,
+          "value": 0.0
+        },
+        {
+          "id": 7,
+          "value": 0.0
+        },
+        {
+          "id": 8,
+          "value": 0.0
+        },
+        {
+          "id": 9,
+          "value": 0.0
+        },
+        {
+          "id": 10,
+          "value": 0.0
+        },
+        {
+          "id": 11,
+          "value": 0.0
+        },
+        {
+          "id": 12,
+          "value": 0.0
+        },
+        {
+          "id": 13,
+          "value": 0.0
+        },
+        {
+          "id": 14,
+          "value": 0.0
+        },
+        {
+          "id": 15,
+          "value": 0.0
+        },
+        {
+          "id": 16,
+          "value": 0.0
+        },
+        {
+          "id": 17,
+          "value": 0.0
+        },
+        {
+          "id": 18,
+          "value": 0.0
+        },
+        {
+          "id": 19,
+          "value": 0.0
+        },
+        {
+          "id": 20,
+          "value": 0.0
+        },
+        {
+          "id": 21,
+          "value": 0.0
+        },
+        {
+          "id": 22,
+          "value": 0.0
+        },
+        {
+          "id": 23,
+          "value": 0.0
+        },
+        {
+          "id": 24,
+          "value": 0.0
+        },
+        {
+          "id": 25,
+          "value": 0.0
+        },
+        {
+          "id": 26,
+          "value": 0.0
+        },
+        {
+          "id": 27,
+          "value": 0.0
+        },
+        {
+          "id": 28,
+          "value": 0.0
+        },
+        {
+          "id": 29,
+          "value": 0.0
+        },
+        {
+          "id": 30,
+          "value": 0.0
+        },
+        {
+          "id": 31,
+          "value": 0.0
+        },
+        {
+          "id": 32,
+          "value": 0.0
+        },
+        {
+          "id": 33,
+          "value": 0.0
+        },
+        {
+          "id": 34,
+          "value": 0.0
+        },
+        {
+          "id": 35,
+          "value": 0.0
+        },
+        {
+          "id": 36,
+          "value": 0.0
+        },
+        {
+          "id": 37,
+          "value": 0.0
+        },
+        {
+          "id": 38,
+          "value": 0.0
+        },
+        {
+          "id": 39,
+          "value": 0.0
+        },
+        {
+          "id": 40,
+          "value": 0.0
+        },
+        {
+          "id": 41,
+          "value": 0.0
+        },
+        {
+          "id": 42,
+          "value": 0.0
+        },
+        {
+          "id": 43,
+          "value": 0.0
+        },
+        {
+          "id": 44,
+          "value": 0.0
+        },
+        {
+          "id": 45,
+          "value": 0.0
+        },
+        {
+          "id": 46,
+          "value": 0.0
+        },
+        {
+          "id": 47,
+          "value": 0.0
+        },
+        {
+          "id": 48,
+          "value": 0.0
+        },
+        {
+          "id": 49,
+          "value": 0.0
+        },
+        {
+          "id": 50,
+          "value": 0.0
+        },
+        {
+          "id": 51,
+          "value": 0.0
+        },
+        {
+          "id": 52,
+          "value": 0.0
+        },
+        {
+          "id": 53,
+          "value": 0.0
+        },
+        {
+          "id": 54,
+          "value": 0.0
+        },
+        {
+          "id": 55,
+          "value": 0.0
+        },
+        {
+          "id": 56,
+          "value": 0.0
+        },
+        {
+          "id": 57,
+          "value": 0.0
+        },
+        {
+          "id": 58,
+          "value": 0.0
+        },
+        {
+          "id": 59,
+          "value": 0.0
+        },
+        {
+          "id": 60,
+          "value": 0.0
+        },
+        {
+          "id": 61,
+          "value": 0.0
+        },
+        {
+          "id": 62,
+          "value": 0.0
+        },
+        {
+          "id": 63,
+          "value": 0.0
+        },
+        {
+          "id": 64,
+          "value": 0.0
+        },
+        {
+          "id": 65,
+          "value": 0.0
+        },
+        {
+          "id": 66,
+          "value": 0.0
+        },
+        {
+          "id": 67,
+          "value": 0.0
+        },
+        {
+          "id": 68,
+          "value": 0.0
+        },
+        {
+          "id": 69,
+          "value": 0.0
+        },
+        {
+          "id": 70,
+          "value": 0.0
+        },
+        {
+          "id": 71,
+          "value": 0.0
+        },
+        {
+          "id": 72,
+          "value": 0.0
+        },
+        {
+          "id": 73,
+          "value": 0.0
+        },
+        {
+          "id": 74,
+          "value": 0.0
+        },
+        {
+          "id": 75,
+          "value": 0.0
+        },
+        {
+          "id": 76,
+          "value": 0.0
+        },
+        {
+          "id": 77,
+          "value": 0.0
+        },
+        {
+          "id": 78,
+          "value": 0.0
+        },
+        {
+          "id": 79,
+          "value": 0.0
+        },
+        {
+          "id": 80,
+          "value": 0.0
+        },
+        {
+          "id": 81,
+          "value": 0.0
+        },
+        {
+          "id": 82,
+          "value": 0.0
+        },
+        {
+          "id": 83,
+          "value": 0.0
+        },
+        {
+          "id": 84,
+          "value": 0.0
+        },
+        {
+          "id": 85,
+          "value": 0.0
+        },
+        {
+          "id": 86,
+          "value": 0.0
+        },
+        {
+          "id": 87,
+          "value": 0.0
+        },
+        {
+          "id": 88,
+          "value": 0.0
+        },
+        {
+          "id": 89,
+          "value": 0.0
+        },
+        {
+          "id": 90,
+          "value": 0.0
+        },
+        {
+          "id": 91,
+          "value": 0.0
+        },
+        {
+          "id": 92,
+          "value": 0.0
+        },
+        {
+          "id": 93,
+          "value": 0.0
+        },
+        {
+          "id": 94,
+          "value": 0.0
+        },
+        {
+          "id": 95,
+          "value": 0.0
+        },
+        {
+          "id": 96,
+          "value": 0.0
+        },
+        {
+          "id": 97,
+          "value": 0.0
+        },
+        {
+          "id": 98,
+          "value": 0.0
+        },
+        {
+          "id": 99,
+          "value": 0.0
+        },
+        {
+          "id": 100,
+          "value": 0.0
+        },
+        {
+          "id": 101,
+          "value": 0.0
+        },
+        {
+          "id": 102,
+          "value": 0.0
+        },
+        {
+          "id": 103,
+          "value": 0.0
+        },
+        {
+          "id": 104,
+          "value": 0.0
+        },
+        {
+          "id": 105,
+          "value": 0.0
+        },
+        {
+          "id": 106,
+          "value": 0.0
+        },
+        {
+          "id": 107,
+          "value": 0.0
+        },
+        {
+          "id": 108,
+          "value": 0.0
+        },
+        {
+          "id": 109,
+          "value": 0.0
+        },
+        {
+          "id": 110,
+          "value": 0.0
+        },
+        {
+          "id": 111,
+          "value": 0.0
+        },
+        {
+          "id": 112,
+          "value": 0.0
+        },
+        {
+          "id": 113,
+          "value": 0.0
+        },
+        {
+          "id": 114,
+          "value": 0.0
+        },
+        {
+          "id": 115,
+          "value": 0.0
+        },
+        {
+          "id": 116,
+          "value": 0.0
+        },
+        {
+          "id": 117,
+          "value": 0.0
+        },
+        {
+          "id": 118,
+          "value": 0.0
+        },
+        {
+          "id": 119,
+          "value": 0.0
+        },
+        {
+          "id": 120,
+          "value": 0.0
+        },
+        {
+          "id": 121,
+          "value": 0.0
+        },
+        {
+          "id": 122,
+          "value": 0.0
+        },
+        {
+          "id": 123,
+          "value": 0.0
+        },
+        {
+          "id": 124,
+          "value": 0.0
+        },
+        {
+          "id": 125,
+          "value": 0.0
+        },
+        {
+          "id": 126,
+          "value": 0.0
+        },
+        {
+          "id": 127,
+          "value": 0.0
+        },
+        {
+          "id": 128,
+          "value": 0.0
+        },
+        {
+          "id": 129,
+          "value": 0.0
+        },
+        {
+          "id": 130,
+          "value": 0.0
+        },
+        {
+          "id": 131,
+          "value": 0.0
+        },
+        {
+          "id": 132,
+          "value": 0.0
+        },
+        {
+          "id": 133,
+          "value": 0.0
+        },
+        {
+          "id": 134,
+          "value": 0.0
+        },
+        {
+          "id": 135,
+          "value": 0.0
+        },
+        {
+          "id": 136,
+          "value": 0.0
+        },
+        {
+          "id": 137,
+          "value": 0.0
+        },
+        {
+          "id": 138,
+          "value": 1.0
+        },
+        {
+          "id": 139,
+          "value": -3.0
+        },
+        {
+          "id": 140,
+          "value": 3.0
+        },
+        {
+          "id": 141,
+          "value": 0.0
+        },
+        {
+          "id": 142,
+          "value": 0.0
+        },
+        {
+          "id": 143,
+          "value": 0.0
+        },
+        {
+          "id": 144,
+          "value": 0.0
+        }
+      ],
+      "rightModuleId": 66,
+      "data": {
+        "theRandomizer": 0,
+        "cardir_0": 0,
+        "carcoll_0": 0,
+        "carfrom_0": 0,
+        "carto_0": 63,
+        "carstartg_0": 0,
+        "carpath_0": 0,
+        "carstrevery_0": 0,
+        "carstrfor_0": 1,
+        "cardir_1": 0,
+        "carcoll_1": 0,
+        "carfrom_1": 0,
+        "carto_1": 63,
+        "carstartg_1": 0,
+        "carpath_1": 0,
+        "carstrevery_1": 0,
+        "carstrfor_1": 1,
+        "cardir_2": 0,
+        "carcoll_2": 0,
+        "carfrom_2": 0,
+        "carto_2": 63,
+        "carstartg_2": 0,
+        "carpath_2": 0,
+        "carstrevery_2": 0,
+        "carstrfor_2": 1,
+        "cardir_3": 0,
+        "carcoll_3": 0,
+        "carfrom_3": 0,
+        "carto_3": 63,
+        "carstartg_3": 0,
+        "carpath_3": 0,
+        "carstrevery_3": 0,
+        "carstrfor_3": 1,
+        "stepmode_0": 1,
+        "step_outa0": 0,
+        "step_outb0": 1,
+        "stepprob_0": 100,
+        "stepreps_0": 1,
+        "stepmode_1": 1,
+        "step_outa1": 0,
+        "step_outb1": 1,
+        "stepprob_1": 100,
+        "stepreps_1": 1,
+        "stepmode_2": 1,
+        "step_outa2": 0,
+        "step_outb2": 1,
+        "stepprob_2": 100,
+        "stepreps_2": 1,
+        "stepmode_3": 1,
+        "step_outa3": 0,
+        "step_outb3": 1,
+        "stepprob_3": 100,
+        "stepreps_3": 1,
+        "stepmode_4": 1,
+        "step_outa4": 0,
+        "step_outb4": 1,
+        "stepprob_4": 100,
+        "stepreps_4": 1,
+        "stepmode_5": 1,
+        "step_outa5": 0,
+        "step_outb5": 1,
+        "stepprob_5": 100,
+        "stepreps_5": 1,
+        "stepmode_6": 1,
+        "step_outa6": 0,
+        "step_outb6": 1,
+        "stepprob_6": 100,
+        "stepreps_6": 1,
+        "stepmode_7": 1,
+        "step_outa7": 0,
+        "step_outb7": 1,
+        "stepprob_7": 100,
+        "stepreps_7": 1,
+        "stepmode_8": 1,
+        "step_outa8": 0,
+        "step_outb8": 1,
+        "stepprob_8": 100,
+        "stepreps_8": 1,
+        "stepmode_9": 1,
+        "step_outa9": 0,
+        "step_outb9": 1,
+        "stepprob_9": 100,
+        "stepreps_9": 1,
+        "stepmode_10": 1,
+        "step_outa10": 0,
+        "step_outb10": 1,
+        "stepprob_10": 100,
+        "stepreps_10": 1,
+        "stepmode_11": 1,
+        "step_outa11": 0,
+        "step_outb11": 1,
+        "stepprob_11": 100,
+        "stepreps_11": 1,
+        "stepmode_12": 1,
+        "step_outa12": 0,
+        "step_outb12": 1,
+        "stepprob_12": 100,
+        "stepreps_12": 1,
+        "stepmode_13": 1,
+        "step_outa13": 0,
+        "step_outb13": 1,
+        "stepprob_13": 100,
+        "stepreps_13": 1,
+        "stepmode_14": 1,
+        "step_outa14": 0,
+        "step_outb14": 1,
+        "stepprob_14": 100,
+        "stepreps_14": 1,
+        "stepmode_15": 1,
+        "step_outa15": 0,
+        "step_outb15": 1,
+        "stepprob_15": 100,
+        "stepreps_15": 1,
+        "stepmode_16": 1,
+        "step_outa16": 0,
+        "step_outb16": 1,
+        "stepprob_16": 100,
+        "stepreps_16": 1,
+        "stepmode_17": 1,
+        "step_outa17": 0,
+        "step_outb17": 1,
+        "stepprob_17": 100,
+        "stepreps_17": 1,
+        "stepmode_18": 1,
+        "step_outa18": 0,
+        "step_outb18": 1,
+        "stepprob_18": 100,
+        "stepreps_18": 1,
+        "stepmode_19": 1,
+        "step_outa19": 0,
+        "step_outb19": 1,
+        "stepprob_19": 100,
+        "stepreps_19": 1,
+        "stepmode_20": 1,
+        "step_outa20": 0,
+        "step_outb20": 1,
+        "stepprob_20": 100,
+        "stepreps_20": 1,
+        "stepmode_21": 1,
+        "step_outa21": 0,
+        "step_outb21": 1,
+        "stepprob_21": 100,
+        "stepreps_21": 1,
+        "stepmode_22": 1,
+        "step_outa22": 0,
+        "step_outb22": 1,
+        "stepprob_22": 100,
+        "stepreps_22": 1,
+        "stepmode_23": 1,
+        "step_outa23": 0,
+        "step_outb23": 1,
+        "stepprob_23": 100,
+        "stepreps_23": 1,
+        "stepmode_24": 1,
+        "step_outa24": 0,
+        "step_outb24": 1,
+        "stepprob_24": 100,
+        "stepreps_24": 1,
+        "stepmode_25": 1,
+        "step_outa25": 0,
+        "step_outb25": 1,
+        "stepprob_25": 100,
+        "stepreps_25": 1,
+        "stepmode_26": 1,
+        "step_outa26": 0,
+        "step_outb26": 1,
+        "stepprob_26": 100,
+        "stepreps_26": 1,
+        "stepmode_27": 1,
+        "step_outa27": 0,
+        "step_outb27": 1,
+        "stepprob_27": 100,
+        "stepreps_27": 1,
+        "stepmode_28": 1,
+        "step_outa28": 0,
+        "step_outb28": 1,
+        "stepprob_28": 100,
+        "stepreps_28": 1,
+        "stepmode_29": 1,
+        "step_outa29": 0,
+        "step_outb29": 1,
+        "stepprob_29": 100,
+        "stepreps_29": 1,
+        "stepmode_30": 1,
+        "step_outa30": 0,
+        "step_outb30": 1,
+        "stepprob_30": 100,
+        "stepreps_30": 1,
+        "stepmode_31": 1,
+        "step_outa31": 0,
+        "step_outb31": 1,
+        "stepprob_31": 100,
+        "stepreps_31": 1,
+        "stepmode_32": 1,
+        "step_outa32": 0,
+        "step_outb32": 1,
+        "stepprob_32": 100,
+        "stepreps_32": 1,
+        "stepmode_33": 1,
+        "step_outa33": 0,
+        "step_outb33": 1,
+        "stepprob_33": 100,
+        "stepreps_33": 1,
+        "stepmode_34": 1,
+        "step_outa34": 0,
+        "step_outb34": 1,
+        "stepprob_34": 100,
+        "stepreps_34": 1,
+        "stepmode_35": 1,
+        "step_outa35": 0,
+        "step_outb35": 1,
+        "stepprob_35": 100,
+        "stepreps_35": 1,
+        "stepmode_36": 1,
+        "step_outa36": 0,
+        "step_outb36": 1,
+        "stepprob_36": 100,
+        "stepreps_36": 1,
+        "stepmode_37": 1,
+        "step_outa37": 0,
+        "step_outb37": 1,
+        "stepprob_37": 100,
+        "stepreps_37": 1,
+        "stepmode_38": 1,
+        "step_outa38": 0,
+        "step_outb38": 1,
+        "stepprob_38": 100,
+        "stepreps_38": 1,
+        "stepmode_39": 1,
+        "step_outa39": 0,
+        "step_outb39": 1,
+        "stepprob_39": 100,
+        "stepreps_39": 1,
+        "stepmode_40": 1,
+        "step_outa40": 0,
+        "step_outb40": 1,
+        "stepprob_40": 100,
+        "stepreps_40": 1,
+        "stepmode_41": 1,
+        "step_outa41": 0,
+        "step_outb41": 1,
+        "stepprob_41": 100,
+        "stepreps_41": 1,
+        "stepmode_42": 1,
+        "step_outa42": 0,
+        "step_outb42": 1,
+        "stepprob_42": 100,
+        "stepreps_42": 1,
+        "stepmode_43": 1,
+        "step_outa43": 0,
+        "step_outb43": 1,
+        "stepprob_43": 100,
+        "stepreps_43": 1,
+        "stepmode_44": 1,
+        "step_outa44": 0,
+        "step_outb44": 1,
+        "stepprob_44": 100,
+        "stepreps_44": 1,
+        "stepmode_45": 1,
+        "step_outa45": 0,
+        "step_outb45": 1,
+        "stepprob_45": 100,
+        "stepreps_45": 1,
+        "stepmode_46": 1,
+        "step_outa46": 0,
+        "step_outb46": 1,
+        "stepprob_46": 100,
+        "stepreps_46": 1,
+        "stepmode_47": 1,
+        "step_outa47": 0,
+        "step_outb47": 1,
+        "stepprob_47": 100,
+        "stepreps_47": 1,
+        "stepmode_48": 1,
+        "step_outa48": 0,
+        "step_outb48": 1,
+        "stepprob_48": 100,
+        "stepreps_48": 1,
+        "stepmode_49": 1,
+        "step_outa49": 0,
+        "step_outb49": 1,
+        "stepprob_49": 100,
+        "stepreps_49": 1,
+        "stepmode_50": 1,
+        "step_outa50": 0,
+        "step_outb50": 1,
+        "stepprob_50": 100,
+        "stepreps_50": 1,
+        "stepmode_51": 1,
+        "step_outa51": 0,
+        "step_outb51": 1,
+        "stepprob_51": 100,
+        "stepreps_51": 1,
+        "stepmode_52": 1,
+        "step_outa52": 0,
+        "step_outb52": 1,
+        "stepprob_52": 100,
+        "stepreps_52": 1,
+        "stepmode_53": 1,
+        "step_outa53": 0,
+        "step_outb53": 1,
+        "stepprob_53": 100,
+        "stepreps_53": 1,
+        "stepmode_54": 1,
+        "step_outa54": 0,
+        "step_outb54": 1,
+        "stepprob_54": 100,
+        "stepreps_54": 1,
+        "stepmode_55": 1,
+        "step_outa55": 0,
+        "step_outb55": 1,
+        "stepprob_55": 100,
+        "stepreps_55": 1,
+        "stepmode_56": 1,
+        "step_outa56": 0,
+        "step_outb56": 1,
+        "stepprob_56": 100,
+        "stepreps_56": 1,
+        "stepmode_57": 1,
+        "step_outa57": 0,
+        "step_outb57": 1,
+        "stepprob_57": 100,
+        "stepreps_57": 1,
+        "stepmode_58": 1,
+        "step_outa58": 0,
+        "step_outb58": 1,
+        "stepprob_58": 100,
+        "stepreps_58": 1,
+        "stepmode_59": 1,
+        "step_outa59": 0,
+        "step_outb59": 1,
+        "stepprob_59": 100,
+        "stepreps_59": 1,
+        "stepmode_60": 1,
+        "step_outa60": 0,
+        "step_outb60": 1,
+        "stepprob_60": 100,
+        "stepreps_60": 1,
+        "stepmode_61": 1,
+        "step_outa61": 0,
+        "step_outb61": 1,
+        "stepprob_61": 100,
+        "stepreps_61": 1,
+        "stepmode_62": 1,
+        "step_outa62": 0,
+        "step_outb62": 1,
+        "stepprob_62": 100,
+        "stepreps_62": 1,
+        "stepmode_63": 1,
+        "step_outa63": 0,
+        "step_outb63": 1,
+        "stepprob_63": 100,
+        "stepreps_63": 1
+      },
+      "pos": [
+        4,
+        3
       ]
     }
   ],
