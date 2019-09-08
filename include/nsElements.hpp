@@ -101,6 +101,7 @@ private:
 	bool moving_bwd;
 	int myID;
 	int curStepCounter;
+	int playingStep;
 	std::string myIDstr;
 	SchmittTrigger2 clockTrigger;
 	dsp::SchmittTrigger resetTrig;
@@ -115,7 +116,7 @@ private:
 
 struct NordschleifeStep
 {
-	enum StepMode { Off, On, Skip, Legato, Reset };
+	enum StepMode { Off, On, Skip, Legato, Slide, Reset };
 	StepMode mode;
 	int outA;
 	int outB;
@@ -148,7 +149,7 @@ struct NordschleifeStep
 	inline static void Mute(Nordschleife *pNord, int carID);
 	inline static StepMode EndPulse(Nordschleife *pNord, int carID);
 	inline static void  Process(Nordschleife *pNord, int carID, float deltaTime);
-	void beginPulse(Nordschleife *pNord, int carID, float lastPulseDuration);
+	void beginPulse(Nordschleife *pNord, int carID, float lastPulseDuration, int nextStep);
 	static bool Collision(int carID)
 	{
 		if(NordschleifeStep::selectedByCar[carID] != STEP_RESET)
@@ -195,9 +196,12 @@ private:
 	int repCount[NORDCARS];
 	static int selectedByCar[NORDCARS];
 	bool playing[NORDCARS];
-	float timeSlice[NORDCARS];
+	float pulseDuration[NORDCARS];
 	bool repeat_gateStatus[NORDCARS];
 	float stopWatch[NORDCARS];
+	float startVoltage[NORDCARS];
+	float elapsedTime[NORDCARS];
+	float slideToVoltage[NORDCARS];
 
 private:
 	StepMode endPulse(Nordschleife *pNord, int carID);

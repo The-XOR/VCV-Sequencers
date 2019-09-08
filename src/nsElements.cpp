@@ -28,9 +28,12 @@ bool NordschleifeCar::process(float deltaTime)
 		{
 			step_moved = true;
 			stopWatch = 0.f;
-			int stp = move_next();
 			if(!inPit())
-				pNord->steps[stp].beginPulse(pNord, myID, lastPulseDuration);
+			{
+				int nextStep = move_next();
+				pNord->steps[playingStep].beginPulse(pNord, myID, lastPulseDuration, nextStep);
+				playingStep = nextStep;
+			}
 		} else 
 		{			
 			if(clk == -1)
@@ -40,7 +43,9 @@ bool NordschleifeCar::process(float deltaTime)
 				{
 					NordschleifeStep::StepMode m = NordschleifeStep::EndPulse(pNord, myID);
 					if(m == NordschleifeStep::StepMode::Reset)		// reset step?
-						curStepCounter = startGrid;
+					{
+						playingStep = curStepCounter = startGrid;
+					}
 				}
 			} else
 			{
@@ -210,7 +215,7 @@ void NordschleifeCar::reset()
 	lapPulse.reset();
 	ledLapPulse.reset();
 	moving_bwd = false;
-	curStepCounter=startGrid;
+	playingStep= curStepCounter=startGrid;
 	totalCounter = lapCounter = pitStopCounter = 0;
 	pitstop = false;
 	pNord->outputs[Nordschleife::CAR_GATE + myID].value = LVL_OFF;
@@ -244,7 +249,7 @@ inline void NordschleifeStep::Mute(Nordschleife *pNord, int carID) {pNord->steps
 inline NordschleifeStep::StepMode NordschleifeStep::EndPulse(Nordschleife *pNord, int carID) { return NordschleifeStep::selectedByCar[carID] != STEP_RESET ? pNord->steps[NordschleifeStep::selectedByCar[carID]].endPulse(pNord, carID) : Off; }
 inline void NordschleifeStep::Process(Nordschleife *pNord, int carID, float deltaTime) { if(NordschleifeStep::selectedByCar[carID] != STEP_RESET) pNord->steps[NordschleifeStep::selectedByCar[carID]].process(pNord, carID, deltaTime); }
 
-void NordschleifeStep::beginPulse(Nordschleife *pNord, int carID, float lastPulseDuration)
+void NordschleifeStep::beginPulse(Nordschleife *pNord, int carID, float lastPulseDuration, int nextStep)
 {
 	if(NordschleifeStep::selectedByCar[carID] != STEP_RESET)
 		pNord->lights[NordschleifeCar::CarLed[carID] + NordschleifeStep::selectedByCar[carID]].value = LED_OFF;
@@ -280,13 +285,15 @@ void NordschleifeStep::beginPulse(Nordschleife *pNord, int carID, float lastPuls
 	if(playing[carID])
 	{
 		// il fato e' stato benevolo. Il voltaggio dello step viene prodotto in uscita
-		pNord->outputs[Nordschleife::CAR_CV + carID].setVoltage(pNord->cvs.TransposeableValue(pNord->params[Nordschleife::VOLTAGE_1 + myID].getValue()));
+		startVoltage[carID] = pNord->cvs.TransposeableValue(pNord->params[Nordschleife::VOLTAGE_1 + myID].getValue());
+		pNord->outputs[Nordschleife::CAR_CV + carID].setVoltage(startVoltage[carID]);
 		// se pero' lo step e' in Reset, NON viene generato il segnale di gate
 		pNord->outputs[Nordschleife::CAR_GATE + carID].setVoltage(mode == Reset ? LVL_OFF : LVL_ON);
 		repCount[carID] = repeats;
-		timeSlice[carID] = lastPulseDuration / (1+repeats);	// quanto dura una singola ripetizione
+		pulseDuration[carID] = lastPulseDuration;
 		repeat_gateStatus[carID] = true;  // attualmente, gate e' ON
-		stopWatch[carID] = 0.f; // tempo trascorso dall'ultima ripetizione
+		elapsedTime[carID] = stopWatch[carID] = 0.f; // tempo trascorso dall'ultima ripetizione
+		slideToVoltage[carID] = pNord->cvs.TransposeableValue(pNord->params[Nordschleife::VOLTAGE_1 + nextStep].getValue());
 	}
 }
 
@@ -296,7 +303,7 @@ NordschleifeStep::StepMode NordschleifeStep::endPulse(Nordschleife *pNord, int c
 	{
 		if(playing[carID])  // se lo step sta effettivamente suonando, viene chiuso il gate
 		{
-			if(mode != Reset && mode != Legato)
+			if(mode != Reset && mode != Legato && mode != Slide)
 			{
 				pNord->outputs[Nordschleife::CAR_GATE + carID].setVoltage(LVL_OFF);
 			}
@@ -308,16 +315,18 @@ NordschleifeStep::StepMode NordschleifeStep::endPulse(Nordschleife *pNord, int c
 
 void NordschleifeStep::process(Nordschleife *pNord, int carID, float deltaTime)
 {
+	elapsedTime[carID] += deltaTime;
 	if(!stepPulseA.process(deltaTime))
 		pNord->outputs[Nordschleife::OUT_A + myID].value = LVL_OFF;
 	if(!stepPulseB.process(deltaTime))
 		pNord->outputs[Nordschleife::OUT_B + myID].value = LVL_OFF;
 
-	if(repeats > 1 && repCount[carID] > 0 && timeSlice[carID] > 0)
+	float timeSlice = pulseDuration[carID] / (1 + repeats);	// quanto dura una singola ripetizione
+	if(repeats > 1 && repCount[carID] > 0 && timeSlice > 0)
 	{
 		// quanto e' passato dall'ultimo cambio di stato?
 		stopWatch[carID] += deltaTime;
-		if(stopWatch[carID] >= timeSlice[carID])  // e' ora di cambiare stato?
+		if(stopWatch[carID] >= timeSlice)  // e' ora di cambiare stato?
 		{
 			if(repeat_gateStatus[carID])   // se gate era ON, spegne il gate e conclude il ciclo attuale
 			{
@@ -332,6 +341,12 @@ void NordschleifeStep::process(Nordschleife *pNord, int carID, float deltaTime)
 			}
 			stopWatch[carID] = 0.f; // inizia un nuovo ciclo
 		}
+	}
+
+	if(mode == Slide && pulseDuration[carID] > 0)
+	{
+		float v = startVoltage[carID] + (elapsedTime[carID] / pulseDuration[carID]) * (slideToVoltage[carID] - startVoltage[carID]);
+		pNord->outputs[Nordschleife::CAR_CV + carID].setVoltage(v);
 	}
 }
 
