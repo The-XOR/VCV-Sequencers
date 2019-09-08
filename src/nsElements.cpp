@@ -28,13 +28,13 @@ bool NordschleifeCar::process(float deltaTime)
 		{
 			step_moved = true;
 			stopWatch = 0.f;
+			int nextStep = move_next();
 			if(!inPit())
 			{
-				int nextStep = move_next();
 				pNord->steps[playingStep].beginPulse(pNord, myID, lastPulseDuration, nextStep);
-				playingStep = nextStep;
 			}
-		} else 
+			playingStep = nextStep;
+		} else
 		{			
 			if(clk == -1)
 			{

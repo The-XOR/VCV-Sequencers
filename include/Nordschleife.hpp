@@ -144,6 +144,7 @@ struct Nordschleife : Module
 		DATAENTRY_LEFT,
 		DATAENTRY_RIGHT,
 		M_RESET,
+		GANGBANG,
 		RANGE,
 		NUM_PARAMS = RANGE + cvStrip::CVSTRIP_PARAMS
 	};
@@ -216,6 +217,13 @@ struct Nordschleife : Module
 			params[CAR_SELECT + k].setValue(k == selectedCar);
 	}
 
+	inline bool GangBang() { return gang; }
+	inline void setGang(bool stat)
+	{
+		gang = stat;
+		params[GANGBANG].setValue(gang ? 1.0 : 0.0);
+	}
+
 	inline void toggleDataEntryMode()
 	{
 		params[DATAENTRY_MODE].setValue(params[DATAENTRY_MODE].getValue() == 0);
@@ -283,6 +291,7 @@ struct Nordschleife : Module
 	{
 		setCar(0);
 		setStep(0);
+		setGang(false);
 		lazyCheck = 0;
 		for(int k = 0; k < NORDCARS; k++)
 			cars[k].reset();
@@ -312,4 +321,5 @@ struct Nordschleife : Module
 	NordschleifeWidget *pWidget;
 	nordDisplay *display;
 	dsp::SchmittTrigger masterReset;
+	bool gang;
 };

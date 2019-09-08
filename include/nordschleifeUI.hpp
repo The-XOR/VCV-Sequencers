@@ -15,6 +15,10 @@ struct CKD6B : app::SvgSwitch
 		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/CKD6B_0.svg")));
 		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/CKD6B_1.svg")));
 	}
+	void randomize() override
+	{
+		// do NOT randomaiz
+	}
 };
 
 struct StepSelector : app::SvgSwitch
@@ -82,14 +86,14 @@ struct nordDisplay : TransparentWidget
 	void drawField(const drawData &ctx, NordschleifeField *pField, bool asCurrent)
 	{
 		NVGcolor lblColor = nvgRGB(0xff, 0xff, 0xff);
-		NVGcolor textColor = nvgRGB(0xff, 0xff, 0xff);
+		NVGcolor textColor = pNord->GangBang() ? nvgRGB(0xff, 0x00, 0x00) : nvgRGB(0xff, 0xff, 0xff);
 		NVGcolor textCurrentColor = nvgRGB(0x00, 0x00, 0x00);
 
 		float y;
 		if(pField->bigField)
 		{
 			nvgFontSize(ctx.vg, bigFont);
-			y = ctx.top + ctx.interleaveBig * pField->pos_y;
+			y = ctx.top + ctx.interleaveBig * pField->pos_y-1;
 		} else
 		{
 			nvgFontSize(ctx.vg, fntSize);
@@ -125,9 +129,15 @@ struct nordDisplay : TransparentWidget
 		nvgTextMetrics(ctx.vg, &ascender, &descender, &lineh);
 		ctx.top = descender + lineh;
 
-		nvgFillColor(ctx.vg, nvgRGB(0xff, 0xff, 0xff));
-		nvgText(ctx.vg, ctx.left, ctx.top, pNord->cars[pNord->selectedCar].name.c_str(), NULL);
-
+		if(pNord->GangBang())
+		{
+			nvgFillColor(ctx.vg, nvgRGB(0xff, 0x00, 0x00));
+			nvgText(ctx.vg, ctx.left, ctx.top, "SAFETY CAR", NULL);
+		} else
+		{
+			nvgFillColor(ctx.vg, nvgRGB(0xff, 0xff, 0xff));
+			nvgText(ctx.vg, ctx.left, ctx.top, pNord->cars[pNord->selectedCar].name.c_str(), NULL);
+		}
 		nvgFontSize(ctx.vg, fntSize);
 		nvgText(ctx.vg, ctx.left, box.size.y-1, pNord->cars[pNord->selectedCar].getLap().c_str(), NULL);
 	}

@@ -8,7 +8,7 @@ common characteristics:
 - totally, miserably, hopelessy free
 - all input and output ports are color-coded as in figure:
 
-![legend](/repository/legenda.png?raw=true "legend")
+![legend](/repository/modules.png?raw=true "legend")
 
 - warning: the millboard front panels require special screws (polygonal holes). they are easy to miss and we do not provide spares.
 
@@ -102,3 +102,11 @@ an arpeggiator that pretends to be a sequencer, or the other way around. the fir
 
 # volt
 the plugin that alessandro volta always wanted to have, if he was interested in microtonal music instead of frogs.
+
+# nordschleife
+for the _very first time in the world_ an analog matrix sequencer that is so complex it had to be put under CPU control.
+from basic, repetitive sequences to total kaos, and everything in between. it is so complex, that cannot be used without knowing that:
+1) numpad keys 0 1 2 3 / * - + can be used for data entry (when the safety car is deployed, every car shall follow)
+2) every car has is own path, direction and sequence range
+3) in case of collision between two cars, everything can change.
+4) not to mention the step-by-step options.

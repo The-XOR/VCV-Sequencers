@@ -1,6 +1,9 @@
 #include "../include/Nordschleife.hpp"
 #include "../include/nordschleifeUI.hpp"
 
+#define SETCARFIELD(fieldName, fieldValue) {if(GangBang()) for(int k=0; k<NORDCARS;k++) cars[k].fieldName = fieldValue; else cars[selectedCar].fieldName = fieldValue; }
+#define SETSTEPFIELD(fieldName, fieldValue) {if(GangBang()) for(int k=0; k<NORDSTEPS;k++) steps[k].fieldName = fieldValue; else steps[selectedStep].fieldName = fieldValue; }
+
 std::vector<std::string> Nordschleife::carNames = {"Lotus", "Brabham", "Ferrari", "Hesketh"};
 std::vector<std::string> Nordschleife::pathNames = {"Tiergarten", "Karussell", "Adenauer Forst", "Metzgesfeld","Eiskurve", "Aremberg", "Flugplatz", "Hohe Acht", "Pflanzgarten", "Kallenhard","Steilstrecke","Eschbach"};
 int Nordschleife::paths[NORDPATHS][64] =
@@ -71,6 +74,10 @@ void Nordschleife::data_entry()
 	{
 		toggleDataEntryMode();
 		return;
+	} else if(consumeKey(GLFW_KEY_KP_0) || gang != (params[GANGBANG].getValue()>0))
+	{
+		setGang(!gang);
+		return;
 	}
 
 	int move = 0;
@@ -82,6 +89,7 @@ void Nordschleife::data_entry()
 		move = GLFW_KEY_KP_SUBTRACT;
 	else if(consumeKey(GLFW_KEY_KP_ADD) || downKey.process(params[DATAENTRY_DOWN].getValue()))
 		move = GLFW_KEY_KP_ADD;
+	
 
 	if(moveByStep())
 	{
@@ -226,24 +234,23 @@ void Nordschleife::declareFields()
 
 	// cars
 	int row = 0;
-	nsFields[NordschleifeFields::shlfDirection].set(0, row++, "Direction: ", {"Forward", "Backward", "Alternate", "Brownian", "Random"}, [this] {return cars[selectedCar].direction; }, [this](int i) {cars[selectedCar].direction = (NordschleifeCar::CarDirection)i; });
-	nsFields[NordschleifeFields::shlfPath].set(0, row++, "Path: ", Nordschleife::pathNames, [this] {return cars[selectedCar].path; }, [this](int i) {cars[selectedCar].path = i; });
-	nsFields[NordschleifeFields::shlfCollision].set(0, row++, "On Crash: ", {"Ignore", "Invert", "90 left", "90 right", "Next path", "Prev path", "Rndm path", "???"}, [this] {return cars[selectedCar].collision; }, [this](int i) {cars[selectedCar].collision = (NordschleifeCar::CarCollision)i; });
-	nsFields[NordschleifeFields::shlfFrom].set(0, row, "From: ", 0, 62, [this] {return cars[selectedCar].stepFrom; }, [this](int i) {cars[selectedCar].stepFrom = i; cars[selectedCar].stepTo = std::max(cars[selectedCar].stepTo, i); }, 1);
-	nsFields[NordschleifeFields::shlfTo].set(scnd_half + 8, row++, "To: ", 0, 63, [this] {return cars[selectedCar].stepTo; }, [this](int i) {cars[selectedCar].stepTo = i; cars[selectedCar].stepFrom = std::min(cars[selectedCar].stepFrom, i); }, 1);
-	nsFields[NordschleifeFields::shlfStartGrid].set(0, row++, "Starting Grid: ", 0, 63, [this] {return cars[selectedCar].startGrid; }, [this](int i) {cars[selectedCar].startGrid = i; }, 1);
-	nsFields[NordschleifeFields::shlfStrtgEvery].set(0, row, "Pit every:", 0, 24, [this] {return cars[selectedCar].strategyEvery; }, [this](int i) {cars[selectedCar].strategyEvery = i; });
-	nsFields[NordschleifeFields::shlfStrtgFor].set(scnd_half+15, row, "for: ", 1, 12, [this] {return cars[selectedCar].strategyFor; }, [this](int i) {cars[selectedCar].strategyFor = i; });
+	nsFields[NordschleifeFields::shlfDirection].set(0, row++, "Direction: ", {"Forward", "Backward", "Alternate", "Brownian", "Random"}, [this] {return cars[selectedCar].direction; }, [this](int i) SETCARFIELD(direction, (NordschleifeCar::CarDirection)i));
+	nsFields[NordschleifeFields::shlfPath].set(0, row++, "Path: ", Nordschleife::pathNames, [this] {return cars[selectedCar].path; }, [this](int i) SETCARFIELD(path, i));
+	nsFields[NordschleifeFields::shlfCollision].set(0, row++, "On Crash: ", {"Ignore", "Invert", "90 left", "90 right", "Next path", "Prev path", "Rndm path", "???"}, [this] {return cars[selectedCar].collision; }, [this](int i) SETCARFIELD(collision, (NordschleifeCar::CarCollision)i));
+	nsFields[NordschleifeFields::shlfFrom].set(0, row, "From: ", 0, 62, [this] {return cars[selectedCar].stepFrom; }, [this](int i) {SETCARFIELD(stepFrom , i); if(!GangBang()) cars[selectedCar].stepTo = std::max(cars[selectedCar].stepTo, i); }, 1);
+	nsFields[NordschleifeFields::shlfTo].set(scnd_half + 8, row++, "To: ", 0, 63, [this] {return cars[selectedCar].stepTo; }, [this](int i) {SETCARFIELD(stepTo, i); if(!GangBang()) cars[selectedCar].stepFrom = std::min(cars[selectedCar].stepFrom, i); }, 1);
+	nsFields[NordschleifeFields::shlfStartGrid].set(0, row++, "Starting Grid: ", 0, 63, [this] {return cars[selectedCar].startGrid; }, [this](int i) SETCARFIELD(startGrid, i), 1);
+	nsFields[NordschleifeFields::shlfStrtgEvery].set(0, row, "Pit every:", 0, 24, [this] {return cars[selectedCar].strategyEvery; }, [this](int i) SETCARFIELD(strategyEvery, i));
+	nsFields[NordschleifeFields::shlfStrtgFor].set(scnd_half+15, row, "for: ", 1, 12, [this] {return cars[selectedCar].strategyFor; }, [this](int i) SETCARFIELD(strategyFor, i));
 
 	// steps
-	nsFields[NordschleifeFields::shlfStep].set(0, row, "Step #", 0, 63, [this] {return selectedStep; }, [this](int i) {setStep(i); }, 1, true);
+	nsFields[NordschleifeFields::shlfStep].set(0, row, "Step #", 0, 63, [this] {return selectedStep; }, [this](int i) {if(!GangBang()) setStep(i); }, 1, true);
 	row += 3;
-	nsFields[NordschleifeFields::shlfMode].set(0, row++, "Mode: ", {"Off", "On", "Skip", "Legato", "Slide", "Reset"}, [this] {return steps[selectedStep].mode; }, [this](int i) {steps[selectedStep].mode = (NordschleifeStep::StepMode)i; });
-	nsFields[NordschleifeFields::shlfProbab].set(0, row++, "Probability: ", 1, 100, [this] {return steps[selectedStep].probability; }, [this](int i) {steps[selectedStep].probability = i; });
-	nsFields[NordschleifeFields::shlfRepeats].set(0, row++, "Reps: ", 1, 8, [this] {return steps[selectedStep].repeats; }, [this](int i) {steps[selectedStep].repeats = i; });
-
-	nsFields[NordschleifeFields::shlfOutA].set(0, row++, "Out A: ", Nordschleife::carNames, [this] {return steps[selectedStep].outA; }, [this](int i) {steps[selectedStep].outA = i; });
-	nsFields[NordschleifeFields::shlfOutB].set(0, row++, "Out B: ", Nordschleife::carNames, [this] {return steps[selectedStep].outB; }, [this](int i) {steps[selectedStep].outB = i; });
+	nsFields[NordschleifeFields::shlfMode].set(0, row++, "Mode: ", {"Off", "On", "Skip", "Legato", "Slide", "Reset"}, [this] {return steps[selectedStep].mode; }, [this](int i) SETSTEPFIELD(mode, (NordschleifeStep::StepMode)i));
+	nsFields[NordschleifeFields::shlfProbab].set(0, row++, "Probability: ", 1, 100, [this] {return steps[selectedStep].probability; }, [this](int i) SETSTEPFIELD(probability, i));
+	nsFields[NordschleifeFields::shlfRepeats].set(0, row++, "Reps: ", 1, 8, [this] {return steps[selectedStep].repeats; }, [this](int i) SETSTEPFIELD(repeats, i));
+	nsFields[NordschleifeFields::shlfOutA].set(0, row++, "Out A: ", Nordschleife::carNames, [this] {return steps[selectedStep].outA; }, [this](int i) SETSTEPFIELD(outA, i));
+	nsFields[NordschleifeFields::shlfOutB].set(0, row++, "Out B: ", Nordschleife::carNames, [this] {return steps[selectedStep].outB; }, [this](int i) SETSTEPFIELD(outB, i));
 }
 
 void Nordschleife::init_tables()
@@ -293,6 +300,7 @@ NordschleifeWidget::NordschleifeWidget(Nordschleife *module)
 	addInput(createInput<PJ301HPort>(Vec(mm2px(231.172), yncscape(83.583f, 8.255f)), module, Nordschleife::RANDOMIZONE));
 	addParam(createParam<BefacoPushBig>(Vec(mm2px(243.076f), yncscape(98.923f, 8.999)), module, Nordschleife::M_RESET));
 	addInput(createInput<PJ301BPort>(Vec(mm2px(229.726f), yncscape(99.295f, 8.255)), module, Nordschleife::MRESET_IN));
+	addParam(createParam<CKD6B>(Vec(mm2px(232.910f), yncscape(1.225f, 6.f)), module, Nordschleife::GANGBANG));
 }
 
 void NordschleifeWidget::createDataEntry(Nordschleife *module)
@@ -411,6 +419,7 @@ void NordschleifeWidget::onHoverKey(const event::HoverKey &e)
 				((Nordschleife *)module)->setKey(GLFW_KEY_ENTER);
 				break;
 
+			case GLFW_KEY_KP_0:
 			case GLFW_KEY_KP_DIVIDE:
 			case GLFW_KEY_KP_MULTIPLY:
 			case GLFW_KEY_KP_SUBTRACT:
