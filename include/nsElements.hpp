@@ -9,6 +9,7 @@ enum NordschleifeFields
 	shlfCollision,
 	shlfFrom,
 	shlfTo,
+	shlfStartGrid,
 	shlfStrtgEvery,
 	shlfStrtgFor,
 
@@ -25,12 +26,13 @@ enum NordschleifeFields
 struct NordschleifeCar
 {
 	enum CarDirection {carForward, carBackward, carAlternate, carBrownian, carRandom };
-	enum CarCollision { carIgnore, carInvert, car90left, car90right };
+	enum CarCollision { carIgnore, carInvert, car90left, car90right, nextPath, prevPath, randomPath, carRnd };
 	CarDirection direction;
 	CarCollision collision;
 	int stepFrom;
 	int stepTo;
 	int path;
+	int startGrid;
 	int strategyEvery;
 	int strategyFor;
 
@@ -47,6 +49,8 @@ struct NordschleifeCar
 		if(r) stepFrom = json_integer_value(r);
 		r = json_object_get(root, ("carto_" + myIDstr).c_str());
 		if(r) stepTo = json_integer_value(r);
+		r = json_object_get(root, ("carstartg_" + myIDstr).c_str());
+		if(r) startGrid = json_integer_value(r);
 		r = json_object_get(root, ("carpath_" + myIDstr).c_str());
 		if(r) path = json_integer_value(r);
 		r = json_object_get(root, ("carstrevery_" + myIDstr).c_str());
@@ -61,6 +65,7 @@ struct NordschleifeCar
 		json_object_set_new(rootJ, ("carcoll_" + myIDstr).c_str(), json_integer(collision));
 		json_object_set_new(rootJ, ("carfrom_" + myIDstr).c_str(), json_integer(stepFrom));
 		json_object_set_new(rootJ, ("carto_" + myIDstr).c_str(), json_integer(stepTo));
+		json_object_set_new(rootJ, ("carstartg_" + myIDstr).c_str(), json_integer(startGrid));
 		json_object_set_new(rootJ, ("carpath_" + myIDstr).c_str(), json_integer(path));
 		json_object_set_new(rootJ, ("carstrevery_" + myIDstr).c_str(), json_integer(strategyEvery));
 		json_object_set_new(rootJ, ("carstrfor_" + myIDstr).c_str(), json_integer(strategyFor));
@@ -78,7 +83,7 @@ struct NordschleifeCar
 	}
 
 	// ------------------------ race control ---------------------------
-	void process(float deltaTime);
+	bool process(float deltaTime);
 	void onCollision();	
 	void reset();
 
@@ -87,6 +92,7 @@ private:
 	int get_next_step();
 	void pulseTrig();
 	bool inPit();
+	void onCollision(CarCollision n);
 
 private:
 	float stopWatch;
@@ -196,9 +202,5 @@ private:
 private:
 	StepMode endPulse(Nordschleife *pNord, int carID);
 	void process(Nordschleife *pNord, int carID, float elapsedTime);
-	void mute(Nordschleife *pNord, int carID)
-	{
-		endPulse(pNord, carID);
-		NordschleifeStep::selectedByCar[carID] = STEP_RESET;
-	}
+	void mute(Nordschleife *pNord, int carID);
 };

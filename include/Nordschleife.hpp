@@ -5,6 +5,7 @@ using namespace rack;
 extern Plugin *pluginInstance;
 #define NORDSTEPS	64
 #define NORDCARS	4
+#define NORDPATHS	12
 
 #include "../include/nsElements.hpp"
 
@@ -200,7 +201,7 @@ struct Nordschleife : Module
 	int rotation[4][NORDSTEPS]; // 0 90 180 270
 	int selectedCar = 0;
 	int selectedStep = 0;
-	static int paths[12][64];
+	static int paths[NORDPATHS][64];
 	static std::vector<std::string> pathNames;
 	static std::vector<std::string> carNames;
 

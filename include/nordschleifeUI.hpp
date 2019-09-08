@@ -73,6 +73,7 @@ struct nordDisplay : TransparentWidget
 		NVGcontext *vg;
 	};
 	const int fntSize = 9;
+	const int bigFont = 13;
 
 	std::shared_ptr<Font> font;
 	Nordschleife *pNord;
@@ -87,7 +88,7 @@ struct nordDisplay : TransparentWidget
 		float y;
 		if(pField->bigField)
 		{
-			nvgFontSize(ctx.vg, 14);
+			nvgFontSize(ctx.vg, bigFont);
 			y = ctx.top + ctx.interleaveBig * pField->pos_y;
 		} else
 		{
@@ -119,10 +120,10 @@ struct nordDisplay : TransparentWidget
 	
 	void draw_info(drawData &ctx)
 	{
-		nvgFontSize(ctx.vg, 14);
+		nvgFontSize(ctx.vg, bigFont);
 		float ascender, descender, lineh;
 		nvgTextMetrics(ctx.vg, &ascender, &descender, &lineh);
-		ctx.top = descender + lineh + 1/*margine*/;
+		ctx.top = descender + lineh;
 
 		nvgFillColor(ctx.vg, nvgRGB(0xff, 0xff, 0xff));
 		nvgText(ctx.vg, ctx.left, ctx.top, pNord->cars[pNord->selectedCar].name.c_str(), NULL);
@@ -151,14 +152,14 @@ struct nordDisplay : TransparentWidget
 		draw_info(context);
 
 		float ascender, descender, lineh;
-		nvgFontSize(args.vg, 14);
+		nvgFontSize(args.vg, bigFont);
 		nvgTextMetrics(args.vg, &ascender, &descender, &lineh);
 		context.interleaveBig = descender + lineh;
 
 		nvgFontSize(args.vg, fntSize);
 		nvgTextMetrics(args.vg, &ascender, &descender, &lineh);
 		context.interleave = descender + lineh;
-		context.top += context.interleave+2/*margin*/;
+		context.top += context.interleave+1/*margin*/;
 
 		for(int k = 0; k < NORDFIELDS; k++)
 			drawField(context, &pNord->nsFields[k], !pNord->moveByStep() && k == curField);
