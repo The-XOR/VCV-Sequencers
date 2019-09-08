@@ -86,7 +86,7 @@ struct nordDisplay : TransparentWidget
 	void drawField(const drawData &ctx, NordschleifeField *pField, bool asCurrent)
 	{
 		NVGcolor lblColor = nvgRGB(0xff, 0xff, 0xff);
-		NVGcolor textColor = pNord->GangBang() ? nvgRGB(0xff, 0x00, 0x00) : nvgRGB(0xff, 0xff, 0xff);
+		NVGcolor textColor = pNord->GangBang() ? nvgRGB(0xff, 0xff, 0x00) : nvgRGB(0xff, 0xff, 0xff);
 		NVGcolor textCurrentColor = nvgRGB(0x00, 0x00, 0x00);
 
 		float y;
@@ -131,7 +131,7 @@ struct nordDisplay : TransparentWidget
 
 		if(pNord->GangBang())
 		{
-			nvgFillColor(ctx.vg, nvgRGB(0xff, 0x00, 0x00));
+			nvgFillColor(ctx.vg, nvgRGB(0xff, 0xff, 0x00));
 			nvgText(ctx.vg, ctx.left, ctx.top, "SAFETY CAR", NULL);
 		} else
 		{
