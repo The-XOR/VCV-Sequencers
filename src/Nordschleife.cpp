@@ -328,7 +328,7 @@ void NordschleifeWidget::createCar(Nordschleife *module, int index)
 	addChild(createLight<TinyLight<BlueLight>>(Vec(mm2px(x + 8.255), yncscape(y+7.157f, 1.088f)), module, Nordschleife::LAP_LED+ index));
 	addOutput(createOutput<PJ301BLUPort>(Vec(mm2px(x), yncscape(y, 8.255f)), module, Nordschleife::CAR_LAP + index));
 	y+=y_inc;
-	addOutut(createOutput<PJ301BPort>(Vec(mm2px(x), yncscape(y, 8.255f)), module, Nordschleife::CAR_POSITION + index));
+	addOutput(createOutput<PJ301BPort>(Vec(mm2px(x), yncscape(y, 8.255f)), module, Nordschleife::CAR_POSITION + index));
 	y+=y_inc;
 	addInput(createInput<PJ301YPort>(Vec(mm2px(x), yncscape(y, 8.255f)), module, Nordschleife::CAR_RESET + index));
 	y+=y_inc;
