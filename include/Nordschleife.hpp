@@ -82,7 +82,8 @@ struct NordschleifeWidget : SequencerWidget
 		RANDOMIZE_DIRECTION = 0x10,
 		RANDOMIZE_PATH = 0x20,
 		RANDOMIZE_ONCRASH = 0x40,
-		RANDOMIZE_LAQUALUNQUE = 0x80,
+		RANDOMIZE_ANGLE = 0x80,
+		RANDOMIZE_LAQUALUNQUE = 0x100,
 		QUANTIZE_PITCH
 	};
 
@@ -114,6 +115,7 @@ struct NordschleifeWidget : SequencerWidget
 			sub_menu->addChild(new RandomizeSubItemItem(md, "Ov Direction", RANDOMIZE_DIRECTION ));
 			sub_menu->addChild(new RandomizeSubItemItem(md, "Ov Path", RANDOMIZE_PATH ));
 			sub_menu->addChild(new RandomizeSubItemItem(md, "Ov Collision", RANDOMIZE_ONCRASH ));
+			sub_menu->addChild(new RandomizeSubItemItem(md, "Ov Angle", RANDOMIZE_ANGLE ));
 			sub_menu->addChild(new RandomizeSubItemItem(md, "Ov Power", RANDOMIZE_LAQUALUNQUE));
 			return sub_menu;
 		}
@@ -164,7 +166,8 @@ struct Nordschleife : Module
 		CAR_CV = OUT_B + NORDSTEPS,
 		CAR_GATE = CAR_CV + NORDCARS,
 		CAR_LAP = CAR_GATE + NORDCARS,
-		NUM_OUTPUTS = CAR_LAP + NORDCARS
+		CAR_POSITION = CAR_LAP + NORDCARS,
+		NUM_OUTPUTS = CAR_POSITION + NORDCARS
 	};
 	enum LightIds
 	{

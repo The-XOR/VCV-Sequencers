@@ -235,7 +235,7 @@ void NordschleifeCar::init()
 {
 	stopWatch = 0.f;
 	lastPulseDuration = 0.f;
-	path = stepFrom = startGrid = 0;
+	angle =path = stepFrom = startGrid = 0;
 	stepTo = NORDSTEPS - 1;
 	direction = carForward;
 	collision = carIgnore;
@@ -254,6 +254,8 @@ void NordschleifeStep::beginPulse(Nordschleife *pNord, int carID, float lastPuls
 	if(NordschleifeStep::selectedByCar[carID] != STEP_RESET)
 		pNord->lights[NordschleifeCar::CarLed[carID] + NordschleifeStep::selectedByCar[carID]].value = LED_OFF;
 
+	pNord->outputs[Nordschleife::CAR_POSITION+carID].setVoltage(SEMITONE * myID);
+
 	if(mode == Skip) // skip: lo step "non esiste", viene completamente ignorato
 	{
 		NordschleifeStep::selectedByCar[carID] = STEP_RESET;	//in questo momemnto, questa automobile non ha nessuno step associato
@@ -265,7 +267,6 @@ void NordschleifeStep::beginPulse(Nordschleife *pNord, int carID, float lastPuls
 	pNord->lights[NordschleifeCar::CarLed[carID] + myID].value = LED_ON;
 	if(outA == carID)
 	{
-		stepPulseA.trigger(PULSE_TIME);
 		pNord->outputs[Nordschleife::OUT_A + myID].value = LVL_ON;
 	}
 	if(outB == carID)
@@ -299,6 +300,8 @@ void NordschleifeStep::beginPulse(Nordschleife *pNord, int carID, float lastPuls
 
 NordschleifeStep::StepMode NordschleifeStep::endPulse(Nordschleife *pNord, int carID)  // ritorna true se lo step e' in modalita Reset
 {
+	pNord->outputs[Nordschleife::OUT_A + myID].value = LVL_OFF;
+
 	if(mode != Skip) // skip: lo step "non esiste", viene completamente ignorato
 	{
 		if(playing[carID])  // se lo step sta effettivamente suonando, viene chiuso il gate
@@ -316,8 +319,6 @@ NordschleifeStep::StepMode NordschleifeStep::endPulse(Nordschleife *pNord, int c
 void NordschleifeStep::process(Nordschleife *pNord, int carID, float deltaTime)
 {
 	elapsedTime[carID] += deltaTime;
-	if(!stepPulseA.process(deltaTime))
-		pNord->outputs[Nordschleife::OUT_A + myID].value = LVL_OFF;
 	if(!stepPulseB.process(deltaTime))
 		pNord->outputs[Nordschleife::OUT_B + myID].value = LVL_OFF;
 

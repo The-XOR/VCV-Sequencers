@@ -199,6 +199,11 @@ struct portSmall : _ioPort
 	portSmall() : _ioPort("res/PJ301Bsmall.svg") {}
 };
 
+struct portBLUSmall : _ioPort
+{
+	portBLUSmall() : _ioPort("res/PJ301BLUsmall.svg") {}
+};	
+
 struct PJ301HPort : _ioPort
 {
 	PJ301HPort() : _ioPort("res/PJ301H.svg")

@@ -10,6 +10,7 @@ enum NordschleifeFields
 	shlfFrom,
 	shlfTo,
 	shlfStartGrid,
+	shlfAngle,
 	shlfStrtgEvery,
 	shlfStrtgFor,
 
@@ -35,6 +36,7 @@ struct NordschleifeCar
 	int startGrid;
 	int strategyEvery;
 	int strategyFor;
+	int angle;
 
 	void Init(Nordschleife *p, int id);
 	void init();
@@ -57,6 +59,8 @@ struct NordschleifeCar
 		if(r) strategyEvery = json_integer_value(r);
 		r = json_object_get(root, ("carstrfor_" + myIDstr).c_str());
 		if(r) strategyFor = json_integer_value(r);
+		r = json_object_get(root, ("carangle_" + myIDstr).c_str());
+		if(r) angle = json_integer_value(r);
 	}
 
 	json_t *dataToJson(json_t *rootJ)
@@ -69,6 +73,7 @@ struct NordschleifeCar
 		json_object_set_new(rootJ, ("carpath_" + myIDstr).c_str(), json_integer(path));
 		json_object_set_new(rootJ, ("carstrevery_" + myIDstr).c_str(), json_integer(strategyEvery));
 		json_object_set_new(rootJ, ("carstrfor_" + myIDstr).c_str(), json_integer(strategyFor));
+		json_object_set_new(rootJ, ("carangle_" + myIDstr).c_str(), json_integer(angle));
 		return rootJ;
 	}
 
@@ -109,7 +114,6 @@ private:
 	dsp::PulseGenerator ledLapPulse;
 	int totalCounter;
 	int lapCounter;
-	int angle = 0;
 	int pitStopCounter;
 	bool pitstop;
 };
@@ -191,7 +195,6 @@ struct NordschleifeStep
 
 private:
 	int myID;
-	dsp::PulseGenerator stepPulseA;
 	dsp::PulseGenerator stepPulseB;
 	int repCount[NORDCARS];
 	static int selectedByCar[NORDCARS];
