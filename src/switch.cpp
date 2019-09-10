@@ -3,6 +3,9 @@
 
 void XSwitch::process(const ProcessArgs &args)
 {
+	if(pWidget == NULL)
+		return;
+
 	float last_value = 0;
 	for(int k = 0; k < NUM_SWITCHES; k++)
 	{
@@ -22,8 +25,11 @@ void XSwitch::process(const ProcessArgs &args)
 	}
 }
 
-SwitchWidget::SwitchWidget(XSwitch *module) : ModuleWidget()
+SwitchWidget::SwitchWidget(XSwitch *module) : SequencerWidget()
 {
+	if(module != NULL)
+		module->setWidget(this);
+
 	CREATE_PANEL(module, this, 10, "res/modules/switch.svg");
 
 	float in_x = mm2px(2.500);
@@ -41,7 +47,8 @@ SwitchWidget::SwitchWidget(XSwitch *module) : ModuleWidget()
 	for(int k = 0; k < NUM_SWITCHES; k++)
 	{
 		addInput(createInput<PJ301GRPort>(Vec(in_x, yncscape(y, 8.255)), module, XSwitch::IN_1 + k));
-		addInput(createInput<PJ301BPort>(Vec(mod_x, yncscape(y1, 8.255)), module, XSwitch::MOD_1 + k));
+		addInput(createInput<portSmall>(Vec(mod_x+5, yncscape(y1, 8.255)), module, XSwitch::MOD_1 + k));
+		addInput(createInput<portBLUSmall>(Vec(mod_x-15, yncscape(y1, 8.255)), module, XSwitch::TRIG_IN + k));
 		addParam(createParam<NKK1>(Vec(sw_x, yncscape(ysw, 7.336)), module, XSwitch::SW_1+k));
 		addParam(createParam<TL1105Sw>(Vec(mm2px(33.711), yncscape(yinv, 5.460)), module, XSwitch::INV_1+k));
 		addChild(createLight<SmallLight<RedLight>>(Vec(led_x, yncscape(yled, 2.176)), module, XSwitch::LED_1 + k ));
@@ -55,3 +62,13 @@ SwitchWidget::SwitchWidget(XSwitch *module) : ModuleWidget()
 	addParam(createParam<TL1105HBSw>(Vec(mm2px(9.823), yncscape(116.927, 4.477)), module, XSwitch::OUTMODE));
 }
 
+void SwitchWidget::SetSwitch(int n, bool status)
+{
+	int index = getParamIndex(n);
+	if(index >= 0)
+	{
+		//params[index]->dirtyValue = 
+		params[index]->paramQuantity->setValue(status ? 1.0 : 0.0);
+	}
+}
+	

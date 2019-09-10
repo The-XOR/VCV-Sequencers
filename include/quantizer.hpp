@@ -227,7 +227,7 @@ protected:
 		int ptr = 0;
 		for(int k = 1; k < (int)currentScale.size(); k++)
 		{
-			if(fabs(semitone - currentScale[k]) > fabs(semitone - currentScale[ptr]))
+			if(fabs(semitone - currentScale[k]) >= fabs(semitone - currentScale[ptr]))
 				break;
 			else
 				ptr = k;

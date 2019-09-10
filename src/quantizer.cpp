@@ -3,7 +3,7 @@
 
 void Quantizer::process(const ProcessArgs &args)
 {
-	if(outputs[IN_1].isConnected())
+	if(inputs[IN_1].isConnected())
 	{
 		int channels = inputs[IN_1].getChannels();
 		for(int k = 0; k < channels; k++)
