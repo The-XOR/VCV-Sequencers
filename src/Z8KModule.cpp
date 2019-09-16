@@ -1,6 +1,21 @@
 #include "../include/Z8K.hpp"
 #include <sstream>
 
+int Z8K::paths[Z8KPATHS][16] = {
+    {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15},
+    {0,1,2,3,4,5,6,7,15,14,13,12,11,10,9,8},
+    {0,8,1,9,2,10,3,11,4,12,5,13,6,14,7,15},
+    {8,0,1,9,10,2,3,11,12,4,5,13,14,6,7,15},
+    {0,1,2,3,4,5,6,7,15,8,9,10,11,12,13,14},
+    {8,0,9,1,10,2,11,3,12,4,13,5,14,6,15,7},
+    {0,7,1,6,2,5,3,4,8,15,9,14,10,13,11,12},
+    {0,4,8,12,13,14,15,11,7,3,2,1,5,9,10,6},
+    {3,2,7,1,6,11,0,5,10,15,4,9,14,8,13,12},
+    {0,4,1,5,2,6,3,7,11,15,8,12,9,13,10,14},
+    {0,7,9,14,1,6,10,13,8,15,2,5,11,12,3,4},
+    {0,7,3,4,9,14,10,13,1,6,11,12,2,5,8,15}
+};
+
 void Z8K::on_loaded()
 {
 	#ifdef DIGITAL_EXT
@@ -31,6 +46,9 @@ void Z8K::load()
 	//vert
 	std::vector<int> steps_v = {0,4,8,12,13,9,5,1,2,6,10,14,15,11,7,3};
 	seq[SEQ_VERT].Init(&inputs[RESET_VERT], &inputs[DIR_VERT], &inputs[CLOCK_VERT], &outputs[CV_VERT], &lights[LED_VERT], params, steps_v);
+	//path
+	seq[SEQ_PATH].Init(&inputs[RESET_PATH], &inputs[DIR_PATH], &inputs[CLOCK_PATH], &outputs[CV_PATH], &lights[LED_PATH], params, getPath());
+
 	reset();
 }
 
@@ -46,8 +64,33 @@ void Z8K::QuantizePitch()
 		params[VOLTAGE_1 + k].value = pWidget->quantizePitch(VOLTAGE_1 + k, params[VOLTAGE_1 + k].value, cvs);
 }
 
+void Z8K::process_keys()
+{
+	if(pWidget != NULL)
+	{
+		int n=curPtn;
+		if(btninc.process(params[PTN_INC].value))
+		{
+			n++;
+		} else if(btndec.process(params[PTN_DEC].value))
+		{
+			n--;
+		}
+
+		float v = (inputs[PATH_SELECT].getNormalVoltage(0.0)/LVL_MAX) * (Z8KPATHS-1);
+		n = clamp(int(v+ n), 0,  Z8KPATHS-1);
+		
+		if (curPtn != n)
+		{
+			curPtn = n;
+			seq[SEQ_PATH].SetSequence(params, &lights[LED_PATH], getPath());
+		}
+	}
+}
+
 void Z8K::process(const ProcessArgs &args)
 {
+	process_keys();
 	int activeSteps[16];
 	for(int k = 0; k < 16; k++)
 		activeSteps[k] = LVL_OFF;
@@ -72,7 +115,7 @@ void Z8K::process(const ProcessArgs &args)
 		for (int k = 0; k < 16; k++)
 			outputs[ACTIVE_STEP + k].value = activeSteps[k];
 	}
-	
+
 	#ifdef DIGITAL_EXT
 	bool dig_connected = false;
 
@@ -80,7 +123,7 @@ void Z8K::process(const ProcessArgs &args)
 	if(oscDrv->Connected())
 		dig_connected = true;
 	oscDrv->ProcessOSC();
-	#endif	
+	#endif
 	connected = dig_connected ? 1.0 : 0.0;
 	#endif
 }
@@ -103,7 +146,7 @@ void Z8KWidget::onMenu(int action)
 }
 
 Z8KWidget::Z8KWidget(Z8K *module) : SequencerWidget()
-{	
+{
 	if(module != NULL)
 		module->setWidget(this);
 
@@ -111,7 +154,7 @@ Z8KWidget::Z8KWidget(Z8K *module) : SequencerWidget()
 	char name[60];
 	#endif
 
-	CREATE_PANEL(module, this, 36, "res/modules/Z8KModule.svg");
+	CREATE_PANEL(module, this, 39, "res/modules/Z8KModule.svg");
 
 	float dist_h = 22.225;
 	float dist_v = -18.697;
@@ -139,6 +182,16 @@ Z8KWidget::Z8KWidget(Z8K *module) : SequencerWidget()
 	addInput(createInput<PJ301BPort> (Vec(mm2px(14.318), yncscape(2.685, 8.255)), module, Z8K::DIR_HORIZ ));
 	addInput(createInput<PJ301RPort> (Vec(mm2px(22.897), yncscape(10.941, 8.255)), module, Z8K::CLOCK_HORIZ));
 	addOutput(createOutput<PJ301GPort>(Vec(mm2px(31.477), yncscape(2.685, 8.255)), module, Z8K::CV_HORIZ));
+
+	addInput(createInput<PJ301YPort>  (Vec(mm2px(164.760), yncscape(82.210+0*dist_v, 8.255)), module, Z8K::RESET_PATH));
+	addInput(createInput<PJ301BPort>  (Vec(mm2px(164.760), yncscape(82.210+1*dist_v, 8.255)), module, Z8K::DIR_PATH ));
+	addInput(createInput<PJ301RPort>  (Vec(mm2px(164.760), yncscape(82.210+2*dist_v, 8.255)), module, Z8K::CLOCK_PATH));
+	addOutput(createOutput<PJ301GPort>(Vec(mm2px(164.760), yncscape(82.210+3*dist_v, 8.255)), module, Z8K::CV_PATH));
+
+	addInput(createInput<PJ301YPort> (Vec(mm2px(173.861), yncscape(10.211, 8.255)), module, Z8K::PATH_SELECT));
+	addParam(createParam<UPSWITCH>(Vec(mm2px(155.659), yncscape(14.577, 4.627)), module, Z8K::PTN_INC));
+	addParam(createParam<DNSWITCH>(Vec(mm2px(155.659), yncscape(9.985, 4.627)), module, Z8K::PTN_DEC));
+	addChild(new Z8K7Segm(module != NULL ? module : NULL, 162.305, 10.514));
 
 	addInput(createInput<PJ301BPort>(Vec(mm2px(16.544), yncscape(102.575, 8.255)), module, Z8K::RANDOMIZE));
 	addInput(createInput<PJ301YPort> (Vec(mm2px(26.912), yncscape(115.442, 8.255)), module, Z8K::MASTERRESET));
@@ -199,18 +252,28 @@ Z8KWidget::Z8KWidget(Z8K *module) : SequencerWidget()
 			#endif
 			addChild(plight);
 
+			plight = createLight<SmallLight<WhiteLight>>(Vec(mm2px(62.116 + dist_h * c), yncscape(88.969 +  dist_v * r, 2.132)), module, Z8K::LED_PATH + n);
+			#ifdef OSCTEST_MODULE
+			if(module != NULL)
+			{
+			   sprintf(name, "/LedP%i", n + 1);
+			   module->oscDrv->Add(new oscControl(name), plight);
+			}
+			#endif
+			addChild(plight);
+
 			if(r == 3)
 				addOutput(createOutput<PJ301GPort>(Vec(mm2px(52.168+ dist_h * c), yncscape(2.685, 8.255)), module, Z8K::CV_A + c));
 
-			addOutput(createOutput<PJ301WPort>(Vec(mm2px(57.362 + dist_h * c), yncscape(73.320 + dist_v * r, 8.255)), module, Z8K::ACTIVE_STEP + n));
+			addOutput(createOutput<portWSmall>(Vec(mm2px(58.645 + dist_h * c), yncscape(75.161 + dist_v * r, 5.885)), module, Z8K::ACTIVE_STEP + n));
 		}
-		addOutput(createOutput<PJ301GPort>(Vec(mm2px(161.154), yncscape(82.210+r*dist_v, 8.255)), module, Z8K::CV_1 + r));
+		addOutput(createOutput<PJ301GPort>(Vec(mm2px(146.867), yncscape(82.210+r*dist_v, 8.255)), module, Z8K::CV_1 + r));
 	}
 
 	addChild(createParam<BefacoPushBig>(Vec(mm2px(5.366), yncscape(115.070, 9.001)), module, Z8K::M_RESET));
 
 	if(module != NULL)
-		module->cvs.Create(this, 172.339f, 18.530f, Z8K::NUM_INPUTS - cvStrip::CVSTRIP_INPUTS, Z8K::NUM_PARAMS - cvStrip::CVSTRIP_PARAMS, 16);
+		module->cvs.Create(this, 184.935f, 14.045f, Z8K::NUM_INPUTS - cvStrip::CVSTRIP_INPUTS, Z8K::NUM_PARAMS - cvStrip::CVSTRIP_PARAMS, 16);
 
 	#ifdef DIGITAL_EXT
 	if(module != NULL)
@@ -241,4 +304,40 @@ int z8kSequencer::Step(Z8K *pModule)
 			leds[k]->value = k == curStep ? LED_ON : LED_OFF;
 	}
 	return chain[curStep];
+}
+
+void Z8K7Segm::draw(const DrawArgs &args) 
+{
+	// Background
+	NVGcolor backgroundColor = nvgRGB(0x20, 0x20, 0x20);
+	NVGcolor borderColor = nvgRGB(0x10, 0x10, 0x10);
+	nvgBeginPath(args.vg);
+	nvgRoundedRect(args.vg, 0.0, 0.0, box.size.x, box.size.y, 4.0);
+	nvgFillColor(args.vg, backgroundColor);
+	nvgFill(args.vg);
+	nvgStrokeWidth(args.vg, 1.0);
+	nvgStrokeColor(args.vg, borderColor);
+	nvgStroke(args.vg);
+	// text
+	nvgFontSize(args.vg, 18);
+	nvgFontFaceId(args.vg, font->handle);
+	nvgTextLetterSpacing(args.vg, 2.5);
+
+	Vec textPos = Vec(2, 18);
+	NVGcolor textColor = nvgRGB(0xdf, 0xd2, 0x2c);
+	nvgFillColor(args.vg, nvgTransRGBA(textColor, 16));
+	nvgText(args.vg, textPos.x, textPos.y, "~~", NULL);
+
+	textColor = nvgRGB(0xda, 0xe9, 0x29);
+	nvgFillColor(args.vg, nvgTransRGBA(textColor, 16));
+	nvgText(args.vg, textPos.x, textPos.y, "\\\\", NULL);
+
+	if(p8 != NULL)
+	{
+		char n[20];
+		sprintf(n, "%2i", p8->patternNumber() + 1);
+		textColor = nvgRGB(0xff, 0x00, 0x00);
+		nvgFillColor(args.vg, textColor);
+		nvgText(args.vg, textPos.x, textPos.y, n, NULL);
+	}
 }

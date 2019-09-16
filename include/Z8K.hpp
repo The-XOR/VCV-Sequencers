@@ -5,6 +5,8 @@
 #include <algorithm>
 #include "z8kSequencer.hpp"
 
+#define Z8KPATHS 12
+
 struct Z8KWidget : SequencerWidget
 {
 public:
@@ -26,6 +28,8 @@ struct Z8K : Module
 	{
 		VOLTAGE_1,
 		M_RESET = VOLTAGE_1 + 16,
+		PTN_INC,
+		PTN_DEC,
 		RANGE,
 		NUM_PARAMS = RANGE + cvStrip::CVSTRIP_PARAMS
 	};
@@ -36,16 +40,21 @@ struct Z8K : Module
 		RESET_A = RESET_1 + 4,
 		RESET_VERT = RESET_A + 4,
 		RESET_HORIZ,
+		RESET_PATH,
 
 		DIR_1,
 		DIR_A = DIR_1 + 4,
 		DIR_VERT = DIR_A + 4,
 		DIR_HORIZ,
+		DIR_PATH,
 
 		CLOCK_1,
 		CLOCK_A = CLOCK_1 + 4,
 		CLOCK_VERT = CLOCK_A + 4,
 		CLOCK_HORIZ,
+		CLOCK_PATH,
+
+		PATH_SELECT,
 
 		RANDOMIZE,
 		MASTERRESET,
@@ -60,6 +69,7 @@ struct Z8K : Module
 		CV_A = CV_1 + 4,
 		CV_VERT = CV_A + 4,
 		CV_HORIZ,
+		CV_PATH,
 		ACTIVE_STEP,
 		NUM_OUTPUTS = ACTIVE_STEP + 16
 	};
@@ -70,7 +80,8 @@ struct Z8K : Module
 		LED_COL = LED_ROW + 16,
 		LED_VERT = LED_COL + 16,
 		LED_HORIZ = LED_VERT + 16,
-		NUM_LIGHTS = LED_HORIZ + 16
+		LED_PATH = LED_HORIZ + 16,
+		NUM_LIGHTS = LED_PATH + 16
 	};
 
 	enum SequencerIds
@@ -79,11 +90,13 @@ struct Z8K : Module
 		SEQ_A = SEQ_1 + 4,
 		SEQ_VERT = SEQ_A + 4,
 		SEQ_HORIZ,
+		SEQ_PATH,
 		NUM_SEQUENCERS
 	};
 
 	Z8K() : Module()
 	{
+		curPtn = 0;
 		pWidget = NULL;
 		config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS);
 		for(int r = 0; r < 4; r++)
@@ -130,6 +143,13 @@ struct Z8K : Module
 		return rootJ;
 	}
 	cvStrip cvs;
+	inline int patternNumber() const {return curPtn; }
+	inline std::vector<int> getPath() const {
+		std::vector<int> rv;
+		for (int k = 0; k < 16; k++)
+			rv.push_back(paths[curPtn][k]);
+		return rv;
+	}
 
 	#ifdef DIGITAL_EXT
 	float connected;
@@ -140,11 +160,16 @@ struct Z8K : Module
 
 private:
 	void on_loaded();
+	void process_keys();
 	void load();
 	void reset();
-	z8kSequencer seq[10];
+	z8kSequencer seq[NUM_SEQUENCERS];
 	dsp::SchmittTrigger randomizeTrigger;
 	Z8KWidget *pWidget;
 	dsp::SchmittTrigger masterReset;
 	dsp::SchmittTrigger masterResetIn;
+	dsp::SchmittTrigger btninc;
+	dsp::SchmittTrigger btndec;
+	int curPtn;
+	static int paths[Z8KPATHS][16];
 };

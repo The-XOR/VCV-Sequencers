@@ -202,12 +202,17 @@ struct portSmall : _ioPort
 struct portBLUSmall : _ioPort
 {
 	portBLUSmall() : _ioPort("res/PJ301BLUsmall.svg") {}
-};	
+};
 
 struct portYSmall : _ioPort
 {
 	portYSmall() : _ioPort("res/PJ301Ysmall.svg") {}
-};	
+};
+
+struct portWSmall : _ioPort
+{
+	portWSmall() : _ioPort("res/PJ301Wsmall.svg") {}
+};
 
 struct PJ301HPort : _ioPort
 {
@@ -476,7 +481,7 @@ public:
 	}
 
 	float quantizePitch(int idx, float value, const cvMicroStrip &cvs);
-	
+
 	void SetValue(int idx, float value)
 	{
 		int index = getParamIndex(idx);
@@ -647,7 +652,7 @@ struct XorPanel : SvgPanel
 		{
 			setSvg(APP->window->loadSvg(asset::plugin(pluginInstance, "res/screw_hole.svg")));
 		}
-	};	
+	};
 	struct bgGradient : TransparentWidget
 	{
 		bgGradient(const Vec &size)
