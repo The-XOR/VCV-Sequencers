@@ -7,12 +7,13 @@ void XSwitch::process(const ProcessArgs &args)
 		return;
 
 	float last_value = 0;
+	bool reset_state = resetInput.process(inputs[RESET].getVoltage());
 	for(int k = 0; k < NUM_SWITCHES; k++)
 	{
 		if(inputs[IN_1 + k].isConnected())
 			last_value = inputs[IN_1 + k].value;
 
-		if(getSwitch(k))
+		if(getSwitch(k, reset_state))
 		{
 			lights[LED_1 + k].value = LED_ON;
 			outputs[OUT_1 + k].value = last_value;
@@ -44,6 +45,7 @@ SwitchWidget::SwitchWidget(XSwitch *module) : SequencerWidget()
 	float yinv = 99.785;
 	float delta_y = 79.394 - 101.567;
 	
+	addInput(createInput<portYSmall>(Vec(mm2px(41.221), yncscape(116.530, 5.885)), module, XSwitch::RESET));
 	for(int k = 0; k < NUM_SWITCHES; k++)
 	{
 		addInput(createInput<PJ301GRPort>(Vec(in_x, yncscape(y, 8.255)), module, XSwitch::IN_1 + k));

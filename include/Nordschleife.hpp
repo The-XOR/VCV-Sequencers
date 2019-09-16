@@ -193,6 +193,8 @@ struct Nordschleife : Module
 
 		for(int k = 0; k < NORDSTEPS; k++)
 			steps[k].Init(k);
+		setGang(false);
+		setCar(0);
 	}
 
 	void process(const ProcessArgs &args) override;

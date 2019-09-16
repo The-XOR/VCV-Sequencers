@@ -26,7 +26,8 @@ struct XSwitch : Module
 		IN_1,
 		MOD_1= IN_1 + NUM_SWITCHES,
 		TRIG_IN = MOD_1 + NUM_SWITCHES,
-		NUM_INPUTS = TRIG_IN + NUM_SWITCHES
+		RESET = TRIG_IN + NUM_SWITCHES,
+		NUM_INPUTS
 	};
 	enum OutputIds
 	{
@@ -47,18 +48,27 @@ struct XSwitch : Module
 	}
 	void process(const ProcessArgs &args) override;
 	void setWidget(SwitchWidget *pwdg) { pWidget = pwdg; }
+
 private:
 	SwitchWidget *pWidget;
 	dsp::SchmittTrigger trigInput[NUM_SWITCHES];
-	bool getSwitch(int n)
+	dsp::SchmittTrigger resetInput;
+	bool getSwitch(int n, bool reset)
 	{
-		bool stat = getModulableSwitch(this, SW_1+n, MOD_1+n);
-		if(trigInput[n].process(inputs[TRIG_IN+n].getVoltage()))
+		bool stat ;
+		if(reset)
 		{
-			stat = !stat;
+			stat = false;
 			pWidget->SetSwitch(SW_1+n, stat);
+		} else
+		{
+			stat = getModulableSwitch(this, SW_1+n, MOD_1+n);
+			if(trigInput[n].process(inputs[TRIG_IN+n].getVoltage()))
+			{
+				stat = !stat;
+				pWidget->SetSwitch(SW_1+n, stat);
+			}
 		}
-
 		return isSwitchOn(this, INV_1 + n) ? !stat : stat;
 	}
 };
