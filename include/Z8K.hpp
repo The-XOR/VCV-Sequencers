@@ -5,7 +5,7 @@
 #include <algorithm>
 #include "z8kSequencer.hpp"
 
-#define Z8KPATHS 13
+#define Z8KPATHS 99
 
 struct Z8KWidget : SequencerWidget
 {
@@ -136,10 +136,19 @@ struct Z8K : Module
 	void setWidget(Z8KWidget *pwdg) { pWidget = pwdg; }
 	void QuantizePitch();
 
-	void dataFromJson(json_t *root) override { Module::dataFromJson(root); on_loaded(); }
+	void dataFromJson(json_t *root) override 
+	{ 
+		Module::dataFromJson(root); on_loaded(); 
+		json_t *rndJson = json_object_get(root, "basePtn");
+		if(rndJson)
+			basePtn = json_integer_value(rndJson);
+
+	}
 	json_t *dataToJson() override
 	{
 		json_t *rootJ = json_object();
+		json_t *rndJson = json_integer(basePtn);
+		json_object_set_new(rootJ, "basePtn", rndJson);
 		return rootJ;
 	}
 	cvStrip cvs;

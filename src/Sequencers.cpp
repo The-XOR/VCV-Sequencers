@@ -22,6 +22,7 @@
 #include "../include/o88o.hpp"
 #include "../include/volt.hpp"
 #include "../include/Nordschleife.hpp"
+#include "../include/kexp.hpp"
 
 #ifdef LPTEST_MODULE
 #include "../include/lpTestModule.hpp"
@@ -43,6 +44,7 @@ void init(rack::Plugin *p)
 
 	// For each module, specify the ModuleWidget subclass, manufacturer slug (for saving in patches), manufacturer human-readable name, module slug, and module name
 	p->addModel(createModel<Klee, KleeWidget>("Klee"));
+	p->addModel(createModel<kExp, kExpWidget>("kExp"));
 	p->addModel(createModel<M581, M581Widget>("M581"));
 	p->addModel(createModel<Z8K, Z8KWidget>("Z8K"));
 	p->addModel(createModel<Renato, RenatoWidget>("Renato"));

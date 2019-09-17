@@ -21,6 +21,13 @@
       ]
     },
     {
+      "slug": "kExp",
+      "name": "Klee Expander",
+      "description": "Klee Sequencer Expander",
+      "tags": [
+        "Utility"
+      ]
+    },    {
       "slug": "ascii",
       "name": "ascii",
       "description": "ascii Sequencer - make notes sing",

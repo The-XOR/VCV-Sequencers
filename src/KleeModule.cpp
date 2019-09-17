@@ -1,5 +1,7 @@
 #include "../include/Klee.hpp"
 
+uint8_t Klee::bitfield[8] = {0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80};
+
 void Klee::on_loaded()
 {
 	#ifdef DIGITAL_EXT
@@ -169,14 +171,24 @@ void Klee::populate_outputs()
 
 	float a = 0, b = 0;
 
+	float expander_out = 0;
+	uint8_t *p = (uint8_t *)&expander_out;
 	for(int k = 0; k < 8; k++)
 	{
 		if(shiftRegister.A[k])
+		{
 			a += cvs.TransposeableValue(params[PITCH_KNOB + k].value);
+			*(p+1) |= bitfield[k];
+		}
 
 		if(shiftRegister.B[k])
+		{
 			b += cvs.TransposeableValue(params[PITCH_KNOB + k + 8].value);
+			*(p+2) |= bitfield[k];
+		}
 	}
+
+	outputs[EXPANDER_OUT].setVoltage(expander_out);
 	outputs[CV_A].value = clamp(a, LVL_MIN, LVL_MAX);
 	outputs[CV_B].value = clamp(b, LVL_MIN, LVL_MAX);
 	outputs[CV_AB].value = clamp(a + b, LVL_MIN, LVL_MAX);
@@ -462,6 +474,8 @@ KleeWidget::KleeWidget(Klee *module) : SequencerWidget()
 	addOutput(createOutput<PJ301GPort>(Vec(mm2px(230.822), yncscape(113.612, 8.255)), module, Klee::CV_B));
 	addOutput(createOutput<PJ301GPort>(Vec(mm2px(213.360), yncscape(97.207, 8.255)), module, Klee::CV_A__B));
 	addOutput(createOutput<PJ301GPort>(Vec(mm2px(230.822), yncscape(97.207, 8.255)), module, Klee::CV_AB));
+
+	addOutput(createOutput<PJ301EXP>(Vec(mm2px(230.822), yncscape(25.109, 8.255)), module, Klee::EXPANDER_OUT));
 
 	// mode
 	pwdg = createParam<NKK1>(Vec(mm2px(68.915), yncscape(60.582 + nkk_offs, 7.336)), module, Klee::X28_X16);

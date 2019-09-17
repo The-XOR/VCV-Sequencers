@@ -91,7 +91,8 @@ struct Klee : Module
 		CV_A__B,
 		GATE_OUT,
 		TRIG_OUT = GATE_OUT + 3,
-		NUM_OUTPUTS = TRIG_OUT + 3
+		EXPANDER_OUT = TRIG_OUT + 3,
+		NUM_OUTPUTS
 	};
 
 	enum LightIds
@@ -195,6 +196,7 @@ struct Klee : Module
 	cvMiniStrip cvs;
 
 private:
+	static uint8_t bitfield[8];
 	KleeWidget *pWidget;
 	void showValues();
 	void sr_rotate();

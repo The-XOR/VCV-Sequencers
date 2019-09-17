@@ -1518,11 +1518,10 @@
           "value": 1.0
         }
       ],
-      "leftModuleId": 69,
-      "rightModuleId": 73,
+      "leftModuleId": 105,
       "data": {},
       "pos": [
-        118,
+        129,
         1
       ]
     },
@@ -1578,7 +1577,7 @@
         }
       ],
       "leftModuleId": 60,
-      "rightModuleId": 68,
+      "rightModuleId": 105,
       "pos": [
         108,
         1
@@ -1681,10 +1680,20 @@
         {
           "id": 22,
           "value": 0.0
+        },
+        {
+          "id": 23,
+          "value": 0.0
+        },
+        {
+          "id": 24,
+          "value": 0.0
         }
       ],
       "leftModuleId": 65,
-      "data": {},
+      "data": {
+        "basePtn": 0
+      },
       "pos": [
         104,
         2
@@ -1727,7 +1736,7 @@
       "version": "1.1.2",
       "model": "midyQuant",
       "params": [],
-      "leftModuleId": 68,
+      "leftModuleId": 87,
       "data": {
         "scale": 0,
         "root": 0,
@@ -1737,8 +1746,8 @@
         }
       },
       "pos": [
-        130,
-        1
+        139,
+        3
       ]
     },
     {
@@ -1964,6 +1973,7 @@
         }
       ],
       "leftModuleId": 71,
+      "rightModuleId": 73,
       "pos": [
         125,
         3
@@ -2328,7 +2338,7 @@
         },
         {
           "id": 64,
-          "value": 0.0
+          "value": 1.0
         },
         {
           "id": 65,
@@ -2584,7 +2594,7 @@
         },
         {
           "id": 128,
-          "value": 0.0
+          "value": 1.0
         },
         {
           "id": 129,
@@ -2624,7 +2634,7 @@
         },
         {
           "id": 138,
-          "value": 1.0
+          "value": 0.0
         },
         {
           "id": 139,
@@ -2662,6 +2672,7 @@
         "carpath_0": 0,
         "carstrevery_0": 0,
         "carstrfor_0": 1,
+        "carangle_0": 0,
         "cardir_1": 0,
         "carcoll_1": 0,
         "carfrom_1": 0,
@@ -2670,6 +2681,7 @@
         "carpath_1": 0,
         "carstrevery_1": 0,
         "carstrfor_1": 1,
+        "carangle_1": 0,
         "cardir_2": 0,
         "carcoll_2": 0,
         "carfrom_2": 0,
@@ -2678,6 +2690,7 @@
         "carpath_2": 0,
         "carstrevery_2": 0,
         "carstrfor_2": 1,
+        "carangle_2": 0,
         "cardir_3": 0,
         "carcoll_3": 0,
         "carfrom_3": 0,
@@ -2686,6 +2699,7 @@
         "carpath_3": 0,
         "carstrevery_3": 0,
         "carstrfor_3": 1,
+        "carangle_3": 0,
         "stepmode_0": 1,
         "step_outa0": 0,
         "step_outb0": 1,
@@ -3010,6 +3024,56 @@
       "pos": [
         4,
         3
+      ]
+    },
+    {
+      "id": 105,
+      "plugin": "TheXOR",
+      "version": "1.1.2",
+      "model": "kExp",
+      "params": [
+        {
+          "id": 0,
+          "value": 0.0
+        },
+        {
+          "id": 1,
+          "value": 0.0
+        },
+        {
+          "id": 2,
+          "value": 0.0
+        },
+        {
+          "id": 3,
+          "value": 0.0
+        },
+        {
+          "id": 4,
+          "value": 0.0
+        },
+        {
+          "id": 5,
+          "value": 0.0
+        },
+        {
+          "id": 6,
+          "value": 0.0
+        },
+        {
+          "id": 7,
+          "value": 0.0
+        },
+        {
+          "id": 8,
+          "value": 0.0
+        }
+      ],
+      "leftModuleId": 69,
+      "rightModuleId": 68,
+      "pos": [
+        118,
+        1
       ]
     }
   ],

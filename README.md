@@ -22,8 +22,11 @@ and now for something completely different: a list.
 
 ## a list.
 # klee
-a rather complete klee sequencer, with some enhancements.
+a rather complete klee sequencer, with some enhancements. 
 more information: https://www.google.com/search?q=klee%20sequencer%20pdf
+
+# k/exp
+if the complexity of a klee sequencer is not enough, use this expansion module.
 
 # m581
 inspired by the system 100 sequencer, check https://www.google.com/search?q=m185%20step%20sequencer

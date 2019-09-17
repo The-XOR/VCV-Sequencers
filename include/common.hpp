@@ -232,6 +232,11 @@ struct PJ301BPort : _ioPort
 	PJ301BPort() : _ioPort("res/PJ301B.svg") {}
 };
 
+struct PJ301EXP : _ioPort
+{
+	PJ301EXP() : _ioPort("res/PJ301EXP.svg") {}
+};
+
 struct PJ301GPort : _ioPort
 {
 	PJ301GPort() : _ioPort("res/PJ301G.svg") {}
@@ -346,7 +351,7 @@ struct TL1105Sw : app::SvgSwitch
 	void randomize() override
 	{
 		if(randomizable)
-		app::SvgSwitch::randomize();
+			app::SvgSwitch::randomize();
 	}
 	bool randomizable;
 };
