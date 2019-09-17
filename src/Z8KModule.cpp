@@ -13,7 +13,8 @@ int Z8K::paths[Z8KPATHS][16] = {
     {3,2,7,1,6,11,0,5,10,15,4,9,14,8,13,12},
     {0,4,1,5,2,6,3,7,11,15,8,12,9,13,10,14},
     {0,7,9,14,1,6,10,13,8,15,2,5,11,12,3,4},
-    {0,7,3,4,9,14,10,13,1,6,11,12,2,5,8,15}
+    {0,7,3,4,9,14,10,13,1,6,11,12,2,5,8,15},
+	{0,3,1,2,4,7,5,6,8,11,9,10,12,15,13,14}
 };
 
 void Z8K::on_loaded()
@@ -68,17 +69,17 @@ void Z8K::process_keys()
 {
 	if(pWidget != NULL)
 	{
-		int n=curPtn;
 		if(btninc.process(params[PTN_INC].value))
 		{
-			n++;
+			basePtn++;
 		} else if(btndec.process(params[PTN_DEC].value))
 		{
-			n--;
+			basePtn--;
 		}
+		basePtn=clamp(basePtn, 0,  Z8KPATHS-1);
 
-		float v = (inputs[PATH_SELECT].getNormalVoltage(0.0)/LVL_MAX) * (Z8KPATHS-1);
-		n = clamp(int(v+ n), 0,  Z8KPATHS-1);
+		float v = rescale(inputs[PATH_SELECT].getNormalVoltage(0.0), 0,LVL_MAX, 0, Z8KPATHS-1);
+		int n = clamp(int(v+ basePtn), 0,  Z8KPATHS-1);
 		
 		if (curPtn != n)
 		{
@@ -188,7 +189,7 @@ Z8KWidget::Z8KWidget(Z8K *module) : SequencerWidget()
 	addInput(createInput<PJ301RPort>  (Vec(mm2px(164.760), yncscape(82.210+2*dist_v, 8.255)), module, Z8K::CLOCK_PATH));
 	addOutput(createOutput<PJ301GPort>(Vec(mm2px(164.760), yncscape(82.210+3*dist_v, 8.255)), module, Z8K::CV_PATH));
 
-	addInput(createInput<PJ301YPort> (Vec(mm2px(173.861), yncscape(10.211, 8.255)), module, Z8K::PATH_SELECT));
+	addInput(createInput<PJ301BPort> (Vec(mm2px(173.861), yncscape(10.211, 8.255)), module, Z8K::PATH_SELECT));
 	addParam(createParam<UPSWITCH>(Vec(mm2px(155.659), yncscape(14.577, 4.627)), module, Z8K::PTN_INC));
 	addParam(createParam<DNSWITCH>(Vec(mm2px(155.659), yncscape(9.985, 4.627)), module, Z8K::PTN_DEC));
 	addChild(new Z8K7Segm(module != NULL ? module : NULL, 162.305, 10.514));

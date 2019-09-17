@@ -5,7 +5,7 @@
 #include <algorithm>
 #include "z8kSequencer.hpp"
 
-#define Z8KPATHS 12
+#define Z8KPATHS 13
 
 struct Z8KWidget : SequencerWidget
 {
@@ -96,7 +96,7 @@ struct Z8K : Module
 
 	Z8K() : Module()
 	{
-		curPtn = 0;
+		basePtn=curPtn = 0;
 		pWidget = NULL;
 		config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS);
 		for(int r = 0; r < 4; r++)
@@ -171,5 +171,6 @@ private:
 	dsp::SchmittTrigger btninc;
 	dsp::SchmittTrigger btndec;
 	int curPtn;
+	int basePtn;
 	static int paths[Z8KPATHS][16];
 };

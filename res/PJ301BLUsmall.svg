@@ -147,7 +147,7 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="22.4"
-     inkscape:cx="-9.7127971"
+     inkscape:cx="-17.145833"
      inkscape:cy="10.845573"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
@@ -203,15 +203,14 @@
      id="layer1"
      transform="translate(-89.853715,-120.48878)">
     <g
-       id="g853"
-       style="fill:#0000ff">
+       id="g849">
       <path
          inkscape:connector-curvature="0"
          id="path7255"
          d="m 92.7964,120.54224 c -1.593376,0 -2.88922,1.29586 -2.88922,2.88922 0,1.5934 1.295844,2.88885 2.88922,2.88885 1.593373,0 2.888851,-1.29545 2.888851,-2.88885 0,-1.59336 -1.295478,-2.88922 -2.888851,-2.88922 z m 0,0.80859 c 1.147387,0 2.08062,0.93325 2.08062,2.08063 0,1.1474 -0.933233,2.08062 -2.08062,2.08062 -1.147387,0 -2.080622,-0.93322 -2.080622,-2.08062 0,-1.14738 0.933235,-2.08063 2.080622,-2.08063 z"
          style="fill:#0000ff;fill-opacity:1;fill-rule:nonzero;stroke:#cccccc;stroke-width:0.10692944;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
       <path
-         style="fill:#0000ff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.25148219"
+         style="fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.25148219"
          d="m 94.079187,123.43129 c 0,0.70829 -0.574676,1.28297 -1.282951,1.28297 -0.708277,0 -1.282952,-0.57468 -1.282952,-1.28297 0,-0.70826 0.574675,-1.28292 1.282952,-1.28292 0.708275,0 1.282951,0.57466 1.282951,1.28292"
          id="path7265"
          inkscape:connector-curvature="0" />
