@@ -23,6 +23,7 @@
 #include "../include/volt.hpp"
 #include "../include/Nordschleife.hpp"
 #include "../include/kexp.hpp"
+#include "../include/rr.hpp"
 
 #ifdef LPTEST_MODULE
 #include "../include/lpTestModule.hpp"
@@ -68,6 +69,7 @@ void init(rack::Plugin *p)
 	p->addModel(createModel<o88o, o88oWidget>("o88o"));
 	p->addModel(createModel<volt, voltWidget>("volt"));
 	p->addModel(createModel<Nordschleife, NordschleifeWidget>("Nordschleife"));
+	p->addModel(createModel<RR, RRWidget>("RR"));
 
 #ifdef LPTEST_MODULE
 	p->addModel(createModel<LaunchpadTest, LaunchpadTestWidget>("LaunchpadTest"));

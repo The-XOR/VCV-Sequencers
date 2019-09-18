@@ -113,3 +113,6 @@ from basic, repetitive sequences to total kaos, and everything in between. it is
 2) every car has is own path, direction and sequence range
 3) in case of collision between two cars, everything can change.
 4) not to mention the step-by-step options.
+
+# rr
+clock round robin (with a switch)

@@ -1691,6 +1691,7 @@
         }
       ],
       "leftModuleId": 65,
+      "rightModuleId": 106,
       "data": {
         "basePtn": 0
       },
@@ -3074,6 +3075,23 @@
       "pos": [
         118,
         1
+      ]
+    },
+    {
+      "id": 106,
+      "plugin": "TheXOR",
+      "version": "1.1.2",
+      "model": "RR",
+      "params": [
+        {
+          "id": 0,
+          "value": 1.0
+        }
+      ],
+      "leftModuleId": 70,
+      "pos": [
+        143,
+        2
       ]
     }
   ],

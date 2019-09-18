@@ -1,7 +1,7 @@
 {
   "slug": "TheXOR",
   "name": "TheXOR",
-  "version": "1.1.2",
+  "version": "1.2.0",
   "license": "CC0-1.0",
   "brand": "TheXOR",
   "author": "The XOR",
@@ -27,7 +27,8 @@
       "tags": [
         "Utility"
       ]
-    },    {
+    },
+    {
       "slug": "ascii",
       "name": "ascii",
       "description": "ascii Sequencer - make notes sing",
@@ -153,6 +154,14 @@
       "slug": "XSwitch",
       "name": "XSwitch",
       "description": "circuit breaker",
+      "tags": [
+        "Switch"
+      ]
+    },
+    {
+      "slug": "RR",
+      "name": "Round Robin",
+      "description": "Clock round robin",
       "tags": [
         "Switch"
       ]
