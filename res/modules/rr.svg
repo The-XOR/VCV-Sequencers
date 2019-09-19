@@ -15,7 +15,7 @@
    version="1.1"
    id="svg4541"
    sodipodi:docname="rr.svg"
-   inkscape:version="0.92.2 (5c3e80d, 2017-08-06)"
+   inkscape:version="0.92.4 (5da689c313, 2019-01-14)"
    style="enable-background:new">
   <defs
      id="defs4535">
@@ -2075,10 +2075,10 @@
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
      inkscape:zoom="1.7193992"
-     inkscape:cx="34.734441"
+     inkscape:cx="-37.092974"
      inkscape:cy="329.36293"
      inkscape:document-units="mm"
-     inkscape:current-layer="layer5"
+     inkscape:current-layer="layer3"
      showgrid="false"
      fit-margin-top="0"
      fit-margin-left="0"
@@ -2115,7 +2115,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -2139,12 +2139,11 @@
      id="layer3"
      inkscape:label="logo"
      style="display:inline"
-     transform="translate(0,29.822228)"
-     sodipodi:insensitive="true">
+     transform="translate(0,29.822228)">
     <g
        style="display:inline"
        id="g1293"
-       transform="matrix(0.39818169,0,0,0.39818224,-2.1083501,-34.276269)">
+       transform="matrix(0.39818169,0,0,0.39818224,-2.1083506,-33.756467)">
       <g
          transform="matrix(0.26666672,0,0,0.26666672,4.2542977,1.457816)"
          id="g922"
@@ -2248,17 +2247,17 @@
          style="clip-rule:evenodd;fill:#000000;fill-rule:evenodd;image-rendering:optimizeQuality;shape-rendering:geometricPrecision;text-rendering:geometricPrecision">
         <polygon
            style="fill:#000000;stroke:#000000;stroke-width:0.0762"
-           points="189.431,50.734 171.116,75.7262 178.83,75.7262 178.747,101.794 200.556,101.754 200.556,75.7262 207.953,75.7262 "
+           points="200.556,101.754 200.556,75.7262 207.953,75.7262 189.431,50.734 171.116,75.7262 178.83,75.7262 178.747,101.794 "
            class="fil2 str0"
            id="_196665264" />
         <polygon
            style="fill:#000000;stroke:#ffffff;stroke-width:0.0762"
-           points="189.431,177.606 171.116,202.598 178.83,202.598 178.747,228.666 200.556,228.625 200.556,202.598 207.953,202.598 "
+           points="200.556,228.625 200.556,202.598 207.953,202.598 189.431,177.606 171.116,202.598 178.83,202.598 178.747,228.666 "
            class="fil0 str2"
            id="_196665048" />
         <polygon
            style="fill:#000000;stroke:#ff0000;stroke-width:0.0762"
-           points="189.431,114.17 171.116,139.162 178.83,139.162 178.747,165.23 200.556,165.189 200.556,139.162 207.953,139.162 "
+           points="200.556,165.189 200.556,139.162 207.953,139.162 189.431,114.17 171.116,139.162 178.83,139.162 178.747,165.23 "
            class="fil1 str1"
            id="_196666392" />
       </g>
@@ -2520,7 +2519,7 @@
      inkscape:groupmode="layer"
      id="layer1"
      inkscape:label="widgets"
-     style="display:inline"
+     style="display:none"
      transform="translate(0,29.822228)">
     <g
        transform="matrix(1.0666667,0,0,1.0666667,-88.137534,-149.94386)"
