@@ -84,7 +84,8 @@ struct NordschleifeWidget : SequencerWidget
 		RANDOMIZE_ONCRASH = 0x40,
 		RANDOMIZE_ANGLE = 0x80,
 		RANDOMIZE_LAQUALUNQUE = 0x100,
-		QUANTIZE_PITCH
+		QUANTIZE_PITCH,
+		SET_VOLTAGE_TO_CURRENT
 	};
 
 	struct RandomizeSubItemItem : MenuItem
@@ -236,6 +237,7 @@ struct Nordschleife : Module
 	inline bool moveByStep() { return params[DATAENTRY_MODE].getValue() == 0; }
 	inline void setKey(int code) { key = code; }
 	void randrandrand(int action);
+	void setAllCurrent();
 
 	protected:
 	void dataFromJson(json_t *root) override

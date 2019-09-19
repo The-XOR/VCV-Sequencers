@@ -148,6 +148,15 @@ void Nordschleife::step_select()
 	}
 }
 
+void Nordschleife::setAllCurrent()
+{
+	float v = params[VOLTAGE_1 + selectedStep].value;
+	for(int k = 0; k < NORDSTEPS; k++)
+	{
+		pWidget->SetValue(VOLTAGE_1 + k, v);
+	}
+}
+
 void Nordschleife::on_loaded()
 {
 	load();
@@ -380,6 +389,7 @@ Menu *NordschleifeWidget::addContextMenu(Menu *menu)
 	menu->addChild(new SeqMenuItem<NordschleifeWidget>("Randomize Angle", this, RANDOMIZE_ANGLE));
 
 	menu->addChild(new SeqMenuItem<NordschleifeWidget>("Pitch Quantization", this, QUANTIZE_PITCH));
+	menu->addChild(new SeqMenuItem<NordschleifeWidget>("Set all steps to <current>", this, SET_VOLTAGE_TO_CURRENT));
 	return menu;
 }
 
@@ -395,7 +405,8 @@ void NordschleifeWidget::onMenu(int action)
 		case RANDOMIZE_PATH:		((Nordschleife *)module)->randrandrand(5); break;
 		case RANDOMIZE_ONCRASH:		((Nordschleife *)module)->randrandrand(6); break;
 		case RANDOMIZE_ANGLE:		((Nordschleife *)module)->randrandrand(7); break;
-		case QUANTIZE_PITCH: ((Nordschleife *)module)->QuantizePitch(); break;
+		case QUANTIZE_PITCH:		((Nordschleife *)module)->QuantizePitch(); break;
+		case SET_VOLTAGE_TO_CURRENT:((Nordschleife *)module)->setAllCurrent(); break;
 	}
 }
 
