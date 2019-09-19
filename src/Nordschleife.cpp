@@ -98,20 +98,20 @@ void Nordschleife::data_entry()
 		int curStep = selectedStep;
 		switch(move)
 		{
-			case GLFW_KEY_KP_SUBTRACT:
+			case GLFW_KEY_KP_DIVIDE:
 				if(--curStep < r * 8) curStep = r * 8 + 7;
 				setStep(curStep);
 				break;
-			case GLFW_KEY_KP_ADD:
+			case GLFW_KEY_KP_MULTIPLY:
 				if(++curStep > 7 + r * 8) curStep = r * 8;
 				setStep(curStep);
 				break;
-			case GLFW_KEY_KP_DIVIDE:
+			case GLFW_KEY_KP_SUBTRACT:
 				curStep -= 8;
 				if(curStep < 0) curStep = 56 + c;
 				setStep(curStep);
 				break;
-			case GLFW_KEY_KP_MULTIPLY:
+			case GLFW_KEY_KP_ADD:
 				curStep += 8;
 				if(curStep > 63) curStep = c;
 				setStep(curStep);
