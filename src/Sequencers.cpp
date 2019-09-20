@@ -24,6 +24,8 @@
 #include "../include/Nordschleife.hpp"
 #include "../include/kexp.hpp"
 #include "../include/rr.hpp"
+#include "../include/z8expV.hpp"
+#include "../include/z8expC.hpp"
 
 #ifdef LPTEST_MODULE
 #include "../include/lpTestModule.hpp"
@@ -48,6 +50,8 @@ void init(rack::Plugin *p)
 	p->addModel(createModel<kExp, kExpWidget>("kExp"));
 	p->addModel(createModel<M581, M581Widget>("M581"));
 	p->addModel(createModel<Z8K, Z8KWidget>("Z8K"));
+	p->addModel(createModel<z8expV, z8expVWidget>("Z8KVExp"));
+	p->addModel(createModel<z8expC, z8expCWidget>("Z8KCExp"));
 	p->addModel(createModel<Renato, RenatoWidget>("Renato"));
 	p->addModel(createModel<Spiralone, SpiraloneWidget>("Spiralone"));
 	p->addModel(createModel<Burst, BurstWidget>("Burst"));

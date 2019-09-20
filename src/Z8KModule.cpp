@@ -196,8 +196,17 @@ void Z8K::process(const ProcessArgs &args)
 			pWidget->SetValue(Z8K::VOLTAGE_1 + rec_step, rec_smp);
 		}
 
+		float expander_out = 0;
+		uint8_t *p = (uint8_t *)&expander_out;
+		*(p+3) = EXPPORT_Z8K;
 		for (int k = 0; k < NUM_SEQUENCERS; k++)
-			activeSteps[seq[k].Step(this)]++;
+		{
+			int stp = seq[k].Step(this);
+			if(k >= SEQ_VERT)
+				*(p+k-SEQ_VERT) = stp;
+			activeSteps[stp]++;
+		}
+		outputs[EXP_PORT].setVoltage(expander_out);
 
 		for (int k = 0; k < 16; k++)
 			outputs[ACTIVE_STEP + k].value = activeSteps[k];
@@ -214,7 +223,6 @@ void Z8K::process(const ProcessArgs &args)
 	connected = dig_connected ? 1.0 : 0.0;
 	#endif
 }
-
 
 Menu *Z8KWidget::addContextMenu(Menu *menu)
 {
@@ -282,6 +290,8 @@ Z8KWidget::Z8KWidget(Z8K *module) : SequencerWidget()
 
 	addInput(createInput<PJ301BPort>(Vec(mm2px(16.544), yncscape(102.575, 8.255)), module, Z8K::RANDOMIZE));
 	addInput(createInput<PJ301YPort> (Vec(mm2px(26.912), yncscape(115.442, 8.255)), module, Z8K::MASTERRESET));
+
+	addOutput(createOutput<PJ301EXP>(Vec(mm2px(137.342), yncscape(2.685, 8.255)), module, Z8K::EXP_PORT));
 
 	for(int r = 0; r < 4; r++)
 	{

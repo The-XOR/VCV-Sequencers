@@ -53,6 +53,22 @@
       ]
     },
     {
+      "slug": "Z8KVExp",
+      "name": "Z8K V Expander",
+      "description": "Z8000 Sequencer Voltage Expander",
+      "tags": [
+        "Utility"
+      ]
+    },
+    {
+      "slug": "Z8KCExp",
+      "name": "Z8K C Expander",
+      "description": "Z8000 Sequencer CV Expander",
+      "tags": [
+        "Utility"
+      ]
+    },
+    {
       "slug": "Renato",
       "name": "Renato",
       "description": "Renato Sequencer",

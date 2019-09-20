@@ -71,7 +71,8 @@ struct Z8K : Module
 		CV_HORIZ,
 		CV_PATH,
 		ACTIVE_STEP,
-		NUM_OUTPUTS = ACTIVE_STEP + 16
+		EXP_PORT = ACTIVE_STEP + 16,
+		NUM_OUTPUTS
 	};
 
 	enum LightIds
@@ -171,7 +172,7 @@ private:
 	void on_loaded();
 	void process_keys();
 	void load();
-	void reset();
+	void reset();	
 	z8kSequencer seq[NUM_SEQUENCERS];
 	dsp::SchmittTrigger randomizeTrigger;
 	Z8KWidget *pWidget;

@@ -16,6 +16,7 @@
 #define SWITCH_ON (0.1f)
 
 #define EXPPORT_KLEE	(0x80)
+#define EXPPORT_Z8K 	(0x81)
 
 using namespace rack;
 extern Plugin *pluginInstance;
