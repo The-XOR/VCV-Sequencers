@@ -29,6 +29,14 @@
       ]
     },
     {
+      "slug": "chords",
+      "name": "Chords",
+      "description": "Chords Generator",
+      "tags": [
+        "Utility"
+      ]
+    },
+    {
       "slug": "ascii",
       "name": "ascii",
       "description": "ascii Sequencer - make notes sing",

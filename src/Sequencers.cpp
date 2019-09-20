@@ -26,6 +26,7 @@
 #include "../include/rr.hpp"
 #include "../include/z8expV.hpp"
 #include "../include/z8expC.hpp"
+#include "../include/chords.hpp"
 
 #ifdef LPTEST_MODULE
 #include "../include/lpTestModule.hpp"
@@ -74,6 +75,7 @@ void init(rack::Plugin *p)
 	p->addModel(createModel<volt, voltWidget>("volt"));
 	p->addModel(createModel<Nordschleife, NordschleifeWidget>("Nordschleife"));
 	p->addModel(createModel<RR, RRWidget>("RR"));
+	p->addModel(createModel<chords, chordsWidget>("chords"));
 
 #ifdef LPTEST_MODULE
 	p->addModel(createModel<LaunchpadTest, LaunchpadTestWidget>("LaunchpadTest"));
