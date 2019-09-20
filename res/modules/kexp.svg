@@ -15,7 +15,7 @@
    version="1.1"
    id="svg4541"
    sodipodi:docname="kexp.svg"
-   inkscape:version="0.92.2 (5c3e80d, 2017-08-06)"
+   inkscape:version="0.92.4 (5da689c313, 2019-01-14)"
    style="enable-background:new">
   <defs
      id="defs4535">
@@ -2066,6 +2066,13 @@
        width="6"
        patternUnits="userSpaceOnUse"
        id="EMFhbasepattern-8" />
+    <pattern
+       y="0"
+       x="0"
+       height="6"
+       width="6"
+       patternUnits="userSpaceOnUse"
+       id="EMFhbasepattern-5" />
   </defs>
   <sodipodi:namedview
      id="base"
@@ -2074,9 +2081,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1.7193992"
-     inkscape:cx="-16.756462"
-     inkscape:cy="317.80618"
+     inkscape:zoom="2.4315977"
+     inkscape:cx="45.022652"
+     inkscape:cy="435.9317"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -2115,7 +2122,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -3547,5 +3554,10 @@
        cx="35.934917"
        cy="1.580879"
        r="1.1252121" />
+    <path
+       id="path724"
+       d="m 7.3054698,-19.624161 c 0,0.316086 -0.248354,0.56444 -0.56444,0.56444 -0.316087,0 -0.587018,-0.248354 -0.587018,-0.56444 0,-0.316087 0.270931,-0.587018 0.587018,-0.587018 0.316086,0 0.56444,0.270931 0.56444,0.587018 z"
+       style="fill:#ff0000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.28222221"
+       inkscape:connector-curvature="0" />
   </g>
 </svg>

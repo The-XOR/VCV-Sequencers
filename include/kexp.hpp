@@ -36,7 +36,8 @@ struct kExp : Module
 	{
 		LD1,
 		LDAND = LD1+8,
-		NUM_LIGHTS = LDAND+4
+		EXP_LED = LDAND+4,
+		NUM_LIGHTS
 	};
 
 	kExp() : Module()

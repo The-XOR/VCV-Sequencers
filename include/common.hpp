@@ -15,6 +15,8 @@
 #define PULSE_TIME (0.001)
 #define SWITCH_ON (0.1f)
 
+#define EXPPORT_KLEE	(0x80)
+
 using namespace rack;
 extern Plugin *pluginInstance;
 
@@ -25,6 +27,7 @@ inline float NearestSemitone(float v) {return round(v / SEMITONE) * SEMITONE;}
 bool getModulableSwitch(Module *pm, int paramId, int inputId);
 float getModulableParam(Module *pm, int paramId, int inputId, float minVal, float maxVal);
 bool isSwitchOn(Module *pm, int paramId);
+bool IsExpansion(Module *pm, float *dest, int expansionID, int inputID, int ledID);
 
 #if defined(ARCH_WIN) && defined(USE_LAUNCHPAD)
 #define LAUNCHPAD

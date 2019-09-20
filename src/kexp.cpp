@@ -2,7 +2,9 @@
 
 void kExp::process(const ProcessArgs &args)
 {
-	if(inputs[EXP_IN].isConnected())
+	float expander_out;
+	uint8_t *p = (uint8_t *)&expander_out;
+	if(IsExpansion(this, &expander_out, EXPPORT_KLEE, EXP_IN, EXP_LED))
 	{
 		if(inputs[CLOCK_IN].isConnected())
 		{
@@ -15,8 +17,6 @@ void kExp::process(const ProcessArgs &args)
 			and_mask = 0xff;
 		
 		int addr = isSwitchOn(this, SEQ_SELECT) ? 2 : 1;
-		float expander_out = inputs[EXP_IN].value;
-		uint8_t *p = (uint8_t *)&expander_out;
 		uint8_t bstat = and_mask & *(p+addr);
 		
 		float v_out = 0;
@@ -54,6 +54,7 @@ kExpWidget::kExpWidget(kExp *module)
 	addInput(createInput<PJ301EXP>(Vec(mm2px(7.816), yncscape(111.234, 8.255)), module, kExp::EXP_IN));
 	addInput(createInput<PJ301RPort>(Vec(mm2px(29.561), yncscape(111.234, 8.255)), module, kExp::CLOCK_IN));
 	addOutput(createOutput<PJ301GPort>(Vec(mm2px(44.246), yncscape(111.234, 8.255)), module, kExp::OUT));
+	addChild(createLight<TinyLight<WhiteLight>>(Vec(mm2px(5.769), yncscape(118.410, 1.088)), module, kExp::EXP_LED));
 
 	float y_inc=12.763;
 	for(int k=0; k < 8; k++)

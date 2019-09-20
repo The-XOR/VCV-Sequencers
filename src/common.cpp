@@ -29,3 +29,19 @@ float getModulableParam(Module *pm, int paramId, int inputId, float minValue, fl
 	float v = (pm->inputs[inputId].getNormalVoltage(0.0)/LVL_MAX) * maxValue;
 	return clamp(v+ pm->params[paramId].getValue(), minValue, maxValue);
 }
+
+bool IsExpansion(Module *pm, float *dest, int expansionID, int inputID, int ledID)
+{
+	if(pm->inputs[inputID].isConnected())
+	{
+		*dest = pm->inputs[inputID].value;
+		uint8_t *addr = (uint8_t *)dest;
+		if(*(addr+3) == expansionID)
+		{
+			pm->lights[ledID].value = LED_ON;
+			return true;
+		}
+	}
+	pm->lights[ledID].value = LED_OFF;
+	return false;
+}

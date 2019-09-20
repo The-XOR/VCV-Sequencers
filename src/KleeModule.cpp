@@ -173,6 +173,7 @@ void Klee::populate_outputs()
 
 	float expander_out = 0;
 	uint8_t *p = (uint8_t *)&expander_out;
+	*(p+3) = EXPPORT_KLEE;
 	for(int k = 0; k < 8; k++)
 	{
 		if(shiftRegister.A[k])
