@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <sstream>
 #include <iomanip>
+#include <chrono>
 
 #define LVL_MIN   (-10.0f)
 #define LVL_MAX   (10.0f)
@@ -20,6 +21,12 @@
 
 using namespace rack;
 extern Plugin *pluginInstance;
+
+#ifdef ARCH_MAC 
+typedef std::chrono::time_point<std::chrono::steady_clock> fuck_mac_os;
+#else
+typedef std::chrono::time_point<std::chrono::system_clock> fuck_mac_os;
+#endif
 
 inline float px2mm(float px) { return px * (MM_PER_IN / SVG_DPI); }
 inline float yncscape(float y, float height) { return RACK_GRID_HEIGHT - mm2px(y + height); }

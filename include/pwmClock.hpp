@@ -1,6 +1,5 @@
 #pragma once
 #include "common.hpp"
-#include <chrono>
 #define BPM_MINVALUE (10.0)
 #define BPM_MAXVALUE (300.0)
 #define PWM_MINVALUE (0.05)
@@ -9,11 +8,6 @@
 #define SWING_MAXVALUE (0.5)
 
 #define OUT_SOCKETS (21)
-#ifdef ARCH_MAC 
-typedef std::chrono::time_point<std::chrono::steady_clock> fuck_mac_os;
-#else
-typedef std::chrono::time_point<std::chrono::system_clock> fuck_mac_os;
-#endif
 struct PwmClock;
 struct PwmClockWidget : SequencerWidget
 {

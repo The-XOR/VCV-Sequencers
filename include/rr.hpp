@@ -36,6 +36,8 @@ struct RR : Module
 	{		
 		config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS);
 		rr = -1;
+		descSignal.reset();
+		pulseRunning = false;
 	}
 	void process(const ProcessArgs &args) override;
 
@@ -43,4 +45,7 @@ private:
 	int next();
 	SchmittTrigger2 clockTrigger;
 	int rr;
+	float lastclockpulse;
+	dsp::PulseGenerator descSignal;
+	bool pulseRunning;
 };
