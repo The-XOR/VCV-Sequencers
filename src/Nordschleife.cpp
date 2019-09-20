@@ -186,10 +186,12 @@ void Nordschleife::randrandrand()
 		randrandrand(6);
 	else if(theRandomizer & NordschleifeWidget::RANDOMIZE_ANGLE)
 		randrandrand(7);
+	else if(theRandomizer & NordschleifeWidget::RANDOMIZE_OFFSET)
+		randrandrand(8);
 
 	if(theRandomizer & NordschleifeWidget::RANDOMIZE_LAQUALUNQUE)
 	{
-		randrandrand(int(random::uniform() * 8));
+		randrandrand(int(random::uniform() * 9));
 	}
 }
 
@@ -203,12 +205,12 @@ void Nordschleife::randrandrand(int action)
 
 		case 1: //mode
 			for(int k = 0; k < NORDSTEPS; k++)
-				steps[k].mode = (NordschleifeStep::StepMode)int(random::uniform() * 5);
+				steps[k].mode = (NordschleifeStep::StepMode)int(random::uniform() * 6);
 			break;
 
 		case 2: //probabil
 			for(int k = 0; k < NORDSTEPS; k++)
-				steps[k].probability = 1+int(random::uniform() * 100);
+				steps[k].probability = int(random::uniform() * 101);
 			break;
 
 		case 3: //reps
@@ -228,7 +230,17 @@ void Nordschleife::randrandrand(int action)
 
 		case 6: //crsh
 			for(int k = 0; k < NORDCARS; k++)
-				cars[k].collision = (NordschleifeCar::CarCollision)int(random::uniform() * 4);
+				cars[k].collision = (NordschleifeCar::CarCollision)int(random::uniform() * 8);
+			break;
+
+		case 7: //angle
+			for(int k = 0; k < NORDCARS; k++)
+				cars[k].offset = int(random::uniform() * 4);
+			break;
+
+		case 8: //offset
+			for(int k = 0; k < NORDCARS; k++)
+				cars[k].offset = int(random::uniform() * 49)-24;
 			break;
 	}
 }
@@ -253,7 +265,8 @@ void Nordschleife::declareFields()
 	nsFields[NordschleifeFields::shlfStartGrid].set(0, row, "Start: ", 0, 63, [this] {return cars[selectedCar].startGrid; }, [this](int i) SETCARFIELD(startGrid, i), 1);
 	nsFields[NordschleifeFields::shlfAngle].set(scnd_half, row++, "Angle: ", {"0", "90 L", "180", "90 R"}, [this] {return cars[selectedCar].angle; }, [this](int i) SETCARFIELD(angle, i));
 	nsFields[NordschleifeFields::shlfStrtgEvery].set(0, row, "Pit every:", 0, 24, [this] {return cars[selectedCar].strategyEvery; }, [this](int i) SETCARFIELD(strategyEvery, i));
-	nsFields[NordschleifeFields::shlfStrtgFor].set(scnd_half+15, row, "for: ", 1, 12, [this] {return cars[selectedCar].strategyFor; }, [this](int i) SETCARFIELD(strategyFor, i));
+	nsFields[NordschleifeFields::shlfStrtgFor].set(scnd_half+15, row++, "for: ", 1, 12, [this] {return cars[selectedCar].strategyFor; }, [this](int i) SETCARFIELD(strategyFor, i));
+	nsFields[NordschleifeFields::shlfOffset].set(0, row, "Offset (st): ", -24, +24, [this] {return cars[selectedCar].offset; }, [this](int i) SETCARFIELD(offset, i));
 
 	// steps
 	nsFields[NordschleifeFields::shlfStep].set(0, row, "Step #", 0, 63, [this] {return selectedStep; }, [this](int i) {if(!GangBang()) setStep(i); }, 1, true);
@@ -387,6 +400,7 @@ Menu *NordschleifeWidget::addContextMenu(Menu *menu)
 	menu->addChild(new SeqMenuItem<NordschleifeWidget>("Randomize Path", this, RANDOMIZE_PATH));
 	menu->addChild(new SeqMenuItem<NordschleifeWidget>("Randomize On Collision", this, RANDOMIZE_ONCRASH));
 	menu->addChild(new SeqMenuItem<NordschleifeWidget>("Randomize Angle", this, RANDOMIZE_ANGLE));
+	menu->addChild(new SeqMenuItem<NordschleifeWidget>("Randomize Offset", this, RANDOMIZE_OFFSET));
 
 	menu->addChild(new SeqMenuItem<NordschleifeWidget>("Pitch Quantization", this, QUANTIZE_PITCH));
 	menu->addChild(new SeqMenuItem<NordschleifeWidget>("Set all steps to <current>", this, SET_VOLTAGE_TO_CURRENT));
@@ -405,6 +419,7 @@ void NordschleifeWidget::onMenu(int action)
 		case RANDOMIZE_PATH:		((Nordschleife *)module)->randrandrand(5); break;
 		case RANDOMIZE_ONCRASH:		((Nordschleife *)module)->randrandrand(6); break;
 		case RANDOMIZE_ANGLE:		((Nordschleife *)module)->randrandrand(7); break;
+		case RANDOMIZE_OFFSET:		((Nordschleife *)module)->randrandrand(8); break;
 		case QUANTIZE_PITCH:		((Nordschleife *)module)->QuantizePitch(); break;
 		case SET_VOLTAGE_TO_CURRENT:((Nordschleife *)module)->setAllCurrent(); break;
 	}

@@ -77,7 +77,7 @@ struct nordDisplay : TransparentWidget
 		NVGcontext *vg;
 	};
 	const int fntSize = 9;
-	const int bigFont = 13;
+	const int bigFont = 12;
 
 	std::shared_ptr<Font> font;
 	Nordschleife *pNord;
@@ -93,7 +93,7 @@ struct nordDisplay : TransparentWidget
 		if(pField->bigField)
 		{
 			nvgFontSize(ctx.vg, bigFont);
-			y = ctx.top + ctx.interleaveBig * pField->pos_y-1;
+			y = ctx.top + ctx.interleaveBig * pField->pos_y-2;
 		} else
 		{
 			nvgFontSize(ctx.vg, fntSize);
@@ -169,7 +169,7 @@ struct nordDisplay : TransparentWidget
 		nvgFontSize(args.vg, fntSize);
 		nvgTextMetrics(args.vg, &ascender, &descender, &lineh);
 		context.interleave = descender + lineh;
-		context.top += context.interleave+1/*margin*/;
+		context.top += context.interleave-1;
 
 		for(int k = 0; k < NORDFIELDS; k++)
 			drawField(context, &pNord->nsFields[k], !pNord->moveByStep() && k == curField);

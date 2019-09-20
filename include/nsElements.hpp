@@ -13,6 +13,7 @@ enum NordschleifeFields
 	shlfAngle,
 	shlfStrtgEvery,
 	shlfStrtgFor,
+	shlfOffset,
 
 	shlfStep,
 	shlfMode,
@@ -37,6 +38,7 @@ struct NordschleifeCar
 	int strategyEvery;
 	int strategyFor;
 	int angle;
+	int offset;
 
 	void Init(Nordschleife *p, int id);
 	void init();
@@ -61,6 +63,8 @@ struct NordschleifeCar
 		if(r) strategyFor = json_integer_value(r);
 		r = json_object_get(root, ("carangle_" + myIDstr).c_str());
 		if(r) angle = json_integer_value(r);
+		r = json_object_get(root, ("caroffset_" + myIDstr).c_str());
+		if(r) offset = json_integer_value(r);
 	}
 
 	json_t *dataToJson(json_t *rootJ)
@@ -74,6 +78,7 @@ struct NordschleifeCar
 		json_object_set_new(rootJ, ("carstrevery_" + myIDstr).c_str(), json_integer(strategyEvery));
 		json_object_set_new(rootJ, ("carstrfor_" + myIDstr).c_str(), json_integer(strategyFor));
 		json_object_set_new(rootJ, ("carangle_" + myIDstr).c_str(), json_integer(angle));
+		json_object_set_new(rootJ, ("caroffset_" + myIDstr).c_str(), json_integer(offset));
 		return rootJ;
 	}
 
