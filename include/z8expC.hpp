@@ -19,7 +19,7 @@ struct z8expC : Module
 	enum InputIds
 	{
 		EXP_IN,
-		CLOCK_IN,
+		IN,
 		NUM_INPUTS
 	};
 	enum OutputIds

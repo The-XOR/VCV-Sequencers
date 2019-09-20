@@ -4,7 +4,7 @@
     {
       "id": 55,
       "plugin": "TheXOR",
-      "version": "1.1.2",
+      "version": "1.2.0",
       "model": "AttAmp",
       "params": [
         {
@@ -62,14 +62,14 @@
       ],
       "rightModuleId": 56,
       "pos": [
-        2,
+        4,
         1
       ]
     },
     {
       "id": 56,
       "plugin": "TheXOR",
-      "version": "1.1.2",
+      "version": "1.2.0",
       "model": "Boole",
       "params": [
         {
@@ -140,14 +140,14 @@
       "leftModuleId": 55,
       "rightModuleId": 57,
       "pos": [
-        10,
+        12,
         1
       ]
     },
     {
       "id": 57,
       "plugin": "TheXOR",
-      "version": "1.1.2",
+      "version": "1.2.0",
       "model": "Burst",
       "params": [
         {
@@ -179,14 +179,14 @@
       "rightModuleId": 59,
       "data": {},
       "pos": [
-        24,
+        26,
         1
       ]
     },
     {
       "id": 58,
       "plugin": "TheXOR",
-      "version": "1.1.2",
+      "version": "1.2.0",
       "model": "Counter",
       "params": [
         {
@@ -212,14 +212,14 @@
         "counter": 2
       },
       "pos": [
-        50,
+        52,
         1
       ]
     },
     {
       "id": 59,
       "plugin": "TheXOR",
-      "version": "1.1.2",
+      "version": "1.2.0",
       "model": "Dmplex",
       "params": [
         {
@@ -245,14 +245,14 @@
         "num_outputs": 8
       },
       "pos": [
-        40,
+        42,
         1
       ]
     },
     {
       "id": 60,
       "plugin": "TheXOR",
-      "version": "1.1.2",
+      "version": "1.2.0",
       "model": "Klee",
       "params": [
         {
@@ -506,14 +506,14 @@
         "theRandomizer": 0
       },
       "pos": [
-        58,
+        60,
         1
       ]
     },
     {
       "id": 61,
       "plugin": "TheXOR",
-      "version": "1.1.2",
+      "version": "1.2.0",
       "model": "M581",
       "params": [
         {
@@ -698,14 +698,14 @@
         "theRandomizer": 0
       },
       "pos": [
-        3,
+        1,
         2
       ]
     },
     {
       "id": 62,
       "plugin": "TheXOR",
-      "version": "1.1.2",
+      "version": "1.2.0",
       "model": "Mplex",
       "params": [
         {
@@ -731,14 +731,14 @@
         "num_inputs": 8
       },
       "pos": [
-        34,
+        32,
         2
       ]
     },
     {
       "id": 63,
       "plugin": "TheXOR",
-      "version": "1.1.2",
+      "version": "1.2.0",
       "model": "PWMClock",
       "params": [
         {
@@ -779,19 +779,19 @@
         }
       ],
       "leftModuleId": 62,
-      "rightModuleId": 65,
+      "rightModuleId": 70,
       "data": {
         "bpm_integer": 120
       },
       "pos": [
-        44,
+        42,
         2
       ]
     },
     {
       "id": 64,
       "plugin": "TheXOR",
-      "version": "1.1.2",
+      "version": "1.2.0",
       "model": "Quantizer",
       "params": [],
       "leftModuleId": 66,
@@ -801,14 +801,14 @@
         "root": 0
       },
       "pos": [
-        95,
+        91,
         3
       ]
     },
     {
       "id": 65,
       "plugin": "TheXOR",
-      "version": "1.1.2",
+      "version": "1.2.0",
       "model": "nag",
       "params": [
         {
@@ -920,20 +920,19 @@
           "value": 0.0
         }
       ],
-      "leftModuleId": 63,
-      "rightModuleId": 70,
+      "leftModuleId": 74,
       "data": {
         "theRandomizer": 0
       },
       "pos": [
-        59,
-        2
+        114,
+        0
       ]
     },
     {
       "id": 66,
       "plugin": "TheXOR",
-      "version": "1.1.2",
+      "version": "1.2.0",
       "model": "Renato",
       "params": [
         {
@@ -1239,14 +1238,14 @@
         "theRandomizer": 0
       },
       "pos": [
-        54,
+        50,
         3
       ]
     },
     {
       "id": 67,
       "plugin": "TheXOR",
-      "version": "1.1.2",
+      "version": "1.2.0",
       "model": "Spiralone",
       "params": [
         {
@@ -1491,14 +1490,14 @@
         "theRandomizer": 0
       },
       "pos": [
-        0,
+        1,
         0
       ]
     },
     {
       "id": 68,
       "plugin": "TheXOR",
-      "version": "1.1.2",
+      "version": "1.2.0",
       "model": "Uncertain",
       "params": [
         {
@@ -1518,17 +1517,17 @@
           "value": 1.0
         }
       ],
-      "leftModuleId": 105,
+      "leftModuleId": 73,
       "data": {},
       "pos": [
-        129,
-        1
+        143,
+        3
       ]
     },
     {
       "id": 69,
       "plugin": "TheXOR",
-      "version": "1.1.2",
+      "version": "1.2.0",
       "model": "XSwitch",
       "params": [
         {
@@ -1577,16 +1576,16 @@
         }
       ],
       "leftModuleId": 60,
-      "rightModuleId": 105,
+      "rightModuleId": 97,
       "pos": [
-        108,
+        110,
         1
       ]
     },
     {
       "id": 70,
       "plugin": "TheXOR",
-      "version": "1.1.2",
+      "version": "1.2.0",
       "model": "Z8K",
       "params": [
         {
@@ -1690,20 +1689,20 @@
           "value": 0.0
         }
       ],
-      "leftModuleId": 65,
-      "rightModuleId": 106,
+      "leftModuleId": 63,
+      "rightModuleId": 107,
       "data": {
         "basePtn": 0
       },
       "pos": [
-        104,
+        57,
         2
       ]
     },
     {
       "id": 71,
       "plugin": "TheXOR",
-      "version": "1.1.2",
+      "version": "1.2.0",
       "model": "ascii",
       "params": [
         {
@@ -1727,17 +1726,18 @@
       "rightModuleId": 87,
       "text": "Manifesto dei futurismo.\n\n1. Noi vogliamo cantare l'amor del pericolo, l'abitudine all'energia e alla temerita'.\n2. Il coraggio, l'audacia, la ribellione, saranno elementi essenziali della nostra poesia.\n3. La letteratura esalto' fino ad oggi l'immobilita' pensosa, l'estasi e il sonno.Noi vogliamo esaltare il movimento aggressivo, l'insonnia febbrile, il passo di corsa, il salto mortale, lo schiaffo ed il pugno.\n4. Noi affermiamo che la magnificenza del mondo si e' arricchita di una bellezza nuova : la bellezza della velocita'.Un automobile da corsa col suo cofano adorno di grossi tubi simili a serpenti dall'alito esplosivo....un automobile ruggente, che sembra correre sulla mitraglia, e' piu' bello della Vittoria di Samotracia.\n5. Noi vogliamo inneggiare all'uomo che tiene il volante, la cui asta ideale attraversa la Terra, lanciata a corsa, essa pure, sul circuito della sua orbita.\n6. Bisogna che il poeta si prodighi, con ardore, sfarzo e munificenza, per aumentare l'entusiastico fervore degli elementi primordiali.\n7. Non v'e' piu' bellezza, se non nella lotta.Nessuna opera che non abbia un carattere aggressivo puo' essere un capolavoro.La poesia deve essere concepita come un violento assalto contro le forze ignote, per ridurle a prostrarsi davanti all'uomo.\n8. Noi siamo sul promontorio estremo dei secoli!..Perche' dovremmo guardarci alle spalle, se vogliamo sfondare le misteriose porte dell'Impossibile ? Il Tempo e lo Spazio morirono ieri.Noi viviamo gia' nell'assoluto, poiche' abbiamo gia' creata l'eterna velocita' onnipresente.\n9. Noi vogliamo glorificare la guerra - sola igiene del mondo - il militarismo, il patriottismo, il gesto distruttore dei libertarii, le belle idee per cui si muore e il disprezzo della donna.\n10. Noi vogliamo distruggere i musei, le biblioteche, le accademie d'ogni specie, e combattere contro il moralismo, il femminismo e contro ogni vilta' opportunistica o utilitaria.\n11. Noi canteremo le grandi folle agitate dal lavoro, dal piacere o dalla sommossa : canteremo le maree multicolori e polifoniche delle rivoluzioni nelle capitali moderne; canteremo il vibrante fervore notturno degli arsenali e dei cantieri incendiati da violente lune elettriche; le stazioni ingorde, divoratrici di serpi che fumano; le officine appese alle nuvole pei contorti fili dei loro fumi; i ponti simili a ginnasti giganti che scavalcano i fiumi, balenanti al sole con un luccichio di coltelli; i piroscafi avventurosi che fiutano l'orizzonte, le locomotive dall'ampio petto, che scalpitano sulle rotaie, come enormi cavalli d'acciaio imbrigliati di tubi, e il volo scivolante degli aereoplani, la cui elica garrisce al vento come una bandiera e sembra applaudire come una folla entusiasta.\n",
       "pos": [
-        107,
+        103,
         3
       ]
     },
     {
       "id": 73,
       "plugin": "TheXOR",
-      "version": "1.1.2",
+      "version": "1.2.0",
       "model": "midyQuant",
       "params": [],
       "leftModuleId": 87,
+      "rightModuleId": 68,
       "data": {
         "scale": 0,
         "root": 0,
@@ -1747,14 +1747,14 @@
         }
       },
       "pos": [
-        139,
+        135,
         3
       ]
     },
     {
       "id": 74,
       "plugin": "TheXOR",
-      "version": "1.1.2",
+      "version": "1.2.0",
       "model": "quattro",
       "params": [
         {
@@ -1899,19 +1899,19 @@
         }
       ],
       "leftModuleId": 86,
-      "rightModuleId": 97,
+      "rightModuleId": 65,
       "data": {
         "theRandomizer": 0
       },
       "pos": [
-        61,
+        62,
         0
       ]
     },
     {
       "id": 86,
       "plugin": "TheXOR",
-      "version": "1.1.2",
+      "version": "1.2.0",
       "model": "empty",
       "params": [
         {
@@ -1922,14 +1922,14 @@
       "leftModuleId": 67,
       "rightModuleId": 74,
       "pos": [
-        53,
+        54,
         0
       ]
     },
     {
       "id": 87,
       "plugin": "TheXOR",
-      "version": "1.1.2",
+      "version": "1.2.0",
       "model": "flop",
       "params": [
         {
@@ -1976,14 +1976,14 @@
       "leftModuleId": 71,
       "rightModuleId": 73,
       "pos": [
-        125,
+        121,
         3
       ]
     },
     {
       "id": 97,
       "plugin": "TheXOR",
-      "version": "1.1.2",
+      "version": "1.2.0",
       "model": "o88o",
       "params": [
         {
@@ -2047,16 +2047,17 @@
           "value": 0.0
         }
       ],
-      "leftModuleId": 74,
+      "leftModuleId": 69,
+      "rightModuleId": 106,
       "pos": [
-        113,
-        0
+        120,
+        1
       ]
     },
     {
       "id": 103,
       "plugin": "TheXOR",
-      "version": "1.1.2",
+      "version": "1.2.0",
       "model": "volt",
       "params": [
         {
@@ -2071,14 +2072,14 @@
       "leftModuleId": 64,
       "rightModuleId": 71,
       "pos": [
-        103,
+        99,
         3
       ]
     },
     {
       "id": 104,
       "plugin": "TheXOR",
-      "version": "1.1.2",
+      "version": "1.2.0",
       "model": "Nordschleife",
       "params": [
         {
@@ -2674,6 +2675,7 @@
         "carstrevery_0": 0,
         "carstrfor_0": 1,
         "carangle_0": 0,
+        "caroffset_0": 0,
         "cardir_1": 0,
         "carcoll_1": 0,
         "carfrom_1": 0,
@@ -2683,6 +2685,7 @@
         "carstrevery_1": 0,
         "carstrfor_1": 1,
         "carangle_1": 0,
+        "caroffset_1": 0,
         "cardir_2": 0,
         "carcoll_2": 0,
         "carfrom_2": 0,
@@ -2692,6 +2695,7 @@
         "carstrevery_2": 0,
         "carstrfor_2": 1,
         "carangle_2": 0,
+        "caroffset_2": 0,
         "cardir_3": 0,
         "carcoll_3": 0,
         "carfrom_3": 0,
@@ -2701,6 +2705,7 @@
         "carstrevery_3": 0,
         "carstrfor_3": 1,
         "carangle_3": 0,
+        "caroffset_3": 0,
         "stepmode_0": 1,
         "step_outa0": 0,
         "step_outb0": 1,
@@ -3023,14 +3028,14 @@
         "stepreps_63": 1
       },
       "pos": [
-        4,
+        0,
         3
       ]
     },
     {
       "id": 105,
       "plugin": "TheXOR",
-      "version": "1.1.2",
+      "version": "1.2.0",
       "model": "kExp",
       "params": [
         {
@@ -3070,17 +3075,16 @@
           "value": 0.0
         }
       ],
-      "leftModuleId": 69,
-      "rightModuleId": 68,
+      "leftModuleId": 110,
       "pos": [
-        118,
-        1
+        142,
+        2
       ]
     },
     {
       "id": 106,
       "plugin": "TheXOR",
-      "version": "1.1.2",
+      "version": "1.2.0",
       "model": "RR",
       "params": [
         {
@@ -3088,9 +3092,163 @@
           "value": 1.0
         }
       ],
-      "leftModuleId": 70,
+      "leftModuleId": 97,
       "pos": [
-        143,
+        148,
+        1
+      ]
+    },
+    {
+      "id": 107,
+      "plugin": "TheXOR",
+      "version": "1.2.0",
+      "model": "Z8KVExp",
+      "params": [
+        {
+          "id": 0,
+          "value": 0.0
+        },
+        {
+          "id": 1,
+          "value": 0.0
+        },
+        {
+          "id": 2,
+          "value": 0.0
+        },
+        {
+          "id": 3,
+          "value": 0.0
+        },
+        {
+          "id": 4,
+          "value": 0.0
+        },
+        {
+          "id": 5,
+          "value": 0.0
+        },
+        {
+          "id": 6,
+          "value": 0.0
+        },
+        {
+          "id": 7,
+          "value": 0.0
+        },
+        {
+          "id": 8,
+          "value": 0.0
+        },
+        {
+          "id": 9,
+          "value": 0.0
+        },
+        {
+          "id": 10,
+          "value": 0.0
+        },
+        {
+          "id": 11,
+          "value": 0.0
+        },
+        {
+          "id": 12,
+          "value": 0.0
+        },
+        {
+          "id": 13,
+          "value": 0.0
+        },
+        {
+          "id": 14,
+          "value": 0.0
+        },
+        {
+          "id": 15,
+          "value": 0.0
+        },
+        {
+          "id": 16,
+          "value": 0.0
+        },
+        {
+          "id": 17,
+          "value": -3.0
+        },
+        {
+          "id": 18,
+          "value": 3.0
+        },
+        {
+          "id": 19,
+          "value": 0.0
+        },
+        {
+          "id": 20,
+          "value": 0.0
+        },
+        {
+          "id": 21,
+          "value": 0.0
+        },
+        {
+          "id": 22,
+          "value": 0.0
+        }
+      ],
+      "leftModuleId": 70,
+      "rightModuleId": 108,
+      "pos": [
+        96,
+        2
+      ]
+    },
+    {
+      "id": 108,
+      "plugin": "TheXOR",
+      "version": "1.2.0",
+      "model": "Z8KCExp",
+      "params": [
+        {
+          "id": 0,
+          "value": 0.0
+        }
+      ],
+      "leftModuleId": 107,
+      "rightModuleId": 110,
+      "pos": [
+        116,
+        2
+      ]
+    },
+    {
+      "id": 110,
+      "plugin": "TheXOR",
+      "version": "1.2.0",
+      "model": "chords",
+      "params": [
+        {
+          "id": 0,
+          "value": 0.0
+        },
+        {
+          "id": 1,
+          "value": 0.0
+        },
+        {
+          "id": 2,
+          "value": 0.0
+        },
+        {
+          "id": 3,
+          "value": 0.0
+        }
+      ],
+      "leftModuleId": 108,
+      "rightModuleId": 105,
+      "pos": [
+        134,
         2
       ]
     }

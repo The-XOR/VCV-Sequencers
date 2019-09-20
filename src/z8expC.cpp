@@ -7,7 +7,7 @@ void z8expC::process(const ProcessArgs &args)
 	
 	if(IsExpansion(this, &expander_out, EXPPORT_Z8K, EXP_IN, EXP_LED))
 	{
-		float v = inputs[CLOCK_IN].getNormalVoltage(LVL_ON);
+		float v = inputs[IN].getNormalVoltage(LVL_ON);
 		int chn = (int)round(params[CHANNEL].value);
 		int curStp = *(p+chn);
 		if(curStp != prevStep || v != prevVoltage)
@@ -42,7 +42,7 @@ z8expCWidget::z8expCWidget(z8expC *module)
 	if(module != NULL)
 		module->setWidget(this);
 
-	addInput(createInput<PJ301RPort>(Vec(mm2px(45.857), yncscape(10.517, 8.255)), module, z8expC::CLOCK_IN));
+	addInput(createInput<PJ301BPort>(Vec(mm2px(45.857), yncscape(10.517, 8.255)), module, z8expC::IN));
 	addInput(createInput<PJ301EXP>(Vec(mm2px(7.757), yncscape(10.517, 8.255)), module, z8expC::EXP_IN));
 	addChild(createLight<TinyLight<WhiteLight>>(Vec(mm2px(7.757-2.047), yncscape(10.517+7.176, 1.088)), module, z8expC::EXP_LED));
 	addParam(createParam<CKSSThreeFix>(Vec(mm2px(23.070), yncscape(9.645, 10.0)), module, z8expC::CHANNEL));

@@ -374,10 +374,10 @@ void NordschleifeWidget::createStep(Nordschleife *module, int index)
 	y -= 15.409 * r;
 
 	if(c == 0 || c == 4)
-		addParam(createParam<Davies1900hFixBlackKnob>(Vec(mm2px(x), yncscape(y, 9.525f)), module, Nordschleife::VOLTAGE_1 + index));
-	else
 		addParam(createParam<Davies1900hFixRedKnob>(Vec(mm2px(x), yncscape(y, 9.525f)), module, Nordschleife::VOLTAGE_1 + index));
-	addParam(createParam<StepSelector>(Vec(mm2px(x), yncscape(y - 2.532f, 1.879f)), module, Nordschleife::STEPSELECT_1 + index));
+	else
+		addParam(createParam<Davies1900hFixBlackKnob>(Vec(mm2px(x), yncscape(y, 9.525f)), module, Nordschleife::VOLTAGE_1 + index));
+	addParam(createParam<StepSelector>(Vec(mm2px(x), yncscape(y - 2.932f, 2.5f)), module, Nordschleife::STEPSELECT_1 + index));
 
 	addOutput(createOutput<portSmall>(Vec(mm2px(x + 13.222), yncscape(y + 3.365, 5.885f)), module, Nordschleife::OUT_A + index));
 	addOutput(createOutput<portBLUSmall>(Vec(mm2px(x + 13.222), yncscape(y - 2.532, 5.885f)), module, Nordschleife::OUT_B + index));

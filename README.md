@@ -36,7 +36,7 @@ x/y sequencer, in memory of the great renato/04!
 vaguely inspired by https://www.google.com/search?q=renee%20sequencer
 
 # z8k
-4 colors x 4 sequencers. matrix reloaded.
+4 colors x 4 sequencers. matrix reloaded. expandable with other z8exp series modules
 hint: https://www.google.com/search?q=z8000%20sequencer
 
 # spiralone
@@ -116,3 +116,6 @@ from basic, repetitive sequences to total kaos, and everything in between. it is
 
 # rr
 clock round robin (with a switch)
+
+# chords
+not only bleep bleeps. the chords
