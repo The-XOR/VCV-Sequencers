@@ -15,7 +15,8 @@ struct chords : Module
 	enum ParamIds
 	{
 		ST_1,
-		NUM_PARAMS = ST_1+ NUM_CHORDS
+		QTZ_IN = ST_1+ NUM_CHORDS,
+		NUM_PARAMS
 	};
 	enum InputIds
 	{
