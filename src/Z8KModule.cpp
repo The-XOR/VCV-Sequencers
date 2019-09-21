@@ -141,7 +141,7 @@ void Z8K::load()
 
 void Z8K::reset()
 {
-	for(int k = 0; k < NUM_SEQUENCERS; k++)
+	for(int k = 0; k < NUM_Z8SEQUENCERS; k++)
 		seq[k].Reset();
 }
 
@@ -199,15 +199,59 @@ void Z8K::process(const ProcessArgs &args)
 		float expander_out = 0;
 		uint8_t *p = (uint8_t *)&expander_out;
 		*(p+3) = EXPPORT_Z8K;
-		for (int k = 0; k < NUM_SEQUENCERS; k++)
+		for(int k = 0; k < NUM_Z8SEQUENCERS; k++)
 		{
 			int stp = seq[k].Step(this);
-			if(k >= SEQ_VERT)
-				*(p+k-SEQ_VERT) = stp;
 			activeSteps[stp]++;
-		}
-		outputs[EXP_PORT].setVoltage(expander_out);
+			switch(k)
+			{
+				case Z8K::SEQ_1 + 0:
+					*(p + 0) |= stp;
+					break;
 
+				case Z8K::SEQ_1 + 1:
+					*(p + 0) |= (stp-4) << 2;
+					break;
+
+				case Z8K::SEQ_1 + 2:
+					*(p + 0) |= (stp - 8) << 4;
+					break;
+
+				case Z8K::SEQ_1 + 3:
+					*(p + 0) |= (stp - 12) << 6;
+					break;
+
+				case Z8K::SEQ_A + 0:
+					*(p + 1) |= (stp/4);
+					break;
+
+				case Z8K::SEQ_A + 1:
+					*(p + 1) |= ((stp - 1) / 4) << 2;
+					break;
+
+				case Z8K::SEQ_A + 2:
+					*(p + 1) |= ((stp - 2) / 4) << 4;
+					break;
+
+				case Z8K::SEQ_A + 3:
+					*(p + 1) |= ((stp - 3) / 4) << 6;
+					break;
+
+				case Z8K::SEQ_HORIZ:
+					*(p + 2) |= stp;
+					break;
+
+				case Z8K::SEQ_VERT:
+					*(p + 2) |= stp << 4;
+					break;
+
+				case Z8K::SEQ_PATH:
+					*(p + 3) |= stp;
+					break;
+			}
+		}
+
+		outputs[EXP_PORT].setVoltage(expander_out);
 		for (int k = 0; k < 16; k++)
 			outputs[ACTIVE_STEP + k].value = activeSteps[k];
 	}

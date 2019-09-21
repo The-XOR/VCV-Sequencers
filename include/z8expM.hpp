@@ -2,13 +2,13 @@
 
 #include "../include/z8exp_base.hpp"
 
-struct z8expC ;
-struct z8expCWidget : SequencerWidget
+struct z8expM ;
+struct z8expMWidget : SequencerWidget
 {
-	z8expCWidget(z8expC *module);
+	z8expMWidget(z8expM *module);
 };
 
-struct z8expC : z8exp
+struct z8expM : z8exp
 {
 	enum ParamIds
 	{
@@ -17,14 +17,14 @@ struct z8expC : z8exp
 	};
 	enum InputIds
 	{
-		IN,
-		_BASENPUT,
+		IN_1,
+		_BASENPUT = IN_1+16,
 		NUM_INPUTS = _BASENPUT + z8exp::NUM_INPUTS
 	};
 	enum OutputIds
 	{
-		OUT_1,
-		NUM_OUTPUTS = OUT_1+16
+		OUT,
+		NUM_OUTPUTS
 	};
 	enum LightIds
 	{
@@ -32,7 +32,7 @@ struct z8expC : z8exp
 		NUM_LIGHTS = _BASELED + z8exp::NUM_LIGHTS
 	};
 
-	z8expC() : z8exp(_BASEPARAM, _BASENPUT, _BASELED)
+	z8expM() : z8exp(_BASEPARAM, _BASENPUT, _BASELED)
 	{
 		config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS);
 		configParams();
@@ -41,11 +41,8 @@ struct z8expC : z8exp
 	void process(const ProcessArgs &args) override;
 	virtual void onDisconnected() override
 	{
-		prevVoltage = -1000;
-		for(int k = 0; k < 16; k++)
-			outputs[OUT_1 + k].setVoltage(LVL_OFF);
+		outputs[OUT].setVoltage(LVL_OFF);
 	}
-
 private:
 	float prevVoltage;
 };

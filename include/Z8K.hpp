@@ -92,7 +92,7 @@ struct Z8K : Module
 		SEQ_VERT = SEQ_A + 4,
 		SEQ_HORIZ,
 		SEQ_PATH,
-		NUM_SEQUENCERS
+		NUM_Z8SEQUENCERS
 	};
 
 	Z8K() : Module()
@@ -173,7 +173,7 @@ private:
 	void process_keys();
 	void load();
 	void reset();	
-	z8kSequencer seq[NUM_SEQUENCERS];
+	z8kSequencer seq[NUM_Z8SEQUENCERS];
 	dsp::SchmittTrigger randomizeTrigger;
 	Z8KWidget *pWidget;
 	dsp::SchmittTrigger masterReset;

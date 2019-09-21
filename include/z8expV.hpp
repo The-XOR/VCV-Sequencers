@@ -1,7 +1,6 @@
-#include "common.hpp"
+#pragma once
 
-using namespace rack;
-extern Plugin *pluginInstance;
+#include "../include/z8exp_base.hpp"
 
 struct z8expV ;
 struct z8expVWidget : SequencerWidget
@@ -18,19 +17,19 @@ private:
 	Menu *addContextMenu(Menu *menu) override;
 };
 
-struct z8expV : Module
+struct z8expV : z8exp
 {
 	enum ParamIds
 	{
 		VOLTAGE_1,
-		CHANNEL=VOLTAGE_1+16,
-		RANGE,
+		_BASEPARAM = VOLTAGE_1 + 16,
+		RANGE = _BASEPARAM + z8exp::NUM_PARAMS,
 		NUM_PARAMS = RANGE + cvStrip::CVSTRIP_PARAMS
 	};
 	enum InputIds
 	{
-		EXP_IN,
-		RANGE_IN,
+		_BASENPUT,
+		RANGE_IN = _BASENPUT + z8exp::NUM_INPUTS,
 		NUM_INPUTS = RANGE_IN + cvStrip::CVSTRIP_INPUTS
 	};
 	enum OutputIds
@@ -40,15 +39,14 @@ struct z8expV : Module
 	};
 	enum LightIds
 	{
-		LED_1,
-		EXP_LED = LED_1+16,
-		NUM_LIGHTS
+		_BASELED,
+		NUM_LIGHTS = _BASELED + z8exp::NUM_LIGHTS
 	};
 
-	z8expV() : Module()
+	z8expV() : z8exp(_BASEPARAM, _BASENPUT, _BASELED)
 	{
 		config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS);
-		pWidget = NULL;
+		configParams();
 		cvs.configure(this, NUM_PARAMS - cvStrip::CVSTRIP_PARAMS);		
 		for(int r = 0; r < 4; r++)
 		{
@@ -58,19 +56,16 @@ struct z8expV : Module
 				configParam(VOLTAGE_1 + n, 0.0, 1.0, 0.0, "Voltage", "V");
 			}
 		}
-		configParam(CHANNEL, 0.0, 2.0, 0.0);
-		prevStep = -2;
 	}
+
 	void QuantizePitch();
 	void process(const ProcessArgs &args) override;
-	void setWidget(z8expVWidget *pwdg) 
-	{ 
-		pWidget = pwdg; 
-		cvs.Init(pWidget);
-	}
+	virtual void onCreateWidget() override 	{cvs.Init(pWidget); }
 	cvStrip cvs;
+	virtual void onDisconnected() override
+	{
+		outputs[OUT].setVoltage(LVL_OFF);
+	}
 private:
-	z8expVWidget *pWidget;
-	int prevStep;
 };
 

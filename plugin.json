@@ -77,6 +77,22 @@
       ]
     },
     {
+      "slug": "Z8KMExp",
+      "name": "Z8K M Expander",
+      "description": "Z8000 Sequencer Matrix Expander",
+      "tags": [
+        "Utility"
+      ]
+    },
+    {
+      "slug": "Z8KTExp",
+      "name": "Z8K T Expander",
+      "description": "Z8000 Sequencer Trigger Expander",
+      "tags": [
+        "Utility"
+      ]
+    },
+    {
       "slug": "Renato",
       "name": "Renato",
       "description": "Renato Sequencer",

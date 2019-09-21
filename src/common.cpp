@@ -36,7 +36,7 @@ bool IsExpansion(Module *pm, float *dest, int expansionID, int inputID, int ledI
 	{
 		*dest = pm->inputs[inputID].value;
 		uint8_t *addr = (uint8_t *)dest;
-		if(*(addr+3) == expansionID)
+		if((*(addr+3) & 0xf0) == expansionID)
 		{
 			pm->lights[ledID].value = LED_ON;
 			return true;
