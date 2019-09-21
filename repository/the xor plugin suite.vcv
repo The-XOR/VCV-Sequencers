@@ -62,7 +62,7 @@
       ],
       "rightModuleId": 56,
       "pos": [
-        4,
+        6,
         1
       ]
     },
@@ -140,7 +140,7 @@
       "leftModuleId": 55,
       "rightModuleId": 57,
       "pos": [
-        12,
+        14,
         1
       ]
     },
@@ -179,7 +179,7 @@
       "rightModuleId": 59,
       "data": {},
       "pos": [
-        26,
+        28,
         1
       ]
     },
@@ -212,7 +212,7 @@
         "counter": 2
       },
       "pos": [
-        52,
+        54,
         1
       ]
     },
@@ -245,7 +245,7 @@
         "num_outputs": 8
       },
       "pos": [
-        42,
+        44,
         1
       ]
     },
@@ -506,7 +506,7 @@
         "theRandomizer": 0
       },
       "pos": [
-        60,
+        62,
         1
       ]
     },
@@ -698,7 +698,7 @@
         "theRandomizer": 0
       },
       "pos": [
-        1,
+        0,
         2
       ]
     },
@@ -731,7 +731,7 @@
         "num_inputs": 8
       },
       "pos": [
-        32,
+        31,
         2
       ]
     },
@@ -784,7 +784,7 @@
         "bpm_integer": 120
       },
       "pos": [
-        42,
+        41,
         2
       ]
     },
@@ -801,7 +801,7 @@
         "root": 0
       },
       "pos": [
-        91,
+        96,
         3
       ]
     },
@@ -925,7 +925,7 @@
         "theRandomizer": 0
       },
       "pos": [
-        114,
+        121,
         0
       ]
     },
@@ -1238,7 +1238,7 @@
         "theRandomizer": 0
       },
       "pos": [
-        50,
+        55,
         3
       ]
     },
@@ -1490,7 +1490,7 @@
         "theRandomizer": 0
       },
       "pos": [
-        1,
+        8,
         0
       ]
     },
@@ -1518,9 +1518,10 @@
         }
       ],
       "leftModuleId": 73,
+      "rightModuleId": 110,
       "data": {},
       "pos": [
-        143,
+        148,
         3
       ]
     },
@@ -1578,7 +1579,7 @@
       "leftModuleId": 60,
       "rightModuleId": 97,
       "pos": [
-        110,
+        112,
         1
       ]
     },
@@ -1695,7 +1696,7 @@
         "basePtn": 0
       },
       "pos": [
-        57,
+        56,
         2
       ]
     },
@@ -1726,7 +1727,7 @@
       "rightModuleId": 87,
       "text": "Manifesto dei futurismo.\n\n1. Noi vogliamo cantare l'amor del pericolo, l'abitudine all'energia e alla temerita'.\n2. Il coraggio, l'audacia, la ribellione, saranno elementi essenziali della nostra poesia.\n3. La letteratura esalto' fino ad oggi l'immobilita' pensosa, l'estasi e il sonno.Noi vogliamo esaltare il movimento aggressivo, l'insonnia febbrile, il passo di corsa, il salto mortale, lo schiaffo ed il pugno.\n4. Noi affermiamo che la magnificenza del mondo si e' arricchita di una bellezza nuova : la bellezza della velocita'.Un automobile da corsa col suo cofano adorno di grossi tubi simili a serpenti dall'alito esplosivo....un automobile ruggente, che sembra correre sulla mitraglia, e' piu' bello della Vittoria di Samotracia.\n5. Noi vogliamo inneggiare all'uomo che tiene il volante, la cui asta ideale attraversa la Terra, lanciata a corsa, essa pure, sul circuito della sua orbita.\n6. Bisogna che il poeta si prodighi, con ardore, sfarzo e munificenza, per aumentare l'entusiastico fervore degli elementi primordiali.\n7. Non v'e' piu' bellezza, se non nella lotta.Nessuna opera che non abbia un carattere aggressivo puo' essere un capolavoro.La poesia deve essere concepita come un violento assalto contro le forze ignote, per ridurle a prostrarsi davanti all'uomo.\n8. Noi siamo sul promontorio estremo dei secoli!..Perche' dovremmo guardarci alle spalle, se vogliamo sfondare le misteriose porte dell'Impossibile ? Il Tempo e lo Spazio morirono ieri.Noi viviamo gia' nell'assoluto, poiche' abbiamo gia' creata l'eterna velocita' onnipresente.\n9. Noi vogliamo glorificare la guerra - sola igiene del mondo - il militarismo, il patriottismo, il gesto distruttore dei libertarii, le belle idee per cui si muore e il disprezzo della donna.\n10. Noi vogliamo distruggere i musei, le biblioteche, le accademie d'ogni specie, e combattere contro il moralismo, il femminismo e contro ogni vilta' opportunistica o utilitaria.\n11. Noi canteremo le grandi folle agitate dal lavoro, dal piacere o dalla sommossa : canteremo le maree multicolori e polifoniche delle rivoluzioni nelle capitali moderne; canteremo il vibrante fervore notturno degli arsenali e dei cantieri incendiati da violente lune elettriche; le stazioni ingorde, divoratrici di serpi che fumano; le officine appese alle nuvole pei contorti fili dei loro fumi; i ponti simili a ginnasti giganti che scavalcano i fiumi, balenanti al sole con un luccichio di coltelli; i piroscafi avventurosi che fiutano l'orizzonte, le locomotive dall'ampio petto, che scalpitano sulle rotaie, come enormi cavalli d'acciaio imbrigliati di tubi, e il volo scivolante degli aereoplani, la cui elica garrisce al vento come una bandiera e sembra applaudire come una folla entusiasta.\n",
       "pos": [
-        103,
+        108,
         3
       ]
     },
@@ -1747,7 +1748,7 @@
         }
       },
       "pos": [
-        135,
+        140,
         3
       ]
     },
@@ -1904,7 +1905,7 @@
         "theRandomizer": 0
       },
       "pos": [
-        62,
+        69,
         0
       ]
     },
@@ -1922,7 +1923,7 @@
       "leftModuleId": 67,
       "rightModuleId": 74,
       "pos": [
-        54,
+        61,
         0
       ]
     },
@@ -1976,7 +1977,7 @@
       "leftModuleId": 71,
       "rightModuleId": 73,
       "pos": [
-        121,
+        126,
         3
       ]
     },
@@ -2050,7 +2051,7 @@
       "leftModuleId": 69,
       "rightModuleId": 106,
       "pos": [
-        120,
+        122,
         1
       ]
     },
@@ -2072,7 +2073,7 @@
       "leftModuleId": 64,
       "rightModuleId": 71,
       "pos": [
-        99,
+        104,
         3
       ]
     },
@@ -3028,7 +3029,7 @@
         "stepreps_63": 1
       },
       "pos": [
-        0,
+        5,
         3
       ]
     },
@@ -3075,10 +3076,10 @@
           "value": 0.0
         }
       ],
-      "leftModuleId": 110,
+      "leftModuleId": 106,
       "pos": [
-        142,
-        2
+        154,
+        1
       ]
     },
     {
@@ -3093,8 +3094,9 @@
         }
       ],
       "leftModuleId": 97,
+      "rightModuleId": 105,
       "pos": [
-        148,
+        150,
         1
       ]
     },
@@ -3195,12 +3197,20 @@
         {
           "id": 22,
           "value": 0.0
+        },
+        {
+          "id": 23,
+          "value": 0.0
+        },
+        {
+          "id": 24,
+          "value": 0.0
         }
       ],
       "leftModuleId": 70,
       "rightModuleId": 108,
       "pos": [
-        96,
+        95,
         2
       ]
     },
@@ -3213,12 +3223,20 @@
         {
           "id": 0,
           "value": 0.0
+        },
+        {
+          "id": 1,
+          "value": 0.0
+        },
+        {
+          "id": 2,
+          "value": 0.0
         }
       ],
       "leftModuleId": 107,
-      "rightModuleId": 110,
+      "rightModuleId": 111,
       "pos": [
-        116,
+        115,
         2
       ]
     },
@@ -3243,12 +3261,70 @@
         {
           "id": 3,
           "value": 0.0
+        },
+        {
+          "id": 4,
+          "value": 0.0
+        }
+      ],
+      "leftModuleId": 68,
+      "pos": [
+        160,
+        3
+      ]
+    },
+    {
+      "id": 111,
+      "plugin": "TheXOR",
+      "version": "1.2.0",
+      "model": "Z8KMExp",
+      "params": [
+        {
+          "id": 0,
+          "value": 0.0
+        },
+        {
+          "id": 1,
+          "value": 0.0
+        },
+        {
+          "id": 2,
+          "value": 0.0
         }
       ],
       "leftModuleId": 108,
-      "rightModuleId": 105,
+      "rightModuleId": 112,
       "pos": [
-        134,
+        133,
+        2
+      ]
+    },
+    {
+      "id": 112,
+      "plugin": "TheXOR",
+      "version": "1.2.0",
+      "model": "Z8KTExp",
+      "params": [
+        {
+          "id": 0,
+          "value": 100.0
+        },
+        {
+          "id": 1,
+          "value": 0.0
+        },
+        {
+          "id": 2,
+          "value": 0.0
+        },
+        {
+          "id": 3,
+          "value": 0.0
+        }
+      ],
+      "leftModuleId": 111,
+      "pos": [
+        151,
         2
       ]
     }
