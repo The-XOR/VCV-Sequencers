@@ -18,6 +18,7 @@
 
 #define EXPPORT_KLEE	(0x80)
 #define EXPPORT_Z8K 	(0x90)
+#define EXPPORT_TIME 	(0x81)
 
 using namespace rack;
 extern Plugin *pluginInstance;
