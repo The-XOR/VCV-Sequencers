@@ -84,7 +84,8 @@ struct NordschleifeWidget : SequencerWidget
 		RANDOMIZE_ONCRASH = 0x40,
 		RANDOMIZE_ANGLE = 0x80,
 		RANDOMIZE_OFFSET = 0x100,
-		RANDOMIZE_LAQUALUNQUE = 0x200,
+		RANDOMIZE_STEPOFFSET = 0x200,
+		RANDOMIZE_LAQUALUNQUE = 0x400,
 		QUANTIZE_PITCH,
 		SET_VOLTAGE_TO_CURRENT
 	};
@@ -118,7 +119,8 @@ struct NordschleifeWidget : SequencerWidget
 			sub_menu->addChild(new RandomizeSubItemItem(md, "Ov Path", RANDOMIZE_PATH ));
 			sub_menu->addChild(new RandomizeSubItemItem(md, "Ov Collision", RANDOMIZE_ONCRASH ));
 			sub_menu->addChild(new RandomizeSubItemItem(md, "Ov Angle", RANDOMIZE_ANGLE ));
-			sub_menu->addChild(new RandomizeSubItemItem(md, "Ov Offset", RANDOMIZE_OFFSET ));
+			sub_menu->addChild(new RandomizeSubItemItem(md, "Ov Car Offset", RANDOMIZE_OFFSET));
+			sub_menu->addChild(new RandomizeSubItemItem(md, "Ov Step Offset", RANDOMIZE_STEPOFFSET ));
 			sub_menu->addChild(new RandomizeSubItemItem(md, "Ov Power", RANDOMIZE_LAQUALUNQUE));
 			return sub_menu;
 		}

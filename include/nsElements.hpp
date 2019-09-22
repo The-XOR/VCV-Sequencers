@@ -19,6 +19,7 @@ enum NordschleifeFields
 	shlfMode,
 	shlfProbab,
 	shlfRepeats,
+	shlfStepOffset,
 	shlfOutA,
 	shlfOutB,
 
@@ -131,6 +132,7 @@ struct NordschleifeStep
 	int outB;
 	int probability;
 	int repeats;
+	int offset;
 
 	void dataFromJson(json_t *root, std::string myID)
 	{
@@ -144,6 +146,8 @@ struct NordschleifeStep
 		if(r) probability = (StepMode)json_integer_value(r);
 		r = json_object_get(root, ("stepreps_"+myID).c_str());
 		if(r) repeats = (StepMode)json_integer_value(r);
+		r = json_object_get(root, ("stepoffs_" + myID).c_str());
+		if(r) offset = (StepMode)json_integer_value(r);
 	}
 	json_t *dataToJson(json_t *rootJ, std::string myID)
 	{
@@ -152,6 +156,7 @@ struct NordschleifeStep
 		json_object_set_new(rootJ, ("step_outb" + myID).c_str(), json_integer(outB));
 		json_object_set_new(rootJ, ("stepprob_" + myID).c_str(), json_integer(probability));
 		json_object_set_new(rootJ, ("stepreps_" + myID).c_str(), json_integer(repeats));
+		json_object_set_new(rootJ, ("stepoffs_" + myID).c_str(), json_integer(offset));
 		return rootJ;
 	}
 
@@ -193,6 +198,7 @@ struct NordschleifeStep
 		mode = On;
 		outA = 0;
 		outB = 1;
+		offset = 0;
 		probability = 100;
 		repeats = 1;
 		reset();
