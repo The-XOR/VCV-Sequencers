@@ -261,6 +261,14 @@
       "tags": [
         "Quantizer"
       ]
+    },
+    {
+      "slug": "c2v",
+      "name": "c2v",
+      "description": "cv to voltage",
+      "tags": [
+        "Utility"
+      ]
     }
   ]
 }
