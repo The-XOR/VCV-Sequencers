@@ -44,7 +44,7 @@ struct nordDisplay : TransparentWidget
 
 	void setModule(Nordschleife *ns)
 	{
-		box.size = mm2px(Vec(41.f, 41.f));
+		box.size = mm2px(Vec(41.f, 105.408f));
 		pNord = ns;
 	}
 
@@ -67,23 +67,45 @@ struct nordDisplay : TransparentWidget
 	}
 
 	private:
-	struct drawData
+	struct drawContext
 	{
 		float left;
 		float top;
 		float interleave;
 		float interleaveBig;
-		float aveCharWidth;
+		float charWidth;
+		float charWidthBig;
 		NVGcontext *vg;
+		
+		drawContext(NVGcontext *nvg, std::shared_ptr<Font> &fnt)
+		{
+			vg = nvg;
+			nvgFontFaceId(vg, fnt->handle);		
+			// inizializzaziun del contesto
+	
+			left = 4;
+			
+			float ascender, descender, lineh;
+			setFont(true);
+			nvgTextMetrics(vg, &ascender, &descender, &lineh);
+			interleaveBig = descender + lineh;
+			charWidthBig = nvgText(vg, 0, 0, " ", NULL);
+
+			setFont();
+			nvgTextMetrics(vg, &ascender, &descender, &lineh);
+			interleave = descender + lineh;
+			top = interleave-1;
+			charWidth = nvgText(vg, 0, 0, " ", NULL);
+		}
+
+		inline void setFont(bool big=false) const	{nvgFontSize(vg, big ? 14 : 10); }
 	};
-	const int fntSize = 9;
-	const int bigFont = 12;
 
 	std::shared_ptr<Font> font;
 	Nordschleife *pNord;
 	int curField;
 
-	void drawField(const drawData &ctx, NordschleifeField *pField, bool asCurrent)
+	void drawField(const drawContext &ctx, NordschleifeField *pField, bool asCurrent)
 	{
 		NVGcolor lblColor = nvgRGB(0xff, 0xff, 0xff);
 		NVGcolor textColor = pNord->GangBang() ? nvgRGB(0xff, 0xff, 0x00) : nvgRGB(0xff, 0xff, 0xff);
@@ -92,11 +114,11 @@ struct nordDisplay : TransparentWidget
 		float y;
 		if(pField->bigField)
 		{
-			nvgFontSize(ctx.vg, bigFont);
+			ctx.setFont(true);
 			y = ctx.top + ctx.interleaveBig * pField->pos_y-2;
 		} else
 		{
-			nvgFontSize(ctx.vg, fntSize);
+			ctx.setFont();
 			y = ctx.top + ctx.interleave * pField->pos_y;
 		}
 		y += 2;//margin
@@ -122,9 +144,9 @@ struct nordDisplay : TransparentWidget
 		nvgText(ctx.vg, x, y, txt.c_str(), NULL);
 	}
 	
-	void draw_info(drawData &ctx)
+	void draw_info(drawContext &ctx)
 	{
-		nvgFontSize(ctx.vg, bigFont);
+		ctx.setFont(true);
 		float ascender, descender, lineh;
 		nvgTextMetrics(ctx.vg, &ascender, &descender, &lineh);
 		ctx.top = descender + lineh;
@@ -138,7 +160,7 @@ struct nordDisplay : TransparentWidget
 			nvgFillColor(ctx.vg, nvgRGB(0xff, 0xff, 0xff));
 			nvgText(ctx.vg, ctx.left, ctx.top, pNord->cars[pNord->selectedCar].name.c_str(), NULL);
 		}
-		nvgFontSize(ctx.vg, fntSize);
+		ctx.setFont();
 		nvgText(ctx.vg, ctx.left, box.size.y-1, pNord->cars[pNord->selectedCar].getLap().c_str(), NULL);
 	}
 
@@ -154,24 +176,11 @@ struct nordDisplay : TransparentWidget
 			return;
 
 		// inizializzaziun del contesto
-		nvgFontFaceId(args.vg, font->handle);		
 	
-		drawData context;
-		context.left = 4;
-		context.vg = args.vg;
-		draw_info(context);
-
-		float ascender, descender, lineh;
-		nvgFontSize(args.vg, bigFont);
-		nvgTextMetrics(args.vg, &ascender, &descender, &lineh);
-		context.interleaveBig = descender + lineh;
-
-		nvgFontSize(args.vg, fntSize);
-		nvgTextMetrics(args.vg, &ascender, &descender, &lineh);
-		context.interleave = descender + lineh;
-		context.top += context.interleave-1;
-
+		drawContext ctx(args.vg, font);
+		
+		draw_info(ctx);		
 		for(int k = 0; k < NORDFIELDS; k++)
-			drawField(context, &pNord->nsFields[k], !pNord->moveByStep() && k == curField);
+			drawField(ctx, &pNord->nsFields[k], !pNord->moveByStep() && k == curField);
 	}
 };

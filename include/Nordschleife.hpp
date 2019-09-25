@@ -11,24 +11,8 @@ extern Plugin *pluginInstance;
 
 struct NordschleifeField
 {
-	std::string label;
-	int minValue;
-	int maxValue;
-	std::function<void(int)> setter;
-	std::function<int(void)> getter;
-	std::vector<std::string> values;
-	int pos_x;
-	int pos_y;
-	int display_offset;
-	bool bigField;
-
-	void set(int x, int y, const char *lbl, std::vector<std::string> strngs, std::function<int(void)> gtr, std::function<void(int)> str, bool big = false)
-	{
-		set(x,y, lbl, 0, (int)strngs.size()-1, gtr, str, 0, big);
-		values = strngs;
-	}
-
-	void set(int x, int y, const char *lbl, int mi, int ma, std::function<int(void)> gtr, std::function<void(int)> str, int dispoff = 0, bool big = false)
+public:
+	void set(int x, int y, const char *lbl, std::vector<std::string> strngs, std::function<int(void)> gtr, std::function<void(int)> str, std::function<std::string(int)> disp, bool big = false)
 	{
 		pos_x=x;
 		pos_y=y;
@@ -37,7 +21,7 @@ struct NordschleifeField
 		maxValue=ma;
 		getter=gtr;
 		setter=str;
-		display_offset = dispoff;
+		displayer = disp;
 		bigField = big;
 	}
 
@@ -57,17 +41,19 @@ struct NordschleifeField
 		setter(value);
 	}
 
-	std::string getText()
-	{
-		if(values.empty())
-		{
-			char n[20];
-			sprintf(n, "%i", display_offset+getter());
-			return n;
-		}
-		
-		return values[getter()];
-	}
+	inline std::string getText() {return displayer(getter());}	
+
+private:
+	std::string label;
+	int minValue;
+	int maxValue;
+	std::function<void(int)> setter;
+	std::function<int(void)> getter;
+	std::function<std::string(int)> displayer;
+	int pos_x;
+	int pos_y;
+	bool bigField;
+
 };
 
 struct nordDisplay;
@@ -172,7 +158,9 @@ struct Nordschleife : Module
 		CAR_GATE = CAR_CV + NORDCARS,
 		CAR_LAP = CAR_GATE + NORDCARS,
 		CAR_POSITION = CAR_LAP + NORDCARS,
-		NUM_OUTPUTS = CAR_POSITION + NORDCARS
+		CAR_AUX = CAR_POSITION + NORDCARS,
+		CAR_TRIG = CAR_AUX + NORDCARS,
+		NUM_OUTPUTS = CAR_TRIG + NORDCARS
 	};
 	enum LightIds
 	{
@@ -181,7 +169,8 @@ struct Nordschleife : Module
 		FERRARI_LED = BRABHAM_LED + NORDSTEPS,
 		HESKETH_LED = FERRARI_LED + NORDSTEPS,
 		LAP_LED = HESKETH_LED + NORDSTEPS,
-		NUM_LIGHTS = LAP_LED + NORDCARS
+		TRIG_LED = LAP_LED + NORDCARS,
+		NUM_LIGHTS = TRIG_LED + NORDCARS
 	};
 
 	Nordschleife() : Module()

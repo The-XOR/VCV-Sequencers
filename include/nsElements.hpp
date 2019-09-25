@@ -23,6 +23,11 @@ enum NordschleifeFields
 	shlfOutA,
 	shlfOutB,
 
+//shlfAux,
+//shlfDelay,
+//shlfGate,
+//shlfTrigger,
+
 	NORDFIELDS
 };
 
