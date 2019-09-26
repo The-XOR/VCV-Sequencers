@@ -12,7 +12,7 @@ extern Plugin *pluginInstance;
 struct NordschleifeField
 {
 public:
-	void set(int x, int y, const char *lbl, std::vector<std::string> strngs, std::function<int(void)> gtr, std::function<void(int)> str, std::function<std::string(int)> disp, bool big = false)
+	void set(int x, int y, const char *lbl, float mi, float ma, std::function<int(void)> gtr, std::function<void(int)> str, std::function<std::string(int)> disp, bool big = false)
 	{
 		pos_x=x;
 		pos_y=y;
@@ -43,16 +43,17 @@ public:
 
 	inline std::string getText() {return displayer(getter());}	
 
-private:
+	bool bigField;
+	int pos_x;
+	int pos_y;
 	std::string label;
+
+private:
 	int minValue;
 	int maxValue;
 	std::function<void(int)> setter;
 	std::function<int(void)> getter;
 	std::function<std::string(int)> displayer;
-	int pos_x;
-	int pos_y;
-	bool bigField;
 
 };
 
@@ -202,7 +203,6 @@ struct Nordschleife : Module
 	int selectedCar = 0;
 	int selectedStep = 0;
 	static int paths[NORDPATHS][64];
-	static std::vector<std::string> pathNames;
 	static std::vector<std::string> carNames;
 
 	TransparentWidget *createDisplay(Vec pos);

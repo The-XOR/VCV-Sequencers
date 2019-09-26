@@ -3,6 +3,14 @@
 
 int NordschleifeCar::CarLed[NORDCARS] = {Nordschleife::LightIds::LOTUS_LED, Nordschleife::LightIds::BRABHAM_LED, Nordschleife::LightIds::FERRARI_LED, Nordschleife::LightIds::HESKETH_LED};
 
+void NordschleifeCar::stepTrig()
+{
+	stepTrigger.trigger(PULSE_TIME);
+	ledStepTrigger.trigger(0.1);
+	pNord->outputs[Nordschleife::CAR_TRIG + myID].value = LVL_ON;
+	pNord->lights[Nordschleife::TRIG_LED+myID].value = LED_ON;
+}
+
 bool NordschleifeCar::process(float deltaTime)
 {
 	bool step_moved = false;
@@ -12,6 +20,13 @@ bool NordschleifeCar::process(float deltaTime)
 	}
 	if(!ledLapPulse.process(deltaTime))
 		pNord->lights[Nordschleife::LAP_LED + myID].value = LED_OFF;
+
+	if(!stepTrigger.process(deltaTime))
+		pNord->outputs[Nordschleife::CAR_TRIG + myID].value = LVL_OFF;
+	
+	if(!ledStepTrigger.process(deltaTime))
+		pNord->lights[Nordschleife::TRIG_LED+myID].value = LED_OFF;
+	
 
 	if(resetTrig.process(pNord->inputs[Nordschleife::CAR_RESET+myID].value))
 	{
@@ -274,6 +289,11 @@ void NordschleifeStep::beginPulse(Nordschleife *pNord, int carID, float lastPuls
 	{
 		stepPulseB.trigger(PULSE_TIME);
 		pNord->outputs[Nordschleife::OUT_B + myID].value = LVL_ON;
+	}
+
+	if(trigger)
+	{
+		pNord->cars[carID].stepTrig();
 	}
 
 	if(mode == Off)  //step off: non suona, non ripete

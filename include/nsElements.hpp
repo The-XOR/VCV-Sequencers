@@ -22,19 +22,19 @@ enum NordschleifeFields
 	shlfStepOffset,
 	shlfOutA,
 	shlfOutB,
+	shlfTrigger,
 
 //shlfAux,
 //shlfDelay,
 //shlfGate,
-//shlfTrigger,
 
 	NORDFIELDS
 };
 
 struct NordschleifeCar
 {
-	enum CarDirection {carForward, carBackward, carAlternate, carBrownian, carRandom };
-	enum CarCollision { carIgnore, carInvert, car90left, car90right, nextPath, prevPath, randomPath, carRnd };
+	enum CarDirection {carForward, carBackward, carAlternate, carBrownian, carRandom   ,NUM_CAR_DIRECTIONS};
+	enum CarCollision { carIgnore, carInvert, car90left, car90right, nextPath, prevPath, randomPath, carRnd     ,NUM_CAR_COLLISIONS};
 	CarDirection direction;
 	CarCollision collision;
 	int stepFrom;
@@ -98,6 +98,8 @@ struct NordschleifeCar
 			return "Lap #" + std::to_string(lapCounter);
 	}
 
+	void stepTrig();
+
 	// ------------------------ race control ---------------------------
 	bool process(float deltaTime);
 	void onCollision();	
@@ -123,6 +125,8 @@ private:
 	dsp::SchmittTrigger resetTrig;
 	dsp::PulseGenerator lapPulse;
 	dsp::PulseGenerator ledLapPulse;
+	dsp::PulseGenerator stepTrigger;
+	dsp::PulseGenerator ledStepTrigger;
 	int totalCounter;
 	int lapCounter;
 	int pitStopCounter;
@@ -131,13 +135,14 @@ private:
 
 struct NordschleifeStep
 {
-	enum StepMode { Off, On, Skip, Legato, Slide, Reset };
+	enum StepMode { Off, On, Skip, Legato, Slide, Reset    ,NUM_STEP_MODE};
 	StepMode mode;
 	int outA;
 	int outB;
 	int probability;
 	int repeats;
 	int offset;
+	bool trigger;
 
 	void dataFromJson(json_t *root, std::string myID)
 	{
@@ -153,6 +158,8 @@ struct NordschleifeStep
 		if(r) repeats = (StepMode)json_integer_value(r);
 		r = json_object_get(root, ("stepoffs_" + myID).c_str());
 		if(r) offset = (StepMode)json_integer_value(r);
+		r = json_object_get(root, ("steptrig_" + myID).c_str());
+		if(r) trigger = json_integer_value(r) > 0;
 	}
 	json_t *dataToJson(json_t *rootJ, std::string myID)
 	{
@@ -162,6 +169,7 @@ struct NordschleifeStep
 		json_object_set_new(rootJ, ("stepprob_" + myID).c_str(), json_integer(probability));
 		json_object_set_new(rootJ, ("stepreps_" + myID).c_str(), json_integer(repeats));
 		json_object_set_new(rootJ, ("stepoffs_" + myID).c_str(), json_integer(offset));
+		json_object_set_new(rootJ, ("steptrig_" + myID).c_str(), json_integer(trigger ? 1 : 0));
 		return rootJ;
 	}
 
@@ -206,6 +214,7 @@ struct NordschleifeStep
 		offset = 0;
 		probability = 100;
 		repeats = 1;
+		trigger = false;
 		reset();
 	}
 
