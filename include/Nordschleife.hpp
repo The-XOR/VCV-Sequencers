@@ -25,18 +25,18 @@ public:
 		bigField = big;
 	}
 
-	void inc()
+	void inc(int amt)
 	{
-		int value = getter();
-		if(++value > maxValue)
+		int value = getter() + amt;
+		if(value > maxValue)
 			value = minValue;
 		setter(value);
 	}
 
-	void dec()
+	void dec(int amt)
 	{
-		int value = getter();
-		if(--value < minValue)
+		int value = getter() - amt;
+		if(value < minValue)
 			value = maxValue;
 		setter(value);
 	}

@@ -44,7 +44,7 @@ struct nordDisplay : TransparentWidget
 
 	void setModule(Nordschleife *ns)
 	{
-		box.size = mm2px(Vec(41.f, 105.408f));
+		box.size = mm2px(Vec(43.f, 105.408f));
 		pNord = ns;
 	}
 
@@ -160,9 +160,9 @@ struct nordDisplay : TransparentWidget
 			nvgFillColor(ctx.vg, nvgRGB(0xff, 0xff, 0xff));
 			nvgText(ctx.vg, ctx.left, ctx.top, pNord->cars[pNord->selectedCar].name.c_str(), NULL);
 		}
-		ctx.top += 6;
+		ctx.top += 8;
 		ctx.setFont();
-		nvgText(ctx.vg, ctx.left, box.size.y-1, pNord->cars[pNord->selectedCar].getLap().c_str(), NULL);
+		nvgText(ctx.vg, ctx.left, box.size.y-3, pNord->cars[pNord->selectedCar].getLap().c_str(), NULL);
 	}
 
 	void draw(const DrawArgs &args) override

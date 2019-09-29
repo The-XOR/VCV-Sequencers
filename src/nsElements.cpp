@@ -285,6 +285,7 @@ void NordschleifeStep::beginPulse(Nordschleife *pNord, int carID, float lastPuls
 	{
 		pNord->outputs[Nordschleife::OUT_A + myID].value = LVL_ON;
 	}
+
 	if(outB == carID)
 	{
 		stepPulseB.trigger(PULSE_TIME);
@@ -309,9 +310,23 @@ void NordschleifeStep::beginPulse(Nordschleife *pNord, int carID, float lastPuls
 		// il fato e' stato benevolo. Il voltaggio dello step viene prodotto in uscita
 		float of1 = SEMITONE * pNord->cars[carID].offset + SEMITONE * offset;
 		startVoltage[carID] = of1 + pNord->cvs.TransposeableValue(pNord->params[Nordschleife::VOLTAGE_1 + myID].getValue());
-		pNord->outputs[Nordschleife::CAR_CV + carID].setVoltage(startVoltage[carID]);
 		// se pero' lo step e' in Reset, NON viene generato il segnale di gate
-		pNord->outputs[Nordschleife::CAR_GATE + carID].setVoltage(mode == Reset ? LVL_OFF : LVL_ON);
+		if(mode == Reset)
+		{
+			pNord->outputs[Nordschleife::CAR_GATE + carID].setVoltage(LVL_OFF);
+			cvDelay[carID] = 0;
+		} else
+		{
+			cvDelay[carID] = delay/1000.f;
+			if(delay == 0)
+			{
+				pNord->outputs[Nordschleife::CAR_GATE + carID].setVoltage(LVL_ON);
+				pNord->outputs[Nordschleife::CAR_CV + carID].setVoltage(startVoltage[carID]);
+				pNord->outputs[Nordschleife::CAR_AUX + carID].setVoltage(aux);
+			}
+
+		}
+
 		repCount[carID] = repeats;
 		pulseDuration[carID] = lastPulseDuration;
 		repeat_gateStatus[carID] = true;  // attualmente, gate e' ON
@@ -343,6 +358,14 @@ void NordschleifeStep::process(Nordschleife *pNord, int carID, float deltaTime)
 	elapsedTime[carID] += deltaTime;
 	if(!stepPulseB.process(deltaTime))
 		pNord->outputs[Nordschleife::OUT_B + myID].value = LVL_OFF;
+
+	if(cvDelay[carID] > 0 && elapsedTime[carID] >= cvDelay[carID])
+	{
+		pNord->outputs[Nordschleife::CAR_GATE + carID].setVoltage(LVL_ON);
+		pNord->outputs[Nordschleife::CAR_CV + carID].setVoltage(startVoltage[carID]);
+		pNord->outputs[Nordschleife::CAR_AUX + carID].setVoltage(aux);
+		cvDelay[carID] = 0;
+	}
 
 	float timeSlice = pulseDuration[carID] / (1 + repeats);	// quanto dura una singola ripetizione
 	if(repeats > 1 && repCount[carID] > 0 && timeSlice > 0)

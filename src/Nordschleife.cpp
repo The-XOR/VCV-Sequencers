@@ -4,6 +4,10 @@
 #define SETCARFIELD(fieldName, fieldValue) {if(GangBang()) for(int k=0; k<NORDCARS;k++) cars[k].fieldName = fieldValue; else cars[selectedCar].fieldName = fieldValue; }
 #define SETSTEPFIELD(fieldName, fieldValue) {if(GangBang()) for(int k=0; k<NORDSTEPS;k++) steps[k].fieldName = fieldValue; else steps[selectedStep].fieldName = fieldValue; }
 #define TO_STR(i) {return std::to_string(i);}
+#define TO_STRD(i,in,de) { \
+	std::stringstream to_display;\
+	to_display << std::fixed << std::setw(in) << std::setprecision(de) << i;\
+	return to_display.str(); }
 
 std::vector<std::string> Nordschleife::carNames = {"Lotus", "Brabham", "Ferrari", "Hesketh"};
 int Nordschleife::paths[NORDPATHS][64] =
@@ -119,6 +123,14 @@ void Nordschleife::data_entry()
 		}
 	} else // move by field?
 	{
+		int mult = 1;
+		switch(APP->window->getMods() & RACK_MOD_MASK)
+		{
+			case GLFW_MOD_ALT | GLFW_MOD_SHIFT: mult = 1000; break;
+			case GLFW_MOD_ALT:   mult = 100; break;
+			case GLFW_MOD_SHIFT:   mult = 10; break;
+		}
+
 		switch(move)
 		{
 			case GLFW_KEY_KP_SUBTRACT:
@@ -127,10 +139,10 @@ void Nordschleife::data_entry()
 				break;
 
 			case GLFW_KEY_KP_DIVIDE:
-				nsFields[display->getCurField()].dec();
+				nsFields[display->getCurField()].dec(mult);
 				break;
 			case GLFW_KEY_KP_MULTIPLY:
-				nsFields[display->getCurField()].inc();
+				nsFields[display->getCurField()].inc(mult);
 				break;
 		}
 	}
@@ -207,7 +219,7 @@ void Nordschleife::randrandrand(int action)
 
 		case 1: //mode
 			for(int k = 0; k < NORDSTEPS; k++)
-				steps[k].mode = (NordschleifeStep::StepMode)int(random::uniform() * 6);
+				steps[k].mode = (NordschleifeStep::StepMode)int(random::uniform() * NordschleifeStep::StepMode::NUM_STEP_MODE);
 			break;
 
 		case 2: //probabil
@@ -222,7 +234,7 @@ void Nordschleife::randrandrand(int action)
 
 		case 4: //direc
 			for(int k = 0; k < NORDCARS; k++)
-				cars[k].direction = (NordschleifeCar::CarDirection)int(random::uniform() * 5);
+				cars[k].direction = (NordschleifeCar::CarDirection)int(random::uniform() * NordschleifeCar::CarDirection::NUM_CAR_DIRECTIONS);
 			break;
 
 		case 5: //path
@@ -232,12 +244,12 @@ void Nordschleife::randrandrand(int action)
 
 		case 6: //crsh
 			for(int k = 0; k < NORDCARS; k++)
-				cars[k].collision = (NordschleifeCar::CarCollision)int(random::uniform() * 8);
+				cars[k].collision = (NordschleifeCar::CarCollision)int(random::uniform() * NordschleifeCar::CarCollision::NUM_CAR_COLLISIONS);
 			break;
 
 		case 7: //angle
 			for(int k = 0; k < NORDCARS; k++)
-				cars[k].angle = int(random::uniform() * 4);
+				cars[k].angle = int(random::uniform() * 8);
 			break;
 
 		case 8: //offset
@@ -369,6 +381,17 @@ void Nordschleife::declareFields()
 											   [this] {return steps[selectedStep].trigger ? 1 : 0; },
 											   [this](int i) {steps[selectedStep].trigger = i > 0;},
 											   [this](int i) {return i ? "Yes" : "No";}
+	);
+
+	nsFields[NordschleifeFields::shlfAux].set(0, row++, "Aux (mV): ", LVL_MIN*1000.f, LVL_MAX*1000.f,
+												  [this] {return steps[selectedStep].aux * 1000.f; },
+												  [this](int i) {steps[selectedStep].aux = i/1000.f; },
+												  [this](int i) TO_STRD(i/1000.f,2,3)
+	);
+	nsFields[NordschleifeFields::shlfDelay].set(0, row++, "Delay(mS):", 0, 500,
+													 [this] {return steps[selectedStep].delay; },
+													 [this](int i) SETSTEPFIELD(delay, i),
+													 [this](int i) TO_STR(i)
 	);
 
 }

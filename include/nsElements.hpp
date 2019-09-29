@@ -23,10 +23,8 @@ enum NordschleifeFields
 	shlfOutA,
 	shlfOutB,
 	shlfTrigger,
-
-//shlfAux,
-//shlfDelay,
-//shlfGate,
+	shlfAux,
+	shlfDelay,
 
 	NORDFIELDS
 };
@@ -143,6 +141,8 @@ struct NordschleifeStep
 	int repeats;
 	int offset;
 	bool trigger;
+	float aux;
+	int delay;
 
 	void dataFromJson(json_t *root, std::string myID)
 	{
@@ -160,6 +160,10 @@ struct NordschleifeStep
 		if(r) offset = (StepMode)json_integer_value(r);
 		r = json_object_get(root, ("steptrig_" + myID).c_str());
 		if(r) trigger = json_integer_value(r) > 0;
+		r = json_object_get(root, ("stepaux_" + myID).c_str());
+		if(r) aux = json_real_value(r);
+		r = json_object_get(root, ("stepdelay_" + myID).c_str());
+		if(r) delay = (StepMode)json_integer_value(r);
 	}
 	json_t *dataToJson(json_t *rootJ, std::string myID)
 	{
@@ -170,6 +174,8 @@ struct NordschleifeStep
 		json_object_set_new(rootJ, ("stepreps_" + myID).c_str(), json_integer(repeats));
 		json_object_set_new(rootJ, ("stepoffs_" + myID).c_str(), json_integer(offset));
 		json_object_set_new(rootJ, ("steptrig_" + myID).c_str(), json_integer(trigger ? 1 : 0));
+		json_object_set_new(rootJ, ("stepaux_" + myID).c_str(), json_real(aux));
+		json_object_set_new(rootJ, ("stepdelay_" + myID).c_str(), json_integer(delay));
 		return rootJ;
 	}
 
@@ -215,6 +221,8 @@ struct NordschleifeStep
 		probability = 100;
 		repeats = 1;
 		trigger = false;
+		aux = 0;
+		delay = 0;
 		reset();
 	}
 
@@ -230,6 +238,7 @@ private:
 	float startVoltage[NORDCARS];
 	float elapsedTime[NORDCARS];
 	float slideToVoltage[NORDCARS];
+	float cvDelay[NORDCARS];
 
 private:
 	StepMode endPulse(Nordschleife *pNord, int carID);
