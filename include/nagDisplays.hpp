@@ -1,4 +1,5 @@
-
+#pragma
+once
 struct nag7Segm : TransparentWidget
 {
 private:
