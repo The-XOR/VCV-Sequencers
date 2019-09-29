@@ -328,7 +328,7 @@ void Nordschleife::declareFields()
 											   [this](int i) TO_STR(i + 1),
 											   true);
 
-	row += 3;
+	row += 5;
 
 	nsFields[NordschleifeFields::shlfMode].set(0, row++, "Mode: ", 0, NordschleifeStep::StepMode::NUM_STEP_MODE-1,
 											   [this] {return steps[selectedStep].mode; }, 

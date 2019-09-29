@@ -10,6 +10,7 @@ struct RenatoWidget : SequencerWidget
 public:
 	void onMenu(int action);
 	RenatoWidget(Renato *module);
+	void resetAccess();
 	enum MENUACTIONS
 	{
 		RANDOMIZE_PITCH = 0x01,
@@ -81,6 +82,7 @@ struct Renato : Module
 		GATEX_IN1 = ACCESS_IN1 + 16,
 		GATEY_IN1 = GATEX_IN1 + 16,
 		RANDOMIZONE = GATEY_IN1 + 16,
+		INIT_IN,
 		RANGE_IN,
 		NUM_INPUTS = RANGE_IN + cvStrip::CVSTRIP_INPUTS
 	};
@@ -187,6 +189,7 @@ private:
 private:
 	RenatoWidget *pWidget;
 	dsp::SchmittTrigger resetTrigger;
+	dsp::SchmittTrigger resetAccess;
 	dsp::SchmittTrigger accessRndTrigger;
 	dsp::SchmittTrigger gatexRndTrigger;
 	dsp::SchmittTrigger gateyRndTrigger;

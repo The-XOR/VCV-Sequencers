@@ -119,3 +119,6 @@ clock round robin (with a switch)
 
 # chords
 not only bleep bleeps. the chords
+
+# c2v
+gate signals to voltages

@@ -120,12 +120,10 @@ void PwmClock::process_active(const ProcessArgs &args, bool externalMidiClock, b
 		{
 			float pwm = getPwm();
 			float now = APP->engine->getSampleTime();
-			bool use_exp = outputs[EXP_PORT].isConnected();
-			float expansion_out = 0;
 
 			for(int k = 0; k < OUT_SOCKETS; k++)
 			{
-				if(use_exp || outputs[OUT_1 + k].isConnected())
+				if(outputs[OUT_1 + k].isConnected())
 				{
 					float gate_len = getDuration(k) * pwm;
 					sa_timer[k].Step(now);
@@ -135,11 +133,9 @@ void PwmClock::process_active(const ProcessArgs &args, bool externalMidiClock, b
 						elps = sa_timer[k].Reset(now);
 						odd_beat[k] = !odd_beat[k];
 					}
-					setExpansion(&expansion_out, k, elps <= gate_len);
 					outputs[OUT_1 + k].value = elps <= gate_len ? LVL_ON : LVL_OFF;
 				}
 			}
-			expOut(expansion_out);
 		}
 	}
 }
@@ -148,7 +144,6 @@ void PwmClock::process_extMidiClock(const ProcessArgs &args)
 {
 	uint64_t cc = midiClock.clockCounter();
 	float deltaTime = 1.0 / args.sampleRate;
-	float expansion_out = 0;
 
 	for(int k = 0; k < OUT_SOCKETS; k++)
 	{
@@ -161,11 +156,9 @@ void PwmClock::process_extMidiClock(const ProcessArgs &args)
 			{
 				midiClockTrig[k].trigger(PULSE_TIME);
 				outputs[OUT_1 + k].value = LVL_ON;
-				setExpansion(&expansion_out, k,true);
 			}
 		}
 	}
-	expOut(expansion_out);
 }
 
 void PwmClock::process_inactive(const ProcessArgs &args)
@@ -184,20 +177,16 @@ void PwmClock::process_inactive(const ProcessArgs &args)
 				outputs[OUT_1 + k].value = LVL_OFF;
 
 			lights[ACTIVE].value = LED_OFF;
-			expOut(0);  //all off
 		}
 		if((manualTrigger.process(params[PULSE].value) || pulseTrigger.process(inputs[PULSE_IN].value)))
 		{
 			onManualStep.trigger(PULSE_TIME);
 			optimize_manualStep = true;
-			float expansion_out = 0;
 			for(int k = 0; k < OUT_SOCKETS; k++)
 			{
 				outputs[OUT_1 + k].value = LVL_ON;
-				setExpansion(&expansion_out, k, true);
 			}
 			lights[ACTIVE].value = LED_ON;
-			expOut(expansion_out);
 		}
 	}
 	outputs[ONSTOP].value = onStopPulse.process(deltaTime) ? LVL_ON : LVL_OFF;
@@ -289,7 +278,6 @@ void PwmClock::process(const ProcessArgs &args)
 			lights[ACTIVE].value = LED_OFF;
 			for(int k = 0; k < OUT_SOCKETS; k++)
 				outputs[OUT_1 + k].value = LVL_OFF;
-			expOut(0);  //all off
 		}
 	}
 }
@@ -353,7 +341,6 @@ PwmClockWidget::PwmClockWidget(PwmClock *module) : SequencerWidget()
 		}
 	}
 	addOutput(createOutput<PJ301BLUPort>(Vec(mm2px(49.145), yncscape(10.525, 8.255)), module, PwmClock::ONSTOP));
-	addOutput(createOutput<PJ301EXP>(Vec(mm2px(63.162), yncscape(10.525, 8.255)), module, PwmClock::EXP_PORT));
 }
 
 void PwmClockWidget::SetBpm(float bpm_integer)

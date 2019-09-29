@@ -48,6 +48,9 @@ void Renato::process(const ProcessArgs &args)
 	{
 		seqX.Reset();
 		seqY.Reset();
+	} else if(resetAccess.process(inputs[INIT_IN].value))
+	{
+		pWidget->resetAccess();
 	} else
 	{
 		if(pWidget != NULL)
@@ -183,6 +186,7 @@ RenatoWidget::RenatoWidget(Renato *module) : SequencerWidget()
 	addInput(createInput<PJ301RPort>(Vec(mm2px(33.509), yncscape(115.267, 8.255)), module, Renato::XCLK));
 	addInput(createInput<PJ301RPort>(Vec(mm2px(49.222), yncscape(115.267, 8.255)), module, Renato::YCLK));
 	addInput(createInput<PJ301YPort>(Vec(mm2px(119.500), yncscape(115.267, 8.255)), module, Renato::RESET));
+	addInput(createInput<PJ301BPort>(Vec(mm2px(134.122), yncscape(115.267, 8.255)), module, Renato::INIT_IN));
 
 	addInput(createInput<PJ301HPort>(Vec(mm2px(12.472), yncscape(115.267, 8.255)), module, Renato::RANDOMIZONE));
 
@@ -374,4 +378,14 @@ RenatoWidget::RandomizeSubItemItem::RandomizeSubItemItem(Module *k, const char *
 void RenatoWidget::RandomizeSubItemItem::onAction(const event::Action &e)
 {
 	renato->theRandomizer ^= randomizeDest;
+}
+
+void RenatoWidget::resetAccess()
+{
+	for(int k = 0; k < 16; k++)
+	{
+		SetValue(Renato::ACCESS_1 + k, 1);
+		SetValue(Renato::GATEX_1 + k, 1);
+		SetValue(Renato::GATEY_1 + k, 1);
+	}
 }

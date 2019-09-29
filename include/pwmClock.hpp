@@ -150,7 +150,6 @@ struct PwmClock : Module
 	{
 		OUT_1,
 		ONSTOP = OUT_1 + OUT_SOCKETS,
-		EXP_PORT,
 		NUM_OUTPUTS
 	};
 
@@ -226,18 +225,7 @@ private:
 	void process_active(const ProcessArgs &args, bool externalMidiClock, bool followf8);
 	void process_inactive(const ProcessArgs &args);
 	void process_extMidiClock(const ProcessArgs &args);
-	inline void setExpansion(float *expansion_out, int trgout, bool status) 
-	{
-		if(status)
-			*((uint32_t *)expansion_out) |= (1L << trgout);
-	}
-	inline void expOut(float expansion_out)
-	{
-		uint8_t *p = (uint8_t *)&expansion_out;
-		*(p + 3) = EXPPORT_TIME;
-		outputs[EXP_PORT].setVoltage(expansion_out);
-	}
-
+	
 	inline float getDuration(int n) 	{return odd_beat[n] ? swingAmt[n] : duration[n]; }
 	float duration[OUT_SOCKETS];
 	float swingAmt[OUT_SOCKETS];

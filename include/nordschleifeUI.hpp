@@ -160,6 +160,7 @@ struct nordDisplay : TransparentWidget
 			nvgFillColor(ctx.vg, nvgRGB(0xff, 0xff, 0xff));
 			nvgText(ctx.vg, ctx.left, ctx.top, pNord->cars[pNord->selectedCar].name.c_str(), NULL);
 		}
+		ctx.top += 6;
 		ctx.setFont();
 		nvgText(ctx.vg, ctx.left, box.size.y-1, pNord->cars[pNord->selectedCar].getLap().c_str(), NULL);
 	}
