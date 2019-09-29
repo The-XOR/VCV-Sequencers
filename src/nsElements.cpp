@@ -166,7 +166,7 @@ int NordschleifeCar::get_next_step()
 			{
 				if(--curStepCounter < stepFrom) // siamo a battuta verso sx
 				{
-					curStepCounter = stepTo;
+					curStepCounter = stepFrom+1;
 					moving_bwd = false;
 				}
 			} else
@@ -307,7 +307,8 @@ void NordschleifeStep::beginPulse(Nordschleife *pNord, int carID, float lastPuls
 	if(playing[carID])
 	{
 		// il fato e' stato benevolo. Il voltaggio dello step viene prodotto in uscita
-		startVoltage[carID] = SEMITONE*pNord->cars[carID].offset + SEMITONE*offset + pNord->cvs.TransposeableValue(pNord->params[Nordschleife::VOLTAGE_1 + myID].getValue());
+		float of1 = SEMITONE * pNord->cars[carID].offset + SEMITONE * offset;
+		startVoltage[carID] = of1 + pNord->cvs.TransposeableValue(pNord->params[Nordschleife::VOLTAGE_1 + myID].getValue());
 		pNord->outputs[Nordschleife::CAR_CV + carID].setVoltage(startVoltage[carID]);
 		// se pero' lo step e' in Reset, NON viene generato il segnale di gate
 		pNord->outputs[Nordschleife::CAR_GATE + carID].setVoltage(mode == Reset ? LVL_OFF : LVL_ON);
@@ -315,7 +316,7 @@ void NordschleifeStep::beginPulse(Nordschleife *pNord, int carID, float lastPuls
 		pulseDuration[carID] = lastPulseDuration;
 		repeat_gateStatus[carID] = true;  // attualmente, gate e' ON
 		elapsedTime[carID] = stopWatch[carID] = 0.f; // tempo trascorso dall'ultima ripetizione
-		slideToVoltage[carID] = SEMITONE*pNord->cars[carID].offset + SEMITONE * offset + pNord->cvs.TransposeableValue(pNord->params[Nordschleife::VOLTAGE_1 + nextStep].getValue());
+		slideToVoltage[carID] = of1 + pNord->cvs.TransposeableValue(pNord->params[Nordschleife::VOLTAGE_1 + nextStep].getValue());
 	}
 }
 
@@ -365,7 +366,7 @@ void NordschleifeStep::process(Nordschleife *pNord, int carID, float deltaTime)
 		}
 	}
 
-	if(mode == Slide && pulseDuration[carID] > 0)
+	if(mode == Slide && pulseDuration[carID] > 0 && playing[carID])
 	{
 		float v = startVoltage[carID] + (elapsedTime[carID] / pulseDuration[carID]) * (slideToVoltage[carID] - startVoltage[carID]);
 		pNord->outputs[Nordschleife::CAR_CV + carID].setVoltage(v);
