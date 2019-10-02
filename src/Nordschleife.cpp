@@ -336,7 +336,7 @@ void Nordschleife::declareFields()
 	// steps
 	nsFields[NordschleifeFields::shlfStep].set(0, row, "Step #", 0, NORDSTEPS-1,
 											   [this] {return selectedStep; },
-											   [this](int i) {if(!GangBang()) setStep(i); },
+											   [this](int i) {setStep(i); },
 											   [this](int i) TO_STR(i + 1),
 											   true);
 
@@ -359,10 +359,10 @@ void Nordschleife::declareFields()
 												  [this](int i) TO_STR(i)
 	);
 
-	nsFields[NordschleifeFields::shlfStepOffset].set(0, row++, "Offs(st):", -24, +24,
-													 [this] {return steps[selectedStep].offset; },
-													 [this](int i) SETSTEPFIELD(offset, i),
-													 [this](int i) TO_STR(i)
+	nsFields[NordschleifeFields::shlfStepOffset].set(0, row++, "Offs(mV):", LVL_MIN*1000.f, LVL_MAX*1000.f,
+													 [this] {return steps[selectedStep].offset * 1000.f; },
+													 [this](int i) SETSTEPFIELD(offset, i/1000.0f),
+													 [this](int i) TO_STRD(i/1000.f,2,3)
 	);
 
 	nsFields[NordschleifeFields::shlfOutA].set(0, row++, "Gate Out: ", 0, NORDCARS-1, 											   
@@ -379,13 +379,13 @@ void Nordschleife::declareFields()
 
 	nsFields[NordschleifeFields::shlfTrigger].set(0, row++, "Car trigger: ", 0, 1, 
 											   [this] {return steps[selectedStep].trigger ? 1 : 0; },
-											   [this](int i) {steps[selectedStep].trigger = i > 0;},
+											   [this](int i) SETSTEPFIELD(trigger, i>0),
 											   [this](int i) {return i ? "Yes" : "No";}
 	);
 
 	nsFields[NordschleifeFields::shlfAux].set(0, row++, "Aux (mV): ", LVL_MIN*1000.f, LVL_MAX*1000.f,
 												  [this] {return steps[selectedStep].aux * 1000.f; },
-												  [this](int i) {steps[selectedStep].aux = i/1000.f; },
+												  [this](int i) SETSTEPFIELD(aux, i/1000.f),
 												  [this](int i) TO_STRD(i/1000.f,2,3)
 	);
 	nsFields[NordschleifeFields::shlfDelay].set(0, row++, "Delay(mS):", 0, 500,

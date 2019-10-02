@@ -308,8 +308,8 @@ void NordschleifeStep::beginPulse(Nordschleife *pNord, int carID, float lastPuls
 	if(playing[carID])
 	{
 		// il fato e' stato benevolo. Il voltaggio dello step viene prodotto in uscita
-		float of1 = SEMITONE * pNord->cars[carID].offset + SEMITONE * offset;
-		startVoltage[carID] = of1 + pNord->cvs.TransposeableValue(pNord->params[Nordschleife::VOLTAGE_1 + myID].getValue());
+		float of1 = SEMITONE * pNord->cars[carID].offset;
+		startVoltage[carID] = of1 + pNord->cvs.TransposeableValue(offset + pNord->params[Nordschleife::VOLTAGE_1 + myID].getValue());
 		// se pero' lo step e' in Reset, NON viene generato il segnale di gate
 		if(mode == Reset)
 		{

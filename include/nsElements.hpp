@@ -139,7 +139,7 @@ struct NordschleifeStep
 	int outB;
 	int probability;
 	int repeats;
-	int offset;
+	float offset;
 	bool trigger;
 	float aux;
 	int delay;
@@ -157,7 +157,7 @@ struct NordschleifeStep
 		r = json_object_get(root, ("stepreps_"+myID).c_str());
 		if(r) repeats = (StepMode)json_integer_value(r);
 		r = json_object_get(root, ("stepoffs_" + myID).c_str());
-		if(r) offset = (StepMode)json_integer_value(r);
+		if(r) offset = (StepMode)json_real_value(r);
 		r = json_object_get(root, ("steptrig_" + myID).c_str());
 		if(r) trigger = json_integer_value(r) > 0;
 		r = json_object_get(root, ("stepaux_" + myID).c_str());
@@ -172,7 +172,7 @@ struct NordschleifeStep
 		json_object_set_new(rootJ, ("step_outb" + myID).c_str(), json_integer(outB));
 		json_object_set_new(rootJ, ("stepprob_" + myID).c_str(), json_integer(probability));
 		json_object_set_new(rootJ, ("stepreps_" + myID).c_str(), json_integer(repeats));
-		json_object_set_new(rootJ, ("stepoffs_" + myID).c_str(), json_integer(offset));
+		json_object_set_new(rootJ, ("stepoffs_" + myID).c_str(), json_real(offset));
 		json_object_set_new(rootJ, ("steptrig_" + myID).c_str(), json_integer(trigger ? 1 : 0));
 		json_object_set_new(rootJ, ("stepaux_" + myID).c_str(), json_real(aux));
 		json_object_set_new(rootJ, ("stepdelay_" + myID).c_str(), json_integer(delay));
