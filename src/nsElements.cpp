@@ -331,7 +331,7 @@ void NordschleifeStep::beginPulse(Nordschleife *pNord, int carID, float lastPuls
 		pulseDuration[carID] = lastPulseDuration;
 		repeat_gateStatus[carID] = true;  // attualmente, gate e' ON
 		elapsedTime[carID] = stopWatch[carID] = 0.f; // tempo trascorso dall'ultima ripetizione
-		slideToVoltage[carID] = of1 + pNord->cvs.TransposeableValue(pNord->params[Nordschleife::VOLTAGE_1 + nextStep].getValue());
+		slideToVoltage[carID] = of1 + pNord->cvs.TransposeableValue(pNord->steps[nextStep].offset + pNord->params[Nordschleife::VOLTAGE_1 + nextStep].getValue());
 	}
 }
 
