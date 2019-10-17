@@ -335,7 +335,7 @@ void NordschleifeStep::beginPulse(Nordschleife *pNord, int carID, float lastPuls
 	}
 }
 
-NordschleifeStep::StepMode NordschleifeStep::endPulse(Nordschleife *pNord, int carID)  // ritorna true se lo step e' in modalita Reset
+NordschleifeStep::StepMode NordschleifeStep::endPulse(Nordschleife *pNord, int carID)  
 {
 	pNord->outputs[Nordschleife::OUT_A + myID].value = LVL_OFF;
 

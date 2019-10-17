@@ -4,7 +4,7 @@ void c2v::process(const ProcessArgs &args)
 {
 	for(int k = 0; k < C2VCNV; k++)
 	{
-		if(inputs[IN_1+k].isConnected())
+		if(outputs[OUT_1+k].isConnected())
 			outputs[OUT_1+k].setVoltage(inputs[IN_1+k].getVoltage() > 0 ? params[CV_1+k].value : 0.0);
 	}
 }
