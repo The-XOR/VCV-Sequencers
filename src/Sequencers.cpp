@@ -30,6 +30,10 @@
 #include "../include/z8expM.hpp"
 #include "../include/chords.hpp"
 #include "../include/c2v.hpp"
+#include "../include/m581expT.hpp"
+#include "../include/m581expC.hpp"
+#include "../include/m581expM.hpp"
+#include "../include/m581expV.hpp"
 
 #ifdef LPTEST_MODULE
 #include "../include/lpTestModule.hpp"
@@ -53,6 +57,10 @@ void init(rack::Plugin *p)
 	p->addModel(createModel<Klee, KleeWidget>("Klee"));
 	p->addModel(createModel<kExp, kExpWidget>("kExp"));
 	p->addModel(createModel<M581, M581Widget>("M581"));
+	p->addModel(createModel<m581expT, m581expTWidget>("M581TExp"));
+	p->addModel(createModel<m581expC, m581expCWidget>("M581CExp"));
+	p->addModel(createModel<m581expM, m581expMWidget>("M581MExp"));
+	p->addModel(createModel<m581expV, m581expVWidget>("M581VExp"));
 	p->addModel(createModel<Z8K, Z8KWidget>("Z8K"));
 	p->addModel(createModel<z8expV, z8expVWidget>("Z8KVExp"));
 	p->addModel(createModel<z8expC, z8expCWidget>("Z8KCExp"));

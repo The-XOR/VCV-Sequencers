@@ -151,7 +151,19 @@ void M581::beginNewStep()
 		cvControl.Begin(cur_step);	// 	glide note increment in 1/10 di msec. param = new note value
 	}
 
-	showCurStep(cur_step, stepCounter.PulseCounter());
+	int subdiv = stepCounter.PulseCounter();
+	expander_out(cur_step, subdiv);
+	showCurStep(cur_step, subdiv);
+}
+
+void M581::expander_out(int cur_step, int sub_div)
+{
+	float expander_out = 0;
+	uint8_t *p = (uint8_t *)&expander_out;
+	*(p+3) = EXPPORT_M581;
+	*(p+1) = cur_step;
+	*(p+2) = sub_div;
+	outputs[EXPANDER_OUT].setVoltage(expander_out);
 }
 
 void M581::showCurStep(int cur_step, int sub_div)
@@ -348,7 +360,7 @@ M581Widget::M581Widget(M581 *module) : SequencerWidget()
 	// OUTPUTS
 	addOutput(createOutput<PJ301GPort>(Vec(mm2px(113.864), yncscape(7.228, 8.255)), module, M581::CV));
 	addOutput(createOutput<PJ301WPort>(Vec(mm2px(129.469), yncscape(7.228, 8.255)), module, M581::GATE));
-
+	addOutput(createOutput<PJ301EXP>(Vec(mm2px(134.763), yncscape(114.960, 8.255)), module, M581::EXPANDER_OUT));
 	// # STEPS
 	SigDisplayWidget *display2 = new SigDisplayWidget(2);
 	display2->box.pos = Vec(mm2px(127.229), yncscape(37.851, 9.525));

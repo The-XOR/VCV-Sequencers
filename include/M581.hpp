@@ -187,6 +187,7 @@ struct M581 : Module
 	{
 		CV,
 		GATE,
+		EXPANDER_OUT,
 		NUM_OUTPUTS
 	};
 
@@ -305,6 +306,7 @@ private:
 	void load();
 	void beginNewStep();
 	void showCurStep(int cur_step, int sub_div);
+	void expander_out(int cur_step, int sub_div);
 	bool any();
 	dsp::SchmittTrigger clockTrigger;
 	dsp::SchmittTrigger resetTrigger;

@@ -53,6 +53,38 @@
       ]
     },
     {
+      "slug": "M581TExp",
+      "name": "M581 T Expander",
+      "description": "M581 Sequencer Trigger Expander",
+      "tags": [
+        "Utility"
+      ]
+    },
+    {
+      "slug": "M581CExp",
+      "name": "M581 C Expander",
+      "description": "M581 Sequencer CV Expander",
+      "tags": [
+        "Utility"
+      ]
+    },
+    {
+      "slug": "M581MExp",
+      "name": "M581 M Expander",
+      "description": "M581 Sequencer Matrix Expander",
+      "tags": [
+        "Utility"
+      ]
+    },
+    {
+      "slug": "M581VExp",
+      "name": "M581 V Expander",
+      "description": "M581 Sequencer Voltage Expander",
+      "tags": [
+        "Utility"
+      ]
+    },
+    {
       "slug": "Z8K",
       "name": "Z8K",
       "description": "Z8000 Sequencer",

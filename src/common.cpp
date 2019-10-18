@@ -41,6 +41,7 @@ bool IsExpansion(Module *pm, float *dest, int expansionID, int inputID, int ledI
 			pm->lights[ledID].value = LED_ON;
 			return true;
 		}
+
 	}
 	pm->lights[ledID].value = LED_OFF;
 	return false;
