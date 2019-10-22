@@ -188,12 +188,16 @@ RenatoWidget::RenatoWidget(Renato *module) : SequencerWidget()
 	addInput(createInput<PJ301YPort>(Vec(mm2px(119.500), yncscape(115.267, 8.255)), module, Renato::RESET));
 	addInput(createInput<PJ301BPort>(Vec(mm2px(134.122), yncscape(115.267, 8.255)), module, Renato::INIT_IN));
 
+	addInput(createInput<PJ301BPort>(Vec(mm2px(197.749), yncscape(115.796, 8.255)), module, Renato::NOT_ACC));
+	addInput(createInput<PJ301BPort>(Vec(mm2px(197.749), yncscape(107.049, 8.255)), module, Renato::NOT_X));
+	addInput(createInput<PJ301BPort>(Vec(mm2px(197.749), yncscape(98.303, 8.255)), module, Renato::NOT_Y));
+
 	addInput(createInput<PJ301HPort>(Vec(mm2px(12.472), yncscape(115.267, 8.255)), module, Renato::RANDOMIZONE));
 
 	addChild(createParam<BefacoPushBig>(Vec(mm2px(108.494), yncscape(114.895, 8.999)), module, Renato::M_RESET));
 
 	if(module != NULL)
-		module->cvs.Create(this, 196.797f, 18.530f, Renato::NUM_INPUTS - cvStrip::CVSTRIP_INPUTS, Renato::NUM_PARAMS - cvStrip::CVSTRIP_PARAMS, 16);
+		module->cvs.Create(this, 196.797f, 6.159f, Renato::NUM_INPUTS - cvStrip::CVSTRIP_INPUTS, Renato::NUM_PARAMS - cvStrip::CVSTRIP_PARAMS, 16);
 
 	// page 0 (SESSION)
 	ParamWidget *pwdg = createParam<NKK2>(Vec(mm2px(60.319), yncscape(115.727 + 1, 8.467)), module, Renato::COUNTMODE_X);

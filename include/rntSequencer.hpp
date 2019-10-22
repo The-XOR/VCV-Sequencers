@@ -5,7 +5,7 @@ extern bool Access(Renato *pr, bool is_x, int p);
 
 struct rntSequencer
 {
-public:
+	public:
 	void Reset()
 	{
 		curPos = 0;
@@ -24,32 +24,32 @@ public:
 			{
 				switch((int)std::roundf(count_mode))
 				{
-				case 0: // fwd:
-					if(++curPos > 3)
-						curPos = 0;
-					break;
-				case 1: // bwd
-					if(--curPos < 0)
-						curPos = 3;
-					break;
-
-				case 2: //pend
-					if(pp_rev)
-					{
-						if(--curPos < 0)
-						{
-							curPos = 1;
-							pp_rev = !pp_rev;
-						}
-					} else
-					{
+					case 0: // fwd:
 						if(++curPos > 3)
+							curPos = 0;
+						break;
+					case 1: // bwd
+						if(--curPos < 0)
+							curPos = 3;
+						break;
+
+					case 2: //pend
+						if(pp_rev)
 						{
-							curPos = 2;
-							pp_rev = !pp_rev;
+							if(--curPos < 0)
+							{
+								curPos = 1;
+								pp_rev = !pp_rev;
+							}
+						} else
+						{
+							if(++curPos > 3)
+							{
+								curPos = 2;
+								pp_rev = !pp_rev;
+							}
 						}
-					}
-					break;
+						break;
 				}
 				attempts++;
 			} while(!Access(pr, is_x, curPos) && seek_mode && attempts < 4);
@@ -73,7 +73,7 @@ public:
 		return (output->value == LVL_ON);
 	}
 
-private:
+	private:
 	SchmittTrigger2 clockTrig;
 	int curPos;
 	bool pp_rev;

@@ -83,6 +83,9 @@ struct Renato : Module
 		GATEY_IN1 = GATEX_IN1 + 16,
 		RANDOMIZONE = GATEY_IN1 + 16,
 		INIT_IN,
+		NOT_ACC,
+		NOT_X,
+		NOT_Y,
 		RANGE_IN,
 		NUM_INPUTS = RANGE_IN + cvStrip::CVSTRIP_INPUTS
 	};
@@ -199,9 +202,10 @@ private:
 	void led(int n);
 	void setOut(int n, bool on);
 	int xy(int x, int y) { return 4 * y + x; }
-	bool _access(int n) { return getModulableSwitch(this, ACCESS_1 + n, ACCESS_IN1 + n) > 0; }
-	bool _gateX(int n) { return  getModulableSwitch(this, GATEX_1 + n, GATEX_IN1 + n) > 0; }
-	bool _gateY(int n) { return  getModulableSwitch(this, GATEY_1 + n, GATEY_IN1 + n) > 0; }
+	inline bool getLogic(int inputID, bool cond) {return inputs[inputID].getNormalVoltage(0.0) > 0 ? !cond : cond;}
+	inline bool _access(int n) {return getLogic(NOT_ACC, getModulableSwitch(this, ACCESS_1 + n, ACCESS_IN1 + n) > 0); }
+	inline bool _gateX(int n) {return getLogic(NOT_X, getModulableSwitch(this, GATEX_1 + n, GATEX_IN1 + n) > 0); }
+	inline bool _gateY(int n) {return getLogic(NOT_Y, getModulableSwitch(this, GATEY_1 + n, GATEY_IN1 + n) > 0); }
 	rntSequencer seqX;
 	rntSequencer seqY;
 };
