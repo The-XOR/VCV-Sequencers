@@ -68,9 +68,13 @@ public:
 private:
 	enum STEPMODE
 	{
-		RESET,
-		NORMAL,
-		SKIP
+		N_100,
+		N_75,
+		N_50,
+		N_25,
+		SLIDE,
+		SKIP,
+		RESET
 	};
 	int curStep;
 	int stripID;
@@ -78,9 +82,9 @@ private:
 	dsp::SchmittTrigger resetTrig;
 	SchmittTrigger2 clockTrigger;
 	void beginPulse(bool silent = true);
-	void endPulse();
+	void endPulse(bool slide);
 	STEPMODE getStepMode();
-	void move_next();
+	void move_next(STEPMODE mode);
 	PulseGenerator2 resetPulseGuard;
 	bool resetting;
 	int prenotazioneDiChiamata;
@@ -136,7 +140,7 @@ struct quattro : Module
 
 		for(int k = 0; k < QUATTRO_NUM_STEPS; k++)
 		{
-			configParam(MODE + k, 0.0, 2.0, 1.0);
+			configParam(MODE + k, 0.0, 6.0, 0.0);
 			configParam(VOLTAGE_1 + k, 0.0, 1.0, 0.5);
 			configParam(STRIPSEL_1 + k, 0.0, 3.0, 0.0);
 		}
