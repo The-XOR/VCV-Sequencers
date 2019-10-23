@@ -84,7 +84,7 @@ private:
 	void beginPulse(bool silent = true);
 	void endPulse(bool slide);
 	STEPMODE getStepMode();
-	void move_next(STEPMODE mode);
+	void move_next();
 	PulseGenerator2 resetPulseGuard;
 	bool resetting;
 	int prenotazioneDiChiamata;

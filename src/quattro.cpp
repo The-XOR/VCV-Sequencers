@@ -273,7 +273,7 @@ void quattroStrip::process(int forceStep, float deltaTime)
 				int clk = clockTrigger.process(pModule->inputs[quattro::CLOCK1 + stripID].value); // 1=rise, -1=fall
 				if(clk == 1)
 				{
-					move_next(getStepMode());
+					move_next();
 					bool silent;
 					switch(getStepMode())
 					{
@@ -282,7 +282,6 @@ void quattroStrip::process(int forceStep, float deltaTime)
 							break;
 
 						case SKIP:
-						case RESET:
 							silent = true;
 							break;
 					}
@@ -290,7 +289,7 @@ void quattroStrip::process(int forceStep, float deltaTime)
 				} else if(clk == -1)
 				{
 					endPulse(getStepMode() == SLIDE);
-				}
+				} 
 
 			} else if(pulseStatus == -1)
 				endPulse(false);
@@ -321,7 +320,7 @@ void quattroStrip::reset_curstep(int movement)
 	}
 }
 
-void quattroStrip::move_next(quattroStrip::STEPMODE mode)
+void quattroStrip::move_next()
 {
 	if(prenotazioneDiChiamata >= 0)
 	{
@@ -331,7 +330,7 @@ void quattroStrip::move_next(quattroStrip::STEPMODE mode)
 	}
 	int movement = getDirection();
 	
-	if(mode == RESET)
+	if(getStepMode() == RESET)
 	{
 		reset_curstep(movement);
 		switch(movement)
@@ -390,6 +389,7 @@ void quattroStrip::move_next(quattroStrip::STEPMODE mode)
 			break;
 		}
 
+		STEPMODE mode = getStepMode();
 		if(mode == SKIP)
 			continue;
 		else if(mode == N_75)
