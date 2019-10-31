@@ -133,13 +133,10 @@ private:
 
 struct NordschleifeStep
 {
-	// i global sono: voltage, outa, outb
 
 	enum StepMode { Off, On, Skip, Legato, Slide, Reset    ,NUM_STEP_MODE};
-	int outA;
-	int outB;
-
-	// questi qui, per car
+	bool outA[NORDCARS];
+	bool outB[NORDCARS];
 	StepMode mode[NORDCARS];
 	int probability[NORDCARS];
 	int repeats[NORDCARS];
@@ -150,13 +147,14 @@ struct NordschleifeStep
 
 	void dataFromJson(json_t *root, std::string myID)
 	{
-		json_t *r = json_object_get(root, ("stepouta_"+myID).c_str());
-		if(r) outA = (StepMode)json_integer_value(r);
-		r = json_object_get(root, ("stepoutb_"+myID).c_str());
-		if(r) outB = (StepMode)json_integer_value(r);
-
 		for(int k = 0; k < NORDCARS; k++)
 		{
+			json_t *r = json_object_get(root, mkjson("stepouta", k).c_str());
+			if(r) outA[k] = (StepMode)json_integer_value(r);
+		
+			r = json_object_get(root, mkjson("stepoutb", k).c_str());
+			if(r) outB[k] = (StepMode)json_integer_value(r);
+
 			r = json_object_get(root, mkjson("stepmode", k).c_str());
 			if(r) mode[k] = (StepMode)json_integer_value(r);
 
@@ -182,11 +180,10 @@ struct NordschleifeStep
 
 	json_t *dataToJson(json_t *rootJ, std::string myID)
 	{
-		json_object_set_new(rootJ, ("step_outa" + myID).c_str(), json_integer(outA));
-		json_object_set_new(rootJ, ("step_outb" + myID).c_str(), json_integer(outB));
-
 		for(int k = 0; k < NORDCARS; k++)
 		{
+			json_object_set_new(rootJ, mkjson("step_outa", k).c_str(), json_integer(outA[k]));
+			json_object_set_new(rootJ, mkjson("step_outb", k).c_str(), json_integer(outB[k]));
 			json_object_set_new(rootJ, mkjson("stepmode" , k).c_str(), json_integer(mode[k]));
 			json_object_set_new(rootJ, mkjson("stepprob" , k).c_str(), json_integer(probability[k]));
 			json_object_set_new(rootJ, mkjson("stepreps" , k).c_str(), json_integer(repeats[k]));
@@ -234,10 +231,9 @@ struct NordschleifeStep
 
 	void init()
 	{
-		outA = 0;
-		outB = 1;
 		for(int k = 0; k < NORDCARS; k++)
 		{
+			outA[k] = outB[k] = false;
 			mode[k] = On;
 			offset[k] = 0;
 			probability[k] = 100;

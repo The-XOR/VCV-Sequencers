@@ -281,12 +281,12 @@ void NordschleifeStep::beginPulse(Nordschleife *pNord, int carID, float lastPuls
 	
 	NordschleifeStep::selectedByCar[carID] = myID;	//questo step viene associato all'automobile
 	pNord->lights[NordschleifeCar::CarLed[carID] + myID].value = LED_ON;
-	if(outA == carID)
+	if(outA[carID])
 	{
 		pNord->outputs[Nordschleife::OUT_A + myID].value = LVL_ON;
 	}
 
-	if(outB == carID)
+	if(outB[carID])
 	{
 		stepPulseB.trigger(PULSE_TIME);
 		pNord->outputs[Nordschleife::OUT_B + myID].value = LVL_ON;

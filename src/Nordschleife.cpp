@@ -3,7 +3,6 @@
 
 #define SETCARFIELD(fieldName, fieldValue) {if(GangBang()) for(int k=0; k<NORDCARS;k++) cars[k].fieldName = fieldValue; else cars[selectedCar].fieldName = fieldValue; }
 #define SETSTEPFIELD(fieldName, fieldValue) {if(GangBang()) for(int k=0; k<NORDSTEPS;k++) steps[k].fieldName[selectedCar] = fieldValue; else steps[selectedStep].fieldName[selectedCar] = fieldValue; }
-#define SETSTEPFIELD2(fieldName, fieldValue) {if(GangBang()) for(int k=0; k<NORDSTEPS;k++) steps[k].fieldName = fieldValue; else steps[selectedStep].fieldName = fieldValue; }
 #define TO_STR(i) {return std::to_string(i);}
 #define TO_STRD(i,in,de) { \
 	std::stringstream to_display;\
@@ -344,18 +343,16 @@ void Nordschleife::declareFields()
 	row += 5;
 
 	nsFields[NordschleifeFields::shlfOutA].set(0, row++, "Gate Out: ", 0, NORDCARS-1, 											   
-											   [this] {return steps[selectedStep].outA; },
-											   [this](int i) SETSTEPFIELD2(outA, i),
-											   [this](int i) {return Nordschleife::carNames[i];}
+											   [this] {return steps[selectedStep].outA[selectedCar] ? 1 : 0; },
+											   [this](int i) SETSTEPFIELD(outA, i>0),
+											   [this](int i) {return i ? "Yes" : "No";}
 	);
 
 	nsFields[NordschleifeFields::shlfOutB].set(0, row++, "Trig Out: ", 0, NORDCARS-1, 
-											   [this] {return steps[selectedStep].outB; },
-											   [this](int i) SETSTEPFIELD2(outB, i),
-											   [this](int i) {return Nordschleife::carNames[i];}
+											   [this] {return steps[selectedStep].outB[selectedCar] ? 1 : 0; },
+											   [this](int i) SETSTEPFIELD(outB, i>0),
+											   [this](int i) {return i ? "Yes" : "No";}
 	);
-
-	row++;
 
 	nsFields[NordschleifeFields::shlfMode].set(0, row++, "Mode: ", 0, NordschleifeStep::StepMode::NUM_STEP_MODE-1,
 											   [this] {return steps[selectedStep].mode[selectedCar]; }, 
