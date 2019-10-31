@@ -2,7 +2,8 @@
 #include "../include/nordschleifeUI.hpp"
 
 #define SETCARFIELD(fieldName, fieldValue) {if(GangBang()) for(int k=0; k<NORDCARS;k++) cars[k].fieldName = fieldValue; else cars[selectedCar].fieldName = fieldValue; }
-#define SETSTEPFIELD(fieldName, fieldValue) {if(GangBang()) for(int k=0; k<NORDSTEPS;k++) steps[k].fieldName = fieldValue; else steps[selectedStep].fieldName = fieldValue; }
+#define SETSTEPFIELD(fieldName, fieldValue) {if(GangBang()) for(int k=0; k<NORDSTEPS;k++) steps[k].fieldName[selectedCar] = fieldValue; else steps[selectedStep].fieldName[selectedCar] = fieldValue; }
+#define SETSTEPFIELD2(fieldName, fieldValue) {if(GangBang()) for(int k=0; k<NORDSTEPS;k++) steps[k].fieldName = fieldValue; else steps[selectedStep].fieldName = fieldValue; }
 #define TO_STR(i) {return std::to_string(i);}
 #define TO_STRD(i,in,de) { \
 	std::stringstream to_display;\
@@ -219,17 +220,17 @@ void Nordschleife::randrandrand(int action)
 
 		case 1: //mode
 			for(int k = 0; k < NORDSTEPS; k++)
-				steps[k].mode = (NordschleifeStep::StepMode)int(random::uniform() * NordschleifeStep::StepMode::NUM_STEP_MODE);
+				steps[k].mode[selectedCar] = (NordschleifeStep::StepMode)int(random::uniform() * NordschleifeStep::StepMode::NUM_STEP_MODE);
 			break;
 
 		case 2: //probabil
 			for(int k = 0; k < NORDSTEPS; k++)
-				steps[k].probability = int(random::uniform() * 101);
+				steps[k].probability[selectedCar] = int(random::uniform() * 101);
 			break;
 
 		case 3: //reps
 			for(int k = 0; k < NORDSTEPS; k++)
-				steps[k].repeats = 1 + int(random::uniform() * 8);
+				steps[k].repeats[selectedCar] = 1 + int(random::uniform() * 8);
 			break;
 
 		case 4: //direc
@@ -259,7 +260,7 @@ void Nordschleife::randrandrand(int action)
 
 		case 9: //step offset
 			for(int k = 0; k < NORDSTEPS; k++)
-				steps[k].offset = int(random::uniform() * 49) - 24;
+				steps[k].offset[selectedCar] = int(random::uniform() * 49) - 24;
 			break;
 	}
 }
@@ -342,54 +343,56 @@ void Nordschleife::declareFields()
 
 	row += 5;
 
-	nsFields[NordschleifeFields::shlfMode].set(0, row++, "Mode: ", 0, NordschleifeStep::StepMode::NUM_STEP_MODE-1,
-											   [this] {return steps[selectedStep].mode; }, 
-											   [this](int i) SETSTEPFIELD(mode, (NordschleifeStep::StepMode)i),
-												[this](int i) {static const char *m[] = {"Off", "On", "Skip", "Legato", "Slide", "Reset"}; return m[i]; }
-	);
-	nsFields[NordschleifeFields::shlfProbab].set(0, row++, "Probability: ", 1, 100,
-												 [this] {return steps[selectedStep].probability; },
-												 [this](int i) SETSTEPFIELD(probability, i),
-												 [this](int i) TO_STR(i)
-	);
-
-	nsFields[NordschleifeFields::shlfRepeats].set(0, row++, "Reps: ", 1, 8,
-												  [this] {return steps[selectedStep].repeats; },
-												  [this](int i) SETSTEPFIELD(repeats, i),
-												  [this](int i) TO_STR(i)
-	);
-
-	nsFields[NordschleifeFields::shlfStepOffset].set(0, row++, "Offs(mV):", LVL_MIN*1000.f, LVL_MAX*1000.f,
-													 [this] {return steps[selectedStep].offset * 1000.f; },
-													 [this](int i) SETSTEPFIELD(offset, i/1000.0f),
-													 [this](int i) TO_STRD(i/1000.f,2,3)
-	);
-
 	nsFields[NordschleifeFields::shlfOutA].set(0, row++, "Gate Out: ", 0, NORDCARS-1, 											   
 											   [this] {return steps[selectedStep].outA; },
-											   [this](int i) SETSTEPFIELD(outA, i),
+											   [this](int i) SETSTEPFIELD2(outA, i),
 											   [this](int i) {return Nordschleife::carNames[i];}
 	);
 
 	nsFields[NordschleifeFields::shlfOutB].set(0, row++, "Trig Out: ", 0, NORDCARS-1, 
 											   [this] {return steps[selectedStep].outB; },
-											   [this](int i) SETSTEPFIELD(outB, i),
+											   [this](int i) SETSTEPFIELD2(outB, i),
 											   [this](int i) {return Nordschleife::carNames[i];}
 	);
 
+	row++;
+
+	nsFields[NordschleifeFields::shlfMode].set(0, row++, "Mode: ", 0, NordschleifeStep::StepMode::NUM_STEP_MODE-1,
+											   [this] {return steps[selectedStep].mode[selectedCar]; }, 
+											   [this](int i) SETSTEPFIELD(mode, (NordschleifeStep::StepMode)i),
+												[this](int i) {static const char *m[] = {"Off", "On", "Skip", "Legato", "Slide", "Reset"}; return m[i]; }
+	);
+	nsFields[NordschleifeFields::shlfProbab].set(0, row++, "Probability: ", 1, 100,
+												 [this] {return steps[selectedStep].probability[selectedCar]; },
+												 [this](int i) SETSTEPFIELD(probability, i),
+												 [this](int i) TO_STR(i)
+	);
+
+	nsFields[NordschleifeFields::shlfRepeats].set(0, row++, "Reps: ", 1, 8,
+												  [this] {return steps[selectedStep].repeats[selectedCar]; },
+												  [this](int i) SETSTEPFIELD(repeats, i),
+												  [this](int i) TO_STR(i)
+	);
+
+	nsFields[NordschleifeFields::shlfStepOffset].set(0, row++, "Offs(mV):", LVL_MIN*1000.f, LVL_MAX*1000.f,
+													 [this] {return steps[selectedStep].offset[selectedCar] * 1000.f; },
+													 [this](int i) SETSTEPFIELD(offset, i/1000.0f),
+													 [this](int i) TO_STRD(i/1000.f,2,3)
+	);
+
 	nsFields[NordschleifeFields::shlfTrigger].set(0, row++, "Car trigger: ", 0, 1, 
-											   [this] {return steps[selectedStep].trigger ? 1 : 0; },
+											   [this] {return steps[selectedStep].trigger[selectedCar] ? 1 : 0; },
 											   [this](int i) SETSTEPFIELD(trigger, i>0),
 											   [this](int i) {return i ? "Yes" : "No";}
 	);
 
 	nsFields[NordschleifeFields::shlfAux].set(0, row++, "Aux (mV): ", LVL_MIN*1000.f, LVL_MAX*1000.f,
-												  [this] {return steps[selectedStep].aux * 1000.f; },
+												  [this] {return steps[selectedStep].aux[selectedCar] * 1000.f; },
 												  [this](int i) SETSTEPFIELD(aux, i/1000.f),
 												  [this](int i) TO_STRD(i/1000.f,2,3)
 	);
 	nsFields[NordschleifeFields::shlfDelay].set(0, row++, "Delay(mS):", 0, 500,
-													 [this] {return steps[selectedStep].delay; },
+													 [this] {return steps[selectedStep].delay[selectedCar]; },
 													 [this](int i) SETSTEPFIELD(delay, i),
 													 [this](int i) TO_STR(i)
 	);

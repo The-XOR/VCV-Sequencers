@@ -43,7 +43,7 @@ bool NordschleifeCar::process(float deltaTime)
 		{
 			step_moved = true;
 			stopWatch = 0.f;
-			int nextStep = move_next();
+			int nextStep = move_next(myID);
 			if(!inPit())
 			{
 				pNord->steps[playingStep].beginPulse(pNord, myID, lastPulseDuration, nextStep);
@@ -207,13 +207,13 @@ int NordschleifeCar::get_next_step()
 	return Nordschleife::paths[path][pNord->rotation[angle][curStepCounter]];
 }
 
-int NordschleifeCar::move_next()
+int NordschleifeCar::move_next(int carID)
 {
 	int rv;
 	for(int k = 0; k< NORDSTEPS; k++)
 	{
 		rv = get_next_step();
-		if(pNord->steps[rv].mode != NordschleifeStep::StepMode::Skip)
+		if(pNord->steps[rv].mode[carID] != NordschleifeStep::StepMode::Skip)
 			break;
 	} 
 
@@ -272,7 +272,7 @@ void NordschleifeStep::beginPulse(Nordschleife *pNord, int carID, float lastPuls
 
 	pNord->outputs[Nordschleife::CAR_POSITION+carID].setVoltage(SEMITONE * myID);
 
-	if(mode == Skip) // skip: lo step "non esiste", viene completamente ignorato
+	if(mode[carID] == Skip) // skip: lo step "non esiste", viene completamente ignorato
 	{
 		NordschleifeStep::selectedByCar[carID] = STEP_RESET;	//in questo momemnto, questa automobile non ha nessuno step associato
 		return;
@@ -297,41 +297,41 @@ void NordschleifeStep::beginPulse(Nordschleife *pNord, int carID, float lastPuls
 		pNord->cars[carID].stepTrig();
 	}
 
-	if(mode == Off)  //step off: non suona, non ripete
+	if(mode[carID] == Off)  //step off: non suona, non ripete
 	{
 		pNord->outputs[Nordschleife::CAR_GATE + carID].value = LVL_OFF;
 		return;
 	}
 
 	// se ne' skip ne' off, lo step e' valido. rimane da vedere se il Fato vuole che suoni o no
-	playing[carID] = int(100 * random::uniform()) < probability;
+	playing[carID] = int(100 * random::uniform()) < probability[carID];
 	if(playing[carID])
 	{
 		// il fato e' stato benevolo. Il voltaggio dello step viene prodotto in uscita
 		float of1 = SEMITONE * pNord->cars[carID].offset;
-		startVoltage[carID] = of1 + pNord->cvs.TransposeableValue(offset + pNord->params[Nordschleife::VOLTAGE_1 + myID].getValue());
+		startVoltage[carID] = of1 + pNord->cvs.TransposeableValue(offset[carID] + pNord->params[Nordschleife::VOLTAGE_1 + myID].getValue());
 		// se pero' lo step e' in Reset, NON viene generato il segnale di gate
-		if(mode == Reset)
+		if(mode[carID] == Reset)
 		{
 			pNord->outputs[Nordschleife::CAR_GATE + carID].setVoltage(LVL_OFF);
 			cvDelay[carID] = 0;
 		} else
 		{
-			cvDelay[carID] = delay/1000.f;
-			if(delay == 0)
+			cvDelay[carID] = delay[carID]/1000.f;
+			if(delay[carID] == 0)
 			{
 				pNord->outputs[Nordschleife::CAR_GATE + carID].setVoltage(LVL_ON);
 				pNord->outputs[Nordschleife::CAR_CV + carID].setVoltage(startVoltage[carID]);
-				pNord->outputs[Nordschleife::CAR_AUX + carID].setVoltage(aux);
+				pNord->outputs[Nordschleife::CAR_AUX + carID].setVoltage(aux[carID]);
 			}
 
 		}
 
-		repCount[carID] = repeats;
+		repCount[carID] = repeats[carID];
 		pulseDuration[carID] = lastPulseDuration;
 		repeat_gateStatus[carID] = true;  // attualmente, gate e' ON
 		elapsedTime[carID] = stopWatch[carID] = 0.f; // tempo trascorso dall'ultima ripetizione
-		slideToVoltage[carID] = of1 + pNord->cvs.TransposeableValue(pNord->steps[nextStep].offset + pNord->params[Nordschleife::VOLTAGE_1 + nextStep].getValue());
+		slideToVoltage[carID] = of1 + pNord->cvs.TransposeableValue(pNord->steps[nextStep].offset[carID] + pNord->params[Nordschleife::VOLTAGE_1 + nextStep].getValue());
 	}
 }
 
@@ -339,18 +339,18 @@ NordschleifeStep::StepMode NordschleifeStep::endPulse(Nordschleife *pNord, int c
 {
 	pNord->outputs[Nordschleife::OUT_A + myID].value = LVL_OFF;
 
-	if(mode != Skip) // skip: lo step "non esiste", viene completamente ignorato
+	if(mode[carID] != Skip) // skip: lo step "non esiste", viene completamente ignorato
 	{
 		if(playing[carID])  // se lo step sta effettivamente suonando, viene chiuso il gate
 		{
-			if(mode != Reset && mode != Legato && mode != Slide)
+			if(mode[carID] != Reset && mode[carID] != Legato && mode[carID] != Slide)
 			{
 				pNord->outputs[Nordschleife::CAR_GATE + carID].setVoltage(LVL_OFF);
 			}
 			playing[carID] = false;  //play no more
 		}
 	} 
-	return mode;
+	return mode[carID];
 }
 
 void NordschleifeStep::process(Nordschleife *pNord, int carID, float deltaTime)
@@ -363,12 +363,12 @@ void NordschleifeStep::process(Nordschleife *pNord, int carID, float deltaTime)
 	{
 		pNord->outputs[Nordschleife::CAR_GATE + carID].setVoltage(LVL_ON);
 		pNord->outputs[Nordschleife::CAR_CV + carID].setVoltage(startVoltage[carID]);
-		pNord->outputs[Nordschleife::CAR_AUX + carID].setVoltage(aux);
+		pNord->outputs[Nordschleife::CAR_AUX + carID].setVoltage(aux[carID]);
 		cvDelay[carID] = 0;
 	}
 
-	float timeSlice = pulseDuration[carID] / (1 + repeats);	// quanto dura una singola ripetizione
-	if(repeats > 1 && repCount[carID] > 0 && timeSlice > 0)
+	float timeSlice = pulseDuration[carID] / (1 + repeats[carID]);	// quanto dura una singola ripetizione
+	if(repeats[carID] > 1 && repCount[carID] > 0 && timeSlice > 0)
 	{
 		// quanto e' passato dall'ultimo cambio di stato?
 		stopWatch[carID] += deltaTime;
@@ -389,7 +389,7 @@ void NordschleifeStep::process(Nordschleife *pNord, int carID, float deltaTime)
 		}
 	}
 
-	if(mode == Slide && pulseDuration[carID] > 0 && playing[carID])
+	if(mode[carID] == Slide && pulseDuration[carID] > 0 && playing[carID])
 	{
 		float v = startVoltage[carID] + (elapsedTime[carID] / pulseDuration[carID]) * (slideToVoltage[carID] - startVoltage[carID]);
 		pNord->outputs[Nordschleife::CAR_CV + carID].setVoltage(v);

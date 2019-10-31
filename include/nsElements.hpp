@@ -16,12 +16,12 @@ enum NordschleifeFields
 	shlfOffset,
 
 	shlfStep,
+	shlfOutA,
+	shlfOutB,
 	shlfMode,
 	shlfProbab,
 	shlfRepeats,
 	shlfStepOffset,
-	shlfOutA,
-	shlfOutB,
 	shlfTrigger,
 	shlfAux,
 	shlfDelay,
@@ -104,7 +104,7 @@ struct NordschleifeCar
 	void reset();
 
 private:
-	int move_next();
+	int move_next(int carID);
 	int get_next_step();
 	void pulseTrig();
 	bool inPit();
@@ -133,49 +133,68 @@ private:
 
 struct NordschleifeStep
 {
+	// i global sono: voltage, outa, outb
+
 	enum StepMode { Off, On, Skip, Legato, Slide, Reset    ,NUM_STEP_MODE};
-	StepMode mode;
 	int outA;
 	int outB;
-	int probability;
-	int repeats;
-	float offset;
-	bool trigger;
-	float aux;
-	int delay;
+
+	// questi qui, per car
+	StepMode mode[NORDCARS];
+	int probability[NORDCARS];
+	int repeats[NORDCARS];
+	bool trigger[NORDCARS];
+	float offset[NORDCARS];
+	float aux[NORDCARS];
+	int delay[NORDCARS];
 
 	void dataFromJson(json_t *root, std::string myID)
 	{
-		json_t *r = json_object_get(root, ("stepmode_"+myID).c_str());
-		if(r) mode = (StepMode)json_integer_value(r);
-		r = json_object_get(root, ("stepouta_"+myID).c_str());
+		json_t *r = json_object_get(root, ("stepouta_"+myID).c_str());
 		if(r) outA = (StepMode)json_integer_value(r);
 		r = json_object_get(root, ("stepoutb_"+myID).c_str());
 		if(r) outB = (StepMode)json_integer_value(r);
-		r = json_object_get(root, ("stepprob_"+myID).c_str());
-		if(r) probability = (StepMode)json_integer_value(r);
-		r = json_object_get(root, ("stepreps_"+myID).c_str());
-		if(r) repeats = (StepMode)json_integer_value(r);
-		r = json_object_get(root, ("stepoffs_" + myID).c_str());
-		if(r) offset = (StepMode)json_real_value(r);
-		r = json_object_get(root, ("steptrig_" + myID).c_str());
-		if(r) trigger = json_integer_value(r) > 0;
-		r = json_object_get(root, ("stepaux_" + myID).c_str());
-		if(r) aux = json_real_value(r);
-		r = json_object_get(root, ("stepdelay_" + myID).c_str());
-		if(r) delay = (StepMode)json_integer_value(r);
+
+		for(int k = 0; k < NORDCARS; k++)
+		{
+			r = json_object_get(root, mkjson("stepmode", k).c_str());
+			if(r) mode[k] = (StepMode)json_integer_value(r);
+
+			r = json_object_get(root, mkjson("stepprob", k).c_str());
+			if(r) probability[k] = (StepMode)json_integer_value(r);
+
+			r = json_object_get(root, mkjson("stepreps", k).c_str());
+			if(r) repeats[k] = (StepMode)json_integer_value(r);
+
+			r = json_object_get(root, mkjson("stepoffs", k).c_str());
+			if(r) offset[k] = (StepMode)json_real_value(r);
+
+			r = json_object_get(root, mkjson("steptrig", k).c_str());
+			if(r) trigger[k] = json_integer_value(r) > 0;
+
+			r = json_object_get(root, mkjson("stepaux", k).c_str());
+			if(r) aux[k] = json_real_value(r);
+
+			r = json_object_get(root, mkjson("stepdelay", k).c_str());
+			if(r) delay[k] = (StepMode)json_integer_value(r);
+		}
 	}
+
 	json_t *dataToJson(json_t *rootJ, std::string myID)
 	{
-		json_object_set_new(rootJ, ("stepmode_" + myID).c_str(), json_integer(mode));
 		json_object_set_new(rootJ, ("step_outa" + myID).c_str(), json_integer(outA));
 		json_object_set_new(rootJ, ("step_outb" + myID).c_str(), json_integer(outB));
-		json_object_set_new(rootJ, ("stepprob_" + myID).c_str(), json_integer(probability));
-		json_object_set_new(rootJ, ("stepreps_" + myID).c_str(), json_integer(repeats));
-		json_object_set_new(rootJ, ("stepoffs_" + myID).c_str(), json_real(offset));
-		json_object_set_new(rootJ, ("steptrig_" + myID).c_str(), json_integer(trigger ? 1 : 0));
-		json_object_set_new(rootJ, ("stepaux_" + myID).c_str(), json_real(aux));
-		json_object_set_new(rootJ, ("stepdelay_" + myID).c_str(), json_integer(delay));
+
+		for(int k = 0; k < NORDCARS; k++)
+		{
+			json_object_set_new(rootJ, mkjson("stepmode" , k).c_str(), json_integer(mode[k]));
+			json_object_set_new(rootJ, mkjson("stepprob" , k).c_str(), json_integer(probability[k]));
+			json_object_set_new(rootJ, mkjson("stepreps" , k).c_str(), json_integer(repeats[k]));
+			json_object_set_new(rootJ, mkjson("stepoffs" , k).c_str(), json_real(offset[k]));
+			json_object_set_new(rootJ, mkjson("steptrig" , k).c_str(), json_integer(trigger[k] ? 1 : 0));
+			json_object_set_new(rootJ, mkjson("stepaux"  , k).c_str(), json_real(aux[k]));
+			json_object_set_new(rootJ, mkjson("stepdelay", k).c_str(), json_integer(delay[k]));
+		}
 		return rootJ;
 	}
 
@@ -202,6 +221,7 @@ struct NordschleifeStep
 		myID = id;
 		init();
 	}
+
 	void reset()
 	{
 		for(int k = 0; k < NORDCARS; k++)
@@ -214,15 +234,18 @@ struct NordschleifeStep
 
 	void init()
 	{
-		mode = On;
 		outA = 0;
 		outB = 1;
-		offset = 0;
-		probability = 100;
-		repeats = 1;
-		trigger = false;
-		aux = 0;
-		delay = 0;
+		for(int k = 0; k < NORDCARS; k++)
+		{
+			mode[k] = On;
+			offset[k] = 0;
+			probability[k] = 100;
+			repeats[k] = 1;
+			trigger[k] = false;
+			aux[k] = 0;
+			delay[k] = 0;
+		}
 		reset();
 	}
 
@@ -244,4 +267,5 @@ private:
 	StepMode endPulse(Nordschleife *pNord, int carID);
 	void process(Nordschleife *pNord, int carID, float elapsedTime);
 	void mute(Nordschleife *pNord, int carID);
+	std::string mkjson(std::string prefix, int k) {return prefix + "_"+std::to_string(myID)+"_"+std::to_string(k);}
 };
