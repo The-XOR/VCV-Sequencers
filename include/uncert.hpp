@@ -71,8 +71,6 @@ private:
 	void out_quantized(int clk);
 	void out_stored(int clk);
 	void out_fluct(int clk);
-	int getInt(ParamIds p_id, InputIds i_id, float minValue, float maxValue) { return (int)getFloat(p_id, i_id, minValue, maxValue); }
-	float getFloat(ParamIds p_id, InputIds i_id, float minValue, float maxValue);
 	float rndFluctVoltage();
 	float rndGaussianVoltage();
 

@@ -10,6 +10,7 @@ struct RenatoWidget : SequencerWidget
 public:
 	void onMenu(int action);
 	RenatoWidget(Renato *module);
+	void resetAccess();
 	enum MENUACTIONS
 	{
 		RANDOMIZE_PITCH = 0x01,
@@ -69,7 +70,7 @@ struct Renato : Module
 		VOLTAGE_1 = GATEY_1 + 16,
 		M_RESET = VOLTAGE_1 + 16,
 		RANGE,
-		NUM_PARAMS = RANGE + outputRange::NUMSLOTS
+		NUM_PARAMS = RANGE + cvStrip::CVSTRIP_PARAMS
 	};
 
 	enum InputIds
@@ -81,8 +82,12 @@ struct Renato : Module
 		GATEX_IN1 = ACCESS_IN1 + 16,
 		GATEY_IN1 = GATEX_IN1 + 16,
 		RANDOMIZONE = GATEY_IN1 + 16,
+		INIT_IN,
+		NOT_ACC,
+		NOT_X,
+		NOT_Y,
 		RANGE_IN,
-		NUM_INPUTS = RANGE_IN + outputRange::NUMSLOTS
+		NUM_INPUTS = RANGE_IN + cvStrip::CVSTRIP_INPUTS
 	};
 
 	enum OutputIds
@@ -122,7 +127,7 @@ struct Renato : Module
 				configParam(Renato::VOLTAGE_1 + n, 0.0, 1.0, 0.0, "Voltage", "V");
 			}
 		}
-		orng.configure(this, RANGE);
+		cvs.configure(this, NUM_PARAMS - cvStrip::CVSTRIP_PARAMS);
 
 		#ifdef LAUNCHPAD
 		drv = new LaunchpadBindingDriver(this, Scene3, 2);
@@ -178,19 +183,16 @@ struct Renato : Module
 	OSCDriver *oscDrv = NULL;
 	#endif
 	int theRandomizer;
-	outputRange orng;
+	cvStrip cvs;
 
-private:
-	float getStatus(int pid, int iid)
-	{
-		return inputs[iid].getNormalVoltage(0.0) + params[pid].value;
-	}
+private:	
 	void randrandrand();
 	void randrandrand(int action);
 
 private:
 	RenatoWidget *pWidget;
 	dsp::SchmittTrigger resetTrigger;
+	dsp::SchmittTrigger resetAccess;
 	dsp::SchmittTrigger accessRndTrigger;
 	dsp::SchmittTrigger gatexRndTrigger;
 	dsp::SchmittTrigger gateyRndTrigger;
@@ -200,9 +202,10 @@ private:
 	void led(int n);
 	void setOut(int n, bool on);
 	int xy(int x, int y) { return 4 * y + x; }
-	bool _access(int n) { return getStatus(ACCESS_1 + n, ACCESS_IN1 + n) > 0; }
-	bool _gateX(int n) { return  getStatus(GATEX_1 + n, GATEX_IN1 + n) > 0; }
-	bool _gateY(int n) { return  getStatus(GATEY_1 + n, GATEY_IN1 + n) > 0; }
+	inline bool getLogic(int inputID, bool cond) {return inputs[inputID].getNormalVoltage(0.0) > 0 ? !cond : cond;}
+	inline bool _access(int n) {return getLogic(NOT_ACC, getModulableSwitch(this, ACCESS_1 + n, ACCESS_IN1 + n) > 0); }
+	inline bool _gateX(int n) {return getLogic(NOT_X, getModulableSwitch(this, GATEX_1 + n, GATEX_IN1 + n) > 0); }
+	inline bool _gateY(int n) {return getLogic(NOT_Y, getModulableSwitch(this, GATEY_1 + n, GATEY_IN1 + n) > 0); }
 	rntSequencer seqX;
 	rntSequencer seqY;
 };

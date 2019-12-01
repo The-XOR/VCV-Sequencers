@@ -1,5 +1,7 @@
 #include "../include/Klee.hpp"
 
+uint8_t Klee::bitfield[8] = {0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80};
+
 void Klee::on_loaded()
 {
 	#ifdef DIGITAL_EXT
@@ -95,7 +97,7 @@ void Klee::load()
 {
 	for(int k = 0; k < 16; k++)
 	{
-		shiftRegister.P[k] = isSwitchOn(LOAD_BUS + k);
+		shiftRegister.P[k] = isSwitchOn(this, LOAD_BUS + k);
 	}
 }
 
@@ -113,13 +115,13 @@ void Klee::update_bus()
 			bus_active[getValue3(k)] = true;
 		}
 	}
-	if(isSwitchOn(BUS2_MODE))
+	if(isSwitchOn(this, BUS2_MODE))
 		bus_active[1] = bus_active[0] && bus_active[2];
 	else
 		bus_active[1] &= !(bus_active[0] || bus_active[2]);  //BUS 2: NOR 0 , 3
 
 	//bus1 load
-	if(isSwitchOn(BUS1_LOAD) && !bus1 && bus_active[0])
+	if(isSwitchOn(this, BUS1_LOAD) && !bus1 && bus_active[0])
 		load();
 }
 
@@ -127,11 +129,6 @@ int Klee::getValue3(int k)
 {
 	int v = roundf(params[GROUPBUS + k].value);
 	return 2 - v;
-}
-
-bool Klee::isSwitchOn(int ptr)
-{
-	return params[ptr].value > 0.1;
 }
 
 void Klee::check_triggers(float deltaTime)
@@ -155,7 +152,7 @@ void Klee::populate_gate(int clk)
 			outputs[GATE_OUT + k].value = bus_active[k] ? LVL_ON : LVL_OFF;
 		} else // fall
 		{
-			if(!bus_active[k] || !isSwitchOn(BUS_MERGE + k))
+			if(!bus_active[k] || !isSwitchOn(this, BUS_MERGE + k))
 				outputs[GATE_OUT + k].value = LVL_OFF;
 		}
 	}
@@ -168,20 +165,31 @@ void Klee::populate_outputs()
 		if(bus_active[k])
 		{
 			outputs[TRIG_OUT + k].value = LVL_ON;
-			triggers[k].trigger(pulseTime);
+			triggers[k].trigger(PULSE_TIME);
 		}
 	}
 
 	float a = 0, b = 0;
 
+	float expander_out = 0;
+	uint8_t *p = (uint8_t *)&expander_out;
+	*(p+3) = EXPPORT_KLEE;
 	for(int k = 0; k < 8; k++)
 	{
 		if(shiftRegister.A[k])
-			a += orng.Value(params[PITCH_KNOB + k].value);
+		{
+			a += cvs.TransposeableValue(params[PITCH_KNOB + k].value);
+			*(p+1) |= bitfield[k];
+		}
 
 		if(shiftRegister.B[k])
-			b += orng.Value(params[PITCH_KNOB + k + 8].value);
+		{
+			b += cvs.TransposeableValue(params[PITCH_KNOB + k + 8].value);
+			*(p+2) |= bitfield[k];
+		}
 	}
+
+	outputs[EXPANDER_OUT].setVoltage(expander_out);
 	outputs[CV_A].value = clamp(a, LVL_MIN, LVL_MAX);
 	outputs[CV_B].value = clamp(b, LVL_MIN, LVL_MAX);
 	outputs[CV_AB].value = clamp(a + b, LVL_MIN, LVL_MAX);
@@ -203,14 +211,14 @@ void Klee::showValues()
 
 void Klee::sr_rotate()
 {
-	if(!isSwitchOn(X28_X16))  // mode 1 x 16
+	if(!isSwitchOn(this, X28_X16))  // mode 1 x 16
 	{
 		int fl = shiftRegister.P[15];
 		for(int k = 15; k > 0; k--)
 		{
 			shiftRegister.P[k] = shiftRegister.P[k - 1];
 		}
-		if(isSwitchOn(RND_PAT))
+		if(isSwitchOn(this, RND_PAT))
 			shiftRegister.P[0] = chance();
 		else
 			shiftRegister.P[0] = fl;
@@ -223,23 +231,23 @@ void Klee::sr_rotate()
 			shiftRegister.A[k] = shiftRegister.A[k - 1];
 			shiftRegister.B[k] = shiftRegister.B[k - 1];
 		}
-		if(isSwitchOn(RND_PAT))
+		if(isSwitchOn(this, RND_PAT))
 			shiftRegister.A[0] = chance();
 		else
 			shiftRegister.A[0] = fla;
-		shiftRegister.B[0] = isSwitchOn(B_INV) ? !flb : flb;
+		shiftRegister.B[0] = isSwitchOn(this, B_INV) ? !flb : flb;
 	}
 }
 
 void Klee::QuantizePitch()
 {
 	for(int k = 0; k < 16; k++)
-		params[PITCH_KNOB + k].value = pWidget->quantizePitch(PITCH_KNOB + k, params[PITCH_KNOB + k].value, orng);
+		params[PITCH_KNOB + k].value = pWidget->quantizePitch(PITCH_KNOB + k, params[PITCH_KNOB + k].value, cvs);
 }
 
 bool Klee::chance()
-{
-	return rand() <= (params[RND_THRESHOLD].value + inputs[RND_THRES_IN].value) * RAND_MAX;
+{	
+	return rand() <= getModulableParam(this, RND_THRESHOLD, RND_THRES_IN, 0, LVL_MAX) * RAND_MAX;
 }
 
 KleeWidget::KleeWidget(Klee *module) : SequencerWidget()
@@ -259,7 +267,7 @@ KleeWidget::KleeWidget(Klee *module) : SequencerWidget()
 	#endif
 	#endif
 
-	CREATE_PANEL(module, this, 48, "res/modules/KleeModule.svg");
+	CREATE_PANEL(module, this, 50, "res/modules/KleeModule.svg");
 
 	const float switch_dstx = 22.203 - 11.229;
 	for(int k = 0; k < 8; k++)
@@ -468,6 +476,8 @@ KleeWidget::KleeWidget(Klee *module) : SequencerWidget()
 	addOutput(createOutput<PJ301GPort>(Vec(mm2px(213.360), yncscape(97.207, 8.255)), module, Klee::CV_A__B));
 	addOutput(createOutput<PJ301GPort>(Vec(mm2px(230.822), yncscape(97.207, 8.255)), module, Klee::CV_AB));
 
+	addOutput(createOutput<PJ301EXP>(Vec(mm2px(230.822), yncscape(25.109, 8.255)), module, Klee::EXPANDER_OUT));
+
 	// mode
 	pwdg = createParam<NKK1>(Vec(mm2px(68.915), yncscape(60.582 + nkk_offs, 7.336)), module, Klee::X28_X16);
 	addParam(pwdg);     // 2x8 1x16
@@ -528,7 +538,7 @@ KleeWidget::KleeWidget(Klee *module) : SequencerWidget()
 	addInput(createInput<PJ301BPort>(Vec(mm2px(230.822), yncscape(9.863, 8.255)), module, Klee::RND_THRES_IN));
 
 	if(module != NULL)
-		module->orng.Create(this, 215.332f, 22.748f, Klee::RANGE_IN, Klee::RANGE);
+		module->cvs.Create(this, 241.724f, 41.284f, Klee::NUM_INPUTS - cvMiniStrip::CVMINISTRIP_INPUTS, Klee::NUM_PARAMS - cvMiniStrip::CVMINISTRIP_PARAMS);
 
 	// pitch Knobs + leds
 	float pot_x[8] = {39.440, 45.104, 60.976, 83.912, 109.368, 132.304, 148.175, 153.840};

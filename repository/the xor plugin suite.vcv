@@ -1,10 +1,10 @@
 {
-  "version": "1.1.3",
+  "version": "1.1.4",
   "modules": [
     {
       "id": 55,
       "plugin": "TheXOR",
-      "version": "1.1.1",
+      "version": "1.2.0",
       "model": "AttAmp",
       "params": [
         {
@@ -62,14 +62,14 @@
       ],
       "rightModuleId": 56,
       "pos": [
-        0,
+        6,
         1
       ]
     },
     {
       "id": 56,
       "plugin": "TheXOR",
-      "version": "1.1.1",
+      "version": "1.2.0",
       "model": "Boole",
       "params": [
         {
@@ -140,14 +140,14 @@
       "leftModuleId": 55,
       "rightModuleId": 57,
       "pos": [
-        8,
+        14,
         1
       ]
     },
     {
       "id": 57,
       "plugin": "TheXOR",
-      "version": "1.1.1",
+      "version": "1.2.0",
       "model": "Burst",
       "params": [
         {
@@ -176,17 +176,17 @@
         }
       ],
       "leftModuleId": 56,
-      "rightModuleId": 58,
+      "rightModuleId": 59,
       "data": {},
       "pos": [
-        22,
+        28,
         1
       ]
     },
     {
       "id": 58,
       "plugin": "TheXOR",
-      "version": "1.1.1",
+      "version": "1.2.0",
       "model": "Counter",
       "params": [
         {
@@ -206,20 +206,20 @@
           "value": 0.0
         }
       ],
-      "leftModuleId": 57,
-      "rightModuleId": 59,
+      "leftModuleId": 59,
+      "rightModuleId": 60,
       "data": {
         "counter": 2
       },
       "pos": [
-        38,
+        54,
         1
       ]
     },
     {
       "id": 59,
       "plugin": "TheXOR",
-      "version": "1.1.1",
+      "version": "1.2.0",
       "model": "Dmplex",
       "params": [
         {
@@ -239,93 +239,93 @@
           "value": 0.0
         }
       ],
-      "leftModuleId": 58,
-      "rightModuleId": 60,
+      "leftModuleId": 57,
+      "rightModuleId": 58,
       "data": {
         "num_outputs": 8
       },
       "pos": [
-        46,
+        44,
         1
       ]
     },
     {
       "id": 60,
       "plugin": "TheXOR",
-      "version": "1.1.1",
+      "version": "1.2.0",
       "model": "Klee",
       "params": [
         {
           "id": 0,
-          "value": 0.125
+          "value": 0.543604314
         },
         {
           "id": 1,
-          "value": 0.125
+          "value": 0.372465611
         },
         {
           "id": 2,
-          "value": 0.125
+          "value": 0.310460091
         },
         {
           "id": 3,
-          "value": 0.125
+          "value": 0.748473585
         },
         {
           "id": 4,
-          "value": 0.125
+          "value": 0.712426543
         },
         {
           "id": 5,
-          "value": 0.125
+          "value": 0.970160484
         },
         {
           "id": 6,
-          "value": 0.125
+          "value": 0.377432227
         },
         {
           "id": 7,
-          "value": 0.125
+          "value": 0.276271433
         },
         {
           "id": 8,
-          "value": 0.125
+          "value": 0.130518541
         },
         {
           "id": 9,
-          "value": 0.125
+          "value": 0.680235565
         },
         {
           "id": 10,
-          "value": 0.125
+          "value": 0.961456001
         },
         {
           "id": 11,
-          "value": 0.125
+          "value": 0.461287588
         },
         {
           "id": 12,
-          "value": 0.125
+          "value": 0.381364614
         },
         {
           "id": 13,
-          "value": 0.125
+          "value": 0.351139367
         },
         {
           "id": 14,
-          "value": 0.125
+          "value": 0.406806201
         },
         {
           "id": 15,
-          "value": 0.125
+          "value": 0.681328595
         },
         {
           "id": 16,
-          "value": 2.0
+          "value": 0.0
         },
         {
           "id": 17,
-          "value": 2.0
+          "value": 0.0
         },
         {
           "id": 18,
@@ -333,11 +333,11 @@
         },
         {
           "id": 19,
-          "value": 2.0
+          "value": 0.0
         },
         {
           "id": 20,
-          "value": 2.0
+          "value": 1.0
         },
         {
           "id": 21,
@@ -349,19 +349,19 @@
         },
         {
           "id": 23,
-          "value": 2.0
+          "value": 1.0
         },
         {
           "id": 24,
-          "value": 2.0
+          "value": 1.0
         },
         {
           "id": 25,
-          "value": 2.0
+          "value": 0.0
         },
         {
           "id": 26,
-          "value": 2.0
+          "value": 0.0
         },
         {
           "id": 27,
@@ -369,7 +369,7 @@
         },
         {
           "id": 28,
-          "value": 2.0
+          "value": 1.0
         },
         {
           "id": 29,
@@ -385,7 +385,7 @@
         },
         {
           "id": 32,
-          "value": 0.0
+          "value": 1.0
         },
         {
           "id": 33,
@@ -393,7 +393,7 @@
         },
         {
           "id": 34,
-          "value": 0.0
+          "value": 1.0
         },
         {
           "id": 35,
@@ -405,7 +405,7 @@
         },
         {
           "id": 37,
-          "value": 0.0
+          "value": 1.0
         },
         {
           "id": 38,
@@ -413,7 +413,7 @@
         },
         {
           "id": 39,
-          "value": 0.0
+          "value": 1.0
         },
         {
           "id": 40,
@@ -421,7 +421,7 @@
         },
         {
           "id": 41,
-          "value": 0.0
+          "value": 1.0
         },
         {
           "id": 42,
@@ -437,11 +437,11 @@
         },
         {
           "id": 45,
-          "value": 0.0
+          "value": 1.0
         },
         {
           "id": 46,
-          "value": 0.0
+          "value": 1.0
         },
         {
           "id": 47,
@@ -465,11 +465,11 @@
         },
         {
           "id": 52,
-          "value": 0.0
+          "value": 1.0
         },
         {
           "id": 53,
-          "value": 0.0
+          "value": 0.90132916
         },
         {
           "id": 54,
@@ -477,11 +477,11 @@
         },
         {
           "id": 55,
-          "value": 0.0
+          "value": 1.0
         },
         {
           "id": 56,
-          "value": 0.0
+          "value": 1.0
         },
         {
           "id": 57,
@@ -489,7 +489,7 @@
         },
         {
           "id": 58,
-          "value": 1.0
+          "value": 0.0
         },
         {
           "id": 59,
@@ -500,20 +500,20 @@
           "value": 5.0
         }
       ],
-      "leftModuleId": 59,
+      "leftModuleId": 58,
       "rightModuleId": 69,
       "data": {
         "theRandomizer": 0
       },
       "pos": [
-        56,
+        62,
         1
       ]
     },
     {
       "id": 61,
       "plugin": "TheXOR",
-      "version": "1.1.1",
+      "version": "1.2.0",
       "model": "M581",
       "params": [
         {
@@ -675,6 +675,22 @@
         {
           "id": 39,
           "value": 0.102662086
+        },
+        {
+          "id": 40,
+          "value": 0.0
+        },
+        {
+          "id": 41,
+          "value": 0.0
+        },
+        {
+          "id": 42,
+          "value": 0.0
+        },
+        {
+          "id": 43,
+          "value": 0.0
         }
       ],
       "rightModuleId": 62,
@@ -682,14 +698,14 @@
         "theRandomizer": 0
       },
       "pos": [
-        2,
+        0,
         2
       ]
     },
     {
       "id": 62,
       "plugin": "TheXOR",
-      "version": "1.1.1",
+      "version": "1.2.0",
       "model": "Mplex",
       "params": [
         {
@@ -710,6 +726,7 @@
         }
       ],
       "leftModuleId": 61,
+      "rightModuleId": 63,
       "data": {
         "num_inputs": 8
       },
@@ -721,7 +738,7 @@
     {
       "id": 63,
       "plugin": "TheXOR",
-      "version": "1.1.1",
+      "version": "1.2.0",
       "model": "PWMClock",
       "params": [
         {
@@ -755,35 +772,43 @@
         {
           "id": 7,
           "value": 0.0
+        },
+        {
+          "id": 8,
+          "value": 0.0
         }
       ],
+      "leftModuleId": 62,
+      "rightModuleId": 70,
       "data": {
         "bpm_integer": 120
       },
       "pos": [
-        42,
+        41,
         2
       ]
     },
     {
       "id": 64,
       "plugin": "TheXOR",
-      "version": "1.1.1",
+      "version": "1.2.0",
       "model": "Quantizer",
       "params": [],
+      "leftModuleId": 66,
+      "rightModuleId": 103,
       "data": {
         "scale": 0,
         "root": 0
       },
       "pos": [
-        156,
-        2
+        96,
+        3
       ]
     },
     {
       "id": 65,
       "plugin": "TheXOR",
-      "version": "1.1.1",
+      "version": "1.2.0",
       "model": "nag",
       "params": [
         {
@@ -895,18 +920,19 @@
           "value": 0.0
         }
       ],
+      "leftModuleId": 74,
       "data": {
         "theRandomizer": 0
       },
       "pos": [
-        58,
-        2
+        121,
+        0
       ]
     },
     {
       "id": 66,
       "plugin": "TheXOR",
-      "version": "1.1.1",
+      "version": "1.2.0",
       "model": "Renato",
       "params": [
         {
@@ -1188,21 +1214,37 @@
         {
           "id": 69,
           "value": 2.56332207
+        },
+        {
+          "id": 70,
+          "value": 0.0
+        },
+        {
+          "id": 71,
+          "value": 0.0
+        },
+        {
+          "id": 72,
+          "value": 0.0
+        },
+        {
+          "id": 73,
+          "value": 0.0
         }
       ],
-      "leftModuleId": 68,
+      "rightModuleId": 64,
       "data": {
         "theRandomizer": 0
       },
       "pos": [
-        126,
-        1
+        55,
+        3
       ]
     },
     {
       "id": 67,
       "plugin": "TheXOR",
-      "version": "1.1.1",
+      "version": "1.2.0",
       "model": "Spiralone",
       "params": [
         {
@@ -1211,139 +1253,139 @@
         },
         {
           "id": 1,
-          "value": 0.0454587825
+          "value": 0.462937236
         },
         {
           "id": 2,
-          "value": 0.411783487
+          "value": 0.230841964
         },
         {
           "id": 3,
-          "value": 0.988047063
+          "value": 0.762144506
         },
         {
           "id": 4,
-          "value": 0.389684439
+          "value": 0.459478736
         },
         {
           "id": 5,
-          "value": 0.28211233
+          "value": 0.927943587
         },
         {
           "id": 6,
-          "value": 0.211531192
+          "value": 0.248090491
         },
         {
           "id": 7,
-          "value": 0.0673067197
+          "value": 0.373030305
         },
         {
           "id": 8,
-          "value": 0.377394587
+          "value": 0.627754807
         },
         {
           "id": 9,
-          "value": 0.0820624754
+          "value": 0.450178236
         },
         {
           "id": 10,
-          "value": 0.275278151
+          "value": 0.140742227
         },
         {
           "id": 11,
-          "value": 0.692425728
+          "value": 0.730722845
         },
         {
           "id": 12,
-          "value": 0.73343575
+          "value": 0.93795985
         },
         {
           "id": 13,
-          "value": 0.267335027
+          "value": 0.277395576
         },
         {
           "id": 14,
-          "value": 0.489201695
+          "value": 0.438999087
         },
         {
           "id": 15,
-          "value": 0.501347482
+          "value": 0.336285144
         },
         {
           "id": 16,
-          "value": 0.30013755
+          "value": 0.148000404
         },
         {
           "id": 17,
-          "value": 0.89529109
+          "value": 0.364738792
         },
         {
           "id": 18,
-          "value": 0.734419346
+          "value": 0.988472939
         },
         {
           "id": 19,
-          "value": 0.642669499
+          "value": 0.72162497
         },
         {
           "id": 20,
-          "value": 0.0662177876
+          "value": 0.542473853
         },
         {
           "id": 21,
-          "value": 0.974777102
+          "value": 0.884260535
         },
         {
           "id": 22,
-          "value": 0.144921437
+          "value": 0.809464753
         },
         {
           "id": 23,
-          "value": 0.776096046
+          "value": 0.528768361
         },
         {
           "id": 24,
-          "value": 0.259987473
+          "value": 0.192720681
         },
         {
           "id": 25,
-          "value": 0.301955789
+          "value": 0.560606718
         },
         {
           "id": 26,
-          "value": 0.140728623
+          "value": 0.616146088
         },
         {
           "id": 27,
-          "value": 0.480662525
+          "value": 0.837001681
         },
         {
           "id": 28,
-          "value": 0.399307966
+          "value": 0.482875168
         },
         {
           "id": 29,
-          "value": 0.453181118
+          "value": 0.593508244
         },
         {
           "id": 30,
-          "value": 0.14941372
+          "value": 0.055082351
         },
         {
           "id": 31,
-          "value": 0.102476723
+          "value": 0.693325043
         },
         {
           "id": 32,
-          "value": 0.227154806
+          "value": 0.756487668
         },
         {
           "id": 33,
-          "value": 2.0
+          "value": 1.0
         },
         {
           "id": 34,
-          "value": 2.0
+          "value": 1.0
         },
         {
           "id": 35,
@@ -1351,7 +1393,7 @@
         },
         {
           "id": 36,
-          "value": 2.0
+          "value": 1.0
         },
         {
           "id": 37,
@@ -1359,31 +1401,31 @@
         },
         {
           "id": 38,
-          "value": 12.0
+          "value": 2.0
         },
         {
           "id": 39,
-          "value": 31.0
+          "value": 27.0
         },
         {
           "id": 40,
-          "value": 8.0
+          "value": 23.0
         },
         {
           "id": 41,
-          "value": 9.0
+          "value": 29.0
         },
         {
           "id": 42,
-          "value": 19.0
+          "value": 3.0
         },
         {
           "id": 43,
-          "value": 7.0
+          "value": 4.0
         },
         {
           "id": 44,
-          "value": 2.0
+          "value": 3.0
         },
         {
           "id": 45,
@@ -1391,31 +1433,31 @@
         },
         {
           "id": 46,
-          "value": 6.0
+          "value": 4.0
         },
         {
           "id": 47,
-          "value": 7.0
+          "value": 2.0
         },
         {
           "id": 48,
-          "value": -2.28177929
+          "value": -0.706833839
         },
         {
           "id": 49,
-          "value": 2.40779877
+          "value": -6.40377903
         },
         {
           "id": 50,
-          "value": -5.17025423
+          "value": -9.55543613
         },
         {
           "id": 51,
-          "value": 3.85089111
+          "value": -2.48551369
         },
         {
           "id": 52,
-          "value": -3.61990356
+          "value": 5.62623787
         },
         {
           "id": 53,
@@ -1424,6 +1466,22 @@
         {
           "id": 54,
           "value": -1.75612354
+        },
+        {
+          "id": 55,
+          "value": 0.0
+        },
+        {
+          "id": 56,
+          "value": 0.0
+        },
+        {
+          "id": 57,
+          "value": 0.0
+        },
+        {
+          "id": 58,
+          "value": 0.0
         }
       ],
       "rightModuleId": 86,
@@ -1431,19 +1489,19 @@
         "theRandomizer": 0
       },
       "pos": [
-        1,
+        8,
         0
       ]
     },
     {
       "id": 68,
       "plugin": "TheXOR",
-      "version": "1.1.1",
+      "version": "1.2.0",
       "model": "Uncertain",
       "params": [
         {
           "id": 0,
-          "value": 0.0
+          "value": -0.420000017
         },
         {
           "id": 1,
@@ -1458,18 +1516,18 @@
           "value": 1.0
         }
       ],
-      "leftModuleId": 69,
-      "rightModuleId": 66,
+      "leftModuleId": 73,
+      "rightModuleId": 110,
       "data": {},
       "pos": [
-        114,
-        1
+        148,
+        3
       ]
     },
     {
       "id": 69,
       "plugin": "TheXOR",
-      "version": "1.1.1",
+      "version": "1.2.0",
       "model": "XSwitch",
       "params": [
         {
@@ -1518,16 +1576,16 @@
         }
       ],
       "leftModuleId": 60,
-      "rightModuleId": 68,
+      "rightModuleId": 97,
       "pos": [
-        104,
+        112,
         1
       ]
     },
     {
       "id": 70,
       "plugin": "TheXOR",
-      "version": "1.1.1",
+      "version": "1.2.0",
       "model": "Z8K",
       "params": [
         {
@@ -1605,18 +1663,46 @@
         {
           "id": 18,
           "value": 5.0
+        },
+        {
+          "id": 19,
+          "value": 0.0
+        },
+        {
+          "id": 20,
+          "value": 0.0
+        },
+        {
+          "id": 21,
+          "value": 0.0
+        },
+        {
+          "id": 22,
+          "value": 0.0
+        },
+        {
+          "id": 23,
+          "value": 0.0
+        },
+        {
+          "id": 24,
+          "value": 0.0
         }
       ],
-      "data": {},
+      "leftModuleId": 63,
+      "rightModuleId": 107,
+      "data": {
+        "basePtn": 0
+      },
       "pos": [
-        104,
+        56,
         2
       ]
     },
     {
       "id": 71,
       "plugin": "TheXOR",
-      "version": "1.1.1",
+      "version": "1.2.0",
       "model": "ascii",
       "params": [
         {
@@ -1636,19 +1722,22 @@
           "value": 5.0
         }
       ],
-      "text": "struct XorPanel : SvgPanel\r\n{\r\n\tstruct bgGradient : TransparentWidget\r\n\t{\r\n\t\tbgGradient(const Vec &size)\r\n\t\t{\r\n\t\t\tbox.pos = Vec(0, 0);\r\n\t\t\tbox.size = size;\r\n\t\t}\r\n\r\n\t\tvoid draw(const Widget::DrawArgs &args) override\r\n\t\t{\r\n\t\t\tnvgBeginPath(args.vg);\r\n\t\t\tnvgRect(args.vg, 0, 0, box.size.x, box.size.y);\r\n\t\t\tnvgFillPaint(args.vg, nvgLinearGradient(args.vg, 0, 0, 0, box.size.y /*/ 2*/, nvgRGBAf(0.5f, 0.5f, 0.5f, 0.35f), nvgRGBAf(0.2f, 0.2f, 0.2f, 0.1f)));\r\n\t\t\tnvgFill(args.vg);\r\n\t\t}\r\n\t};\r\n\r\n\tXorPanel(ModuleWidget *pWidget, int units, const char *svg) : SvgPanel()\r\n\t{\r\n\t\tpWidget->box.size = box.size = Vec(units * RACK_GRID_WIDTH, RACK_GRID_HEIGHT);\r\n\t\tif (svg != NULL)\r\n\t\t\tsetBackground(APP->window->loadSvg(asset::plugin(pluginInstance, svg)));\r\n\t\taddChild(new bgGradient(box.size));\r\n\t}\r\n\r\n\tvoid AddScrews(ModuleWidget *pWidget)\r\n\t{\r\n\t\tpWidget->addChild(createWidget<ScrewBlack>(Vec(RACK_GRID_WIDTH, 0)));\r\n\t\tpWidget->addChild(createWidget<ScrewBlack>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, 0)));\r\n\t\tpWidget->addChild(createWidget<ScrewBlack>(Vec(RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));\r\n\t\tpWidget->addChild(createWidget<ScrewBlack>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));\r\n\t}\r\n};\r\n\r\n#define CREATE_PANEL(modul, widg,unit,svg)  { \\\r\n\tsetModule(modul); \\\r\n\tXorPanel *panel = new XorPanel(widg, unit, svg); \\\r\n\taddChild(panel); \\\r\n\tpanel->AddScrews(widg); \\\r\n}",
+      "leftModuleId": 103,
+      "rightModuleId": 87,
+      "text": "Manifesto dei futurismo.\n\n1. Noi vogliamo cantare l'amor del pericolo, l'abitudine all'energia e alla temerita'.\n2. Il coraggio, l'audacia, la ribellione, saranno elementi essenziali della nostra poesia.\n3. La letteratura esalto' fino ad oggi l'immobilita' pensosa, l'estasi e il sonno.Noi vogliamo esaltare il movimento aggressivo, l'insonnia febbrile, il passo di corsa, il salto mortale, lo schiaffo ed il pugno.\n4. Noi affermiamo che la magnificenza del mondo si e' arricchita di una bellezza nuova : la bellezza della velocita'.Un automobile da corsa col suo cofano adorno di grossi tubi simili a serpenti dall'alito esplosivo....un automobile ruggente, che sembra correre sulla mitraglia, e' piu' bello della Vittoria di Samotracia.\n5. Noi vogliamo inneggiare all'uomo che tiene il volante, la cui asta ideale attraversa la Terra, lanciata a corsa, essa pure, sul circuito della sua orbita.\n6. Bisogna che il poeta si prodighi, con ardore, sfarzo e munificenza, per aumentare l'entusiastico fervore degli elementi primordiali.\n7. Non v'e' piu' bellezza, se non nella lotta.Nessuna opera che non abbia un carattere aggressivo puo' essere un capolavoro.La poesia deve essere concepita come un violento assalto contro le forze ignote, per ridurle a prostrarsi davanti all'uomo.\n8. Noi siamo sul promontorio estremo dei secoli!..Perche' dovremmo guardarci alle spalle, se vogliamo sfondare le misteriose porte dell'Impossibile ? Il Tempo e lo Spazio morirono ieri.Noi viviamo gia' nell'assoluto, poiche' abbiamo gia' creata l'eterna velocita' onnipresente.\n9. Noi vogliamo glorificare la guerra - sola igiene del mondo - il militarismo, il patriottismo, il gesto distruttore dei libertarii, le belle idee per cui si muore e il disprezzo della donna.\n10. Noi vogliamo distruggere i musei, le biblioteche, le accademie d'ogni specie, e combattere contro il moralismo, il femminismo e contro ogni vilta' opportunistica o utilitaria.\n11. Noi canteremo le grandi folle agitate dal lavoro, dal piacere o dalla sommossa : canteremo le maree multicolori e polifoniche delle rivoluzioni nelle capitali moderne; canteremo il vibrante fervore notturno degli arsenali e dei cantieri incendiati da violente lune elettriche; le stazioni ingorde, divoratrici di serpi che fumano; le officine appese alle nuvole pei contorti fili dei loro fumi; i ponti simili a ginnasti giganti che scavalcano i fiumi, balenanti al sole con un luccichio di coltelli; i piroscafi avventurosi che fiutano l'orizzonte, le locomotive dall'ampio petto, che scalpitano sulle rotaie, come enormi cavalli d'acciaio imbrigliati di tubi, e il volo scivolante degli aereoplani, la cui elica garrisce al vento come una bandiera e sembra applaudire come una folla entusiasta.\n",
       "pos": [
-        139,
-        2
+        108,
+        3
       ]
     },
     {
       "id": 73,
       "plugin": "TheXOR",
-      "version": "1.1.1",
+      "version": "1.2.0",
       "model": "midyQuant",
       "params": [],
       "leftModuleId": 87,
+      "rightModuleId": 68,
       "data": {
         "scale": 0,
         "root": 0,
@@ -1658,14 +1747,14 @@
         }
       },
       "pos": [
-        152,
-        0
+        140,
+        3
       ]
     },
     {
       "id": 74,
       "plugin": "TheXOR",
-      "version": "1.1.1",
+      "version": "1.2.0",
       "model": "quattro",
       "params": [
         {
@@ -1791,22 +1880,38 @@
         {
           "id": 30,
           "value": -6.16748524
+        },
+        {
+          "id": 31,
+          "value": 0.0
+        },
+        {
+          "id": 32,
+          "value": 0.0
+        },
+        {
+          "id": 33,
+          "value": 0.0
+        },
+        {
+          "id": 34,
+          "value": 0.0
         }
       ],
       "leftModuleId": 86,
-      "rightModuleId": 97,
+      "rightModuleId": 65,
       "data": {
         "theRandomizer": 0
       },
       "pos": [
-        60,
+        69,
         0
       ]
     },
     {
       "id": 86,
       "plugin": "TheXOR",
-      "version": "1.1.1",
+      "version": "1.2.0",
       "model": "empty",
       "params": [
         {
@@ -1817,14 +1922,14 @@
       "leftModuleId": 67,
       "rightModuleId": 74,
       "pos": [
-        52,
+        61,
         0
       ]
     },
     {
       "id": 87,
       "plugin": "TheXOR",
-      "version": "1.1.1",
+      "version": "1.2.0",
       "model": "flop",
       "params": [
         {
@@ -1868,17 +1973,17 @@
           "value": 0.0
         }
       ],
-      "leftModuleId": 97,
+      "leftModuleId": 71,
       "rightModuleId": 73,
       "pos": [
-        138,
-        0
+        126,
+        3
       ]
     },
     {
       "id": 97,
       "plugin": "TheXOR",
-      "version": "1.1.1",
+      "version": "1.2.0",
       "model": "o88o",
       "params": [
         {
@@ -1942,17 +2047,17 @@
           "value": 0.0
         }
       ],
-      "leftModuleId": 74,
-      "rightModuleId": 87,
+      "leftModuleId": 69,
+      "rightModuleId": 106,
       "pos": [
-        110,
-        0
+        122,
+        1
       ]
     },
     {
       "id": 103,
       "plugin": "TheXOR",
-      "version": "1.1.1",
+      "version": "1.2.0",
       "model": "volt",
       "params": [
         {
@@ -1964,9 +2069,1451 @@
           "value": 0.0
         }
       ],
+      "leftModuleId": 64,
+      "rightModuleId": 71,
       "pos": [
-        161,
-        0
+        104,
+        3
+      ]
+    },
+    {
+      "id": 104,
+      "plugin": "TheXOR",
+      "version": "1.2.0",
+      "model": "Nordschleife",
+      "params": [
+        {
+          "id": 0,
+          "value": 0.0
+        },
+        {
+          "id": 1,
+          "value": 0.0
+        },
+        {
+          "id": 2,
+          "value": 0.0
+        },
+        {
+          "id": 3,
+          "value": 0.0
+        },
+        {
+          "id": 4,
+          "value": 0.0
+        },
+        {
+          "id": 5,
+          "value": 0.0
+        },
+        {
+          "id": 6,
+          "value": 0.0
+        },
+        {
+          "id": 7,
+          "value": 0.0
+        },
+        {
+          "id": 8,
+          "value": 0.0
+        },
+        {
+          "id": 9,
+          "value": 0.0
+        },
+        {
+          "id": 10,
+          "value": 0.0
+        },
+        {
+          "id": 11,
+          "value": 0.0
+        },
+        {
+          "id": 12,
+          "value": 0.0
+        },
+        {
+          "id": 13,
+          "value": 0.0
+        },
+        {
+          "id": 14,
+          "value": 0.0
+        },
+        {
+          "id": 15,
+          "value": 0.0
+        },
+        {
+          "id": 16,
+          "value": 0.0
+        },
+        {
+          "id": 17,
+          "value": 0.0
+        },
+        {
+          "id": 18,
+          "value": 0.0
+        },
+        {
+          "id": 19,
+          "value": 0.0
+        },
+        {
+          "id": 20,
+          "value": 0.0
+        },
+        {
+          "id": 21,
+          "value": 0.0
+        },
+        {
+          "id": 22,
+          "value": 0.0
+        },
+        {
+          "id": 23,
+          "value": 0.0
+        },
+        {
+          "id": 24,
+          "value": 0.0
+        },
+        {
+          "id": 25,
+          "value": 0.0
+        },
+        {
+          "id": 26,
+          "value": 0.0
+        },
+        {
+          "id": 27,
+          "value": 0.0
+        },
+        {
+          "id": 28,
+          "value": 0.0
+        },
+        {
+          "id": 29,
+          "value": 0.0
+        },
+        {
+          "id": 30,
+          "value": 0.0
+        },
+        {
+          "id": 31,
+          "value": 0.0
+        },
+        {
+          "id": 32,
+          "value": 0.0
+        },
+        {
+          "id": 33,
+          "value": 0.0
+        },
+        {
+          "id": 34,
+          "value": 0.0
+        },
+        {
+          "id": 35,
+          "value": 0.0
+        },
+        {
+          "id": 36,
+          "value": 0.0
+        },
+        {
+          "id": 37,
+          "value": 0.0
+        },
+        {
+          "id": 38,
+          "value": 0.0
+        },
+        {
+          "id": 39,
+          "value": 0.0
+        },
+        {
+          "id": 40,
+          "value": 0.0
+        },
+        {
+          "id": 41,
+          "value": 0.0
+        },
+        {
+          "id": 42,
+          "value": 0.0
+        },
+        {
+          "id": 43,
+          "value": 0.0
+        },
+        {
+          "id": 44,
+          "value": 0.0
+        },
+        {
+          "id": 45,
+          "value": 0.0
+        },
+        {
+          "id": 46,
+          "value": 0.0
+        },
+        {
+          "id": 47,
+          "value": 0.0
+        },
+        {
+          "id": 48,
+          "value": 0.0
+        },
+        {
+          "id": 49,
+          "value": 0.0
+        },
+        {
+          "id": 50,
+          "value": 0.0
+        },
+        {
+          "id": 51,
+          "value": 0.0
+        },
+        {
+          "id": 52,
+          "value": 0.0
+        },
+        {
+          "id": 53,
+          "value": 0.0
+        },
+        {
+          "id": 54,
+          "value": 0.0
+        },
+        {
+          "id": 55,
+          "value": 0.0
+        },
+        {
+          "id": 56,
+          "value": 0.0
+        },
+        {
+          "id": 57,
+          "value": 0.0
+        },
+        {
+          "id": 58,
+          "value": 0.0
+        },
+        {
+          "id": 59,
+          "value": 0.0
+        },
+        {
+          "id": 60,
+          "value": 0.0
+        },
+        {
+          "id": 61,
+          "value": 0.0
+        },
+        {
+          "id": 62,
+          "value": 0.0
+        },
+        {
+          "id": 63,
+          "value": 0.0
+        },
+        {
+          "id": 64,
+          "value": 1.0
+        },
+        {
+          "id": 65,
+          "value": 0.0
+        },
+        {
+          "id": 66,
+          "value": 0.0
+        },
+        {
+          "id": 67,
+          "value": 0.0
+        },
+        {
+          "id": 68,
+          "value": 0.0
+        },
+        {
+          "id": 69,
+          "value": 0.0
+        },
+        {
+          "id": 70,
+          "value": 0.0
+        },
+        {
+          "id": 71,
+          "value": 0.0
+        },
+        {
+          "id": 72,
+          "value": 0.0
+        },
+        {
+          "id": 73,
+          "value": 0.0
+        },
+        {
+          "id": 74,
+          "value": 0.0
+        },
+        {
+          "id": 75,
+          "value": 0.0
+        },
+        {
+          "id": 76,
+          "value": 0.0
+        },
+        {
+          "id": 77,
+          "value": 0.0
+        },
+        {
+          "id": 78,
+          "value": 0.0
+        },
+        {
+          "id": 79,
+          "value": 0.0
+        },
+        {
+          "id": 80,
+          "value": 0.0
+        },
+        {
+          "id": 81,
+          "value": 0.0
+        },
+        {
+          "id": 82,
+          "value": 0.0
+        },
+        {
+          "id": 83,
+          "value": 0.0
+        },
+        {
+          "id": 84,
+          "value": 0.0
+        },
+        {
+          "id": 85,
+          "value": 0.0
+        },
+        {
+          "id": 86,
+          "value": 0.0
+        },
+        {
+          "id": 87,
+          "value": 0.0
+        },
+        {
+          "id": 88,
+          "value": 0.0
+        },
+        {
+          "id": 89,
+          "value": 0.0
+        },
+        {
+          "id": 90,
+          "value": 0.0
+        },
+        {
+          "id": 91,
+          "value": 0.0
+        },
+        {
+          "id": 92,
+          "value": 0.0
+        },
+        {
+          "id": 93,
+          "value": 0.0
+        },
+        {
+          "id": 94,
+          "value": 0.0
+        },
+        {
+          "id": 95,
+          "value": 0.0
+        },
+        {
+          "id": 96,
+          "value": 0.0
+        },
+        {
+          "id": 97,
+          "value": 0.0
+        },
+        {
+          "id": 98,
+          "value": 0.0
+        },
+        {
+          "id": 99,
+          "value": 0.0
+        },
+        {
+          "id": 100,
+          "value": 0.0
+        },
+        {
+          "id": 101,
+          "value": 0.0
+        },
+        {
+          "id": 102,
+          "value": 0.0
+        },
+        {
+          "id": 103,
+          "value": 0.0
+        },
+        {
+          "id": 104,
+          "value": 0.0
+        },
+        {
+          "id": 105,
+          "value": 0.0
+        },
+        {
+          "id": 106,
+          "value": 0.0
+        },
+        {
+          "id": 107,
+          "value": 0.0
+        },
+        {
+          "id": 108,
+          "value": 0.0
+        },
+        {
+          "id": 109,
+          "value": 0.0
+        },
+        {
+          "id": 110,
+          "value": 0.0
+        },
+        {
+          "id": 111,
+          "value": 0.0
+        },
+        {
+          "id": 112,
+          "value": 0.0
+        },
+        {
+          "id": 113,
+          "value": 0.0
+        },
+        {
+          "id": 114,
+          "value": 0.0
+        },
+        {
+          "id": 115,
+          "value": 0.0
+        },
+        {
+          "id": 116,
+          "value": 0.0
+        },
+        {
+          "id": 117,
+          "value": 0.0
+        },
+        {
+          "id": 118,
+          "value": 0.0
+        },
+        {
+          "id": 119,
+          "value": 0.0
+        },
+        {
+          "id": 120,
+          "value": 0.0
+        },
+        {
+          "id": 121,
+          "value": 0.0
+        },
+        {
+          "id": 122,
+          "value": 0.0
+        },
+        {
+          "id": 123,
+          "value": 0.0
+        },
+        {
+          "id": 124,
+          "value": 0.0
+        },
+        {
+          "id": 125,
+          "value": 0.0
+        },
+        {
+          "id": 126,
+          "value": 0.0
+        },
+        {
+          "id": 127,
+          "value": 0.0
+        },
+        {
+          "id": 128,
+          "value": 1.0
+        },
+        {
+          "id": 129,
+          "value": 0.0
+        },
+        {
+          "id": 130,
+          "value": 0.0
+        },
+        {
+          "id": 131,
+          "value": 0.0
+        },
+        {
+          "id": 132,
+          "value": 0.0
+        },
+        {
+          "id": 133,
+          "value": 0.0
+        },
+        {
+          "id": 134,
+          "value": 0.0
+        },
+        {
+          "id": 135,
+          "value": 0.0
+        },
+        {
+          "id": 136,
+          "value": 0.0
+        },
+        {
+          "id": 137,
+          "value": 0.0
+        },
+        {
+          "id": 138,
+          "value": 0.0
+        },
+        {
+          "id": 139,
+          "value": -3.0
+        },
+        {
+          "id": 140,
+          "value": 3.0
+        },
+        {
+          "id": 141,
+          "value": 0.0
+        },
+        {
+          "id": 142,
+          "value": 0.0
+        },
+        {
+          "id": 143,
+          "value": 0.0
+        },
+        {
+          "id": 144,
+          "value": 0.0
+        }
+      ],
+      "data": {
+        "theRandomizer": 0,
+        "cardir_0": 0,
+        "carcoll_0": 0,
+        "carfrom_0": 0,
+        "carto_0": 63,
+        "carstartg_0": 0,
+        "carpath_0": 0,
+        "carstrevery_0": 0,
+        "carstrfor_0": 1,
+        "carangle_0": 0,
+        "caroffset_0": 0,
+        "cardir_1": 0,
+        "carcoll_1": 0,
+        "carfrom_1": 0,
+        "carto_1": 63,
+        "carstartg_1": 0,
+        "carpath_1": 0,
+        "carstrevery_1": 0,
+        "carstrfor_1": 1,
+        "carangle_1": 0,
+        "caroffset_1": 0,
+        "cardir_2": 0,
+        "carcoll_2": 0,
+        "carfrom_2": 0,
+        "carto_2": 63,
+        "carstartg_2": 0,
+        "carpath_2": 0,
+        "carstrevery_2": 0,
+        "carstrfor_2": 1,
+        "carangle_2": 0,
+        "caroffset_2": 0,
+        "cardir_3": 0,
+        "carcoll_3": 0,
+        "carfrom_3": 0,
+        "carto_3": 63,
+        "carstartg_3": 0,
+        "carpath_3": 0,
+        "carstrevery_3": 0,
+        "carstrfor_3": 1,
+        "carangle_3": 0,
+        "caroffset_3": 0,
+        "stepmode_0": 1,
+        "step_outa0": 0,
+        "step_outb0": 1,
+        "stepprob_0": 100,
+        "stepreps_0": 1,
+        "stepoffs_0": 0,
+        "steptrig_0": 0,
+        "stepmode_1": 1,
+        "step_outa1": 0,
+        "step_outb1": 1,
+        "stepprob_1": 100,
+        "stepreps_1": 1,
+        "stepoffs_1": 0,
+        "steptrig_1": 0,
+        "stepmode_2": 1,
+        "step_outa2": 0,
+        "step_outb2": 1,
+        "stepprob_2": 100,
+        "stepreps_2": 1,
+        "stepoffs_2": 0,
+        "steptrig_2": 0,
+        "stepmode_3": 1,
+        "step_outa3": 0,
+        "step_outb3": 1,
+        "stepprob_3": 100,
+        "stepreps_3": 1,
+        "stepoffs_3": 0,
+        "steptrig_3": 0,
+        "stepmode_4": 1,
+        "step_outa4": 0,
+        "step_outb4": 1,
+        "stepprob_4": 100,
+        "stepreps_4": 1,
+        "stepoffs_4": 0,
+        "steptrig_4": 0,
+        "stepmode_5": 1,
+        "step_outa5": 0,
+        "step_outb5": 1,
+        "stepprob_5": 100,
+        "stepreps_5": 1,
+        "stepoffs_5": 0,
+        "steptrig_5": 0,
+        "stepmode_6": 1,
+        "step_outa6": 0,
+        "step_outb6": 1,
+        "stepprob_6": 100,
+        "stepreps_6": 1,
+        "stepoffs_6": 0,
+        "steptrig_6": 0,
+        "stepmode_7": 1,
+        "step_outa7": 0,
+        "step_outb7": 1,
+        "stepprob_7": 100,
+        "stepreps_7": 1,
+        "stepoffs_7": 0,
+        "steptrig_7": 0,
+        "stepmode_8": 1,
+        "step_outa8": 0,
+        "step_outb8": 1,
+        "stepprob_8": 100,
+        "stepreps_8": 1,
+        "stepoffs_8": 0,
+        "steptrig_8": 0,
+        "stepmode_9": 1,
+        "step_outa9": 0,
+        "step_outb9": 1,
+        "stepprob_9": 100,
+        "stepreps_9": 1,
+        "stepoffs_9": 0,
+        "steptrig_9": 0,
+        "stepmode_10": 1,
+        "step_outa10": 0,
+        "step_outb10": 1,
+        "stepprob_10": 100,
+        "stepreps_10": 1,
+        "stepoffs_10": 0,
+        "steptrig_10": 0,
+        "stepmode_11": 1,
+        "step_outa11": 0,
+        "step_outb11": 1,
+        "stepprob_11": 100,
+        "stepreps_11": 1,
+        "stepoffs_11": 0,
+        "steptrig_11": 0,
+        "stepmode_12": 1,
+        "step_outa12": 0,
+        "step_outb12": 1,
+        "stepprob_12": 100,
+        "stepreps_12": 1,
+        "stepoffs_12": 0,
+        "steptrig_12": 0,
+        "stepmode_13": 1,
+        "step_outa13": 0,
+        "step_outb13": 1,
+        "stepprob_13": 100,
+        "stepreps_13": 1,
+        "stepoffs_13": 0,
+        "steptrig_13": 0,
+        "stepmode_14": 1,
+        "step_outa14": 0,
+        "step_outb14": 1,
+        "stepprob_14": 100,
+        "stepreps_14": 1,
+        "stepoffs_14": 0,
+        "steptrig_14": 0,
+        "stepmode_15": 1,
+        "step_outa15": 0,
+        "step_outb15": 1,
+        "stepprob_15": 100,
+        "stepreps_15": 1,
+        "stepoffs_15": 0,
+        "steptrig_15": 0,
+        "stepmode_16": 1,
+        "step_outa16": 0,
+        "step_outb16": 1,
+        "stepprob_16": 100,
+        "stepreps_16": 1,
+        "stepoffs_16": 0,
+        "steptrig_16": 0,
+        "stepmode_17": 1,
+        "step_outa17": 0,
+        "step_outb17": 1,
+        "stepprob_17": 100,
+        "stepreps_17": 1,
+        "stepoffs_17": 0,
+        "steptrig_17": 0,
+        "stepmode_18": 1,
+        "step_outa18": 0,
+        "step_outb18": 1,
+        "stepprob_18": 100,
+        "stepreps_18": 1,
+        "stepoffs_18": 0,
+        "steptrig_18": 0,
+        "stepmode_19": 1,
+        "step_outa19": 0,
+        "step_outb19": 1,
+        "stepprob_19": 100,
+        "stepreps_19": 1,
+        "stepoffs_19": 0,
+        "steptrig_19": 0,
+        "stepmode_20": 1,
+        "step_outa20": 0,
+        "step_outb20": 1,
+        "stepprob_20": 100,
+        "stepreps_20": 1,
+        "stepoffs_20": 0,
+        "steptrig_20": 0,
+        "stepmode_21": 1,
+        "step_outa21": 0,
+        "step_outb21": 1,
+        "stepprob_21": 100,
+        "stepreps_21": 1,
+        "stepoffs_21": 0,
+        "steptrig_21": 0,
+        "stepmode_22": 1,
+        "step_outa22": 0,
+        "step_outb22": 1,
+        "stepprob_22": 100,
+        "stepreps_22": 1,
+        "stepoffs_22": 0,
+        "steptrig_22": 0,
+        "stepmode_23": 1,
+        "step_outa23": 0,
+        "step_outb23": 1,
+        "stepprob_23": 100,
+        "stepreps_23": 1,
+        "stepoffs_23": 0,
+        "steptrig_23": 0,
+        "stepmode_24": 1,
+        "step_outa24": 0,
+        "step_outb24": 1,
+        "stepprob_24": 100,
+        "stepreps_24": 1,
+        "stepoffs_24": 0,
+        "steptrig_24": 0,
+        "stepmode_25": 1,
+        "step_outa25": 0,
+        "step_outb25": 1,
+        "stepprob_25": 100,
+        "stepreps_25": 1,
+        "stepoffs_25": 0,
+        "steptrig_25": 0,
+        "stepmode_26": 1,
+        "step_outa26": 0,
+        "step_outb26": 1,
+        "stepprob_26": 100,
+        "stepreps_26": 1,
+        "stepoffs_26": 0,
+        "steptrig_26": 0,
+        "stepmode_27": 1,
+        "step_outa27": 0,
+        "step_outb27": 1,
+        "stepprob_27": 100,
+        "stepreps_27": 1,
+        "stepoffs_27": 0,
+        "steptrig_27": 0,
+        "stepmode_28": 1,
+        "step_outa28": 0,
+        "step_outb28": 1,
+        "stepprob_28": 100,
+        "stepreps_28": 1,
+        "stepoffs_28": 0,
+        "steptrig_28": 0,
+        "stepmode_29": 1,
+        "step_outa29": 0,
+        "step_outb29": 1,
+        "stepprob_29": 100,
+        "stepreps_29": 1,
+        "stepoffs_29": 0,
+        "steptrig_29": 0,
+        "stepmode_30": 1,
+        "step_outa30": 0,
+        "step_outb30": 1,
+        "stepprob_30": 100,
+        "stepreps_30": 1,
+        "stepoffs_30": 0,
+        "steptrig_30": 0,
+        "stepmode_31": 1,
+        "step_outa31": 0,
+        "step_outb31": 1,
+        "stepprob_31": 100,
+        "stepreps_31": 1,
+        "stepoffs_31": 0,
+        "steptrig_31": 0,
+        "stepmode_32": 1,
+        "step_outa32": 0,
+        "step_outb32": 1,
+        "stepprob_32": 100,
+        "stepreps_32": 1,
+        "stepoffs_32": 0,
+        "steptrig_32": 0,
+        "stepmode_33": 1,
+        "step_outa33": 0,
+        "step_outb33": 1,
+        "stepprob_33": 100,
+        "stepreps_33": 1,
+        "stepoffs_33": 0,
+        "steptrig_33": 0,
+        "stepmode_34": 1,
+        "step_outa34": 0,
+        "step_outb34": 1,
+        "stepprob_34": 100,
+        "stepreps_34": 1,
+        "stepoffs_34": 0,
+        "steptrig_34": 0,
+        "stepmode_35": 1,
+        "step_outa35": 0,
+        "step_outb35": 1,
+        "stepprob_35": 100,
+        "stepreps_35": 1,
+        "stepoffs_35": 0,
+        "steptrig_35": 0,
+        "stepmode_36": 1,
+        "step_outa36": 0,
+        "step_outb36": 1,
+        "stepprob_36": 100,
+        "stepreps_36": 1,
+        "stepoffs_36": 0,
+        "steptrig_36": 0,
+        "stepmode_37": 1,
+        "step_outa37": 0,
+        "step_outb37": 1,
+        "stepprob_37": 100,
+        "stepreps_37": 1,
+        "stepoffs_37": 0,
+        "steptrig_37": 0,
+        "stepmode_38": 1,
+        "step_outa38": 0,
+        "step_outb38": 1,
+        "stepprob_38": 100,
+        "stepreps_38": 1,
+        "stepoffs_38": 0,
+        "steptrig_38": 0,
+        "stepmode_39": 1,
+        "step_outa39": 0,
+        "step_outb39": 1,
+        "stepprob_39": 100,
+        "stepreps_39": 1,
+        "stepoffs_39": 0,
+        "steptrig_39": 0,
+        "stepmode_40": 1,
+        "step_outa40": 0,
+        "step_outb40": 1,
+        "stepprob_40": 100,
+        "stepreps_40": 1,
+        "stepoffs_40": 0,
+        "steptrig_40": 0,
+        "stepmode_41": 1,
+        "step_outa41": 0,
+        "step_outb41": 1,
+        "stepprob_41": 100,
+        "stepreps_41": 1,
+        "stepoffs_41": 0,
+        "steptrig_41": 0,
+        "stepmode_42": 1,
+        "step_outa42": 0,
+        "step_outb42": 1,
+        "stepprob_42": 100,
+        "stepreps_42": 1,
+        "stepoffs_42": 0,
+        "steptrig_42": 0,
+        "stepmode_43": 1,
+        "step_outa43": 0,
+        "step_outb43": 1,
+        "stepprob_43": 100,
+        "stepreps_43": 1,
+        "stepoffs_43": 0,
+        "steptrig_43": 0,
+        "stepmode_44": 1,
+        "step_outa44": 0,
+        "step_outb44": 1,
+        "stepprob_44": 100,
+        "stepreps_44": 1,
+        "stepoffs_44": 0,
+        "steptrig_44": 0,
+        "stepmode_45": 1,
+        "step_outa45": 0,
+        "step_outb45": 1,
+        "stepprob_45": 100,
+        "stepreps_45": 1,
+        "stepoffs_45": 0,
+        "steptrig_45": 0,
+        "stepmode_46": 1,
+        "step_outa46": 0,
+        "step_outb46": 1,
+        "stepprob_46": 100,
+        "stepreps_46": 1,
+        "stepoffs_46": 0,
+        "steptrig_46": 0,
+        "stepmode_47": 1,
+        "step_outa47": 0,
+        "step_outb47": 1,
+        "stepprob_47": 100,
+        "stepreps_47": 1,
+        "stepoffs_47": 0,
+        "steptrig_47": 0,
+        "stepmode_48": 1,
+        "step_outa48": 0,
+        "step_outb48": 1,
+        "stepprob_48": 100,
+        "stepreps_48": 1,
+        "stepoffs_48": 0,
+        "steptrig_48": 0,
+        "stepmode_49": 1,
+        "step_outa49": 0,
+        "step_outb49": 1,
+        "stepprob_49": 100,
+        "stepreps_49": 1,
+        "stepoffs_49": 0,
+        "steptrig_49": 0,
+        "stepmode_50": 1,
+        "step_outa50": 0,
+        "step_outb50": 1,
+        "stepprob_50": 100,
+        "stepreps_50": 1,
+        "stepoffs_50": 0,
+        "steptrig_50": 0,
+        "stepmode_51": 1,
+        "step_outa51": 0,
+        "step_outb51": 1,
+        "stepprob_51": 100,
+        "stepreps_51": 1,
+        "stepoffs_51": 0,
+        "steptrig_51": 0,
+        "stepmode_52": 1,
+        "step_outa52": 0,
+        "step_outb52": 1,
+        "stepprob_52": 100,
+        "stepreps_52": 1,
+        "stepoffs_52": 0,
+        "steptrig_52": 0,
+        "stepmode_53": 1,
+        "step_outa53": 0,
+        "step_outb53": 1,
+        "stepprob_53": 100,
+        "stepreps_53": 1,
+        "stepoffs_53": 0,
+        "steptrig_53": 0,
+        "stepmode_54": 1,
+        "step_outa54": 0,
+        "step_outb54": 1,
+        "stepprob_54": 100,
+        "stepreps_54": 1,
+        "stepoffs_54": 0,
+        "steptrig_54": 0,
+        "stepmode_55": 1,
+        "step_outa55": 0,
+        "step_outb55": 1,
+        "stepprob_55": 100,
+        "stepreps_55": 1,
+        "stepoffs_55": 0,
+        "steptrig_55": 0,
+        "stepmode_56": 1,
+        "step_outa56": 0,
+        "step_outb56": 1,
+        "stepprob_56": 100,
+        "stepreps_56": 1,
+        "stepoffs_56": 0,
+        "steptrig_56": 0,
+        "stepmode_57": 1,
+        "step_outa57": 0,
+        "step_outb57": 1,
+        "stepprob_57": 100,
+        "stepreps_57": 1,
+        "stepoffs_57": 0,
+        "steptrig_57": 0,
+        "stepmode_58": 1,
+        "step_outa58": 0,
+        "step_outb58": 1,
+        "stepprob_58": 100,
+        "stepreps_58": 1,
+        "stepoffs_58": 0,
+        "steptrig_58": 0,
+        "stepmode_59": 1,
+        "step_outa59": 0,
+        "step_outb59": 1,
+        "stepprob_59": 100,
+        "stepreps_59": 1,
+        "stepoffs_59": 0,
+        "steptrig_59": 0,
+        "stepmode_60": 1,
+        "step_outa60": 0,
+        "step_outb60": 1,
+        "stepprob_60": 100,
+        "stepreps_60": 1,
+        "stepoffs_60": 0,
+        "steptrig_60": 0,
+        "stepmode_61": 1,
+        "step_outa61": 0,
+        "step_outb61": 1,
+        "stepprob_61": 100,
+        "stepreps_61": 1,
+        "stepoffs_61": 0,
+        "steptrig_61": 0,
+        "stepmode_62": 1,
+        "step_outa62": 0,
+        "step_outb62": 1,
+        "stepprob_62": 100,
+        "stepreps_62": 1,
+        "stepoffs_62": 0,
+        "steptrig_62": 0,
+        "stepmode_63": 1,
+        "step_outa63": 0,
+        "step_outb63": 1,
+        "stepprob_63": 100,
+        "stepreps_63": 1,
+        "stepoffs_63": 0,
+        "steptrig_63": 0
+      },
+      "pos": [
+        5,
+        3
+      ]
+    },
+    {
+      "id": 105,
+      "plugin": "TheXOR",
+      "version": "1.2.0",
+      "model": "kExp",
+      "params": [
+        {
+          "id": 0,
+          "value": 0.0
+        },
+        {
+          "id": 1,
+          "value": 0.0
+        },
+        {
+          "id": 2,
+          "value": 0.0
+        },
+        {
+          "id": 3,
+          "value": 0.0
+        },
+        {
+          "id": 4,
+          "value": 0.0
+        },
+        {
+          "id": 5,
+          "value": 0.0
+        },
+        {
+          "id": 6,
+          "value": 0.0
+        },
+        {
+          "id": 7,
+          "value": 0.0
+        },
+        {
+          "id": 8,
+          "value": 0.0
+        }
+      ],
+      "leftModuleId": 106,
+      "rightModuleId": 113,
+      "pos": [
+        154,
+        1
+      ]
+    },
+    {
+      "id": 106,
+      "plugin": "TheXOR",
+      "version": "1.2.0",
+      "model": "RR",
+      "params": [
+        {
+          "id": 0,
+          "value": 1.0
+        }
+      ],
+      "leftModuleId": 97,
+      "rightModuleId": 105,
+      "pos": [
+        150,
+        1
+      ]
+    },
+    {
+      "id": 107,
+      "plugin": "TheXOR",
+      "version": "1.2.0",
+      "model": "Z8KVExp",
+      "params": [
+        {
+          "id": 0,
+          "value": 0.0
+        },
+        {
+          "id": 1,
+          "value": 0.0
+        },
+        {
+          "id": 2,
+          "value": 0.0
+        },
+        {
+          "id": 3,
+          "value": 0.0
+        },
+        {
+          "id": 4,
+          "value": 0.0
+        },
+        {
+          "id": 5,
+          "value": 0.0
+        },
+        {
+          "id": 6,
+          "value": 0.0
+        },
+        {
+          "id": 7,
+          "value": 0.0
+        },
+        {
+          "id": 8,
+          "value": 0.0
+        },
+        {
+          "id": 9,
+          "value": 0.0
+        },
+        {
+          "id": 10,
+          "value": 0.0
+        },
+        {
+          "id": 11,
+          "value": 0.0
+        },
+        {
+          "id": 12,
+          "value": 0.0
+        },
+        {
+          "id": 13,
+          "value": 0.0
+        },
+        {
+          "id": 14,
+          "value": 0.0
+        },
+        {
+          "id": 15,
+          "value": 0.0
+        },
+        {
+          "id": 16,
+          "value": 0.0
+        },
+        {
+          "id": 17,
+          "value": -3.0
+        },
+        {
+          "id": 18,
+          "value": 3.0
+        },
+        {
+          "id": 19,
+          "value": 0.0
+        },
+        {
+          "id": 20,
+          "value": 0.0
+        },
+        {
+          "id": 21,
+          "value": 0.0
+        },
+        {
+          "id": 22,
+          "value": 0.0
+        },
+        {
+          "id": 23,
+          "value": 0.0
+        },
+        {
+          "id": 24,
+          "value": 0.0
+        }
+      ],
+      "leftModuleId": 70,
+      "rightModuleId": 108,
+      "pos": [
+        95,
+        2
+      ]
+    },
+    {
+      "id": 108,
+      "plugin": "TheXOR",
+      "version": "1.2.0",
+      "model": "Z8KCExp",
+      "params": [
+        {
+          "id": 0,
+          "value": 0.0
+        },
+        {
+          "id": 1,
+          "value": 0.0
+        },
+        {
+          "id": 2,
+          "value": 0.0
+        }
+      ],
+      "leftModuleId": 107,
+      "rightModuleId": 111,
+      "pos": [
+        115,
+        2
+      ]
+    },
+    {
+      "id": 110,
+      "plugin": "TheXOR",
+      "version": "1.2.0",
+      "model": "chords",
+      "params": [
+        {
+          "id": 0,
+          "value": 0.0
+        },
+        {
+          "id": 1,
+          "value": 0.0
+        },
+        {
+          "id": 2,
+          "value": 0.0
+        },
+        {
+          "id": 3,
+          "value": 0.0
+        },
+        {
+          "id": 4,
+          "value": 0.0
+        }
+      ],
+      "leftModuleId": 68,
+      "pos": [
+        160,
+        3
+      ]
+    },
+    {
+      "id": 111,
+      "plugin": "TheXOR",
+      "version": "1.2.0",
+      "model": "Z8KMExp",
+      "params": [
+        {
+          "id": 0,
+          "value": 0.0
+        },
+        {
+          "id": 1,
+          "value": 0.0
+        },
+        {
+          "id": 2,
+          "value": 0.0
+        }
+      ],
+      "leftModuleId": 108,
+      "rightModuleId": 112,
+      "pos": [
+        133,
+        2
+      ]
+    },
+    {
+      "id": 112,
+      "plugin": "TheXOR",
+      "version": "1.2.0",
+      "model": "Z8KTExp",
+      "params": [
+        {
+          "id": 0,
+          "value": 100.0
+        },
+        {
+          "id": 1,
+          "value": 0.0
+        },
+        {
+          "id": 2,
+          "value": 0.0
+        },
+        {
+          "id": 3,
+          "value": 0.0
+        }
+      ],
+      "leftModuleId": 111,
+      "pos": [
+        151,
+        2
+      ]
+    },
+    {
+      "id": 113,
+      "plugin": "TheXOR",
+      "version": "1.2.0",
+      "model": "c2v",
+      "params": [
+        {
+          "id": 0,
+          "value": 0.0
+        },
+        {
+          "id": 1,
+          "value": 0.0
+        },
+        {
+          "id": 2,
+          "value": 0.0
+        },
+        {
+          "id": 3,
+          "value": 0.0
+        },
+        {
+          "id": 4,
+          "value": 0.0
+        },
+        {
+          "id": 5,
+          "value": 0.0
+        },
+        {
+          "id": 6,
+          "value": 0.0
+        },
+        {
+          "id": 7,
+          "value": 0.0
+        },
+        {
+          "id": 8,
+          "value": 0.0
+        },
+        {
+          "id": 9,
+          "value": 0.0
+        },
+        {
+          "id": 10,
+          "value": 0.0
+        },
+        {
+          "id": 11,
+          "value": 0.0
+        }
+      ],
+      "leftModuleId": 105,
+      "pos": [
+        165,
+        1
       ]
     }
   ],

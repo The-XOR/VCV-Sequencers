@@ -34,6 +34,7 @@ void Renato::on_loaded()
 	connected = 0;
 	#endif
 	load();
+	cvs.Init(pWidget);
 }
 
 void Renato::load()
@@ -47,6 +48,9 @@ void Renato::process(const ProcessArgs &args)
 	{
 		seqX.Reset();
 		seqY.Reset();
+	} else if(resetAccess.process(inputs[INIT_IN].value))
+	{
+		pWidget->resetAccess();
 	} else
 	{
 		if(pWidget != NULL)
@@ -54,9 +58,17 @@ void Renato::process(const ProcessArgs &args)
 			if(accessRndTrigger.process(inputs[RANDOMIZONE].value))
 				randrandrand();
 		}
-		bool seek_mode = params[SEEKSLEEP].value > 0;
-		int clkX = seqX.Step(inputs[XCLK].value, params[COUNTMODE_X].value, seek_mode, this, true);
-		int clkY = seqY.Step(inputs[YCLK].value, params[COUNTMODE_Y].value, seek_mode, this, false);
+
+		float rec_smp;
+		int rec_step;
+		if(cvs.IsRecAvailable(&rec_smp, &rec_step))
+		{
+			pWidget->SetValue(Renato::VOLTAGE_1 + rec_step, rec_smp);
+		}
+
+		bool seek_mode = isSwitchOn(this, SEEKSLEEP);
+		int clkX = seqX.Step(inputs[XCLK].getVoltage(), params[COUNTMODE_X].getValue(), seek_mode, this, true);
+		int clkY = seqY.Step(inputs[YCLK].getVoltage(), params[COUNTMODE_Y].getValue(), seek_mode, this, false);
 		int n = xy(seqX.Position(), seqY.Position());
 
 		if(_access(n))
@@ -74,7 +86,7 @@ void Renato::process(const ProcessArgs &args)
 					on = true;
 			}
 
-			outputs[CV].value = orng.Value(params[VOLTAGE_1 + n].value);
+			outputs[CV].value = cvs.TransposeableValue(params[VOLTAGE_1 + n].value);
 			setOut(n, on);
 			led(n);
 		}
@@ -144,7 +156,7 @@ void Renato::randrandrand(int action)
 void Renato::QuantizePitch()
 {
 	for(int k = 0; k < 16; k++)
-		params[VOLTAGE_1 + k].value = pWidget->quantizePitch(VOLTAGE_1 + k, params[VOLTAGE_1 + k].value, orng);
+		params[VOLTAGE_1 + k].value = pWidget->quantizePitch(VOLTAGE_1 + k, params[VOLTAGE_1 + k].value, cvs);
 }
 
 void RenatoWidget::onMenu(int action)
@@ -169,18 +181,23 @@ RenatoWidget::RenatoWidget(Renato *module) : SequencerWidget()
 	char name[60];
 	#endif
 
-	CREATE_PANEL(module, this, 39, "res/modules/RenatoModule.svg");
+	CREATE_PANEL(module, this, 41, "res/modules/RenatoModule.svg");
 
 	addInput(createInput<PJ301RPort>(Vec(mm2px(33.509), yncscape(115.267, 8.255)), module, Renato::XCLK));
 	addInput(createInput<PJ301RPort>(Vec(mm2px(49.222), yncscape(115.267, 8.255)), module, Renato::YCLK));
 	addInput(createInput<PJ301YPort>(Vec(mm2px(119.500), yncscape(115.267, 8.255)), module, Renato::RESET));
+	addInput(createInput<PJ301BPort>(Vec(mm2px(134.122), yncscape(115.267, 8.255)), module, Renato::INIT_IN));
+
+	addInput(createInput<PJ301BPort>(Vec(mm2px(197.749), yncscape(115.796, 8.255)), module, Renato::NOT_ACC));
+	addInput(createInput<PJ301BPort>(Vec(mm2px(197.749), yncscape(107.049, 8.255)), module, Renato::NOT_X));
+	addInput(createInput<PJ301BPort>(Vec(mm2px(197.749), yncscape(98.303, 8.255)), module, Renato::NOT_Y));
 
 	addInput(createInput<PJ301HPort>(Vec(mm2px(12.472), yncscape(115.267, 8.255)), module, Renato::RANDOMIZONE));
 
 	addChild(createParam<BefacoPushBig>(Vec(mm2px(108.494), yncscape(114.895, 8.999)), module, Renato::M_RESET));
 
 	if(module != NULL)
-		module->orng.Create(this, 129.543f, 112.774f, Renato::RANGE_IN, Renato::RANGE);
+		module->cvs.Create(this, 196.797f, 6.159f, Renato::NUM_INPUTS - cvStrip::CVSTRIP_INPUTS, Renato::NUM_PARAMS - cvStrip::CVSTRIP_PARAMS, 16);
 
 	// page 0 (SESSION)
 	ParamWidget *pwdg = createParam<NKK2>(Vec(mm2px(60.319), yncscape(115.727 + 1, 8.467)), module, Renato::COUNTMODE_X);
@@ -365,4 +382,14 @@ RenatoWidget::RandomizeSubItemItem::RandomizeSubItemItem(Module *k, const char *
 void RenatoWidget::RandomizeSubItemItem::onAction(const event::Action &e)
 {
 	renato->theRandomizer ^= randomizeDest;
+}
+
+void RenatoWidget::resetAccess()
+{
+	for(int k = 0; k < 16; k++)
+	{
+		SetValue(Renato::ACCESS_1 + k, 1);
+		SetValue(Renato::GATEX_1 + k, 1);
+		SetValue(Renato::GATEY_1 + k, 1);
+	}
 }

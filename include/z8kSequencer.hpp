@@ -20,6 +20,19 @@ public:
 		}
 	}
 
+	void SetSequence(std::vector<Param> &params, Light *pLights, std::vector<int> steps)
+	{
+		sequence.clear();
+		leds.clear();
+		chain.clear();
+		for(int k = 0; k < numSteps; k++)
+		{
+			sequence.push_back(&params[steps[k]]);
+			leds.push_back(&pLights[steps[k]]);
+			chain.push_back(steps[k]);
+		}
+	}
+
 	inline void Reset()
 	{
 		curStep = 0;
@@ -29,7 +42,7 @@ public:
 	}
 
 	int Step(Z8K *pModule);
-	
+
 	z8kSequencer()
 	{
 		pReset = NULL;
@@ -51,3 +64,25 @@ private:
 	int curStep;
 	int numSteps;
 };
+
+struct Z8K7Segm : TransparentWidget
+{
+private:
+	std::shared_ptr<Font> font;
+	Z8K *p8;
+	void init(float x, float y)
+	{
+		box.size = Vec(27, 22);
+		box.pos = Vec(mm2px(x), yncscape(y, px2mm(box.size.y)));
+		font = APP->window->loadFont(asset::plugin(pluginInstance, "res/Segment7Standard.ttf"));
+	}
+
+public:
+	Z8K7Segm(Z8K *p, float x, float y)
+	{
+		p8 = p;
+		init(x, y);
+	}
+	virtual void draw(const DrawArgs &args) override;
+};
+

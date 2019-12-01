@@ -1,19 +1,13 @@
 #pragma once
 #include "common.hpp"
-#include <chrono>
-#define BPM_MINVALUE (10)
-#define BPM_MAXVALUE (300)
+#define BPM_MINVALUE (10.0)
+#define BPM_MAXVALUE (300.0)
 #define PWM_MINVALUE (0.05)
 #define PWM_MAXVALUE (0.95)
 #define SWING_MINVALUE (0.0)
 #define SWING_MAXVALUE (0.5)
 
 #define OUT_SOCKETS (21)
-#ifdef ARCH_MAC 
-typedef std::chrono::time_point<std::chrono::steady_clock> fuck_mac_os;
-#else
-typedef std::chrono::time_point<std::chrono::system_clock> fuck_mac_os;
-#endif
 struct PwmClock;
 struct PwmClockWidget : SequencerWidget
 {
@@ -25,9 +19,9 @@ struct PwmClockWidget : SequencerWidget
 
 struct SA_TIMER	//sample accurate version
 {
-	float Reset()
+	float Reset(float now)
 	{
-		prevTime = curTime = APP->engine->getSampleTime();
+		prevTime = curTime = now;
 		return Begin();
 	}
 
@@ -37,12 +31,12 @@ struct SA_TIMER	//sample accurate version
 		RestartStopWatch();
 		return totalPulseTime = 0;
 	}
-	float Elapsed() { return totalPulseTime; }
+	inline float Elapsed() { return totalPulseTime; }
 	float StopWatch() { return stopwatch; }
 
-	float Step()
+	float Step(float now)
 	{
-		curTime += APP->engine->getSampleTime();
+		curTime += now;
 		float deltaTime = curTime - prevTime;
 		prevTime = curTime;
 		totalPulseTime += deltaTime;
@@ -61,24 +55,27 @@ struct MIDICLOCK_TIMER
 {
 	void reset()
 	{
-		midiClockCounter = 0;
+		midiClockAccum = midiClockCounter = 0;
 		lastclockpulse = std::chrono::high_resolution_clock::now();
 		bpm = BPM_MINVALUE;
 		resetStat();	
 	}
 
+	void resetAccum() { midiClockAccum = 0; }
+	inline uint64_t clockCounter() { return midiClockAccum; }
 	float getBpm(float trigger)
 	{
 		if (midiClock.process(trigger))
 		{
+			midiClockAccum++;
 			if ((midiClockCounter++ % 24) == 0)
 			{
 				midiClockCounter = 0;
 				fuck_mac_os now = std::chrono::high_resolution_clock::now();
-				long elapsed_msec = (long)std::chrono::duration_cast<std::chrono::milliseconds>(now - lastclockpulse).count();
-				if (elapsed_msec > 0)
+				float elapsed_msec = std::chrono::duration_cast<std::chrono::microseconds>(now - lastclockpulse).count();
+				if (elapsed_msec > 0.0)
 				{
-					if (addSample(now, roundf(600000.0f / elapsed_msec) / 10.0))
+					if (addSample(now, elapsed_msec))
 						bpm = clamp(readStat(), (float)BPM_MINVALUE, (float)BPM_MAXVALUE);
 					lastclockpulse = now;
 				}
@@ -90,12 +87,13 @@ struct MIDICLOCK_TIMER
 
 	private:
 		dsp::SchmittTrigger midiClock;
-		unsigned char midiClockCounter;
+		int midiClockCounter;
 		fuck_mac_os lastclockpulse;
 		float bpm = BPM_MINVALUE;
 		int meanCalcSamples;
 		float meanCalcTempValue;
 		fuck_mac_os meanCalcStart;
+		uint64_t midiClockAccum;
 		void resetStat()
 		{
 			meanCalcStart = std::chrono::high_resolution_clock::now();
@@ -112,7 +110,10 @@ struct MIDICLOCK_TIMER
 
 		float readStat()
 		{
-			float rv = meanCalcTempValue / meanCalcSamples;
+			float mean = meanCalcTempValue / meanCalcSamples;  // elapsed_time medio
+			float rv;
+			if(mean > 0.000001)
+				rv = (1000000.0f / mean / 24.0f) * 60.f;
 			resetStat();
 			return rv;
 		}
@@ -127,6 +128,7 @@ struct PwmClock : Module
 		SWING,
 		OFFON,
 		PULSE,
+		FOLLOWF8,
 		NUM_PARAMS
 	};
 	enum InputIds
@@ -218,22 +220,24 @@ private:
 	dsp::PulseGenerator onManualStep;
 	bool optimize_manualStep;
 
-	const float pulseTime = 0.1;      //2msec trigger
 	void process_keys();
-	void updateBpm(bool externalMidiClock);
-	void process_active(const ProcessArgs &args);
+	void updateBpm(bool externalMidiClock, bool followf8);
+	void process_active(const ProcessArgs &args, bool externalMidiClock, bool followf8);
 	void process_inactive(const ProcessArgs &args);
-
+	void process_extMidiClock(const ProcessArgs &args);
+	
 	inline float getDuration(int n) 	{return odd_beat[n] ? swingAmt[n] : duration[n]; }
 	float duration[OUT_SOCKETS];
 	float swingAmt[OUT_SOCKETS];
+	static int ticks_24ppqn[OUT_SOCKETS];
 	bool odd_beat[OUT_SOCKETS];
+	dsp::PulseGenerator midiClockTrig[OUT_SOCKETS];
 	void on_loaded();
 	void load();
 	void _reset();
-	inline float getPwm() { return clamp(rescale(inputs[PWM_IN].getNormalVoltage(0.0), LVL_OFF, LVL_ON, PWM_MINVALUE, PWM_MAXVALUE) + params[PWM].value, PWM_MINVALUE, PWM_MAXVALUE); }
+	inline float getPwm() { return getModulableParam(this, PWM, PWM_IN, PWM_MINVALUE, PWM_MAXVALUE); }
 
-	inline float getSwing() { return clamp(rescale(inputs[SWING_IN].getNormalVoltage(0.0), LVL_OFF, LVL_ON, SWING_MINVALUE, SWING_MAXVALUE) + params[SWING].value, SWING_MINVALUE, SWING_MAXVALUE); }
+	inline float getSwing() { return getModulableParam(this, SWING, SWING_IN, SWING_MINVALUE, SWING_MAXVALUE); }
 	bool isGeneratorActive();
 	SA_TIMER sa_timer[OUT_SOCKETS];
 	MIDICLOCK_TIMER midiClock;

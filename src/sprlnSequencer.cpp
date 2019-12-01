@@ -61,16 +61,14 @@ void spiraloneSequencer::Reset(Spiralone *pSpir)
 
 int spiraloneSequencer::getInput(Spiralone *pSpir, int input_id, int knob_id, float minValue, float maxValue)
 {
-	float getNormalVoltaged_in = AccessInput(pSpir, seq, input_id)->isConnected() ? rescale(AccessInput(pSpir, seq, input_id)->value, LVL_OFF, LVL_ON, 0.0, maxValue) : 0.0;
-	float v = clamp(getNormalVoltaged_in + AccessParam(pSpir, seq, knob_id), minValue, maxValue);
-	return (int)roundf(v);
+	return (int)roundf(getModulableParam(pSpir, knob_id+seq, input_id+seq, minValue, maxValue));
 }
 
 void spiraloneSequencer::outputVoltage(Spiralone *pSpir)
 {
-	float v = AccessParam(pSpir, seq, Spiralone::XPOSE_1) + AccessInput(pSpir, seq, Spiralone::INXPOSE_1)->getNormalVoltage(0.0);
+	float v =  AccessInput(pSpir, seq, Spiralone::INXPOSE_1)->getNormalVoltage(0.0);
 	v += AccessParam(pSpir, Spiralone::VOLTAGE_1 + curPos);
-	*AccessOutput(pSpir, seq, Spiralone::CV_1) = pSpir->orng.Value(v);
+	*AccessOutput(pSpir, seq, Spiralone::CV_1) = pSpir->cvs.TransposeableValue(v)+AccessParam(pSpir, seq, Spiralone::XPOSE_1);
 }
 
 void spiraloneSequencer::gate(int clk, Spiralone *pSpir)

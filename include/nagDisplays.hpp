@@ -1,4 +1,4 @@
-
+#pragma once
 struct nag7Segm : TransparentWidget
 {
 private:
@@ -119,7 +119,7 @@ struct nagDisplay : OpenGlWidget
 
 		for (int i = 0; i <= NUM_STEPS; i++)
 		{
-			float angle = 2 * M_PI * i / NUM_STEPS;
+			float angle = fctr1  * i;
 			float x = cos(angle);
 			float y = sin(angle);
 			glVertex2f(x, y);
@@ -128,7 +128,7 @@ struct nagDisplay : OpenGlWidget
 
 		// lancettona
 		glLineWidth(width);
-		float angle = (2 * M_PI * pmodule->getClock() / NUM_STEPS);
+		float angle = fctr1 * pmodule->getClock();
 
 		glBegin(GL_LINES);
 		glColor3f(dg.r, dg.g, dg.b); //colore lancetta
@@ -157,7 +157,7 @@ struct nagDisplay : OpenGlWidget
 				{
 					glBegin(GL_LINES);
 					glVertex3f(0, 0, 0);
-					float rad = pseq->sequence[0] * M_PI / 180.0;
+					float rad = pseq->sequence[0] * fctr2;
 					glVertex3f(cos(rad), sin(rad), 0);
 				}
 				else
@@ -165,7 +165,7 @@ struct nagDisplay : OpenGlWidget
 					glBegin(GL_LINE_LOOP);
 					for (int j = 0; j < pseq->numVertici; j++)
 					{
-						float rad = pseq->sequence[j] * M_PI / 180.0;
+						float rad = pseq->sequence[j] * fctr2;
 						glVertex3f(cos(rad), sin(rad), 0);
 					}
 				}
@@ -176,5 +176,7 @@ struct nagDisplay : OpenGlWidget
 
 private:
 	nag *pmodule;
+	static constexpr float fctr1 = 2.f * M_PI / NUM_STEPS;
+	static constexpr float fctr2 = M_PI / 180.f;
 };
 #pragma once

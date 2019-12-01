@@ -1,7 +1,7 @@
 {
   "slug": "TheXOR",
   "name": "TheXOR",
-  "version": "1.1.1",
+  "version": "1.2.0",
   "license": "CC0-1.0",
   "brand": "TheXOR",
   "author": "The XOR",
@@ -21,6 +21,22 @@
       ]
     },
     {
+      "slug": "kExp",
+      "name": "Klee Expander",
+      "description": "Klee Sequencer Expander",
+      "tags": [
+        "Utility"
+      ]
+    },
+    {
+      "slug": "chords",
+      "name": "Chords",
+      "description": "Chords Generator",
+      "tags": [
+        "Utility"
+      ]
+    },
+    {
       "slug": "ascii",
       "name": "ascii",
       "description": "ascii Sequencer - make notes sing",
@@ -37,11 +53,75 @@
       ]
     },
     {
+      "slug": "M581TExp",
+      "name": "M581 T Expander",
+      "description": "M581 Sequencer Trigger Expander",
+      "tags": [
+        "Utility"
+      ]
+    },
+    {
+      "slug": "M581CExp",
+      "name": "M581 C Expander",
+      "description": "M581 Sequencer CV Expander",
+      "tags": [
+        "Utility"
+      ]
+    },
+    {
+      "slug": "M581MExp",
+      "name": "M581 M Expander",
+      "description": "M581 Sequencer Matrix Expander",
+      "tags": [
+        "Utility"
+      ]
+    },
+    {
+      "slug": "M581VExp",
+      "name": "M581 V Expander",
+      "description": "M581 Sequencer Voltage Expander",
+      "tags": [
+        "Utility"
+      ]
+    },
+    {
       "slug": "Z8K",
       "name": "Z8K",
       "description": "Z8000 Sequencer",
       "tags": [
         "Sequencer"
+      ]
+    },
+    {
+      "slug": "Z8KVExp",
+      "name": "Z8K V Expander",
+      "description": "Z8000 Sequencer Voltage Expander",
+      "tags": [
+        "Utility"
+      ]
+    },
+    {
+      "slug": "Z8KCExp",
+      "name": "Z8K C Expander",
+      "description": "Z8000 Sequencer CV Expander",
+      "tags": [
+        "Utility"
+      ]
+    },
+    {
+      "slug": "Z8KMExp",
+      "name": "Z8K M Expander",
+      "description": "Z8000 Sequencer Matrix Expander",
+      "tags": [
+        "Utility"
+      ]
+    },
+    {
+      "slug": "Z8KTExp",
+      "name": "Z8K T Expander",
+      "description": "Z8000 Sequencer Trigger Expander",
+      "tags": [
+        "Utility"
       ]
     },
     {
@@ -151,6 +231,14 @@
       ]
     },
     {
+      "slug": "RR",
+      "name": "Round Robin",
+      "description": "Clock round robin",
+      "tags": [
+        "Switch"
+      ]
+    },
+    {
       "slug": "Counter",
       "name": "Counter",
       "description": "count inputs and generate a signal when reaches 0",
@@ -183,6 +271,14 @@
       ]
     },
     {
+      "slug": "Nordschleife",
+      "name": "Nordschleife",
+      "description": "the only sequencer with Karussell",
+      "tags": [
+        "Sequencer"
+      ]
+    },
+    {
       "slug": "empty",
       "name": "empty",
       "description": "a strategy to waste your precious rack space",
@@ -196,6 +292,14 @@
       "description": "microtonal quantizer",
       "tags": [
         "Quantizer"
+      ]
+    },
+    {
+      "slug": "c2v",
+      "name": "c2v",
+      "description": "cv to voltage",
+      "tags": [
+        "Utility"
       ]
     }
   ]

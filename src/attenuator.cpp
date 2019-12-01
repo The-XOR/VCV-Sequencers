@@ -3,7 +3,7 @@
 
 void Attenuator::process(const ProcessArgs &args)
 {
-	bool am = params[ATTMODE].value > 0.1;
+	bool am = isSwitchOn(this, ATTMODE);
 
 	for(int k = 0; k < NUM_ATTENUATORS; k++)
 	{

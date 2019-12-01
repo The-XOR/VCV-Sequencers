@@ -33,14 +33,14 @@ struct ascii : Module
 		M_RESET,
 		FTM,
 		RANGE,
-		NUM_PARAMS = RANGE + outputRange::NUMSLOTS
+		NUM_PARAMS = RANGE + cvMiniStrip::CVMINISTRIP_PARAMS
 	};
 	enum InputIds
 	{
 		RESET,
 		CLK,
 		RANGE_IN,
-		NUM_INPUTS = RANGE_IN + outputRange::NUMSLOTS
+		NUM_INPUTS = RANGE_IN + cvMiniStrip::CVMINISTRIP_INPUTS
 	};
 	enum OutputIds
 	{
@@ -56,11 +56,11 @@ struct ascii : Module
 	{		
 		textField = NULL;
 		config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS);
-		orng.configure(this, RANGE);
+		cvs.configure(this, NUM_PARAMS - cvMiniStrip::CVMINISTRIP_PARAMS);
 	}
 	void setField(TextField *p) { textField = p; }
 	void process(const ProcessArgs &args) override;
-	outputRange orng;
+	cvMiniStrip cvs;
 
 private:
 	float getValue(char c);

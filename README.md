@@ -22,8 +22,11 @@ and now for something completely different: a list.
 
 ## a list.
 # klee
-a rather complete klee sequencer, with some enhancements.
+a rather complete klee sequencer, with some enhancements. 
 more information: https://www.google.com/search?q=klee%20sequencer%20pdf
+
+# k/exp
+if the complexity of a klee sequencer is not enough, use this expansion module.
 
 # m581
 inspired by the system 100 sequencer, check https://www.google.com/search?q=m185%20step%20sequencer
@@ -33,7 +36,7 @@ x/y sequencer, in memory of the great renato/04!
 vaguely inspired by https://www.google.com/search?q=renee%20sequencer
 
 # z8k
-4 colors x 4 sequencers. matrix reloaded.
+4 colors x 4 sequencers. matrix reloaded. expandable with other z8exp series modules
 hint: https://www.google.com/search?q=z8000%20sequencer
 
 # spiralone
@@ -102,3 +105,21 @@ an arpeggiator that pretends to be a sequencer, or the other way around. the fir
 
 # volt
 the plugin that alessandro volta always wanted to have, if he was interested in microtonal music instead of frogs.
+
+# nordschleife
+for the _very first time in the world_ an analog matrix sequencer that is so complex it had to be put under CPU control.
+from basic, repetitive sequences to total kaos, and everything in between. it is so complex, that cannot be used without knowing that:
+1) numpad keys 0 1 2 3 / * - + can be used for data entry (when the safety car is deployed, every car shall follow)
+2) every car has is own path, direction and sequence range
+3) in case of collision between two cars, everything can change.
+4) not to mention the step-by-step options.
+
+# rr
+clock round robin (with a switch)
+
+# chords
+not only bleep bleeps. the chords
+
+# c2v
+gate signals to voltages
+

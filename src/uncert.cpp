@@ -29,7 +29,7 @@ void Uncertain::out_quantized(int clk)
 {
 	if(clk == 1)
 	{
-		int position = getInt(QUANTIZED_AMT, IN_QUANTIZED, 0.0, 5.0) + 1;
+		int position = (int)roundf(getModulableParam(this, QUANTIZED_AMT, IN_QUANTIZED, 0.0, 5.0)) + 1;
 		outputs[OUT_QUANTIZED_N1].value = roundf(rescale(random::uniform(), 0.0, 1.0, 0.0, position));		// 1V
 		float n2= roundf(rescale(random::uniform(), 0.0, 1.0, 1.0, 2 << position));
 		outputs[OUT_QUANTIZED_2N].value = clamp(SEMITONE*n2, LVL_OFF, LVL_ON);
@@ -47,8 +47,8 @@ void Uncertain::out_stored(int clk)
 
 float Uncertain::rndGaussianVoltage()
 {
-	float mu = getFloat(STORED_AMT, IN_STORED, LVL_OFF, LVL_MAX);
-	float sigma = getFloat(CURVEAMP_AMT, IN_CURVEAMP, 0.01, 2.0);
+	float mu = getModulableParam(this, STORED_AMT, IN_STORED, LVL_OFF, LVL_MAX);
+	float sigma = getModulableParam(this, CURVEAMP_AMT, IN_CURVEAMP, 0.01, 2.0);
 	float u1 = 1.0 - random::uniform();
 	float u2 = 1.0 - random::uniform();
 	float randStdNormal = sqrtf(-2.0 * logf(u1)) * sinf(2.0 * M_PI * u2); //random normal(0,1)
@@ -57,7 +57,7 @@ float Uncertain::rndGaussianVoltage()
 
 float Uncertain::rndFluctVoltage() 
 { 
-	float vmax = getFloat(FLUCT_AMT, IN_FLUCT, LVL_MIN, LVL_MAX);
+	float vmax = getModulableParam(this, FLUCT_AMT, IN_FLUCT, LVL_MIN, LVL_MAX);
 	bool negative = vmax < 0;
 	if(negative)
 		return -clamp(rescale(random::uniform(), 0.0, 1.0, LVL_OFF, -vmax), LVL_OFF, LVL_MAX);
@@ -104,12 +104,6 @@ void Uncertain::out_fluct(int clk)
 		}
 		break;
 	}
-}
-
-float Uncertain::getFloat(ParamIds p_id, InputIds i_id, float minValue, float maxValue)
-{
-	float offs = inputs[i_id].isConnected() ? rescale(inputs[i_id].value, LVL_OFF, LVL_ON, 0.0, maxValue) : 0.0;
-	return clamp(offs + params[p_id].value, minValue, maxValue);
 }
 
 UncertainWidget::UncertainWidget(Uncertain *module) : SequencerWidget()

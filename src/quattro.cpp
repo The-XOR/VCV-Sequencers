@@ -14,6 +14,13 @@ void quattro::process(const ProcessArgs &args)
 		if(pWidget != NULL && rndTrigger.process(inputs[RANDOMIZONE].value))
 			randrandrand();
 
+		float rec_smp;
+		int rec_step;
+		if(cvs.IsRecAvailable(&rec_smp, &rec_step))
+		{
+			pWidget->SetValue(quattro::VOLTAGE_1 + rec_step, rec_smp);
+		}
+
 		int forceStep = -1;
 		for(int k = 0; k < QUATTRO_NUM_STEPS && forceStep == -1; k++)
 		{
@@ -41,6 +48,7 @@ void quattro::on_loaded()
 	connected = 0;
 	#endif
 	load();
+	cvs.Init(pWidget);
 }
 
 void quattro::load()
@@ -93,7 +101,7 @@ void quattro::randrandrand(int action)
 void quattro::QuantizePitch()
 {
 	for(int k = 0; k < QUATTRO_NUM_STEPS; k++)
-		params[VOLTAGE_1 + k].value = pWidget->quantizePitch(VOLTAGE_1 + k, params[VOLTAGE_1 + k].value, orng);
+		params[VOLTAGE_1 + k].value = pWidget->quantizePitch(VOLTAGE_1 + k, params[VOLTAGE_1 + k].value, cvs);
 }
 
 #define INCY(k) (-k * 14.798f)
@@ -106,11 +114,11 @@ quattroWidget::quattroWidget(quattro *module) : SequencerWidget()
 	if(module != NULL)
 		module->setWidget(this);
 
-	CREATE_PANEL(module, this, 50, "res/modules/quattro.svg");
+	CREATE_PANEL(module, this, 52, "res/modules/quattro.svg");
 
-	addInput(createInput<PJ301HPort>(Vec(mm2px(231.288f), yncscape(90.796f, 8.255)), module, quattro::RANDOMIZONE));
+	addInput(createInput<PJ301HPort>(Vec(mm2px(231.288f), yncscape(11.951f, 8.255)), module, quattro::RANDOMIZONE));
 	if(module != NULL)
-		module->orng.Create(this, 224.846f, 108.285f, quattro::RANGE_IN, quattro::RANGE);
+		module->cvs.Create(this, 251.717f, 18.530f, quattro::NUM_INPUTS-cvStrip::CVSTRIP_INPUTS, quattro::NUM_PARAMS - cvStrip::CVSTRIP_PARAMS, QUATTRO_NUM_STEPS);
 
 	#ifdef DIGITAL_EXT
 	if(module != NULL)
@@ -118,7 +126,7 @@ quattroWidget::quattroWidget(quattro *module) : SequencerWidget()
 	#endif
 
 	ParamWidget *pwdg = createParam<BefacoPushBig>(Vec(mm2px(24.889f), yncscape(112.537f, 8.999)), module, quattro::M_RESET);
-	addChild(pwdg);
+	addParam(pwdg);
 	#ifdef OSCTEST_MODULE
 	if(module != NULL)
 	{
@@ -158,7 +166,8 @@ void quattroWidget::create_strip(quattro *module, int n)
 		module->oscDrv->Add(new oscControl(name), pwdg);
 	}
 	#endif
-	pwdg = createParam<NKK2>(Vec(mm2px(xleft + 3.043f), yncscape(96.967f, 7.336)), module, quattro::MODE + n);
+	pwdg = createParam<Davies1900hFixBlackKnobSmall>(Vec(mm2px(xleft + 3.726f), yncscape(93.989f, 8.0)), module, quattro::MODE + n);
+	((Davies1900hFixBlackKnobSmall *)pwdg)->snap = true;
 	addParam(pwdg);
 	#ifdef OSCTEST_MODULE
 	if(module != NULL)
@@ -265,20 +274,32 @@ void quattroStrip::process(int forceStep, float deltaTime)
 				if(clk == 1)
 				{
 					move_next();
-					beginPulse(false);
+					bool silent;
+					switch(getStepMode())
+					{
+						default:
+							silent = false;
+							break;
+
+						case SKIP:
+							silent = true;
+							break;
+					}
+					beginPulse(silent);
 				} else if(clk == -1)
-					endPulse();
+				{
+					endPulse(getStepMode() == SLIDE);
+				} 
 
 			} else if(pulseStatus == -1)
-				endPulse();
+				endPulse(false);
 		}
 	}
 }
 
 int quattroStrip::getDirection()
 {
-	return clamp((int)roundf(pModule->inputs[quattro::DIRECTION_IN1 + stripID].isConnected() ?
-			 pModule->inputs[quattro::DIRECTION_IN1 + stripID].getVoltage() : pModule->params[quattro::DIRECTION1 + stripID].value), 0, 2);
+	return (int)roundf(getModulableParam(pModule, quattro::DIRECTION1 + stripID, quattro::DIRECTION_IN1 + stripID, 0, 2));
 }
 
 void quattroStrip::reset_curstep(int movement)
@@ -308,6 +329,7 @@ void quattroStrip::move_next()
 		return;
 	}
 	int movement = getDirection();
+	
 	if(getStepMode() == RESET)
 	{
 		reset_curstep(movement);
@@ -327,6 +349,7 @@ void quattroStrip::move_next()
 		}
 		return;
 	}
+
 	for(int k = 0; k < QUATTRO_NUM_STEPS; k++)
 	{
 		switch(movement)
@@ -365,22 +388,38 @@ void quattroStrip::move_next()
 			}
 			break;
 		}
+
+		STEPMODE mode = getStepMode();
+		if(mode == SKIP)
+			continue;
+		else if(mode == N_75)
+		{
+			if((int)(random::uniform() * 4) > 2)
+				continue;
+		} else if(mode == N_50)
+		{
+			if((int)(random::uniform() * 4) > 1)
+				continue;
+		} else if(mode == N_25)
+		{
+			if((int)(random::uniform() * 4) > 0)
+				continue;
+		}
 	
-		if(getStepMode() != SKIP)
-			break;
+		break;
 	}
 
 }
 
 quattroStrip::STEPMODE quattroStrip::getStepMode()
 {
-	return  (quattroStrip::STEPMODE)(int)(pModule->params[quattro::MODE + curStep].value);
+	return  (quattroStrip::STEPMODE)round(pModule->params[quattro::MODE + curStep].value);
 }
 
 void quattroStrip::beginPulse(bool silent)
 {
 	int abcd = (int)roundf(pModule->params[quattro::STRIPSEL_1 + curStep].value);
-	pModule->outputs[quattro::CV1 + stripID].value = pModule->orng.Value(pModule->params[quattro::VOLTAGE_1 + curStep].value);
+	pModule->outputs[quattro::CV1 + stripID].value = pModule->cvs.TransposeableValue(pModule->params[quattro::VOLTAGE_1 + curStep].value);
 	pModule->outputs[quattro::GATE1 + stripID].value = silent ? LVL_OFF : LVL_ON;
 	if(stripID == abcd)
 		pModule->outputs[quattro::CURSTEP1 + curStep].value = LVL_ON;
@@ -388,9 +427,10 @@ void quattroStrip::beginPulse(bool silent)
 		pModule->lights[quattro::ledStrips[stripID] + k].value = k == curStep ? LED_ON : LED_OFF;
 }
 
-void quattroStrip::endPulse()
+void quattroStrip::endPulse(bool slide)
 {
-	pModule->outputs[quattro::GATE1 + stripID].value = LVL_OFF;
+	if(!slide)
+		pModule->outputs[quattro::GATE1 + stripID].value = LVL_OFF;
 	for(int k = 0; k < QUATTRO_NUM_STEPS; k++)
 		pModule->outputs[quattro::CURSTEP1 + k].value = LVL_OFF;
 }
@@ -399,12 +439,12 @@ void quattroStrip::reset(float deltaTime)
 {
 	if(pModule != NULL && resetPulseGuard.process(deltaTime) == 0)
 	{
-		endPulse();
+		endPulse(false);
 		curStep = 0;
 		reset_curstep(getDirection());
 		moving_bwd = false;
 		prenotazioneDiChiamata = -1;
-		resetPulseGuard.trigger(pulseTime);
+		resetPulseGuard.trigger(PULSE_TIME);
 		beginPulse();
 	}
 }

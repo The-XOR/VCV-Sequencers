@@ -70,11 +70,11 @@ public:
 		firstCol = firstRow = 0;
 		invert_active = false;
 		config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS);
-		configParam(PATTERN, 1, NUM_PATTERNS, 1, "Pattern", "#");
-		configParam(FIRSTROW, 1, NUM_o88o_RECT, 1, "First Row", "#");
-		configParam(LASTROW, 1, NUM_o88o_RECT, NUM_o88o_RECT, "Last Row", "#");
-		configParam(FIRSTCOL, 1, NUM_o88o_RECT, 1, "First Column", "#");
-		configParam(LASTCOL, 1, NUM_o88o_RECT, NUM_o88o_RECT, "Last Column", "#");
+		configParam(PATTERN, 0, NUM_PATTERNS-1, 0, "Pattern", "#",  0.f, 1.f, 1.f);
+		configParam(FIRSTROW, 0, NUM_o88o_RECT-1, 0, "First Row", "#", 0.f, 1.f, 1.f);
+		configParam(LASTROW, 0, NUM_o88o_RECT-1, NUM_o88o_RECT-1, "Last Row", "#", 0.f, 1.f, 1.f);
+		configParam(FIRSTCOL, 0, NUM_o88o_RECT-1, 0, "First Column", "#",  0.f, 1.f, 1.f);
+		configParam(LASTCOL, 0, NUM_o88o_RECT-1, NUM_o88o_RECT-1, "Last Column", "#",  0.f, 1.f, 1.f);
 		reset();
 	}
 	void process(const ProcessArgs &args) override;
@@ -89,7 +89,6 @@ private:
 	void reset();
 	void getPatternLimits();
 	void out_position();
-	inline bool getSwitch(int paramId, int inputId) { return inputs[inputId].isConnected() ? inputs[inputId].getNormalVoltage(0.0) >= 1.0 : params[paramId].value > 0.5; }
 	void open_gate();
 	void next_column(bool vert, bool back, bool loop);
 	void next_row(bool vert, bool back, bool loop);

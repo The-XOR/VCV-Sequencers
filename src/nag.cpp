@@ -30,7 +30,7 @@ void nag::updateNags(float dt)
 {
 	for (int k = 0; k < NUM_NAGS; k++)
 	{
-		sequencer[k].enabled = params[ENABLE_1 + k].value > 0.5;
+		sequencer[k].enabled = isSwitchOn(this, ENABLE_1 + k);
 		lights[ON_1 + k].value = sequencer[k].Highlight(dt) ? LED_ON : LED_OFF;
 		sequencer[k].set(getInput(k, INVERTEX_1, VERTEX_1, MIN_VERTICES, MAX_VERTICES));
 		sequencer[k].rotate(getInput(k, INROTATE_1, ROTATE_1, MIN_ROTATE, MAX_ROTATE));
@@ -52,7 +52,7 @@ void nag::process(const ProcessArgs &args)
 				randrandrand();
 		}
 		int degclk = degPerClock();
-		bool dm = degclk > 1 && params[DEGMODE].value > 0.1;
+		bool dm = degclk > 1 && isSwitchOn(this, DEGMODE);
 
 		float deltaTime = 1.0 / args.sampleRate;
 		updateNags(deltaTime);
@@ -99,10 +99,7 @@ void nag::sclocca(bool dm, float dt)
 
 int nag::getInput(int index, int input_id, int knob_id, float mi, float ma)
 {
-	if (inputs[input_id + index].isConnected())
-		return (int)roundf(rescale(clamp(inputs[input_id + index].getNormalVoltage(0.0), LVL_OFF, LVL_ON), LVL_OFF, LVL_ON, mi, ma));
-	
-	return (int)roundf(params[knob_id + index].value);
+	return (int)roundf(getModulableParam(this, knob_id + index, input_id + index, mi, ma));
 }
 
 nagWidget::nagWidget(nag *module) : SequencerWidget()

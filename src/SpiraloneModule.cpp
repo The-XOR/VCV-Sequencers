@@ -68,6 +68,7 @@ void Spiralone::on_loaded()
 	connected = 0;
 	#endif
 	load();
+	cvs.Init(pWidget);
 }
 
 void Spiralone::load()
@@ -87,6 +88,13 @@ void Spiralone::process(const ProcessArgs &args)
 		{
 			if(rndTrigger.process(inputs[RANDOMIZONE].value))
 				randrandrand();
+		}
+
+		float rec_smp;
+		int rec_step;
+		if(cvs.IsRecAvailable(&rec_smp, &rec_step))
+		{
+			pWidget->SetValue(Spiralone::VOLTAGE_1 + rec_step, rec_smp);
 		}
 
 		for(int k = 0; k < NUM_SEQUENCERS; k++)
@@ -163,7 +171,7 @@ void Spiralone::randrandrand(int action)
 void Spiralone::QuantizePitch()
 {
 	for(int k = 0; k < TOTAL_STEPS; k++)
-		params[VOLTAGE_1 + k].value = pWidget->quantizePitch(VOLTAGE_1 + k, params[VOLTAGE_1 + k].value, orng);
+		params[VOLTAGE_1 + k].value = pWidget->quantizePitch(VOLTAGE_1 + k, params[VOLTAGE_1 + k].value, cvs);
 }
 
 SpiraloneWidget::SpiraloneWidget(Spiralone *module) : SequencerWidget()
@@ -181,7 +189,7 @@ SpiraloneWidget::SpiraloneWidget(Spiralone *module) : SequencerWidget()
 	color[3] = componentlibrary::SCHEME_YELLOW;
 	color[4] = componentlibrary::SCHEME_GREEN;
 
-	CREATE_PANEL(module, this, 51, "res/modules/SpiraloneModule.svg");
+	CREATE_PANEL(module, this, 53, "res/modules/SpiraloneModule.svg");
 
 	float step = 2 * M_PI / TOTAL_STEPS;
 	float angle = M_PI / 2.0;
@@ -241,7 +249,7 @@ SpiraloneWidget::SpiraloneWidget(Spiralone *module) : SequencerWidget()
 	addInput(createInput<PJ301HPort>(Vec(mm2px(62.766), yncscape(59.593, 8.255)), module, Spiralone::RANDOMIZONE));
 
 	if(module != NULL)
-		((Spiralone *)module)->orng.Create(this, 1.098f, 5.295f, Spiralone::RANGE_IN, Spiralone::RANGE);
+		module->cvs.Create(this, 258.022f, 18.530f, Spiralone::NUM_INPUTS - cvStrip::CVSTRIP_INPUTS, Spiralone::NUM_PARAMS - cvStrip::CVSTRIP_PARAMS, TOTAL_STEPS);
 
 	#ifdef DIGITAL_EXT
 	if(module != NULL)

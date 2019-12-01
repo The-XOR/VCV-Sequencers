@@ -68,9 +68,13 @@ public:
 private:
 	enum STEPMODE
 	{
-		RESET,
-		NORMAL,
-		SKIP
+		N_100,
+		N_75,
+		N_50,
+		N_25,
+		SLIDE,
+		SKIP,
+		RESET
 	};
 	int curStep;
 	int stripID;
@@ -78,12 +82,11 @@ private:
 	dsp::SchmittTrigger resetTrig;
 	SchmittTrigger2 clockTrigger;
 	void beginPulse(bool silent = true);
-	void endPulse();
+	void endPulse(bool slide);
 	STEPMODE getStepMode();
 	void move_next();
 	PulseGenerator2 resetPulseGuard;
 	bool resetting;
-	const float pulseTime = 0.001;
 	int prenotazioneDiChiamata;
 	bool moving_bwd;
 	int getDirection();
@@ -100,7 +103,7 @@ struct quattro : Module
 		DIRECTION1 = STRIPSEL_1 + QUATTRO_NUM_STEPS,
 		M_RESET = DIRECTION1 + NUM_STRIPS,
 		RANGE,
-		NUM_PARAMS = RANGE + outputRange::NUMSLOTS
+		NUM_PARAMS = RANGE + cvStrip::CVSTRIP_PARAMS
 	};
 	enum InputIds
 	{
@@ -111,7 +114,7 @@ struct quattro : Module
 		MRESET_IN = CLOCK1 + NUM_STRIPS,
 		RANDOMIZONE,
 		RANGE_IN,
-		NUM_INPUTS = RANGE_IN + outputRange::NUMSLOTS
+		NUM_INPUTS = RANGE_IN + cvStrip::CVSTRIP_INPUTS
 	};
 	enum OutputIds
 	{
@@ -137,12 +140,12 @@ struct quattro : Module
 
 		for(int k = 0; k < QUATTRO_NUM_STEPS; k++)
 		{
-			configParam(MODE + k, 0.0, 2.0, 1.0);
+			configParam(MODE + k, 0.0, 6.0, 0.0);
 			configParam(VOLTAGE_1 + k, 0.0, 1.0, 0.5);
 			configParam(STRIPSEL_1 + k, 0.0, 3.0, 0.0);
 		}
 
-		orng.configure(this, RANGE);
+		cvs.configure(this, NUM_PARAMS - cvStrip::CVSTRIP_PARAMS);
 		for(int k = 0; k < NUM_STRIPS; k++)
 		{
 			configParam(DIRECTION1 + k, 0.0, 2.0, 0.0);
@@ -155,7 +158,7 @@ struct quattro : Module
 	void setWidget(quattroWidget *pwdg) { pWidget = pwdg; }
 	static int ledStrips[4];
 	int theRandomizer;
-	outputRange orng;
+	cvStrip cvs;
 	void onReset() override { load(); }
 	void onRandomize() override { load(); }
 	void dataFromJson(json_t *root) override
@@ -168,6 +171,7 @@ struct quattro : Module
 	}
 	json_t *dataToJson() override
 	{
+		INFO("to json");
 		json_t *rootJ = json_object();
 		json_t *rndJson = json_integer(theRandomizer);
 		json_object_set_new(rootJ, "theRandomizer", rndJson);

@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <sstream>
 #include <iomanip>
+#include <chrono>
 
 #define LVL_MIN   (-10.0f)
 #define LVL_MAX   (10.0f)
@@ -11,14 +12,31 @@
 #define LVL_ON    (10.0f)
 #define LED_OFF    (0.0f)
 #define LED_ON    (10.0f)
+#define MIDDLE_C  (4.0f)
+#define PULSE_TIME (0.001)
+#define SWITCH_ON (0.1f)
+
+#define EXPPORT_KLEE	(0x80)
+#define EXPPORT_Z8K 	(0x90)
+#define EXPPORT_M581 	(0xA0)
 
 using namespace rack;
 extern Plugin *pluginInstance;
+
+#ifdef ARCH_MAC 
+typedef std::chrono::time_point<std::chrono::steady_clock> fuck_mac_os;
+#else
+typedef std::chrono::time_point<std::chrono::system_clock> fuck_mac_os;
+#endif
 
 inline float px2mm(float px) { return px * (MM_PER_IN / SVG_DPI); }
 inline float yncscape(float y, float height) { return RACK_GRID_HEIGHT - mm2px(y + height); }
 static constexpr float SEMITONE = 1.0f / 12.0f;// 1/12 V
 inline float NearestSemitone(float v) {return round(v / SEMITONE) * SEMITONE;}
+bool getModulableSwitch(Module *pm, int paramId, int inputId);
+float getModulableParam(Module *pm, int paramId, int inputId, float minVal, float maxVal);
+bool isSwitchOn(Module *pm, int paramId);
+bool IsExpansion(Module *pm, float *dest, int expansionID, int inputID, int ledID);
 
 #if defined(ARCH_WIN) && defined(USE_LAUNCHPAD)
 #define LAUNCHPAD
@@ -168,6 +186,16 @@ struct Davies1900hFixRedKnobSmall : _davies1900base
 	Davies1900hFixRedKnobSmall() : _davies1900base("res/Davies1900hRedSmall.svg") {}
 };
 
+
+struct daviesVerySmall : _davies1900base
+{
+	daviesVerySmall() : _davies1900base("res/Davies1900hBlackVerySmall.svg") {}
+	void randomize() override
+	{
+		// do NOT randomaiz
+	}
+};
+
 struct _ioPort : SvgPort
 {
 	_ioPort(const char *res)
@@ -176,6 +204,31 @@ struct _ioPort : SvgPort
 		sw->wrap();
 		box.size = sw->box.size;
 	}
+};
+
+struct portSmall : _ioPort
+{
+	portSmall() : _ioPort("res/PJ301Bsmall.svg") {}
+};
+
+struct portBLUSmall : _ioPort
+{
+	portBLUSmall() : _ioPort("res/PJ301BLUsmall.svg") {}
+};
+
+struct portYSmall : _ioPort
+{
+	portYSmall() : _ioPort("res/PJ301Ysmall.svg") {}
+};
+
+struct portGSmall : _ioPort
+{
+	portGSmall() : _ioPort("res/PJ301Gsmall.svg") {}
+};
+
+struct portWSmall : _ioPort
+{
+	portWSmall() : _ioPort("res/PJ301Wsmall.svg") {}
 };
 
 struct PJ301HPort : _ioPort
@@ -194,6 +247,11 @@ struct PJ301YPort : _ioPort
 struct PJ301BPort : _ioPort
 {
 	PJ301BPort() : _ioPort("res/PJ301B.svg") {}
+};
+
+struct PJ301EXP : _ioPort
+{
+	PJ301EXP() : _ioPort("res/PJ301EXP.svg") {}
 };
 
 struct PJ301GPort : _ioPort
@@ -270,7 +328,24 @@ struct TL1105HSw : app::SvgSwitch
 	{
 		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/TL1105_H0.svg")));
 		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/TL1105_H1.svg")));
+	}
+};
+
+struct TL1105HSwRed : app::SvgSwitch
+{
+	TL1105HSwRed()
+	{
+		randomizable = true;
+		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/TL1105_H0.svg")));
+		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/TL1105_HB1.svg")));
 	};
+
+	void randomize() override
+	{
+		if(randomizable)
+			app::SvgSwitch::randomize();
+	}
+	bool randomizable;
 };
 
 struct TL1105HBSw : app::SvgSwitch
@@ -286,9 +361,16 @@ struct TL1105Sw : app::SvgSwitch
 {
 	TL1105Sw()
 	{
+		randomizable = true;
 		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/TL1105_0.svg")));
 		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/TL1105_1.svg")));
 	};
+	void randomize() override
+	{
+		if(randomizable)
+			app::SvgSwitch::randomize();
+	}
+	bool randomizable;
 };
 
 struct SchmittTrigger2
@@ -404,8 +486,7 @@ private:
 	int action;
 };
 
-#include "outRange.hpp"
-
+struct cvMicroStrip;
 class SequencerWidget : public ModuleWidget
 {
 public:
@@ -421,17 +502,15 @@ public:
 		}
 	}
 
-	float quantizePitch(int idx, float value, const outputRange &orng)
+	float quantizePitch(int idx, float value, const cvMicroStrip &cvs);
+
+	void SetValue(int idx, float value)
 	{
-		value = orng.Value(value);
-		value = orng.Reverse(NearestSemitone(value));
 		int index = getParamIndex(idx);
 		if(index >= 0)
 		{
 			params[index]->paramQuantity->setValue(value);
 		}
-
-		return value;
 	}
 
 protected:
@@ -455,6 +534,8 @@ protected:
 
 	virtual Menu *addContextMenu(Menu *menu) { return menu; }
 };
+#include "cvStrip.hpp"
+
 
 #if defined(LAUNCHPAD) || defined(OSC_ENABLE)
 struct DigitalLed : SvgWidget
@@ -518,11 +599,15 @@ public:
 			nvgTextLetterSpacing(args.vg, 2.5);
 
 			std::stringstream to_display;
-			if(precision == 0)
-				to_display << std::setw(digits) << std::round(*value);
+			if(*value == std::numeric_limits<float>::epsilon())
+				to_display << "---";
 			else
-				to_display << std::fixed << std::setw(digits) << std::setprecision(precision) << *value;
-
+			{
+				if(precision == 0)
+					to_display << std::setw(digits) << std::round(*value);
+				else
+					to_display << std::fixed << std::setw(digits) << std::setprecision(precision) << *value;
+			}
 			Vec textPos = Vec(3, 17);
 
 			NVGcolor textColor = nvgRGB(0xdf, 0xd2, 0x2c);
@@ -589,7 +674,7 @@ struct XorPanel : SvgPanel
 		{
 			setSvg(APP->window->loadSvg(asset::plugin(pluginInstance, "res/screw_hole.svg")));
 		}
-	};	
+	};
 	struct bgGradient : TransparentWidget
 	{
 		bgGradient(const Vec &size)

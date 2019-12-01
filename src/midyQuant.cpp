@@ -6,7 +6,7 @@ void midyQuant::process(const ProcessArgs &args)
 	if(resetTrigger.process(inputs[RESET].value))
 	{
 		midiOutput.reset();
-	} else if(inputs[CV].isConnected())
+	} else 
 	{
 		int clk = gate.process(inputs[GATE].value); // 1=rise, -1=fall
 		if(clk != 0)
@@ -18,7 +18,7 @@ void midyQuant::process(const ProcessArgs &args)
 				note_playing = -1;
 			} else if(clk == 1)
 			{
-				float v = inputs[CV].getVoltage();
+				float v = inputs[CV].getNormalVoltage(0.0);
 				float semitone = NearestSemitone(v);
 				note_playing = clamp(std::round(semitone * 12.0 + 60.0), 0, 127);
 				midiOutput.sendNote(true, note_playing, vel);

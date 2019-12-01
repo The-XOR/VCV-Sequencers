@@ -70,7 +70,7 @@ struct Klee : Module
 		BUS_MERGE,
 		BUS2_MODE = BUS_MERGE + 3,
 		RANGE,
-		NUM_PARAMS = RANGE + outputRange::NUMSLOTS
+		NUM_PARAMS = RANGE + cvMiniStrip::CVMINISTRIP_PARAMS
 	};
 
 	enum InputIds
@@ -80,7 +80,7 @@ struct Klee : Module
 		RND_THRES_IN,
 		RANDOMIZONE,
 		RANGE_IN,
-		NUM_INPUTS = RANGE_IN + outputRange::NUMSLOTS
+		NUM_INPUTS = RANGE_IN + cvMiniStrip::CVMINISTRIP_INPUTS
 	};
 
 	enum OutputIds
@@ -91,7 +91,8 @@ struct Klee : Module
 		CV_A__B,
 		GATE_OUT,
 		TRIG_OUT = GATE_OUT + 3,
-		NUM_OUTPUTS = TRIG_OUT + 3
+		EXPANDER_OUT = TRIG_OUT + 3,
+		NUM_OUTPUTS
 	};
 
 	enum LightIds
@@ -109,7 +110,7 @@ struct Klee : Module
 		theRandomizer = 0;
 
 		config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS);
-		orng.configure(this, RANGE);
+		cvs.configure(this, NUM_PARAMS - cvMiniStrip::CVMINISTRIP_PARAMS);
 
 		for(int k = 0; k < 8; k++)
 		{
@@ -192,11 +193,11 @@ struct Klee : Module
 	OSCDriver *oscDrv = NULL;
 	#endif
 	int theRandomizer;
-	outputRange orng;
+	cvMiniStrip cvs;
 
 private:
+	static uint8_t bitfield[8];
 	KleeWidget *pWidget;
-	const float pulseTime = 0.1;      //2msec trigger
 	void showValues();
 	void sr_rotate();
 	bool chance();
@@ -208,7 +209,6 @@ private:
 	void randrandrand(int action);
 	void populate_outputs();
 	void check_triggers(float deltaTime);
-	bool isSwitchOn(int ptr);
 	int getValue3(int k);
 	dsp::SchmittTrigger loadTrigger;
 	SchmittTrigger2 clockTrigger;
