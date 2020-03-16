@@ -1,4 +1,4 @@
-#include "../include/kExp.hpp"
+#include "../include/kexp.hpp"
 
 void kExp::process(const ProcessArgs &args)
 {
