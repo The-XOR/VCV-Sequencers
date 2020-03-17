@@ -20,8 +20,9 @@ public:
 		}
 	}
 
-	void SetSequence(std::vector<Param> &params, Light *pLights, std::vector<int> steps)
+	void SetSequence(std::vector<Param> &params, Light *pLights, std::vector<int> steps, bool rand)
 	{
+		random = rand;
 		sequence.clear();
 		leds.clear();
 		chain.clear();
@@ -49,6 +50,7 @@ public:
 		pDirection = NULL;
 		pClock = NULL;
 		pOutput = NULL;
+		random = false;
 	}
 
 private:
@@ -63,6 +65,7 @@ private:
 	std::vector<int> chain;
 	int curStep;
 	int numSteps;
+	bool random;
 };
 
 struct Z8K7Segm : TransparentWidget

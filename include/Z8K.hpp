@@ -5,7 +5,7 @@
 #include <algorithm>
 #include "z8kSequencer.hpp"
 
-#define Z8KPATHS 99
+#define Z8KPATHS 100
 
 struct Z8KWidget : SequencerWidget
 {

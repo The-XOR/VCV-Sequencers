@@ -100,7 +100,9 @@ int Z8K::paths[Z8KPATHS][16] = {
 	{6,7,4,5,10,11,8,9, 14,15,12,13, 2,3,0,1,  }, 
 	{7,6,4,5,11,10,8,9, 15,14,12,13, 3,2,0,1,  }, 
 	{4,6,7,5,8,10,11,9, 12,14,15,13, 0,2,3,1,  }, 
-	{6,4,7,5,10,8,11,9, 14,12,15,13, 2,0,3,1,  }
+	{6,4,7,5,10,8,11,9, 14,12,15,13, 2,0,3,1,  },
+    {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15} // il # 100 e' random
+	
 };
 
 void Z8K::on_loaded()
@@ -170,7 +172,7 @@ void Z8K::process_keys()
 		if (curPtn != n)
 		{
 			curPtn = n;
-			seq[SEQ_PATH].SetSequence(params, &lights[LED_PATH], getPath());
+			seq[SEQ_PATH].SetSequence(params, &lights[LED_PATH], getPath(), curPtn==99); 
 		}
 	}
 }
@@ -429,16 +431,20 @@ int z8kSequencer::Step(Z8K *pModule)
 		Reset();
 	} else if(clockTrigger.process(pClock->value))
 	{
-		if(pDirection->value > 0.5)
+		if(random)
+			curStep = int(random::uniform() * numSteps);
+		else
 		{
-			if(--curStep < 0)
-				curStep = numSteps - 1;
-		} else
-		{
-			if(++curStep >= numSteps)
-				curStep = 0;
+			if(pDirection->value > 0.5)
+			{
+				if(--curStep < 0)
+					curStep = numSteps - 1;
+			} else
+			{
+				if(++curStep >= numSteps)
+					curStep = 0;
+			}
 		}
-
 		if(pOutput->isConnected())
 			pOutput->value = pModule->cvs.TransposeableValue(sequence[curStep]->value);
 		for(int k = 0; k < numSteps; k++)
@@ -476,7 +482,11 @@ void Z8K7Segm::draw(const DrawArgs &args)
 	if(p8 != NULL)
 	{
 		char n[20];
-		sprintf(n, "%2i", p8->patternNumber() + 1);
+		int ptn = p8->patternNumber()+1;
+		if (ptn < 100)
+			sprintf(n, "%2i", ptn);
+		else
+			sprintf(n, "??");
 		textColor = nvgRGB(0xff, 0x00, 0x00);
 		nvgFillColor(args.vg, textColor);
 		nvgText(args.vg, textPos.x, textPos.y, n, NULL);
