@@ -249,7 +249,7 @@ void Nordschleife::randrandrand(int action)
 
 		case 7: //angle
 			for(int k = 0; k < NORDCARS; k++)
-				cars[k].angle = int(random::uniform() * 8);
+				cars[k].angle = int(random::uniform() * 4);
 			break;
 
 		case 8: //offset

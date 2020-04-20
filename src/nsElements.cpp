@@ -187,17 +187,17 @@ int NordschleifeCar::get_next_step()
 		{
 			switch(int(random::uniform() * 3))
 			{
-				case 1:
+				case 0:
 					if(++curStepCounter > stepTo)
 						curStepCounter = stepFrom;
 					break;
 
-				case 2:
+				case 1:
 					if(--curStepCounter < stepFrom)
 						curStepCounter = stepTo;
 					break;
 
-				case 3: // aripetemo
+				case 2: // aripetemo
 					break;
 			}
 		}
