@@ -159,10 +159,16 @@ void Z8K::process_keys()
 	{
 		if(btninc.process(params[PTN_INC].value))
 		{
-			basePtn++;
+			if((APP->window->getMods() & RACK_MOD_MASK) == GLFW_MOD_CONTROL)
+				basePtn+=10;
+			else
+				basePtn++;
 		} else if(btndec.process(params[PTN_DEC].value))
 		{
-			basePtn--;
+			if((APP->window->getMods() & RACK_MOD_MASK) == GLFW_MOD_CONTROL)
+				basePtn-=10;
+			else
+				basePtn--;
 		}
 		basePtn=clamp(basePtn, 0,  Z8KPATHS-1);
 
