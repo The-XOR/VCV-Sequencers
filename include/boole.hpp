@@ -17,8 +17,9 @@ struct Boole : Module
 		INVERT_1,
 		THRESH_X = INVERT_1 + NUM_BOOL_OP,
 		THRESH_Y = THRESH_X + NUM_BOOL_OP,
-		HIZ= THRESH_Y + NUM_BOOL_OP-1,
-		COMPAREMODE,
+		HIZ = THRESH_Y + NUM_BOOL_OP - 1,
+		OPMODE_1,
+		COMPAREMODE = OPMODE_1 + NUM_BOOL_OP - 1,
 		NUM_PARAMS,
 	};
 	enum InputIds
@@ -48,7 +49,10 @@ struct Boole : Module
 			configParam(Boole::INVERT_1 + k, 0.0, 1.0, 0.0);
 			configParam(Boole::THRESH_X + k, LVL_MIN, LVL_MAX, LVL_OFF, "Threshold", "V");
 			if(k > 0)
-				configParam(Boole::THRESH_Y + k-1, LVL_MIN, LVL_MAX, LVL_OFF, "Threshold", "V");
+			{
+				configParam(OPMODE_1 + k-1, 0.0, 3.0, k-1);
+				configParam(Boole::THRESH_Y + k - 1, LVL_MIN, LVL_MAX, LVL_OFF, "Threshold", "V");
+			}
 		}
 		hizvalue = 0;
 		hizCounter = 0;

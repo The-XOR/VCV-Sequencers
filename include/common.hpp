@@ -322,6 +322,21 @@ struct ABCDSwitch : app::SvgSwitch
 	}
 };
 
+struct BoolSwitch : app::SvgSwitch
+{
+	BoolSwitch()
+	{
+		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/bool_1.svg")));
+		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/bool_2.svg")));
+		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/bool_3.svg")));
+		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/bool_4.svg")));
+	}
+	void randomize() override
+	{
+		paramQuantity->setValue(roundf(rescale(random::uniform(), 0.0, 1.0, paramQuantity->getMinValue(), paramQuantity->getMaxValue())));
+	}
+};
+
 struct TL1105HSw : app::SvgSwitch
 {
 	TL1105HSw()

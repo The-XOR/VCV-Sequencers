@@ -5,7 +5,6 @@ void Boole::process(const ProcessArgs &args)
 {
 	bool hiz = isSwitchOn(this, HIZ);
 	bool compare = isSwitchOn(this, COMPAREMODE);
-
 	for(int k = 0; k < NUM_BOOL_OP; k++)
 	{
 		bool o = process(k, hiz, compare);
@@ -45,16 +44,17 @@ bool Boole::process(int num_op, bool hiz, bool compare)
 	lights[LED_X + num_op].value = x ? LED_ON : LED_OFF;
 	if(num_op == 0)	// not?
 		return !x;
-		
+
+	int mode = (int)roundf(params[Boole::OPMODE_1 + num_op-1].value);
 	bool y = logicLevel(getVoltage(IN_Y + num_op-1, hiz), params[THRESH_Y + num_op-1].value, compare);
 	lights[LED_Y + num_op - 1].value = y ? LED_ON : LED_OFF;
 		
-	switch(num_op)
+	switch(mode)
 	{	
-		case 1: return x && y;	//and
-		case 2: return x || y;	//or
-		case 3: return x ^ y;	//the xor
-		case 4: return !x || y;	// implication
+		case 0: return x && y;	//and
+		case 1: return x || y;	//or
+		case 2: return x ^ y;	//the xor
+		case 3: return !x || y;	// implication
 	}
 
 	return false;
@@ -89,11 +89,12 @@ BooleWidget::BooleWidget(Boole *module) : ModuleWidget()
 		// Y
 		if(k > 0)
 		{
+			addParam(createParam<BoolSwitch>(Vec(mm2px(35.111), yncscape(ypot+4, 7.093)), module, Boole::OPMODE_1 + k - 1));
 			y += sub_dy;
 			ypot += sub_dy;
 			yled += sub_dy;
 			addInput(createInput<PJ301GRPort>(Vec(in_x, yncscape(y, 8.255)), module, Boole::IN_Y + k-1));
-			addParam(createParam<Davies1900hFixWhiteKnobSmall>(Vec(pot_x, yncscape(ypot, 8.0) ), module, Boole::THRESH_Y + k-1));
+			addParam(createParam<Davies1900hFixWhiteKnobSmall>(Vec(pot_x, yncscape(ypot, 8.0)), module, Boole::THRESH_Y + k - 1));
 			addChild(createLight<SmallLight<RedLight>>(Vec(in_led_x, yncscape(yled, 2.176)), module, Boole::LED_Y + k-1 ));
 		}
 		
