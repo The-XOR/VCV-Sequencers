@@ -14,7 +14,9 @@ struct z8expX : z8exp
 	enum ParamIds
 	{
 		HOLD,
-		NUM_PARAMS
+		ENABLE_1,
+
+		NUM_PARAMS = ENABLE_1+Z8K::NUM_Z8SEQUENCERS
 	};
 	enum InputIds
 	{

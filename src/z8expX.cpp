@@ -2,27 +2,28 @@
 
 void z8expX::process(const ProcessArgs &args)
 {
-	int curStp = getStep();
-	INFO("I-%i",curStp);
-	if(curStp >= 0)
+	bool enabled[Z8K::NUM_Z8SEQUENCERS];
+	for (int k = 0; k < Z8K::NUM_Z8SEQUENCERS; k++)
+		enabled[k] = isSwitchOn(this, ENABLE_1 + k);
+
+	int curStp = getMatrix(enabled);
+	if (curStp >= 0)
 	{
 		if (curStp != prevStep)
 		{
 			drawMatrix(curStp);
 			prevStep = curStp;
-			
-					/*	float v = inputs[IN].getNormalVoltage(LVL_ON);
-		if(curStp != prevStep || v != prevVoltage)
-		{
-			if(prevStep >= 0 && !isSwitchOn(this, HOLD))
-				outputs[OUT_1 + prevStep].setVoltage(LVL_OFF);
 
-			outputs[OUT_1+curStp].setVoltage(v);
-			prevStep=curStp;
-			prevVoltage = v;
-		}*/
-				
-			
+			/*	float v = inputs[IN].getNormalVoltage(LVL_ON);
+	if(curStp != prevStep || v != prevVoltage)
+	{
+		if(prevStep >= 0 && !isSwitchOn(this, HOLD))
+			outputs[OUT_1 + prevStep].setVoltage(LVL_OFF);
+
+		outputs[OUT_1+curStp].setVoltage(v);
+		prevStep=curStp;
+		prevVoltage = v;
+	}*/
 		}
 	}
 }
@@ -66,6 +67,25 @@ z8expXWidget::z8expXWidget(z8expX * module)
 			if (module != NULL)
 				addChild(createLight<SmallLight<RedLight>>(Vec(mm2px(x_led + c * dx), yncscape(y_led + r * dy, 2.176)), module, module->ledID(n)));
 		}
+	}
+
+	float ySw = 105.440;
+	float xSw[] = { 7.757,
+					13.048,
+					18.340,
+					23.632,
+					37.390,
+					42.682,
+					47.974,
+					53.265,
+					64.378,
+					69.669,
+					74.961
+	};
+
+	for (int k = 0; k < Z8K::NUM_Z8SEQUENCERS; k++)
+	{
+		addParam(createParam<TL1105Sw>(Vec(mm2px(xSw[k]), yncscape(ySw, 6.607)), module, z8expX::ENABLE_1 + k));
 	}
 }
 

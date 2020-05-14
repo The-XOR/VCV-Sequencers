@@ -19,7 +19,6 @@ public:
 	void createWidget(SequencerWidget *pwdg, bool withControls) 
 	{ 
 		pWidget = pwdg;
-		useControls = withControls;
 		pWidget->addInput(createInput<PJ301EXP>(Vec(mm2px(7.757), yncscape(10.517, 8.255)), this, Z8EXP_INPUT));
 		pWidget->addChild(createLight<TinyLight<WhiteLight>>(Vec(mm2px(7.757 - 2.047), yncscape(10.517 + 7.176, 1.088)), this, Z8EXP_LEDINPUT));
 		if(withControls)
@@ -55,33 +54,25 @@ protected:
 	
 	void configParams()
 	{
-		if(useControls)
-		{
-			configParam(Z8EXP_CHANNEL, 0, Z8K::SequencerIds::NUM_Z8SEQUENCERS - 1, 0.0);
-			configParam(Z8EXP_CHANNELY, 0, Z8K::SequencerIds::NUM_Z8SEQUENCERS - 1, 0.0);
-		}
+		configParam(Z8EXP_CHANNEL, 0, Z8K::SequencerIds::NUM_Z8SEQUENCERS - 1, 0.0);
+		configParam(Z8EXP_CHANNELY, 0, Z8K::SequencerIds::NUM_Z8SEQUENCERS - 1, 0.0);
 	}
 
 	int getStep()
 	{
-		if (useControls && prevStep >= 0)
+		if (prevStep >= 0)
 			lights[Z8EXP_LED_1 + prevStep].value = LED_OFF;
 
 		int rv;
 		float expander_out;
 		if(IsExpansion(this, &expander_out, EXPPORT_Z8K, Z8EXP_INPUT, Z8EXP_LEDINPUT))
 		{
-			if(useControls)
-			{
-				rv = isSwitchOn(this, Z8EXP_XYMODE) ? getXY(expander_out) : get(expander_out, (int)round(params[Z8EXP_CHANNEL].value));
-				if (rv >= 0)
-					lights[Z8EXP_LED_1 + rv].value = LED_ON;
-			} else
-				rv = getMatrix(expander_out);
-
+			rv = isSwitchOn(this, Z8EXP_XYMODE) ? getXY(expander_out) : get(expander_out, (int)round(params[Z8EXP_CHANNEL].value));
+			if (rv >= 0)
+				lights[Z8EXP_LED_1 + rv].value = LED_ON;
 		} else
 		{
-			if (useControls && prevStep != -1)
+			if (prevStep != -1)
 			{
 				prevStep = -1;
 				for(int k = 0; k < 16; k++)
@@ -98,15 +89,28 @@ protected:
 	SequencerWidget *pWidget;
 	int prevStep;
 
-private:
-	int getMatrix(float expander_out)
+	int getMatrix(bool enabled[Z8K::NUM_Z8SEQUENCERS])
 	{
-		int bitmask = 0;
-		for (int k = 0; k < Z8K::NUM_Z8SEQUENCERS; k++)
-			bitmask |= (1<<get(expander_out, k));
-		return bitmask;
+		int rv;
+		float expander_out;
+		if (IsExpansion(this, &expander_out, EXPPORT_Z8K, Z8EXP_INPUT, Z8EXP_LEDINPUT))
+		{
+			rv = 0;
+			for (int k = 0; k < Z8K::NUM_Z8SEQUENCERS; k++)
+			{
+				if (enabled[k])
+					rv |= (1 << get(expander_out, k));
+			}
+		} else
+		{
+			onDisconnected();
+
+			rv = -1;
+		}
+		return rv;
 	}
-	
+
+private:
 	int get(float expander_out, int chn)
 	{
 		uint8_t *p = (uint8_t *)& expander_out;
@@ -146,7 +150,6 @@ private:
 	int paramID;
 	int inputID;
 	int lightID;
-	bool useControls;
 };
 
 #undef Z8EXP_CHANNEL	
