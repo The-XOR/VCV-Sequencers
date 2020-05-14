@@ -139,12 +139,12 @@ struct STEP_COUNTER
 	}
 
 	void Set(ParamGetter *get) { pGet = get; }
-	int CurStep() { return curStep % 8; }
+	inline int CurStep() { return curStep % 8; }
 	int PulseCounter() { return pulseCounter; }
 
 	bool Play(TIMER *timer, int *cur_step)
 	{
-		bool play = pulseCounter++ >= pGet->PulseCount(curStep);
+		bool play = pulseCounter++ >= pGet->PulseCount(CurStep());
 		if(play)
 		{
 			pulseCounter = 0;
@@ -220,10 +220,9 @@ private:
 		{
 			if(++step >= pGet->NumSteps())
 				step = 0;
-			if(pGet->IsEnabled(step))  // step on?
+			if(pGet->IsEnabled(step % 8 ))  // step on?
 				break;
 		}
-
 		return step;
 	}
 
@@ -233,7 +232,7 @@ private:
 		{
 			if(--step < 0)
 				step = pGet->NumSteps() - 1;
-			if(pGet->IsEnabled(step))  // step on?
+			if(pGet->IsEnabled(step % 8))  // step on?
 				break;
 		}
 
@@ -241,4 +240,3 @@ private:
 	}
 
 };
-
