@@ -30,7 +30,7 @@ z8expTWidget::z8expTWidget(z8expT *module)
 	CREATE_PANEL(module, this, 18, "res/modules/z8expT.svg");
 
 	if(module != NULL)
-		module->createWidget(this);
+		module->createWidget(this, true);
 
 	addParam(createParam<Davies1900hFixRedKnob>(Vec(mm2px(73.979), yncscape(9.882, 9.525)), module, z8expT::Z8PULSE_TIME));
 

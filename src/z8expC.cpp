@@ -23,7 +23,7 @@ z8expCWidget::z8expCWidget(z8expC *module)
 	CREATE_PANEL(module, this, 18, "res/modules/z8expC.svg");
 
 	if(module != NULL)
-		module->createWidget(this);
+		module->createWidget(this, true);
 
 	addInput(createInput<PJ301BPort>(Vec(mm2px(74.432), yncscape(10.517, 8.255)), module, z8expC::IN));
 	addParam(createParam<TL1105HSw>(Vec(mm2px(7.757), yncscape(118.015, 4.477)), module, z8expC::HOLD));

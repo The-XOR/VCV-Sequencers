@@ -18,9 +18,9 @@ struct z8expX : z8exp
 	};
 	enum InputIds
 	{
+		_BASEINPUT,
 		IN_1,
-		_BASEINPUT = IN_1+MATRIX_SIZE,
-		NUM_INPUTS
+		NUM_INPUTS = IN_1 + MATRIX_SIZE
 	};
 	enum OutputIds
 	{
@@ -30,24 +30,22 @@ struct z8expX : z8exp
 	enum LightIds
 	{
 		_BASELED,
-		NUM_LIGHTS = _BASELED + MATRIX_SIZE * MATRIX_SIZE
+		NUM_LIGHTS = _BASELED + z8exp::NUM_LIGHTS
 	};
 
-	z8expX() : z8exp(0, _BASEINPUT, _BASELED)
+	z8expX() : z8exp(NUM_PARAMS, _BASEINPUT, _BASELED)
 	{
 		config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS);
-		configParams();
-		prevVoltage = -1000;
 	}
+
 	void process(const ProcessArgs &args) override;
 	virtual void onDisconnected() override
 	{
-		prevVoltage = -1000;
 		for (int k = 0; k < MATRIX_SIZE; k++)
 			outputs[OUT_1 + k].setVoltage(LVL_OFF);
 	}
 
 private:
-	float prevVoltage;
+	void drawMatrix(int n);
 };
 

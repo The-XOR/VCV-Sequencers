@@ -20,7 +20,7 @@ z8expMWidget::z8expMWidget(z8expM *module)
 	CREATE_PANEL(module, this, 18, "res/modules/z8expM.svg");
 
 	if(module != NULL)
-		module->createWidget(this);
+		module->createWidget(this, true);
 
 	addOutput(createOutput<PJ301WPort>(Vec(mm2px(74.432), yncscape(10.517, 8.255)), module, z8expM::OUT));
 
