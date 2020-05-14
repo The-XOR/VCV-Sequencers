@@ -13,7 +13,7 @@ void z8expX::process(const ProcessArgs &args)
 		float outpval = 0.f;
 		for (int r = 0; r < MATRIX_SIZE; r++)
 			outpval += patchBay[c][r] * inputs[IN_1+r].getVoltage(0.f);
-		outputs[OUT_1+c].setVoltage(outpval);
+		outputs[OUT_1+c].setVoltage(clamp(outpval,-10.f,10.f));
 	}
 }
 
