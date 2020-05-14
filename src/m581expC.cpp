@@ -8,7 +8,7 @@ void m581expC::process(const ProcessArgs &args)
 		float v = inputs[IN].getNormalVoltage(LVL_ON);
 		if(curStp != prevStep || v != prevVoltage)
 		{
-			if(prevStep >= 0)
+			if (prevStep >= 0 && !isSwitchOn(this, HOLD))
 				outputs[OUT_1 + prevStep].setVoltage(LVL_OFF);
 
 			outputs[OUT_1+curStp].setVoltage(v);
@@ -29,7 +29,8 @@ m581expCWidget::m581expCWidget(m581expC *module)
 	float dist_v=11;
 	float y = 22;
 	addInput(createInput<PJ301BPort>(Vec(mm2px(7.757+7*dist_h), yncscape(9.882, 8.255)), module, m581expC::IN));
-	for(int c = 0; c < 8; c++)
+	addParam(createParam<TL1105HSw>(Vec(mm2px(7.757), yncscape(118.015, 4.477)), module, m581expC::HOLD));
+	for (int c = 0; c < 8; c++)
 	{
 		for(int r = 0; r < 8; r++)
 		{

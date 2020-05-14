@@ -12,6 +12,7 @@ struct m581expC : m581exp
 {
 	enum ParamIds
 	{
+		HOLD,
 		NUM_PARAMS
 	};
 	enum InputIds

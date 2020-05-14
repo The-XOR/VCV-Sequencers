@@ -12,6 +12,7 @@ struct z8expC : z8exp
 {
 	enum ParamIds
 	{
+		HOLD,
 		_BASEPARAM,
 		NUM_PARAMS = _BASEPARAM + z8exp::NUM_PARAMS
 	};
