@@ -7,36 +7,46 @@ void z8expX::process(const ProcessArgs &args)
 		enabled[k] = isSwitchOn(this, ENABLE_1 + k);
 
 	int curStp = getMatrix(enabled);
-	if (curStp >= 0)
+	drawMatrix(curStp);
+	for (int c = 0; c < MATRIX_SIZE; c++)
 	{
-		if (curStp != prevStep)
-		{
-			drawMatrix(curStp);
-			prevStep = curStp;
-
-			/*	float v = inputs[IN].getNormalVoltage(LVL_ON);
-	if(curStp != prevStep || v != prevVoltage)
-	{
-		if(prevStep >= 0 && !isSwitchOn(this, HOLD))
-			outputs[OUT_1 + prevStep].setVoltage(LVL_OFF);
-
-		outputs[OUT_1+curStp].setVoltage(v);
-		prevStep=curStp;
-		prevVoltage = v;
-	}*/
-		}
+		float outpval = 0.f;
+		for (int r = 0; r < MATRIX_SIZE; r++)
+			outpval += patchBay[c][r] * inputs[IN_1+r].getVoltage(0.f);
+		outputs[OUT_1+c].setVoltage(outpval);
 	}
+}
+
+void z8expX::matrixOff()
+{
+	for (int c = 0; c < MATRIX_SIZE; c++)
+		for (int r = 0; r < MATRIX_SIZE; r++)
+				patchBay[c][r] = 0.f;
 }
 
 void z8expX::drawMatrix(int curStp)
 {
-	for (int r = 0; r < MATRIX_SIZE; r++)
+	for (int c = 0; c < MATRIX_SIZE; c++)
 	{
-		for (int c = 0; c < MATRIX_SIZE; c++)
+		int righe_attive = 0;
+		for (int r = 0; r < MATRIX_SIZE; r++)
 		{
 			int n = c + r * MATRIX_SIZE;
 			int bitmask = 1 << n;
-			lights[ledID(n)].value = (curStp & bitmask) > 0;
+			bool is_on =  (curStp & bitmask) > 0;
+			if(is_on && inputs[IN_1+r].isConnected())
+			{
+				righe_attive++;
+				patchBay[c][r] = 1.f;;
+			} else
+				patchBay[c][r] = 0.f;
+			lights[ledID(n)].value = is_on ? LED_ON : LED_OFF;
+		}	
+		if(righe_attive >0)
+		{
+			float coeff = 1.f / righe_attive;
+			for (int r = 0; r < MATRIX_SIZE; r++)
+				patchBay[c][r] *= coeff;
 		}
 	}
 }
@@ -47,8 +57,6 @@ z8expXWidget::z8expXWidget(z8expX * module)
 
 	if (module != NULL)
 		module->createWidget(this, false);
-
-	addParam(createParam<TL1105HSw>(Vec(mm2px(7.757), yncscape(118.015, 4.477)), module, z8expX::HOLD));
 
 	float x = 22.996;
 	float x_led = 26.057;

@@ -91,7 +91,7 @@ protected:
 
 	int getMatrix(bool enabled[Z8K::NUM_Z8SEQUENCERS])
 	{
-		int rv;
+		int rv = 0;
 		float expander_out;
 		if (IsExpansion(this, &expander_out, EXPPORT_Z8K, Z8EXP_INPUT, Z8EXP_LEDINPUT))
 		{
@@ -104,9 +104,8 @@ protected:
 		} else
 		{
 			onDisconnected();
-
-			rv = -1;
 		}
+
 		return rv;
 	}
 

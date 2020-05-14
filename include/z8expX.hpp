@@ -13,7 +13,6 @@ struct z8expX : z8exp
 {
 	enum ParamIds
 	{
-		HOLD,
 		ENABLE_1,
 
 		NUM_PARAMS = ENABLE_1+Z8K::NUM_Z8SEQUENCERS
@@ -38,6 +37,7 @@ struct z8expX : z8exp
 	z8expX() : z8exp(NUM_PARAMS, _BASEINPUT, _BASELED)
 	{
 		config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS);
+		matrixOff();
 	}
 
 	void process(const ProcessArgs &args) override;
@@ -48,6 +48,8 @@ struct z8expX : z8exp
 	}
 
 private:
+	void matrixOff();
 	void drawMatrix(int n);
+	float patchBay[MATRIX_SIZE][MATRIX_SIZE];
 };
 
