@@ -28,6 +28,7 @@
 #include "../include/z8expC.hpp"
 #include "../include/z8expT.hpp"
 #include "../include/z8expM.hpp"
+#include "../include/z8expX.hpp"
 #include "../include/chords.hpp"
 #include "../include/c2v.hpp"
 #include "../include/m581expT.hpp"
@@ -66,6 +67,7 @@ void init(rack::Plugin *p)
 	p->addModel(createModel<z8expC, z8expCWidget>("Z8KCExp"));
 	p->addModel(createModel<z8expM, z8expMWidget>("Z8KMExp"));
 	p->addModel(createModel<z8expT, z8expTWidget>("Z8KTExp"));
+	p->addModel(createModel<z8expX, z8expXWidget>("Z8KXExp"));
 	p->addModel(createModel<Renato, RenatoWidget>("Renato"));
 	p->addModel(createModel<Spiralone, SpiraloneWidget>("Spiralone"));
 	p->addModel(createModel<Burst, BurstWidget>("Burst"));
