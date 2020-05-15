@@ -21,7 +21,27 @@ private:
 	M581 *pModule;
 };
 
+struct TIMER
+{
+	void RestartStopWatch() { stopwatch = 0; }
+	float Begin()
+	{
+		RestartStopWatch();
+		return totalPulseTime = 0;
+	}
+	float Elapsed(float sr) { return totalPulseTime/sr; }
+	float StopWatch(float sr) { return stopwatch; }
 
+	void Step()
+	{
+		totalPulseTime++;
+		stopwatch++;
+	}
+
+private:
+	float totalPulseTime;
+	float stopwatch;
+};
 
 struct CV_LINE
 {
@@ -94,7 +114,7 @@ public:
 		curStep = cur_step;
 	}
 
-	float Play(TIMER *timer, int pulseCount)
+	float Play(TIMER *timer, int pulseCount, float sr)
 	{
 		float rv = LVL_OFF;
 
@@ -104,14 +124,14 @@ public:
 				break;
 
 			case 1:  //single pulse
-				rv = gate_len(timer->Elapsed());
+				rv = gate_len(timer->Elapsed(sr));
 				break;
 
 			case 2: // multiple pulse
 			{
 				if((pulseCount % pGet->StepDivision()) == 0)
 				{
-					rv = gate_len(timer->StopWatch());
+					rv = gate_len(timer->StopWatch(sr));
 				} else
 				{
 					rv = LVL_OFF;
@@ -135,7 +155,7 @@ struct STEP_COUNTER
 		pulseCounter = 0;
 		curStep = 0;
 		pp_rev = false;
-		timer->Reset();
+		timer->Begin();
 	}
 
 	void Set(ParamGetter *get) { pGet = get; }

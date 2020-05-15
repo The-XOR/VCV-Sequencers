@@ -640,40 +640,6 @@ public:
 	}
 };
 
-struct TIMER
-{
-	float Reset()
-	{
-		prevTime = clock();
-		return Begin();
-	}
-
-	void RestartStopWatch() { stopwatch = 0; }
-	float Begin()
-	{
-		RestartStopWatch();
-		return totalPulseTime = 0;
-	}
-	float Elapsed() { return totalPulseTime; }
-	float StopWatch() { return stopwatch; }
-
-	float Step()
-	{
-		clock_t curTime = clock();
-		clock_t deltaTime = curTime - prevTime;
-		prevTime = curTime;
-		float t = float(deltaTime) / CLOCKS_PER_SEC;
-		totalPulseTime += t;
-		stopwatch += t;
-		return t;
-	}
-
-private:
-	clock_t prevTime;
-	float totalPulseTime;
-	float stopwatch;
-};
-
 struct XorPanel : SvgPanel
 {
 	struct Screw : app::SvgScrew

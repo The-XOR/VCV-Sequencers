@@ -44,7 +44,7 @@ void M581::_reset()
 {
 	cvControl.Reset();
 	gateControl.Reset();
-	stepCounter.Reset(&Timer);
+	stepCounter.Reset(&_timer);
 	showCurStep(0, 0);
 }
 
@@ -108,13 +108,13 @@ void M581::process(const ProcessArgs &args)
 			pWidget->SetValue(M581::STEP_NOTES + rec_step, rec_smp);
 		}
 
-		Timer.Step();
+		_timer.Step();
 
 		if(clockTrigger.process(inputs[CLOCK].value) && any())
 			beginNewStep();
 
-		outputs[CV].value = cvControl.Play(Timer.Elapsed());
-		outputs[GATE].value = gateControl.Play(&Timer, stepCounter.PulseCounter());
+		outputs[CV].value = cvControl.Play(_timer.Elapsed(args.sampleRate));
+		outputs[GATE].value = gateControl.Play(&_timer, stepCounter.PulseCounter(), args.sampleRate);
 	}
 
 	#ifdef DIGITAL_EXT
@@ -145,7 +145,7 @@ void M581::QuantizePitch()
 void M581::beginNewStep()
 {
 	int cur_step;
-	if(stepCounter.Play(&Timer, &cur_step)) // inizia un nuovo step?
+	if (stepCounter.Play(&_timer, &cur_step)) // inizia un nuovo step?
 	{
 		gateControl.Begin(cur_step);
 		cvControl.Begin(cur_step);	// 	glide note increment in 1/10 di msec. param = new note value

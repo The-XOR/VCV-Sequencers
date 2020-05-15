@@ -294,7 +294,7 @@ struct M581 : Module
 private:
 	CV_LINE cvControl;
 	GATE_LINE gateControl;
-	TIMER Timer;
+	TIMER _timer;
 	STEP_COUNTER stepCounter;
 	ParamGetter getter;
 	M581Widget *pWidget;
