@@ -35,6 +35,7 @@
 #include "../include/m581expC.hpp"
 #include "../include/m581expM.hpp"
 #include "../include/m581expV.hpp"
+#include "../include/dice.hpp"
 
 #ifdef LPTEST_MODULE
 #include "../include/lpTestModule.hpp"
@@ -92,6 +93,7 @@ void init(rack::Plugin *p)
 	p->addModel(createModel<RR, RRWidget>("RR"));
 	p->addModel(createModel<chords, chordsWidget>("chords"));
 	p->addModel(createModel<c2v, c2vWidget>("c2v"));
+	p->addModel(createModel<dice, diceWidget>("dice"));
 
 #ifdef LPTEST_MODULE
 	p->addModel(createModel<LaunchpadTest, LaunchpadTestWidget>("LaunchpadTest"));

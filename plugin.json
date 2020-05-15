@@ -303,6 +303,14 @@
       ]
     },
     {
+      "slug": "dice",
+      "name": "dice",
+      "description": "random generator",
+      "tags": [
+        "Random"
+      ]
+    },
+     {
       "slug": "c2v",
       "name": "c2v",
       "description": "cv to voltage",
