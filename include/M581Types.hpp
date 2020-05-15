@@ -30,7 +30,7 @@ struct TIMER
 		return totalPulseTime = 0;
 	}
 	float Elapsed(float sr) { return totalPulseTime/sr; }
-	float StopWatch(float sr) { return stopwatch; }
+	float StopWatch(float sr) { return stopwatch/sr; }
 
 	void Step()
 	{
