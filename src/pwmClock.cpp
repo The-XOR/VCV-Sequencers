@@ -174,7 +174,7 @@ PwmClockWidget::PwmClockWidget(PwmClock *module) : SequencerWidget()
 	if(module != NULL)
 		module->setWidget(this);
 
-	CREATE_PANEL(module, this, 15, "res/modules/PwmClock.svg");
+	CREATE_PANEL(module, this, 13, "res/modules/PwmClock.svg");
 
 	addParam(createParam<UPSWITCH>(Vec(mm2px(14.452), yncscape(104.588 + 4.762, 4.115)), module, PwmClock::BPM_INC));
 	addParam(createParam<DNSWITCH>(Vec(mm2px(14.452), yncscape(99.788 + 4.762, 4.115)), module, PwmClock::BPM_DEC));
@@ -192,19 +192,18 @@ PwmClockWidget::PwmClockWidget(PwmClock *module) : SequencerWidget()
 	ParamWidget *pw = createParam<Davies1900hFixWhiteKnob>(Vec(mm2px(49.602), yncscape(99.483 + 4.762, 9.525)), module, PwmClock::BPM);
 	((Davies1900hKnob *)pw)->snap = true;
 	addParam(pw);
-	addInput(createInput<PJ301BPort>(Vec(mm2px(63.162f), yncscape(104.880, 8.255)), module, PwmClock::EXT_BPM));
+	addInput(createInput<PJ301BPort>(Vec(mm2px(39.625f), yncscape(104.880, 8.255)), module, PwmClock::EXT_BPM));
 	addInput(createInput<PJ301YPort>(Vec(mm2px(35.392f), yncscape(86.857, 8.255)), module, PwmClock::RESET));
 
 	addParam(createParam<NKK1>(Vec(mm2px(7.769), yncscape(87.34, 9.488)), module, PwmClock::OFFON));
 	addChild(createLight<SmallLight<RedLight>>(Vec(mm2px(3.539), yncscape(89.897, 2.176)), module, PwmClock::ACTIVE));
 	addInput(createInput<PJ301BPort>(Vec(mm2px(21.633), yncscape(86.857, 8.255)), module, PwmClock::REMOTE_IN));
 
-	
-	addParam(createParam<Davies1900hFixRedKnob>(Vec(mm2px(48.511), yncscape(40.132, 9.525)), module, PwmClock::SWING));
-	addInput(createInput<PJ301BPort>(Vec(mm2px(63.162), yncscape(40.767, 8.255)), module, PwmClock::SWING_IN));
+	addParam(createParam<Davies1900hFixRedKnob>(Vec(mm2px(49.602), yncscape(68.905, 9.525)), module, PwmClock::SWING));
+	addInput(createInput<PJ301BPort>(Vec(mm2px(50.236), yncscape(59.175, 8.255)), module, PwmClock::SWING_IN));
 
-	addParam(createParam<Davies1900hFixBlackKnob>(Vec(mm2px(48.511), yncscape(24.482, 9.525)), module, PwmClock::PWM));
-	addInput(createInput<PJ301BPort>(Vec(mm2px(63.162), yncscape(25.117, 8.255)), module, PwmClock::PWM_IN));
+	addParam(createParam<Davies1900hFixWhiteKnob>(Vec(mm2px(49.602), yncscape(40.357, 9.525)), module, PwmClock::PWM));
+	addInput(createInput<PJ301BPort>(Vec(mm2px(50.236), yncscape(28.292, 8.255)), module, PwmClock::PWM_IN));
 
 	float col_x[3] = {7.875, 21.633, 35.392};
 	float pos_y = yncscape(70.175, 8.255);
@@ -218,7 +217,7 @@ PwmClockWidget::PwmClockWidget(PwmClock *module) : SequencerWidget()
 			pos_y += mm2px(11);
 		}
 	}
-	addOutput(createOutput<PJ301BLUPort>(Vec(mm2px(49.145), yncscape(10.525, 8.255)), module, PwmClock::ONSTOP));
+	addOutput(createOutput<PJ301BLUPort>(Vec(mm2px(50.236), yncscape(4.175, 8.255)), module, PwmClock::ONSTOP));
 }
 
 void PwmClockWidget::SetBpm(float bpm)
