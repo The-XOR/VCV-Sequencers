@@ -1,75 +1,46 @@
 #include "../include/pwmClock.hpp"
 #include <GLFW/glfw3.h>
 
-float::numTicks[OUT_SOCKETS] = 
-{
-	         //nor         dot (3/2)        trip (2/3)
-	/*1/1*/  4.f,     1.5f * 4.f,     0.66666666f * 4.f,   
-	/*1/2*/	 2.f,     1.5f * 2.f,     0.66666666f * 2.f,   
-	/*1/4*/	 1.f,     1.5f * 1.f,     0.66666666f * 1.f,   
-	/*1/8*/	 0.5f,    1.5f * 0.5f,    0.66666666f * 0.5f,  
-	/*1/16*/ 0.25f,   1.5f * 0.25f,   0.66666666f * 0.25f, 
-	/*1/32*/ 0.125f,  1.5f * 0.125f,  0.66666666f * 0.125f,
-	/*1/64*/ 0.0625f, 1.5f * 0.0625f, 0.66666666f * 0.0625f
-};
+
 
 void PwmClock::on_loaded()
 {
 	current_status = false;
-	bpm = 0;
-	swing = 0;
+	bpm = 120;
 	sampleRate= 0;
 	_reset();
 }
 
 void PwmClock::_reset()
 {
-	optimize_manualStep = false;
-	float now = APP->engine->getSampleTime();
-	sampleRate= 0;
-
-	for(int k = 0; k < OUT_SOCKETS; k++)
+	float numTicks[OUT_SOCKETS] =
 	{
-		sa_timer[k].Reset(now);
-		odd_beat[k] = false;
-	}
+		//nor         dot (3/2)        trip (2/3)
+		/*1/1*/ 4.f, 1.5f * 4.f, 0.66666666f * 4.f,
+		/*1/2*/ 2.f, 1.5f * 2.f, 0.66666666f * 2.f,
+		/*1/4*/ 1.f, 1.5f * 1.f, 0.66666666f * 1.f,
+		/*1/8*/ 0.5f, 1.5f * 0.5f, 0.66666666f * 0.5f,
+		/*1/16*/ 0.25f, 1.5f * 0.25f, 0.66666666f * 0.25f,
+		/*1/32*/ 0.125f, 1.5f * 0.125f, 0.66666666f * 0.125f,
+		/*1/64*/ 0.0625f, 1.5f * 0.0625f, 0.66666666f * 0.0625f
+	};
+	optimize_manualStep = false;
+	for(int k=0; k < OUT_SOCKETS;k++)
+		_timer[k].Reset(numTicks[k]);
+	sampleRate= 0;
 }
 
 void PwmClock::updateBpm(float sr)
 {
-	bool updated = false;
 	process_keys();
 	float new_bpm = clamp(roundf(getModulableParam(this, BPM, EXT_BPM, BPM_MINVALUE, BPM_MAXVALUE)), BPM_MINVALUE, BPM_MAXVALUE);
-	
-	if(bpm != new_bpm)
+
+	if (bpm != new_bpm || sr != sampleRate)
 	{
-		updated = true;
 		bpm = new_bpm;
-	}
-
-	if(sr != sampleRate)
-	{
 		sampleRate = sr;
-		update = true;
-	}
-
-	duration[0] = 240.0 / bpm;	// 1/1
-	duration[1] = duration[0] + duration[0] / 2.0;
-	duration[2] = 2.0 * duration[0] / 3.0;
-
-	for(int k = 1; k < 7; k++)
-	{
-		duration[3 * k] = duration[3 * (k - 1)] / 2.0;
-		duration[3 * k + 1] = duration[3 * (k - 1) + 1] / 2.0;
-		duration[3 * k + 2] = duration[3 * (k - 1) + 2] / 2.0;
-	}
-
-	float new_swing = getSwing();
-	if(updated || new_swing != swing)
-	{
-		swing = new_swing;
-		for(int k = 0; k < OUT_SOCKETS; k++)
-			swingAmt[k] = duration[k] + duration[k] * swing;
+		for (int k = 0; k < OUT_SOCKETS; k++)
+			_timer[k].Calc(sampleRate, bpm);
 	}
 }
 
@@ -102,21 +73,13 @@ void PwmClock::process_active(const ProcessArgs &args)
 	} else 
 	{
 		float pwm = getPwm();
-		float now = APP->engine->getSampleTime();
+		float swing = getSwing();
 
 		for(int k = 0; k < OUT_SOCKETS; k++)
 		{
 			if(outputs[OUT_1 + k].isConnected())
 			{
-				float gate_len = getDuration(k) * pwm;
-				sa_timer[k].Step(now);
-				float elps = sa_timer[k].Elapsed();
-				if(elps >= getDuration(k))
-				{
-					elps = sa_timer[k].Reset(now);
-					odd_beat[k] = !odd_beat[k];
-				}
-				outputs[OUT_1 + k].value = elps <= gate_len ? LVL_ON : LVL_OFF;
+				outputs[OUT_1 + k].setVoltage(_timer[k].Process(pwm, args.sampleTime, swing) ? LVL_ON : LVL_OFF);
 			}
 		}
 	}

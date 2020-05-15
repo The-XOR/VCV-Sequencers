@@ -16,38 +16,53 @@ struct PwmClockWidget : SequencerWidget
 
 };
 
-struct SA_TIMER	//sample accurate version
+struct pwmTimer	//sample accurate version
 {
-	float Reset(float now)
+	void Reset(float mf)
 	{
-		prevTime = curTime = now;
-		return Begin();
+		timeFactor = mf;
+		counter = 0.f;
+		odd_beat = false;
+		pgen.reset();
 	}
 
-	void RestartStopWatch() { stopwatch = 0; }
-	float Begin()
+	void Calc(float sampleRate, float bpm)
 	{
-		RestartStopWatch();
-		return totalPulseTime = 0;
+		// period table
+		odd_beat = false;
+		counter = 0.f;
+		period = (timeFactor * 60.f * sampleRate) / bpm;
+		periodS = (timeFactor * 60.f) / bpm;
 	}
-	inline float Elapsed() { return totalPulseTime; }
-	float StopWatch() { return stopwatch; }
 
-	float Step(float now)
+	bool Process(float pwm, float st, float swing)
 	{
-		curTime += now;
-		float deltaTime = curTime - prevTime;
-		prevTime = curTime;
-		totalPulseTime += deltaTime;
-		stopwatch += deltaTime;
-		return deltaTime;
+		float dur = period;
+		if(odd_beat)
+			dur += dur * swing;
+
+		bool rv;
+		counter++; 
+		if (counter >= dur)
+		{
+			counter -= dur;
+			pgen.trigger(periodS * pwm);
+			odd_beat = !odd_beat;
+			rv = true;
+		} else
+		{
+			rv = pgen.process(st);
+		}
+		return rv;
 	}
 
 private:
-	float curTime;
-	float prevTime;
-	float totalPulseTime;
-	float stopwatch;
+	float timeFactor;
+	float period;
+	float periodS;
+	float counter;
+	bool odd_beat;
+	dsp::PulseGenerator pgen;
 };
 
 struct PwmClock : Module
@@ -118,14 +133,11 @@ struct PwmClock : Module
 
 	void onReset() override
 	{
-		bpm = 120;
-
-		load();
+		on_loaded();
 	}
 	void onRandomize() override {}
 	void setWidget(PwmClockWidget *pwdg) { pWidget = pwdg; }
 	float bpm;
-	float swing;
 
 private:
 	dsp::SchmittTrigger btnup;
@@ -146,17 +158,12 @@ private:
 	void updateBpm(float sr);
 	void process_active(const ProcessArgs &args);
 	void process_inactive(const ProcessArgs &args);
-	
-	inline float getDuration(int n) 	{return odd_beat[n] ? swingAmt[n] : duration[n]; }
-	float duration[OUT_SOCKETS];
-	float swingAmt[OUT_SOCKETS];
-	
-	bool odd_beat[OUT_SOCKETS];
+		
 	void on_loaded();
 	void _reset();
 	inline float getPwm() { return getModulableParam(this, PWM, PWM_IN, PWM_MINVALUE, PWM_MAXVALUE); }
 
 	inline float getSwing() { return getModulableParam(this, SWING, SWING_IN, SWING_MINVALUE, SWING_MAXVALUE); }
 	bool isGeneratorActive();
-	SA_TIMER sa_timer[OUT_SOCKETS];
+	pwmTimer _timer[OUT_SOCKETS];
 };
