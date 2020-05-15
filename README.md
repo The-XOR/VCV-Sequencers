@@ -106,6 +106,9 @@ an arpeggiator that pretends to be a sequencer, or the other way around. the fir
 # volt
 the plugin that alessandro volta always wanted to have, if he was interested in microtonal music instead of frogs.
 
+# dice
+s & h noise generator
+
 # nordschleife
 for the _very first time in the world_ an analog matrix sequencer that is so complex it had to be put under CPU control.
 from basic, repetitive sequences to total kaos, and everything in between. it is so complex, that cannot be used without knowing that:

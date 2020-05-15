@@ -19,7 +19,7 @@ void dice::process(const ProcessArgs &args)
 
 		outputs[OUT].setVoltage(clamp(n, LVL_MIN,LVL_MAX));
 	}
-}
+} 
 
 
 diceWidget::diceWidget(dice *module)
@@ -30,7 +30,7 @@ diceWidget::diceWidget(dice *module)
 	addInput(createInput<portSmall>(Vec(mm2px(4.678), yncscape(60.116, 5.885)), module, dice::MAX_IN));
 	addParam(createParam<Davies1900hFixWhiteKnobSmall>(Vec(mm2px(3.620), yncscape(72.225, 8)), module, dice::MIN));
 	addParam(createParam<Davies1900hFixWhiteKnobSmall>(Vec(mm2px(3.620), yncscape(50.529, 8)), module, dice::MAX));
-	addParam(createParam<NKK1>(Vec(mm2px(2.117), yncscape(26.893, 9.488)), module, dice::MODE));
+	addParam(createParam<NKK1>(Vec(mm2px(3.386), yncscape(28.193, 9.488)), module, dice::MODE));
 	addOutput(createOutput<portGSmall>(Vec(mm2px(4.678), yncscape(9.385, 5.885)), module, dice::OUT));
 }
 

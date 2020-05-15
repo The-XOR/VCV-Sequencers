@@ -7,14 +7,14 @@
         {
             "type": "shell",
             "label": "run makefile",
-            "command": "c:\\msys64\\usr\\bin\\make",
+            "command": "make",
           //  "args": [
            //     "-f",
             //    "Makefile"
            // ],
-            "options": {
-                "cwd": "${workspaceFolder}"
-            },
+         //   "options": {
+           //     "cwd": "${workspaceFolder}"
+            //},
             "problemMatcher": [
                 "$gcc"
             ],
