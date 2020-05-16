@@ -48,6 +48,14 @@ struct o88oDisplay : OpenGlWidget
 		}
 	}
 
+	virtual void onButton(const event::Button& e) override
+	{
+		OpenGlWidget::onButton(e);	
+		int c = e.pos.x /  NUM_o88o_RECT;
+		int r = e.pos.y /  NUM_o88o_RECT;
+		pmodule->toggleCell(r,c);	
+	}
+
 private:
 	o88o *pmodule;
 	const int margin = 1;

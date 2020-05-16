@@ -31,6 +31,7 @@ public:
 		PTN_DEC,
 		RANDOMIZE,
 		LED_GATE,
+		GENERATE,
 		NUM_PARAMS
 	};
 	enum InputIds
@@ -48,13 +49,15 @@ public:
 		SWLOOP_IN,
 		SWINVERT_IN,
 		RANDOMIZE_IN,
-		NUM_INPUTS
+		GENERATION_IN,
+ 		NUM_INPUTS
 	};
 	enum OutputIds
 	{
 		GATE_OUT,
 		CURROW_OUT,
 		CURCOL_OUT,
+		TRIGGER_EMPTY,
 		NUM_OUTPUTS
 	};
 	enum LightIds
@@ -66,6 +69,7 @@ public:
 	{
 		pWidget = NULL;
 		curPtn = 0;
+		loadPattern();
 		lastCol = lastRow = NUM_o88o_RECT - 1;
 		firstCol = firstRow = 0;
 		invert_active = false;
@@ -77,10 +81,49 @@ public:
 		configParam(LASTCOL, 0, NUM_o88o_RECT-1, NUM_o88o_RECT-1, "Last Column", "#",  0.f, 1.f, 1.f);
 		reset();
 	}
+
+	void dataFromJson(json_t *root) override
+	{
+			Module::dataFromJson(root);
+		for(int r = 0; r < NUM_o88o_RECT;r++)
+		{
+			for(int c = 0; c < NUM_o88o_RECT;c++)
+			{
+				char n[30];
+				sprintf(n, "R%iC%i",r,c);
+				json_t *rndJson = json_object_get(root, "o88o");
+				if(rndJson)
+					ThePattern[r][c] =  json_integer_value(rndJson) > 0;
+				else
+					ThePattern[r][c] = false;				
+			}	
+		}
+	}
+
+	json_t *dataToJson() override
+	{
+		json_t *rootJ = json_object();
+		for(int r = 0; r < NUM_o88o_RECT;r++)
+		{
+			for(int c = 0; c < NUM_o88o_RECT;c++)
+			{
+				char n[30];
+				sprintf(n, "R%iC%i",r,c);
+				json_object_set_new(rootJ, n, json_integer(ThePattern[r][c] ? 1 : 0));
+			}	
+		}
+		return rootJ;
+	}
+
 	void process(const ProcessArgs &args) override;
 	NVGcolor getCellColor(int r, int c);
 	int patternNumber() const { return curPtn; }
 	void setWidget(o88oWidget *pwdg) { pWidget = pwdg; }
+
+	void toggleCell(int r, int c)
+	{
+		ThePattern[r][c] = !ThePattern[r][c];
+	}
 
 private:
 	inline bool isCellEnabled(int r, int c) 	{return r >= firstRow && r <= lastRow && c >= firstCol && c <= lastCol; }
@@ -89,12 +132,19 @@ private:
 	void reset();
 	void getPatternLimits();
 	void out_position();
+	void loadPattern();
 	void open_gate();
 	void next_column(bool vert, bool back, bool loop);
 	void next_row(bool vert, bool back, bool loop);
 	void process_keys();
 	void randPattrn();
-	inline int getCell(int r, int c) { return invert_active ? TheMatrix[curPtn][r][c] == 0 : TheMatrix[curPtn][r][c]; }
+	inline int getCell(int r, int c) { return invert_active ? ThePattern[r][c] == 0 : ThePattern[r][c]; }
+	int ThePattern[NUM_o88o_RECT][NUM_o88o_RECT];
+
+	dsp::SchmittTrigger generationTrigger;
+	//playground pg;
+	dsp::SchmittTrigger generationBtn;
+	dsp::PulseGenerator emptyTrig;
 
 	enum CELLSTATUS
 	{

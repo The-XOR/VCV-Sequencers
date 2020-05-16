@@ -11,10 +11,12 @@ void o88o::process_keys()
 		{
 			curPtn = clamp(curPtn + 1, 0, NUM_PATTERNS - 1);
 			pWidget->SetPattern(curPtn);
+			emptyTrig.reset();
 		} else if(btndec.process(params[PTN_DEC].value))
 		{
 			curPtn = clamp(curPtn - 1, 0, NUM_PATTERNS - 1);
 			pWidget->SetPattern(curPtn);
+			emptyTrig.reset();
 		}
 	}
 }
@@ -30,9 +32,12 @@ void o88o::process(const ProcessArgs &args)
 	{
 		invert_active = getModulableSwitch(this, SWITCH_INVERT, SWVERT_IN);
 
+		int ptn = curPtn;
 		curPtn = (int)roundf(getModulableParam(this, PATTERN, PATTERN_IN, 0, NUM_PATTERNS-1));
+		if(ptn != curPtn)
+			loadPattern();
 
-		if(curPtn == 0 && (rndTrigger.process(inputs[RANDOMIZE_IN].value) || rndBtnTrig.process(params[RANDOMIZE].value)))
+		if(rndTrigger.process(inputs[RANDOMIZE_IN].value) || rndBtnTrig.process(params[RANDOMIZE].value))
 			randPattrn();
 		
 		int clk = clockTrigger.process(inputs[CLOCK_IN].value); // 1=rise, -1=fall
@@ -44,13 +49,35 @@ void o88o::process(const ProcessArgs &args)
 		} else if(clk == -1)
 			close_gate();
 	}
+
+	if(generationTrigger.process(inputs[GENERATION_IN].value) || generationBtn.process(params[GENERATE].value))
+	{
+		//if(pg.next_generation())
+			emptyTrig.trigger(PULSE_TIME);
+	}
+
+	float deltaTime = 1.0 / args.sampleRate;
+	if(emptyTrig.process(deltaTime))
+	{
+		outputs[TRIGGER_EMPTY].value = LVL_ON;
+	} else
+	{
+		outputs[TRIGGER_EMPTY].value = LVL_OFF;
+	}
 }
 
 void o88o::randPattrn()
 {
 	for(int r = 0; r < NUM_o88o_RECT; r++)
 		for(int c = 0; c < NUM_o88o_RECT; c++)
-			TheMatrix[0][r][c] = int(random::uniform() * 2);
+			ThePattern[r][c] = int(random::uniform() * 2);
+}
+
+void o88o::loadPattern()
+{
+	for(int r = 0; r < NUM_o88o_RECT; r++)
+		for(int c = 0; c < NUM_o88o_RECT; c++)
+			ThePattern[r][c] = TheMatrix[curPtn][r][c];
 }
 
 void o88o::getPatternLimits()
