@@ -183,7 +183,6 @@ private:
 	bool pp_rev;
 	int curStep;
 
-	bool testaCroce() { return random::uniform() > 0.5; }
 	int getRand(int rndMax) { return int(random::uniform() * rndMax); }
 
 	int get_next_step(int current)

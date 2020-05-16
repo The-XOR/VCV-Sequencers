@@ -14,6 +14,8 @@ float SequencerWidget::quantizePitch(int idx, float value, const cvMicroStrip &c
 	return value;
 }
 
+bool testaCroce() { return random::uniform() > 0.5; }
+
 bool isSwitchOn(Module *pm, int paramId)
 {
 	return (pm->params[paramId].getValue() > SWITCH_ON);

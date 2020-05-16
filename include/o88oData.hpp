@@ -581,3 +581,4 @@ int o88o::TheMatrix[NUM_PATTERNS][NUM_o88o_RECT][NUM_o88o_RECT] =
 		{0,0,0,0,0,0,0,0}    // row 7
 	} 
 };
+

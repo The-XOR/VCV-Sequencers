@@ -11,6 +11,68 @@ struct o88oWidget : SequencerWidget
 	void SetPattern(int ptn);
 };
 
+/*
+ "1. Any live cell with fewer than two live neighbours dies, as if caused by under-population."
+ "2. Any live cell with two or three live neighbours lives on to the next generation."
+ "3. Any live cell with more than three live neighbours dies, as if by over-population."
+ "4. Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction."
+   */
+struct playground
+{
+	void setWorld(bool (*p)[NUM_o88o_RECT])
+	{
+		world = p;
+	}
+
+	bool next_generation()
+	{
+		bool grid2[NUM_o88o_RECT + 1][NUM_o88o_RECT + 1] = {};
+		for(int x = 0; x < NUM_o88o_RECT; x++)
+			for(int y = 0; y < NUM_o88o_RECT; y++)
+				grid2[x][y] = world[x][y];
+
+		bool deadWorld = true;
+		for(int a = 1; a < NUM_o88o_RECT; a++)
+		{
+			for(int b = 1; b < NUM_o88o_RECT; b++)
+			{
+				int life = 0;
+				for(int c = -1; c < 2; c++)
+				{
+					for(int d = -1; d < 2; d++)
+					{
+						if(!(c == 0 && d == 0))
+						{
+							if(grid2[a + c][b + d])
+								++life;
+						}
+					}
+				}
+				if(life < 2)
+				{
+					if(world[a][b])
+						deadWorld = false;
+					world[a][b] = false;
+				} else if(life == 3)
+				{
+					if(!world[a][b])
+						deadWorld = false;
+					world[a][b] = true;
+				} else if(life > 3)
+				{
+					if(world[a][b])
+						deadWorld = false;
+					world[a][b] = false;
+				}
+			}
+		}
+
+		return deadWorld;
+	}
+
+	bool (*world)[NUM_o88o_RECT] = NULL;
+};
+
 struct o88o : Module
 {
 public:
@@ -68,6 +130,7 @@ public:
 	o88o() : Module()
 	{
 		pWidget = NULL;
+		pg.setWorld(ThePattern);
 		curPtn = 0;
 		loadPattern();
 		lastCol = lastRow = NUM_o88o_RECT - 1;
@@ -84,14 +147,17 @@ public:
 
 	void dataFromJson(json_t *root) override
 	{
-			Module::dataFromJson(root);
+		json_t *rndJson = json_object_get(root, "ptn");
+		if(rndJson)
+			curPtn = json_integer_value(rndJson);
+
 		for(int r = 0; r < NUM_o88o_RECT;r++)
 		{
 			for(int c = 0; c < NUM_o88o_RECT;c++)
 			{
 				char n[30];
 				sprintf(n, "R%iC%i",r,c);
-				json_t *rndJson = json_object_get(root, "o88o");
+				json_t *rndJson = json_object_get(root, n);
 				if(rndJson)
 					ThePattern[r][c] =  json_integer_value(rndJson) > 0;
 				else
@@ -103,6 +169,7 @@ public:
 	json_t *dataToJson() override
 	{
 		json_t *rootJ = json_object();
+		json_object_set_new(rootJ, "ptn", json_integer(curPtn));
 		for(int r = 0; r < NUM_o88o_RECT;r++)
 		{
 			for(int c = 0; c < NUM_o88o_RECT;c++)
@@ -138,13 +205,13 @@ private:
 	void next_row(bool vert, bool back, bool loop);
 	void process_keys();
 	void randPattrn();
-	inline int getCell(int r, int c) { return invert_active ? ThePattern[r][c] == 0 : ThePattern[r][c]; }
-	int ThePattern[NUM_o88o_RECT][NUM_o88o_RECT];
+	inline bool getCell(int r, int c) { return invert_active ? !ThePattern[r][c] : ThePattern[r][c]; }
+	bool ThePattern[NUM_o88o_RECT][NUM_o88o_RECT];
 
 	dsp::SchmittTrigger generationTrigger;
-	//playground pg;
 	dsp::SchmittTrigger generationBtn;
 	dsp::PulseGenerator emptyTrig;
+	playground pg;
 
 	enum CELLSTATUS
 	{

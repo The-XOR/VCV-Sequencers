@@ -50,10 +50,13 @@ struct o88oDisplay : OpenGlWidget
 
 	virtual void onButton(const event::Button& e) override
 	{
-		OpenGlWidget::onButton(e);	
-		int c = e.pos.x /  NUM_o88o_RECT;
-		int r = e.pos.y /  NUM_o88o_RECT;
-		pmodule->toggleCell(r,c);	
+		if (e.action == GLFW_PRESS && e.button == GLFW_MOUSE_BUTTON_LEFT && (e.mods & RACK_MOD_MASK) == 0) 
+		{
+			int c = floor(e.pos.x / 32.f);
+			int r = floor(e.pos.y /  32.f);
+			pmodule->toggleCell(r,c);	
+			e.consume(this);
+		}
 	}
 
 private:
