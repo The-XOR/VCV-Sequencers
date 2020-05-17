@@ -46,6 +46,10 @@ void o88o::process(const ProcessArgs &args)
 		
 		int clk = clockTrigger.process(inputs[CLOCK_IN].value); // 1=rise, -1=fall
 		bool gate = getModulableSwitch(this, GATE, GATE_IN);
+		
+		if(recIn.process(inputs[REC_IN].value))
+			toggleCell(curRow, curCol);
+
 		if(clk == 1 && gate)
 		{
 			next_step();
@@ -243,11 +247,11 @@ o88oWidget::o88oWidget(o88o *module)
 		module->oscDrv->Add(new oscControl("/Reset"), pwdg);
 	}
 	#endif	
-	addInput(createInput<PJ301RPort>(Vec(mm2px(6.361), yncscape(77.482, 8.255)), module, o88o::CLOCK_IN));
+	addInput(createInput<PJ301RPort>(Vec(mm2px(6.361), yncscape(79.07, 8.255)), module, o88o::CLOCK_IN));
 	addInput(createInput<PJ301BPort>(Vec(mm2px(6.361), yncscape(95.204, 8.255)), module, o88o::RESET_IN));
-	addInput(createInput<PJ301BPort>(Vec(mm2px(6.361), yncscape(58.330, 8.255)), module, o88o::GATE_IN));
+	addInput(createInput<PJ301BPort>(Vec(mm2px(6.361), yncscape(62.564, 8.255)), module, o88o::GATE_IN));
 
-	addParam(createParam<TL1105HSw>(Vec(mm2px(7.185), yncscape(47.082, 4.477)), module, o88o::GATE));
+	addParam(createParam<TL1105HSw>(Vec(mm2px(7.185), yncscape(51.316, 4.477)), module, o88o::GATE));
 	
 	addInput(createInput<PJ301BPort>(Vec(mm2px(36.642), yncscape(10.017, 8.255)), module, o88o::SWLOOP_IN));
 	addInput(createInput<PJ301BPort>(Vec(mm2px(53.383), yncscape(10.017, 8.255)), module, o88o::SWVERT_IN));
@@ -271,11 +275,12 @@ o88oWidget::o88oWidget(o88o *module)
 		module->oscDrv->Add(new oscControl("/FirstRow"), pwdg);
 	}
 	#endif
-
+	
 	addParam(createParam<BefacoPushBig>(Vec(mm2px(115.399), yncscape(31.529, 8.999)), module, o88o::GENERATE));
 	addInput(createInput<PJ301BPort>(Vec(mm2px(128.294), yncscape(31.901, 8.255)), module, o88o::GENERATION_IN));
-	addOutput(createOutput<PJ301WPort>(Vec(mm2px(6.361), yncscape(36.790, 8.255)), module, o88o::TRIGGER_EMPTY));
+	addOutput(createOutput<PJ301WPort>(Vec(mm2px(6.351), yncscape(40.361, 8.255)), module, o88o::TRIGGER_EMPTY));
 
+	addInput(createInput<PJ301BPort>(Vec(mm2px(20.653), yncscape(118.495, 8.255)), module, o88o::REC_IN));
 	addInput(createInput<PJ301BPort>(Vec(mm2px(128.294), yncscape(95.143, 8.255)), module, o88o::LASTROW_IN));
 	pwdg = createParam<Davies1900hFixWhiteKnobSmall>(Vec(mm2px(115.900), yncscape(95.271, 8.0)), module, o88o::LASTROW);
 	((Davies1900hFixRedKnobSmall *)pwdg)->snap = true;

@@ -112,6 +112,7 @@ public:
 		SWINVERT_IN,
 		RANDOMIZE_IN,
 		GENERATION_IN,
+		REC_IN,
  		NUM_INPUTS
 	};
 	enum OutputIds
@@ -238,5 +239,5 @@ private:
 	o88oWidget *pWidget;
 	dsp::SchmittTrigger rndTrigger;
 	dsp::SchmittTrigger rndBtnTrig;
-
+	dsp::SchmittTrigger recIn;
 };
