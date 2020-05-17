@@ -121,6 +121,7 @@ public:
 		CURROW_OUT,
 		CURCOL_OUT,
 		TRIGGER_EMPTY,
+		NGATE_OUT,
 		NUM_OUTPUTS
 	};
 	enum LightIds

@@ -125,10 +125,14 @@ void o88o::out_position()
 
 void o88o::open_gate()
 {
-	if(getCell(curRow, curCol) && isCellEnabled(curRow, curCol))
+	if(isCellEnabled(curRow, curCol))
 	{
-		outputs[GATE_OUT].value = LVL_ON;
-		params[LED_GATE].value = LVL_ON;
+		if(getCell(curRow, curCol))
+		{
+			outputs[GATE_OUT].value = LVL_ON;
+			params[LED_GATE].value = LVL_ON;
+		} else
+			outputs[NGATE_OUT].value = LVL_ON;
 	}
 	out_position();
 }
@@ -136,6 +140,7 @@ void o88o::open_gate()
 void o88o::close_gate()
 {
 	outputs[GATE_OUT].value = LVL_OFF;
+	outputs[NGATE_OUT].value = LVL_OFF;
 	params[LED_GATE].value = LVL_OFF;
 	out_position();
 }
@@ -263,7 +268,8 @@ o88oWidget::o88oWidget(o88o *module)
 	addParam(createParam<TL1105Sw>(Vec(mm2px(45.956), yncscape(10.379f, 6.607)), module, o88o::SWITCH_LOOP));
 	addParam(createParam<TL1105Sw>(Vec(mm2px(96.178), yncscape(10.379f, 6.607)), module, o88o::SWITCH_INVERT));
 
-	addOutput(createOutput<PJ301WPort>(Vec(mm2px(20.881), yncscape(10.017, 8.255)), module, o88o::GATE_OUT));
+	addOutput(createOutput<PJ301WPort>(Vec(mm2px(41.712), yncscape(118.495, 8.255)), module, o88o::GATE_OUT));
+	addOutput(createOutput<PJ301WPort>(Vec(mm2px(92.785), yncscape(118.495, 8.255)), module, o88o::NGATE_OUT));
 
 	addInput(createInput<PJ301BPort>(Vec(mm2px(128.294), yncscape(109.960, 8.255)), module, o88o::FIRSTROW_IN));
 	pwdg = createParam<Davies1900hFixWhiteKnobSmall>(Vec(mm2px(115.900), yncscape(110.087, 8.0)), module, o88o::FIRSTROW);
