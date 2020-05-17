@@ -115,6 +115,7 @@ void o88o::reset()
 		curRow = loop ? firstRow : 0;
 	}
 	close_gate();
+	loadPattern();
 }
 
 void o88o::out_position()
