@@ -11,7 +11,10 @@
         "type_traits": "cpp",
         "utility": "cpp",
         "chrono": "cpp",
-        "sstream": "cpp"
+        "sstream": "cpp",
+        "string": "cpp",
+        "string_view": "cpp",
+        "algorithm": "cpp"
     },
 "terminal.integrated.shell.windows": "C:\\msys64\\usr\\bin\\bash.exe",
 "terminal.integrated.shellArgs.windows": [
@@ -21,6 +24,7 @@
 "terminal.integrated.env.windows": {
     "MSYSTEM": "MINGW64",
     "CHERE_INVOKING": "1"
-}
+},
+"C_Cpp.errorSquiggles": "Enabled"
 
 }
