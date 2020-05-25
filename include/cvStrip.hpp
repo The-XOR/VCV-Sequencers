@@ -67,17 +67,9 @@ protected:
 
 		ParamWidget *pwdg = createParam<daviesVerySmall>(Vec(pos_x(x, 1.015f), pos_y(y, corr + 81.885f, 6.f)), pWidget->module, PARAM_FROM);
 		pWidget->addParam(pwdg);
-		#ifdef OSCTEST_MODULE
-		if(pWidget->module != NULL)
-			pWidget->module->oscDrv->Add(new oscControl("RangeMin"), pwdg);
-		#endif	
 
 		pwdg = createParam<daviesVerySmall>(Vec(pos_x(x, 1.015f), pos_y(y, corr + 65.886f, 6.f)), pWidget->module, PARAM_TO);
 		pWidget->addParam(pwdg);
-		#ifdef OSCTEST_MODULE
-		if(pWidget->module != NULL)
-			pWidget->module->oscDrv->Add(new oscControl("RangeMax"), pwdg);
-		#endif		
 	}
 
 	float pos_x(float x, float offs)
@@ -235,32 +227,16 @@ struct cvStrip : cvMiniStrip
 		ParamWidget *pwdg = createParam<TL1105HSwRed>(Vec(pos_x(x, 1.130f), pos_y(y, 37.650f, 4.477f)), pWidget->module, PARAM_REC);
 		((TL1105HSwRed *)pwdg)->randomizable = false;
 		pWidget->addParam(pwdg);
-#ifdef OSCTEST_MODULE
-		if(pWidget->module != NULL)
-			pWidget->module->oscDrv->Add(new oscControl("Rec"), pwdg);
-#endif
 
 		pwdg = createParam<TL1105Sw>(Vec(pos_x(x, 1.597f), pos_y(y, 10.367f, 6.607f)), pWidget->module, PARAM_MANU);
 		((TL1105HSwRed *)pwdg)->randomizable = false;
 		pWidget->addParam(pwdg);
-#ifdef OSCTEST_MODULE
-		if(pWidget->module != NULL)
-			pWidget->module->oscDrv->Add(new oscControl("Rec"), pwdg);
-#endif
 
 		pwdg = createParam<RIGHTSWITCH>(Vec(pos_x(x, 2.375f), pos_y(y, 29.497f, 4.627f)), pWidget->module, PARAM_NEXT);
 		pWidget->addParam(pwdg);
-#ifdef OSCTEST_MODULE
-		if(pWidget->module != NULL)
-			pWidget->module->oscDrv->Add(new oscControl("NextStep"), pwdg);
-#endif
 
 		pwdg = createParam<LEFTSWITCH>(Vec(pos_x(x, 2.375f), pos_y(y, 20.264f, 4.627f)), pWidget->module, PARAM_PREV);
 		pWidget->addParam(pwdg);
-#ifdef OSCTEST_MODULE
-		if(pWidget->module != NULL)
-			pWidget->module->oscDrv->Add(new oscControl("PrevStep"), pwdg);
-#endif
 
 		if(pWidget->module != NULL)
 		{

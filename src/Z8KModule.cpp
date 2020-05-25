@@ -107,9 +107,6 @@ int Z8K::paths[Z8KPATHS][16] = {
 
 void Z8K::on_loaded()
 {
-	#ifdef DIGITAL_EXT
-	connected = 0;
-	#endif
 	load();
 	cvs.Init(pWidget);
 }
@@ -264,16 +261,6 @@ void Z8K::process(const ProcessArgs &args)
 			outputs[ACTIVE_STEP + k].value = activeSteps[k];
 	}
 
-	#ifdef DIGITAL_EXT
-	bool dig_connected = false;
-
-	#if defined(OSCTEST_MODULE)
-	if(oscDrv->Connected())
-		dig_connected = true;
-	oscDrv->ProcessOSC();
-	#endif
-	connected = dig_connected ? 1.0 : 0.0;
-	#endif
 }
 
 Menu *Z8KWidget::addContextMenu(Menu *menu)
@@ -296,10 +283,6 @@ Z8KWidget::Z8KWidget(Z8K *module) : SequencerWidget()
 {
 	if(module != NULL)
 		module->setWidget(this);
-
-	#ifdef OSCTEST_MODULE
-	char name[60];
-	#endif
 
 	CREATE_PANEL(module, this, 39, "res/modules/Z8KModule.svg");
 
@@ -351,64 +334,21 @@ Z8KWidget::Z8KWidget(Z8K *module) : SequencerWidget()
 		{
 			int n = c + r * 4;
 			ParamWidget *pctrl = createParam<Davies1900hFixRedKnob>(Vec(mm2px(51.533 + dist_h * c), yncscape(81.575+ dist_v * r,9.525)), module, Z8K::VOLTAGE_1 + n);
-			#ifdef OSCTEST_MODULE
-			if(module != NULL)
-			{
-				sprintf(name, "/Knob%i", n + 1);
-				oscControl *oc = new oscControl(name);
-				module->oscDrv->Add(oc, pctrl);
-			}
-			#endif
 			addParam(pctrl);
 
 			ModuleLightWidget *plight = createLight<SmallLight<RedLight>>(Vec(mm2px(62.116 + dist_h * c), yncscape(85.272 + dist_v * r, 2.132)), module, Z8K::LED_ROW + n);
-			#ifdef OSCTEST_MODULE
-			if(module != NULL)
-			{
-				sprintf(name, "/LedR%i", n + 1);
-				module->oscDrv->Add(new oscControl(name), plight);
-			}
-			#endif
 			addChild(plight);
 
 			plight = createLight<SmallLight<GreenLight>>(Vec(mm2px(55.230 + dist_h * c), yncscape(78.385 + dist_v * r, 2.132)), module, Z8K::LED_COL + n);
-			#ifdef OSCTEST_MODULE
-			if(module != NULL)
-			{
-				sprintf(name, "/LedC%i", n + 1);
-				module->oscDrv->Add(new oscControl(name), plight);
-			}
-			#endif
 			addChild(plight);
 
 			plight = createLight<SmallLight<YellowLight>>(Vec(mm2px(51.533 + dist_h * c), yncscape(78.385 + dist_v * r, 2.132)), module, Z8K::LED_VERT + n);
-			#ifdef OSCTEST_MODULE
-			if(module != NULL)
-			{
-				sprintf(name, "/LedV%i", n + 1);
-				module->oscDrv->Add(new oscControl(name), plight);
-			}
-			#endif
 			addChild(plight);
 
 			plight = createLight<SmallLight<BlueLight>>(Vec(mm2px(62.116 + dist_h * c), yncscape(81.575 +  dist_v * r, 2.132)), module, Z8K::LED_HORIZ + n);
-			#ifdef OSCTEST_MODULE
-			if(module != NULL)
-			{
-				sprintf(name, "/LedH%i", n + 1);
-				module->oscDrv->Add(new oscControl(name), plight);
-			}
-			#endif
 			addChild(plight);
 
 			plight = createLight<SmallLight<WhiteLight>>(Vec(mm2px(62.116 + dist_h * c), yncscape(88.969 +  dist_v * r, 2.132)), module, Z8K::LED_PATH + n);
-			#ifdef OSCTEST_MODULE
-			if(module != NULL)
-			{
-			   sprintf(name, "/LedP%i", n + 1);
-			   module->oscDrv->Add(new oscControl(name), plight);
-			}
-			#endif
 			addChild(plight);
 
 			if(r == 3)
@@ -424,10 +364,6 @@ Z8KWidget::Z8KWidget(Z8K *module) : SequencerWidget()
 	if(module != NULL)
 		module->cvs.Create(this, 184.935f, 14.045f, Z8K::NUM_INPUTS - cvStrip::CVSTRIP_INPUTS, Z8K::NUM_PARAMS - cvStrip::CVSTRIP_PARAMS, 16);
 
-	#ifdef DIGITAL_EXT
-	if(module != NULL)
-		addChild(new DigitalLed(mm2px(147.350), yncscape(92.799, 7.074), &module->connected));
-	#endif
 }
 
 int z8kSequencer::Step(Z8K *pModule)

@@ -109,28 +109,8 @@ struct Z8K : Module
 			}
 		}
 		cvs.configure(this, NUM_PARAMS - cvStrip::CVSTRIP_PARAMS);
-		/*
-		#ifdef LAUNCHPAD
-		drv = new LaunchpadBindingDriver(this, Scene4, 1);
-		drv->SetAutoPageKey(LaunchpadKey::SESSION, 0);
-		#endif*/
-		#ifdef OSCTEST_MODULE
-		oscDrv = new OSCDriver(this, 4);
-		#endif
 		on_loaded();
 	}
-
-	#ifdef DIGITAL_EXT
-	~Z8K()
-	{
-		/*#if defined(LAUNCHPAD)
-		delete drv;
-		#endif*/
-		#if defined(OSCTEST_MODULE)
-		delete oscDrv;
-		#endif
-	}
-	#endif
 
 	void process(const ProcessArgs &args) override;
 	void onReset() override { load(); }
@@ -160,13 +140,6 @@ struct Z8K : Module
 			rv.push_back(paths[curPtn][k]);
 		return rv;
 	}
-
-	#ifdef DIGITAL_EXT
-	float connected;
-	#endif
-	#if defined(OSCTEST_MODULE)
-	OSCDriver *oscDrv = NULL;
-	#endif
 
 private:
 	void on_loaded();

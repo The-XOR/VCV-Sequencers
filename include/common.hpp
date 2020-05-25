@@ -39,30 +39,6 @@ bool isSwitchOn(Module *pm, int paramId);
 bool IsExpansion(Module *pm, float *dest, int expansionID, int inputID, int ledID);
 bool testaCroce();
 
-#if defined(ARCH_WIN) && defined(USE_LAUNCHPAD)
-#define LAUNCHPAD
-#endif
-
-#ifdef LAUNCHPAD
-#include "../digitalExt/launchpad.hpp"
-#include "../digitalExt/launchpadControls.hpp"
-#ifdef DEBUG
-#define LPTEST_MODULE
-#endif
-#endif
-
-#if defined(ARCH_WIN) && defined(USE_OSC)
-#define OSC_ENABLE
-#ifdef DEBUG
-#define OSCTEST_MODULE
-#endif
-#include "../digitalExt/osc/oscDriver.hpp"
-#endif
-
-#if defined(LAUNCHPAD) || defined(OSCTEST_MODULE)
-#define DIGITAL_EXT
-#endif
-
 struct TheXORBtn : SvgSwitch
 {
 	TheXORBtn() : SvgSwitch()
@@ -551,32 +527,6 @@ protected:
 	virtual Menu *addContextMenu(Menu *menu) { return menu; }
 };
 #include "cvStrip.hpp"
-
-
-#if defined(LAUNCHPAD) || defined(OSC_ENABLE)
-struct DigitalLed : SvgWidget
-{
-	float *value;
-	std::vector<std::shared_ptr<Svg>> frames;
-
-	DigitalLed(int x, int y, float *pVal)
-	{
-		frames.push_back(APP->window->loadSvg(asset::plugin(pluginInstance, "res/digitalLed_off.svg")));
-		frames.push_back(APP->window->loadSvg(asset::plugin(pluginInstance, "res/digitalLed_on.svg")));
-		setSvg(frames[0]);
-		wrap();
-		box.pos = Vec(x, y);
-		value = pVal;
-	}
-
-	void draw(const DrawArgs &args) override
-	{
-		int index = (*value > 0) ? 1 : 0;
-		setSvg(frames[index]);
-		SvgWidget::draw(args);
-	}
-};
-#endif
 
 struct SigDisplayWidget : TransparentWidget
 {

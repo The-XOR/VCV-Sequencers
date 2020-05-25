@@ -59,27 +59,8 @@ struct Spiralone : Module
 		}
 		cvs.configure(this, NUM_PARAMS - cvStrip::CVSTRIP_PARAMS);
 
-		#ifdef LAUNCHPAD
-		drv = new LaunchpadBindingDriver(this, Scene5, 1);
-		#endif
-		#ifdef OSCTEST_MODULE
-		oscDrv = new OSCDriver(this, 5);
-		#endif
-
 		on_loaded();
 	}
-
-	#ifdef DIGITAL_EXT
-	~Spiralone()
-	{
-		#if defined(LAUNCHPAD)
-		delete drv;
-		#endif
-		#if defined(OSCTEST_MODULE)
-		delete oscDrv;
-		#endif
-	}
-	#endif
 
 	void process(const ProcessArgs &args) override;
 	void onReset() override { load(); }
@@ -103,15 +84,6 @@ struct Spiralone : Module
 	}
 	int theRandomizer;
 
-	#ifdef DIGITAL_EXT
-	float connected;
-	#endif
-	#ifdef LAUNCHPAD
-	LaunchpadBindingDriver *drv = NULL;
-	#endif
-	#if defined(OSCTEST_MODULE)
-	OSCDriver *oscDrv = NULL;
-	#endif
 	spiraloneSequencer sequencer[NUM_SEQUENCERS];
 	cvStrip cvs;
 

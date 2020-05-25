@@ -44,9 +44,6 @@ void quattro::reset(float deltaTime)
 
 void quattro::on_loaded()
 {
-	#ifdef DIGITAL_EXT
-	connected = 0;
-	#endif
 	load();
 	cvs.Init(pWidget);
 }
@@ -108,9 +105,6 @@ void quattro::QuantizePitch()
 #define INCX(k) (k * 23.651f)
 quattroWidget::quattroWidget(quattro *module) : SequencerWidget()
 {
-	#ifdef OSCTEST_MODULE
-	char name[60];
-	#endif
 	if(module != NULL)
 		module->setWidget(this);
 
@@ -120,19 +114,8 @@ quattroWidget::quattroWidget(quattro *module) : SequencerWidget()
 	if(module != NULL)
 		module->cvs.Create(this, 251.717f, 18.530f, quattro::NUM_INPUTS-cvStrip::CVSTRIP_INPUTS, quattro::NUM_PARAMS - cvStrip::CVSTRIP_PARAMS, QUATTRO_NUM_STEPS);
 
-	#ifdef DIGITAL_EXT
-	if(module != NULL)
-		addChild(new DigitalLed(mm2px(18.430f), yncscape(100.877f, 3.867), &module->connected));
-	#endif
-
 	ParamWidget *pwdg = createParam<BefacoPushBig>(Vec(mm2px(24.889f), yncscape(112.537f, 8.999)), module, quattro::M_RESET);
 	addParam(pwdg);
-	#ifdef OSCTEST_MODULE
-	if(module != NULL)
-	{
-		module->oscDrv->Add(new oscControl("reset"), pwdg);
-	}
-	#endif
 	addInput(createInput<PJ301BPort>(Vec(mm2px(9.994f), yncscape(112.909f, 8.255)), module, quattro::MRESET_IN));
 
 	for(int k = 0; k < NUM_STRIPS; k++)
@@ -152,30 +135,13 @@ quattroWidget::quattroWidget(quattro *module) : SequencerWidget()
 
 void quattroWidget::create_strip(quattro *module, int n)
 {
-	#ifdef OSCTEST_MODULE
-	char name[60];
-	#endif
 	int xleft = 39.117f + INCX(n);
 
 	ParamWidget *pwdg = createParam<Davies1900hLargeFixRedKnob>(Vec(mm2px(xleft + 2.012f - 2.04f), yncscape(109.190f + 3.49f, 11.430)), module, quattro::VOLTAGE_1 + n);
 	addParam(pwdg);
-	#ifdef OSCTEST_MODULE
-	if(module != NULL)
-	{
-		sprintf(name, "/Step%i", n + 1);
-		module->oscDrv->Add(new oscControl(name), pwdg);
-	}
-	#endif
 	pwdg = createParam<Davies1900hFixBlackKnobSmall>(Vec(mm2px(xleft + 3.726f), yncscape(93.989f, 8.0)), module, quattro::MODE + n);
 	((Davies1900hFixBlackKnobSmall *)pwdg)->snap = true;
 	addParam(pwdg);
-	#ifdef OSCTEST_MODULE
-	if(module != NULL)
-	{
-		sprintf(name, "/Mode%i", n + 1);
-		module->oscDrv->Add(new oscControl(name), pwdg);
-	}
-	#endif
 
 	for(int k = 0; k < NUM_STRIPS; k++)
 	{
@@ -185,13 +151,6 @@ void quattroWidget::create_strip(quattro *module, int n)
 		else
 			plight = createLight<LargeLight<RedLight>>(Vec(mm2px(xleft + 5.137f), yncscape(78.485f + INCY(k), 5.179f)), module, quattro::ledStrips[k] + n);
 		addChild(plight);
-		#ifdef OSCTEST_MODULE
-		if(module != NULL)
-		{
-			sprintf(name, "/Strip%i_%i", k + 1, n + 1);
-			module->oscDrv->Add(new oscControl(name), plight);
-		}
-		#endif
 	}
 
 	addInput(createInput<PJ301BPort>(Vec(mm2px(xleft), yncscape(20.228f, 8.255f)), module, quattro::SETSTEP1 + n));
@@ -199,13 +158,6 @@ void quattroWidget::create_strip(quattro *module, int n)
 
 	pwdg = createParam<ABCDSwitch>(Vec(mm2px(xleft + 2.469f), yncscape(2.775, 7.093)), module, quattro::STRIPSEL_1 + n);
 	addParam(pwdg);
-	#ifdef OSCTEST_MODULE
-	if(module != NULL)
-	{
-		sprintf(name, "/StripSel%i", n + 1);
-		module->oscDrv->Add(new oscControl(name), pwdg);
-	}
-	#endif
 }
 
 

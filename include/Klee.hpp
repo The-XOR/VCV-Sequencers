@@ -139,28 +139,10 @@ struct Klee : Module
 			configParam(Klee::PITCH_KNOB + k, 0.0, 1.0, 0.125);
 			configParam(Klee::PITCH_KNOB + 8 + k, 0.0, 1.0, 0.125);
 		}
-		#ifdef LAUNCHPAD
-		drv = new LaunchpadBindingDriver(this, Scene1, 1);
-		#endif
-		#ifdef OSCTEST_MODULE
-		oscDrv = new OSCDriver(this, 1);
-		#endif
 
 		on_loaded();
 	}
 	void QuantizePitch();
-
-	#ifdef DIGITAL_EXT
-	~Klee()
-	{
-		#if defined(LAUNCHPAD)
-		delete drv;
-		#endif
-		#if defined(OSCTEST_MODULE)
-		delete oscDrv;
-		#endif
-	}
-	#endif
 
 	void setWidget(KleeWidget *pwdg) { pWidget = pwdg; }
 
@@ -183,15 +165,6 @@ struct Klee : Module
 	void onReset() override { load(); }
 	void onRandomize() override { load(); }
 
-	#ifdef DIGITAL_EXT
-	float connected;
-	#endif
-	#ifdef LAUNCHPAD
-	LaunchpadBindingDriver *drv = NULL;
-	#endif
-	#if defined(OSCTEST_MODULE)
-	OSCDriver *oscDrv = NULL;
-	#endif
 	int theRandomizer;
 	cvMiniStrip cvs;
 

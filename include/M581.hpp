@@ -220,30 +220,8 @@ struct M581 : Module
 		configParam(M581::NUM_STEPS, 1.0, 31.0, 8.0);
 		configParam(M581::RUN_MODE, 0.0, 4.0, 0.0);
 
-		#ifdef LAUNCHPAD
-		drv = new LaunchpadBindingDriver(this, Scene2, 3);
-		drv->SetAutoPageKey(LaunchpadKey::SESSION, 0);
-		drv->SetAutoPageKey(LaunchpadKey::NOTE, 1);
-		drv->SetAutoPageKey(LaunchpadKey::DEVICE, 2);
-		#endif
-		#ifdef OSCTEST_MODULE
-		oscDrv = new OSCDriver(this, 2);
-		#endif
-
 		on_loaded();
 	}
-
-	#ifdef DIGITAL_EXT
-	~M581()
-	{
-		#if defined(LAUNCHPAD)
-		delete drv;
-		#endif
-		#if defined(OSCTEST_MODULE)
-		delete oscDrv;
-		#endif
-	}
-	#endif
 
 	int lastSliderMoved;
 	void process(const ProcessArgs &args) override;
@@ -279,15 +257,6 @@ struct M581 : Module
 		return NULL;
 	}
 
-	#ifdef DIGITAL_EXT
-	float connected;
-	#endif
-	#ifdef LAUNCHPAD
-	LaunchpadBindingDriver *drv = NULL;
-	#endif
-	#if defined(OSCTEST_MODULE)
-	OSCDriver *oscDrv = NULL;
-	#endif
 	int theRandomizer;
 	cvStrip cvs;
 

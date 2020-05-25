@@ -205,22 +205,8 @@ struct nag : Module
 		}
 
 		configParam(DEGXCLK, MIN_DEGXCLOCK, MAX_DEGXCLOCK, MIN_DEGXCLOCK, "Degress x clock", "#");
-		#ifdef OSCTEST_MODULE
-		oscDrv = new OSCDriver(this, 6);
-		#endif
 	}
 
-#ifdef DIGITAL_EXT
-	~nag()
-	{
-#if defined(LAUNCHPAD)
-		//delete drv;
-#endif
-#if defined(OSCTEST_MODULE)
-		delete oscDrv;
-#endif
-	}
-#endif
 	int degPerClock();
 	void process(const ProcessArgs &args) override;
 	inline int getClock() { return theCounter; }
@@ -252,9 +238,6 @@ private:
 	void randrandrand();
 	void on_loaded();
 	void load();
-#if defined(OSCTEST_MODULE)
-	OSCDriver *oscDrv = NULL;
-#endif
 	nagWidget *pWidget;
 
 	dsp::SchmittTrigger masterReset;

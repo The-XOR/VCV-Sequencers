@@ -37,14 +37,6 @@
 #include "../include/m581expV.hpp"
 #include "../include/dice.hpp"
 
-#ifdef LPTEST_MODULE
-#include "../include/lpTestModule.hpp"
-#endif 
-
-#ifdef OSCTEST_MODULE
-#include "../include/oscTestModule.hpp"
-#endif 
-
 // The pluginInstance-wide instance of the Plugin class
 Plugin *pluginInstance;
 
@@ -94,14 +86,6 @@ void init(rack::Plugin *p)
 	p->addModel(createModel<chords, chordsWidget>("chords"));
 	p->addModel(createModel<c2v, c2vWidget>("c2v"));
 	p->addModel(createModel<dice, diceWidget>("dice"));
-
-#ifdef LPTEST_MODULE
-	p->addModel(createModel<LaunchpadTest, LaunchpadTestWidget>("LaunchpadTest"));
-#endif
-
-#ifdef OSCTEST_MODULE
-	p->addModel(createModel<OscTest, OscTestWidget>("OSCTest"));
-#endif
 
 	// Any other pluginInstance initialization may go here.
 	// As an alternative, consider lazy-loading assets and lookup tables when your module is created to reduce startup times of Rack.

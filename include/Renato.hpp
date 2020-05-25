@@ -129,28 +129,8 @@ struct Renato : Module
 		}
 		cvs.configure(this, NUM_PARAMS - cvStrip::CVSTRIP_PARAMS);
 
-		#ifdef LAUNCHPAD
-		drv = new LaunchpadBindingDriver(this, Scene3, 2);
-		drv->SetAutoPageKey(LaunchpadKey::SESSION, 0);
-		drv->SetAutoPageKey(LaunchpadKey::NOTE, 1);
-		#endif
-		#ifdef OSCTEST_MODULE
-		oscDrv = new OSCDriver(this, 3);
-		#endif
 		onReset();
 	}
-
-	#ifdef DIGITAL_EXT
-	~Renato()
-	{
-		#if defined(LAUNCHPAD)
-		delete drv;
-		#endif
-		#if defined(OSCTEST_MODULE)
-		delete oscDrv;
-		#endif
-	}
-	#endif
 
 	void process(const ProcessArgs &args) override;
 	void onReset() override { load(); }
@@ -173,15 +153,6 @@ struct Renato : Module
 	bool _accessX(int p) { return _access(xy(p, seqY.Position())); }
 	bool _accessY(int p) { return _access(xy(seqX.Position(), p)); }
 
-	#ifdef DIGITAL_EXT
-	float connected;
-	#endif
-	#ifdef LAUNCHPAD
-	LaunchpadBindingDriver *drv = NULL;
-	#endif
-	#if defined(OSCTEST_MODULE)
-	OSCDriver *oscDrv = NULL;
-	#endif
 	int theRandomizer;
 	cvStrip cvs;
 

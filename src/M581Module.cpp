@@ -24,9 +24,6 @@ float M581::getLastNoteValue()
 
 void M581::on_loaded()
 {
-	#ifdef DIGITAL_EXT
-	connected = 0;
-	#endif
 	load();
 	cvs.Init(pWidget);
 }
@@ -117,22 +114,6 @@ void M581::process(const ProcessArgs &args)
 		outputs[GATE].value = gateControl.Play(&_timer, stepCounter.PulseCounter(), args.sampleRate);
 	}
 
-	#ifdef DIGITAL_EXT
-	bool dig_connected = false;
-
-	#ifdef LAUNCHPAD
-	if(drv->Connected())
-		dig_connected = true;
-	drv->ProcessLaunchpad();
-	#endif
-
-	#if defined(OSCTEST_MODULE)
-	if(oscDrv->Connected())
-		dig_connected = true;
-	oscDrv->ProcessOSC();
-	#endif	
-	connected = dig_connected ? 1.0 : 0.0;
-	#endif
 }
 
 
@@ -190,9 +171,6 @@ bool M581::any()
 
 M581Widget::M581Widget(M581 *module) : SequencerWidget()
 {
-	#ifdef OSCTEST_MODULE
-	char name[60];
-	#endif
 	if(module != NULL)
 		module->setWidget(this);
 
@@ -205,151 +183,44 @@ M581Widget::M581Widget(M581 *module) : SequencerWidget()
 			  // step enable
 		ParamWidget *pwdg = createParam<CKSSThreeFix>(Vec(mm2px(14.151 + k * dist_h), yncscape(11.744, 10.0)), module, M581::STEP_ENABLE + k);
 		addParam(pwdg);
-		#ifdef LAUNCHPAD
-		if(module != NULL)
-		{
-			module->drv->Add(new LaunchpadRadio(0, ILaunchpadPro::RC2Key(5, k), 3, LaunchpadLed::Color(43), LaunchpadLed::Color(32)), pwdg);
-		}
-		#endif
-		#ifdef OSCTEST_MODULE
-		if(module != NULL)
-		{
-			sprintf(name, "/Enable%i", k + 1);
-			module->oscDrv->Add(new oscControl(name), pwdg);
-		}
-		#endif
-
+	
 		// Gate switches
 		pwdg = createParam<VerticalSwitch>(Vec(mm2px(14.930 + k * dist_h), yncscape(39.306, 13.2)), module, M581::GATE_SWITCH + k);
 		addParam(pwdg);
-		#ifdef LAUNCHPAD
-		if(module != NULL)
-		{
-			module->drv->Add(new LaunchpadRadio(0, ILaunchpadPro::RC2Key(1, k), 4, LaunchpadLed::Color(11), LaunchpadLed::Color(17)), pwdg);
-		}
-		#endif
-		#ifdef OSCTEST_MODULE
-		if(module != NULL)
-		{
-			sprintf(name, "/GateMode%i", k + 1);
-			module->oscDrv->Add(new oscControl(name), pwdg);
-		}
-		#endif
-
+	
 		// page #1 (Note): Notes
 		// step notes
 		pwdg = createParam<BefacoSlidePotFix>(Vec(mm2px(14.943 + k * dist_h), yncscape(95.822, 27.517)), module, M581::STEP_NOTES + k);
 		((BefacoSlidePotFix *)pwdg)->SetID(module, M581::STEP_NOTES + k);
 		addParam(pwdg);
 
-		#ifdef OSCTEST_MODULE
-		if(module != NULL)
-		{
-			sprintf(name, "/Knob%i", k + 1);
-			module->oscDrv->Add(new oscControl(name), pwdg);
-		}
-		#endif
-
+	
 		//page #2 (Device): Counters
 		// Counter switches
 		pwdg = createParam<CounterSwitch>(Vec(mm2px(14.93 + k * dist_h), yncscape(60.897, 24.0)), module, M581::COUNTER_SWITCH + k);
 		addParam(pwdg);
-		#ifdef LAUNCHPAD
-		if(module != NULL)
-		{
-			module->drv->Add(new LaunchpadRadio(1, ILaunchpadPro::RC2Key(0, k), 8, LaunchpadLed::Color(1), LaunchpadLed::Color(58)), pwdg);
-		}
-		#endif
-		#ifdef OSCTEST_MODULE
-		if(module != NULL)
-		{
-			sprintf(name, "/Count%i", k + 1);
-			module->oscDrv->Add(new oscControl(name), pwdg);
-		}
-		#endif
-
+	
 		// step leds (all pages)
 		ModuleLightWidget *plight = createLight<LargeLight<RedLight>>(Vec(mm2px(13.491 + k * dist_h), yncscape(27.412, 5.179)), module, M581::LED_STEP + k);
 		addChild(plight);
-		#ifdef LAUNCHPAD
-		if(module != NULL)
-		{
-			LaunchpadLight *ld1 = new LaunchpadLight(launchpadDriver::ALL_PAGES, ILaunchpadPro::RC2Key(0, k), LaunchpadLed::Off(), LaunchpadLed::Color(5));
-			module->drv->Add(ld1, plight);
-		}
-		#endif
-		#ifdef OSCTEST_MODULE
-		if(module != NULL)
-		{
-			sprintf(name, "/Led%i", k + 1);
-			module->oscDrv->Add(new oscControl(name), plight);
-		}
-		#endif
-
+	
 		// subdiv leds (all pages)
 		const float dv = 3.029;
 		plight = createLight<TinyLight<RedLight>>(Vec(mm2px(11.642), yncscape(61.75 + k * dv + 0.272, 1.088)), module, M581::LED_SUBDIV + k);
 		addChild(plight);
-		#ifdef LAUNCHPAD
-		if(module != NULL)
-		{
-			// colonna PLAY
-			module->drv->Add(new LaunchpadLight(launchpadDriver::ALL_PAGES, ILaunchpadPro::RC2Key(8, k), LaunchpadLed::Off(), LaunchpadLed::Color(5)), plight);
-		}
-		#endif
-		#ifdef OSCTEST_MODULE
-		if(module != NULL)
-		{
-			sprintf(name, "/SubLed%i", k + 1);
-			module->oscDrv->Add(new oscControl(name), plight);
-		}
-		#endif
+	
 	}
 
 	// Gate time
 	ParamWidget *pwdg = createParam<Davies1900hFixWhiteKnob>(Vec(mm2px(134.129), yncscape(95.480, 9.525)), module, M581::GATE_TIME);
-	#ifdef OSCTEST_MODULE
-	if(module != NULL)
-	{
-		module->oscDrv->Add(new oscControl("/GateTime"), pwdg);
-	}
-	#endif
 	addParam(pwdg);    // in sec
 
 	// Slide time
 	pwdg = createParam<Davies1900hFixWhiteKnob>(Vec(mm2px(121.032), yncscape(95.480, 9.525)), module, M581::SLIDE_TIME);
 	addParam(pwdg); // in sec
-	#ifdef OSCTEST_MODULE
-	if(module != NULL)
-	{
-		module->oscDrv->Add(new oscControl("/SlideTime"), pwdg);
-	}
-	#endif
-
-
-	#ifdef OSCTEST_MODULE
-	if(module != NULL)
-	{
-		module->oscDrv->Add(new oscControl("/Voltage"), pwdg);
-	}
-	#endif
-
 	// step div
 	pwdg = createParam<VerticalSwitch>(Vec(mm2px(123.494), yncscape(75.482, 13.2)), module, M581::STEP_DIV);
 	addParam(pwdg);
-	#ifdef LAUNCHPAD
-	if(module != NULL)
-	{
-		module->drv->Add(new LaunchpadRadio(2, ILaunchpadPro::RC2Key(4, 3), 4, LaunchpadLed::Color(43), LaunchpadLed::Color(32)), pwdg);
-	}
-	#endif
-	#ifdef OSCTEST_MODULE
-	if(module != NULL)
-	{
-		module->oscDrv->Add(new oscControl("/StepDiv"), pwdg);
-	}
-	#endif
-
 	// input
 	addInput(createInput<PJ301RPort>(Vec(mm2px(113.864), yncscape(22.128, 8.255)), module, M581::CLOCK));
 	addInput(createInput<PJ301YPort>(Vec(mm2px(124.178), yncscape(22.128, 8.255)), module, M581::RESET));
@@ -387,26 +258,9 @@ M581Widget::M581Widget(M581 *module) : SequencerWidget()
 	((Davies1900hKnob *)pwdg)->snap = true;
 	addParam(pwdg);
 
-	#ifdef LAUNCHPAD
-	if(module != NULL)
-	{
-		module->drv->Add(new LaunchpadRadio(2, ILaunchpadPro::RC2Key(6, 1), 5, LaunchpadLed::Color(11), LaunchpadLed::Color(14)), pwdg);
-	}
-	#endif
-	#ifdef OSCTEST_MODULE
-	if(module != NULL)
-	{
-		module->oscDrv->Add(new oscControl("/RunMode"), pwdg);
-	}
-	#endif
-
 	if(module != NULL)
 		module->cvs.Create(this, 146.802f, 18.530f, M581::NUM_INPUTS - cvStrip::CVSTRIP_INPUTS, M581::NUM_PARAMS - cvStrip::CVSTRIP_PARAMS, 8);
 
-	#ifdef DIGITAL_EXT
-	if(module != NULL)
-		addChild(new DigitalLed(mm2px(92.540), yncscape(2.322, 3.867), &module->connected));
-	#endif
 }
 
 Menu *M581Widget::addContextMenu(Menu *menu)

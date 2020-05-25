@@ -4,9 +4,6 @@
 
 void nag::on_loaded()
 {
-#ifdef DIGITAL_EXT
-	connected = 0;
-#endif
 	load();
 }
 
@@ -64,16 +61,6 @@ void nag::process(const ProcessArgs &args)
 		}
 		sclocca(dm, deltaTime);
 	}
-#ifdef DIGITAL_EXT
-	bool dig_connected = false;
-
-#if defined(OSCTEST_MODULE)
-	if (oscDrv->Connected())
-		dig_connected = true;
-	oscDrv->ProcessOSC();
-#endif	
-	connected = dig_connected ? 1.0 : 0.0;
-#endif
 }
 
 void nag::sclocca(bool dm, float dt)
@@ -106,9 +93,6 @@ nagWidget::nagWidget(nag *module) : SequencerWidget()
 {
 	if (module != NULL)
 		module->setWidget(this);
-#ifdef OSCTEST_MODULE
-	char name[60];
-#endif
 
 	CREATE_PANEL(module, this, 45, "res/modules/nag.svg");
 
@@ -117,49 +101,23 @@ nagWidget::nagWidget(nag *module) : SequencerWidget()
 		float delta_y = 19.122 * index;
 		ParamWidget *pwdg = createParam<NKK1>(Vec(mm2px(80.628), yncscape(110.388 - delta_y, 7.336)), module, nag::ENABLE_1 + index);
 		addParam(pwdg);
-		#ifdef OSCTEST_MODULE
-		if (module != NULL)
-		{
-			sprintf(name, "/Enable%i", index + 1);
-			module->oscDrv->Add(new oscControl(name), pwdg);
-		}
-		#endif
-
+		
 		pwdg = createParam<Davies1900hFixRedKnobSmall>(Vec(mm2px(105.824), yncscape(108.056 - delta_y, 8.0)), module, nag::VERTEX_1 + index);
 		((Davies1900hFixRedKnobSmall *)pwdg)->snap = true;
 		addParam(pwdg);
-		#ifdef OSCTEST_MODULE
-		if (module != NULL)
-		{
-			sprintf(name, "/Vertices%i", index + 1);
-			module->oscDrv->Add(new oscControl(name), pwdg);
-		}
-		#endif
+		
 		addInput(createInput<PJ301GRPort>(Vec(mm2px(118.218), yncscape(108.2 - delta_y, 8.255)), module, nag::INVERTEX_1 + index));
 
 		pwdg = createParam<Davies1900hFixWhiteKnobSmall>(Vec(mm2px(139.902), yncscape(108.056 - delta_y, 8.0)), module, nag::ROTATE_1 + index);
 		((Davies1900hFixRedKnobSmall *)pwdg)->snap = true;
 		addParam(pwdg);
 		
-		#ifdef OSCTEST_MODULE
-		if (module != NULL)
-		{
-			sprintf(name, "/Rotate%i", index + 1);
-			module->oscDrv->Add(new oscControl(name), pwdg);
-		}
-		#endif
 		addInput(createInput<PJ301GRPort>(Vec(mm2px(152.296), yncscape(108.2 - delta_y, 8.255)), module, nag::INROTATE_1 + index));
 
 		pwdg = createParam<Davies1900hFixBlackKnobSmall>(Vec(mm2px(173.604), yncscape(108.056 - delta_y, 8.0)), module, nag::SKEW_1 + index);
 		((Davies1900hFixRedKnobSmall *)pwdg)->snap = true;
 		addParam(pwdg);
-		#ifdef OSCTEST_MODULE
-		if (module != NULL)
-		{
-			sprintf(name, "/Skew%i", index + 1);
-			module->oscDrv->Add(new oscControl(name), pwdg);
-		}
-		#endif
+		
 		addInput(createInput<PJ301GRPort>(Vec(mm2px(185.998), yncscape(108.2-delta_y, 8.255)), module, nag::INSKEW_1 + index));
 
 		addOutput(createOutput<PJ301WPort>(Vec(mm2px(208.211), yncscape(107.928-delta_y, 8.255)), module, nag::OUT_1 + index));
@@ -171,12 +129,6 @@ nagWidget::nagWidget(nag *module) : SequencerWidget()
 	((Davies1900hFixRedKnobSmall *)pwdg)->snap = true;
 	addParam(pwdg);
 	addChild(new nag7Segm(module, 27.159f, 12.807f));
-	#ifdef OSCTEST_MODULE
-	if (module != NULL)
-	{
-		module->oscDrv->Add(new oscControl("ClockDeg"), pwdg);
-	}
-	#endif
 
 	addInput(createInput<PJ301YPort>( Vec(mm2px(55.235), yncscape(37.2818, 8.255)), module, nag::RESET));
 	addInput(createInput<PJ301RPort>( Vec(mm2px(55.235), yncscape(24.892, 8.255)), module, nag::CLOCK));
@@ -193,11 +145,6 @@ nagWidget::nagWidget(nag *module) : SequencerWidget()
 		display->SetModule(module);
 		addChild(display);
 	}
-
-#ifdef DIGITAL_EXT
-	if (module != NULL)
-		addChild(new DigitalLed(mm2px(7.543), yncscape(8.977, 3.867), &module->connected));
-#endif
 }
 
 Menu *nagWidget::addContextMenu(Menu *menu)

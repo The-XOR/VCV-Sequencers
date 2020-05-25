@@ -247,12 +247,6 @@ o88oWidget::o88oWidget(o88o *module)
 	}
 	ParamWidget *pwdg = createParam<BefacoPushBig>(Vec(mm2px(5.988), yncscape(105.884, 8.999)), module, o88o::M_RESET);
 	addParam(pwdg);
-	#ifdef OSCTEST_MODULE
-	if(module != NULL)
-	{
-		module->oscDrv->Add(new oscControl("/Reset"), pwdg);
-	}
-	#endif	
 	addInput(createInput<PJ301RPort>(Vec(mm2px(6.361), yncscape(79.07, 8.255)), module, o88o::CLOCK_IN));
 	addInput(createInput<PJ301BPort>(Vec(mm2px(6.361), yncscape(95.204, 8.255)), module, o88o::RESET_IN));
 	addInput(createInput<PJ301BPort>(Vec(mm2px(6.361), yncscape(62.564, 8.255)), module, o88o::GATE_IN));
@@ -276,12 +270,6 @@ o88oWidget::o88oWidget(o88o *module)
 	pwdg = createParam<Davies1900hFixWhiteKnobSmall>(Vec(mm2px(115.900), yncscape(110.087, 8.0)), module, o88o::FIRSTROW);
 	((Davies1900hFixRedKnobSmall *)pwdg)->snap = true;
 	addParam(pwdg);
-	#ifdef OSCTEST_MODULE
-	if(module != NULL)
-	{
-		module->oscDrv->Add(new oscControl("/FirstRow"), pwdg);
-	}
-	#endif
 	
 	addParam(createParam<BefacoPushBig>(Vec(mm2px(115.399), yncscape(31.529, 8.999)), module, o88o::GENERATE));
 	addInput(createInput<PJ301BPort>(Vec(mm2px(128.294), yncscape(31.901, 8.255)), module, o88o::GENERATION_IN));
@@ -292,12 +280,6 @@ o88oWidget::o88oWidget(o88o *module)
 	pwdg = createParam<Davies1900hFixWhiteKnobSmall>(Vec(mm2px(115.900), yncscape(95.271, 8.0)), module, o88o::LASTROW);
 	((Davies1900hFixRedKnobSmall *)pwdg)->snap = true;
 	addParam(pwdg);
-	#ifdef OSCTEST_MODULE
-	if(module != NULL)
-	{
-		module->oscDrv->Add(new oscControl("/LastRow"), pwdg);
-	}
-	#endif
 
 	addOutput(createOutput<PJ301WPort>(Vec(mm2px(128.294), yncscape(81.699, 8.255)), module, o88o::CURROW_OUT));
 
@@ -305,23 +287,11 @@ o88oWidget::o88oWidget(o88o *module)
 	pwdg = createParam<Davies1900hFixBlackKnobSmall>(Vec(mm2px(115.900), yncscape(71.458, 8.0)), module, o88o::FIRSTCOL);
 	((Davies1900hFixRedKnobSmall *)pwdg)->snap = true;
 	addParam(pwdg);
-	#ifdef OSCTEST_MODULE
-	if(module != NULL)
-	{
-		module->oscDrv->Add(new oscControl("/FirstCol"), pwdg);
-	}
-	#endif
 
 	addInput(createInput<PJ301BPort>(Vec(mm2px(128.294), yncscape(56.514, 8.255)), module, o88o::LASTCOL_IN));
 	pwdg = createParam<Davies1900hFixBlackKnobSmall>(Vec(mm2px(115.900), yncscape(56.642, 8.0)), module, o88o::LASTCOL);
 	((Davies1900hFixRedKnobSmall *)pwdg)->snap = true;
 	addParam(pwdg);
-	#ifdef OSCTEST_MODULE
-	if(module != NULL)
-	{
-		module->oscDrv->Add(new oscControl("/LastCol"), pwdg);
-	}
-	#endif
 
 	addOutput(createOutput<PJ301WPort>(Vec(mm2px(128.294), yncscape(43.070, 8.255)), module, o88o::CURCOL_OUT));
 
@@ -329,12 +299,6 @@ o88oWidget::o88oWidget(o88o *module)
 	pwdg = createParam<Davies1900hFixRedKnobSmall>(Vec(mm2px(115.900), yncscape(10.144, 8.0)), module, o88o::PATTERN);
 	((Davies1900hFixRedKnobSmall *)pwdg)->snap = true;
 	addParam(pwdg);
-	#ifdef OSCTEST_MODULE
-	if(module != NULL)
-	{
-		module->oscDrv->Add(new oscControl("/Pattern"), pwdg);
-	}
-	#endif
 
 	addChild(new o88o7Segm(module != NULL ? module : NULL, 103.832, 10.320));
 	addParam(createParam<RIGHTSWITCH>(Vec(mm2px(109.255), yncscape(4.358, 4.627)), module, o88o::PTN_INC));
