@@ -24,7 +24,8 @@ struct Spiralone : Module
 		INXPOSE_1 = INSTRIDE_1 + NUM_SEQUENCERS,
 		CLOCK_1 = INXPOSE_1 + NUM_SEQUENCERS,
 		RANGE_IN = CLOCK_1 + NUM_SEQUENCERS,
-		NUM_INPUTS = RANGE_IN + cvStrip::CVSTRIP_INPUTS
+		M_RESET_IN = RANGE_IN + cvStrip::CVSTRIP_INPUTS,
+		NUM_INPUTS 
 	};
 
 	enum OutputIds
@@ -122,5 +123,6 @@ private:
 
 	SpiraloneWidget *pWidget;
 	dsp::SchmittTrigger masterReset;
+	dsp::SchmittTrigger masterResetIn;
 	dsp::SchmittTrigger rndTrigger;
 };

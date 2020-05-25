@@ -79,7 +79,7 @@ void Spiralone::load()
 
 void Spiralone::process(const ProcessArgs &args)
 {
-	if(masterReset.process(params[M_RESET].value))
+	if(masterReset.process(params[M_RESET].value) || masterResetIn.process(inputs[M_RESET_IN].getVoltage()))
 	{
 		load();
 	} else
@@ -231,6 +231,8 @@ SpiraloneWidget::SpiraloneWidget(Spiralone *module) : SequencerWidget()
 		}
 		angle += step;
 	}
+
+	addInput(createInput<PJ301YPort>(Vec(mm2px(20.145), yncscape(113.999, 8.255)), module, Spiralone::M_RESET_IN));
 
 	ParamWidget *pwdg = createParam<BefacoPushBig>(Vec(mm2px(7.970), yncscape(113.627, 8.999)), module, Spiralone::M_RESET);
 	addParam(pwdg);
