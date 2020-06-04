@@ -121,7 +121,7 @@ bool PwmClock::isGeneratorActive()
 	bool active = false;
 	if(inputs[REMOTE_IN].isConnected()) // priorita; prioritaria
 	{
-		active = isSwitchOn(this, REMOTE_IN);
+		active = inputs[REMOTE_IN].getVoltage() > 0.5f;
 		if(active && !isSwitchOn(this, OFFON))
 		{
 			pWidget->params[OFFON]->dirtyValue = params[OFFON].value = 1.0;
