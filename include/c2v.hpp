@@ -41,5 +41,4 @@ struct c2v : Module
 	void process(const ProcessArgs &args) override;
 
 private:
-
 };

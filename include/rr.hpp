@@ -14,6 +14,7 @@ struct RR : Module
 	enum ParamIds
 	{
 		EDGE,
+		MODE,
 		NUM_PARAMS
 	};
 	enum InputIds
@@ -35,17 +36,21 @@ struct RR : Module
 	RR() : Module()
 	{		
 		config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS);
-		rr = -1;
+		rr = n = -1;
 		descSignal.reset();
 		pulseRunning = false;
 	}
 	void process(const ProcessArgs &args) override;
 
 private:
+	int next(bool mode_sequential);
 	int next();
+	int next_seq();
 	SchmittTrigger2 clockTrigger;
 	int rr;
 	float lastclockpulse;
 	dsp::PulseGenerator descSignal;
 	bool pulseRunning;
+	int n;
+
 };
