@@ -55,6 +55,15 @@ emptyWidget::emptyWidget(empty *module)
 {
 	CREATE_PANEL(module, this, 8, "res/modules/empty.svg");
 
+	textField = createWidget<LedDisplayTextField>(mm2px(Vec(3.39962, 14.8373)));
+	textField->box.size = mm2px(Vec(32, 5));
+	((LedDisplayTextField *)textField)->color = nvgRGB(0xff, 0x00, 0x00);
+	((LedDisplayTextField *)textField)->textOffset = Vec(0,-1);
+
+	addChild(textField);
+	if(module != NULL)
+		module->setField(textField);
+
 	emptyDisplay *disp = createWidget<emptyDisplay>(mm2px(Vec(2.929, px2mm(101.743))));
 	disp->box.size = mm2px(Vec(35.549, 28.743));
 	disp->pModule = module;

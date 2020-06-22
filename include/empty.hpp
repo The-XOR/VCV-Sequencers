@@ -7,6 +7,22 @@ struct empty;
 struct emptyWidget : ModuleWidget
 {
 	emptyWidget(empty *module);
+	json_t *toJson() override 
+	{
+		json_t *rootJ = ModuleWidget::toJson();
+		json_object_set_new(rootJ, "text", json_string(textField->text.c_str()));
+		return rootJ;
+	}
+
+	void fromJson(json_t *rootJ) override 
+	{
+		ModuleWidget::fromJson(rootJ);
+		json_t *textJ = json_object_get(rootJ, "text");
+		if (textJ)
+			textField->text = json_string_value(textJ);
+	}
+	TextField *textField;
+
 };
 
 struct empty : Module
@@ -32,9 +48,12 @@ struct empty : Module
 
 	empty() : Module()
 	{		
+		textField = NULL;
 		config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS);
 		teTocca = 0;
 	}
+	void setField(TextField *p) { textField = p; }
+
 	void process(const ProcessArgs &args) override;
 	inline const char *txt() const 
 	{ 
@@ -44,6 +63,7 @@ return "The most easily forgotten thing is the most important Ask people to work
 		return strategies[teTocca]; 
 	}
 	
+	TextField *textField;
 
 private:
 	dsp::SchmittTrigger rndTrigger;

@@ -27,6 +27,11 @@ void nag::updateNags(float dt)
 {
 	for (int k = 0; k < NUM_NAGS; k++)
 	{
+		if(trig_enables[k].process(inputs[ENAB_IN1+k].getVoltage()))
+		{
+			pWidget->SetSwitch(ENABLE_1 + k, !isSwitchOn(this, ENABLE_1 + k));
+		}
+	
 		sequencer[k].enabled = isSwitchOn(this, ENABLE_1 + k);
 		lights[ON_1 + k].value = sequencer[k].Highlight(dt) ? LED_ON : LED_OFF;
 		sequencer[k].set(getInput(k, INVERTEX_1, VERTEX_1, MIN_VERTICES, MAX_VERTICES));
@@ -102,6 +107,8 @@ nagWidget::nagWidget(nag *module) : SequencerWidget()
 		ParamWidget *pwdg = createParam<NKK1>(Vec(mm2px(80.628), yncscape(110.388 - delta_y, 7.336)), module, nag::ENABLE_1 + index);
 		addParam(pwdg);
 		
+		addInput(createInput<portBLUSmall>(Vec(mm2px(74.46), yncscape(109.113-delta_y, 8.255)), module, nag::ENAB_IN1 + index));
+
 		pwdg = createParam<Davies1900hFixRedKnobSmall>(Vec(mm2px(105.824), yncscape(108.056 - delta_y, 8.0)), module, nag::VERTEX_1 + index);
 		((Davies1900hFixRedKnobSmall *)pwdg)->snap = true;
 		addParam(pwdg);
@@ -130,12 +137,12 @@ nagWidget::nagWidget(nag *module) : SequencerWidget()
 	addParam(pwdg);
 	addChild(new nag7Segm(module, 27.159f, 12.807f));
 
-	addInput(createInput<PJ301YPort>( Vec(mm2px(55.235), yncscape(37.2818, 8.255)), module, nag::RESET));
-	addInput(createInput<PJ301RPort>( Vec(mm2px(55.235), yncscape(24.892, 8.255)), module, nag::CLOCK));
-	addInput(createInput<PJ301GRPort>(Vec(mm2px(55.235), yncscape(12.503, 8.255)), module, nag::DEGXCLK_IN));
+	addInput(createInput<PJ301YPort>( Vec(mm2px(53.118), yncscape(37.2818, 8.255)), module, nag::RESET));
+	addInput(createInput<PJ301RPort>( Vec(mm2px(53.118), yncscape(24.892, 8.255)), module, nag::CLOCK));
+	addInput(createInput<PJ301GRPort>(Vec(mm2px(53.118), yncscape(12.503, 8.255)), module, nag::DEGXCLK_IN));
 
 	addInput(createInput<PJ301HPort>(Vec(mm2px(14.195), yncscape(37.281, 8.255)), module, nag::RANDOMIZONE));
-	addParam(createParam<TL1105HSw>(Vec(mm2px(56.059), yncscape(4.973, 4.477)), module, nag::DEGMODE));
+	addParam(createParam<TL1105HSw>(Vec(mm2px(53.943), yncscape(4.973, 4.477)), module, nag::DEGMODE));
 	addChild(createParam<BefacoPushBig>(Vec(mm2px(40.202), yncscape(36.909, 8.999)), module, nag::M_RESET));
 
 	if (module != NULL)
@@ -234,4 +241,14 @@ nagWidget::RandomizeSubItemItem::RandomizeSubItemItem(Module *n, const char *tit
 void nagWidget::RandomizeSubItemItem::onAction(const event::Action &e)
 {
 	ng->theRandomizer ^= randomizeDest;
+}
+
+void nagWidget::SetSwitch(int n, bool status)
+{
+	int index = getParamIndex(n);
+	if(index >= 0)
+	{
+		//params[index]->dirtyValue = 
+		params[index]->paramQuantity->setValue(status ? 1.0 : 0.0);
+	}
 }

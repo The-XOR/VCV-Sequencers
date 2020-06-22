@@ -28,6 +28,7 @@ struct nagWidget : SequencerWidget
 	};
 	Menu *addContextMenu(Menu *menu) override;
 	void onMenu(int action);
+	void SetSwitch(int n, bool status);
 
 	struct RandomizeSubItemItem : MenuItem 
 	{
@@ -160,7 +161,7 @@ struct nag : Module
 		ROTATE_1 = VERTEX_1 + NUM_NAGS,
 		SKEW_1 = ROTATE_1 + NUM_NAGS,
 		DEGMODE = SKEW_1 + NUM_NAGS,
-		M_RESET,
+		M_RESET ,
 		NUM_PARAMS
 	};
 	enum InputIds
@@ -172,7 +173,8 @@ struct nag : Module
 		INROTATE_1 = INVERTEX_1 + NUM_NAGS,
 		INSKEW_1 = INROTATE_1 + NUM_NAGS,
 		RANDOMIZONE = INSKEW_1 + NUM_NAGS,
-		NUM_INPUTS
+		ENAB_IN1,
+		NUM_INPUTS= ENAB_IN1 + NUM_NAGS,
 	};
 	enum OutputIds
 	{
@@ -240,6 +242,7 @@ private:
 	void load();
 	nagWidget *pWidget;
 
+	dsp::SchmittTrigger trig_enables[NUM_NAGS];
 	dsp::SchmittTrigger masterReset;
 	dsp::SchmittTrigger resetTrig;
 	dsp::SchmittTrigger rndTrigger;
