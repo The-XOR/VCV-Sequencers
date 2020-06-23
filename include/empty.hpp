@@ -3,6 +3,7 @@
 using namespace rack;
 extern Plugin *pluginInstance;
 
+
 struct empty;
 struct emptyWidget : ModuleWidget
 {
@@ -47,7 +48,7 @@ struct empty : Module
 	};
 
 	empty() : Module()
-	{		
+	{
 		textField = NULL;
 		config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS);
 		teTocca = 0;
