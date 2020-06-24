@@ -15,7 +15,8 @@ struct c2v : Module
 	enum ParamIds
 	{
 		CV_1,
-		NUM_PARAMS = CV_1 + C2VCNV
+		HOLD= CV_1 + C2VCNV,
+		NUM_PARAMS 
 	};
 	enum InputIds
 	{
@@ -37,8 +38,10 @@ struct c2v : Module
 		config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS);
 		for(int k = 0; k < C2VCNV; k++)
 			configParam(OUT_1+k, LVL_MIN, LVL_MAX, LVL_OFF);
+		v=0;
 	}
 	void process(const ProcessArgs &args) override;
 
 private:
+	float v;
 };
