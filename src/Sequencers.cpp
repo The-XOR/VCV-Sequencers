@@ -31,6 +31,7 @@
 #include "../include/z8expX.hpp"
 #include "../include/chords.hpp"
 #include "../include/c2v.hpp"
+#include "../include/c3v.hpp"
 #include "../include/m581expT.hpp"
 #include "../include/m581expC.hpp"
 #include "../include/m581expM.hpp"
@@ -85,6 +86,7 @@ void init(rack::Plugin *p)
 	p->addModel(createModel<RR, RRWidget>("RR"));
 	p->addModel(createModel<chords, chordsWidget>("chords"));
 	p->addModel(createModel<c2v, c2vWidget>("c2v"));
+	p->addModel(createModel<c3v, c3vWidget>("c3v"));
 	p->addModel(createModel<dice, diceWidget>("dice"));
 
 	// Any other pluginInstance initialization may go here.

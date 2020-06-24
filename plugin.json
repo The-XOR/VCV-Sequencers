@@ -317,6 +317,14 @@
       "tags": [
         "Utility"
       ]
+    },
+	{
+      "slug": "c3v",
+      "name": "c3v",
+      "description": "cv to voltage",
+      "tags": [
+        "Utility"
+      ]
     }
   ]
 }
