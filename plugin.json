@@ -318,7 +318,15 @@
         "Utility"
       ]
     },
-	{
+    {
+      "slug": "gate",
+      "name": "gate",
+      "description": "port switcher",
+      "tags": [
+        "Utility"
+      ]
+    },
+    	{
       "slug": "c3v",
       "name": "c3v",
       "description": "cv to voltage",

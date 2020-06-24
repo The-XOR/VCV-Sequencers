@@ -25,7 +25,7 @@ struct c2v : Module
 	enum OutputIds
 	{
 		OUT_1,
-		NUM_OUTPUTS 
+		NUM_OUTPUTS = OUT_1 + C2VCNV
 	};
 	enum LightIds
 	{
