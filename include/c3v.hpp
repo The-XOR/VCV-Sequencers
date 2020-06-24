@@ -3,45 +3,42 @@
 using namespace rack;
 extern Plugin *pluginInstance;
 
-#define C2VCNV 12
-struct c2v;
-struct c2vWidget : ModuleWidget
+#define C3VCNV 12
+struct c3v;
+struct c3vWidget : ModuleWidget
 {
-	c2vWidget(c2v *module);
+	c3vWidget(c3v *module);
 };
 
-struct c2v : Module
+struct c3v : Module
 {
 	enum ParamIds
 	{
 		CV_1,
-		HOLD= CV_1 + C2VCNV,
-		NUM_PARAMS 
+		NUM_PARAMS = CV_1 + C3VCNV
 	};
 	enum InputIds
 	{
 		IN_1,
-		NUM_INPUTS = IN_1 + C2VCNV
+		NUM_INPUTS = IN_1 + C3VCNV
 	};
 	enum OutputIds
 	{
 		OUT_1,
-		NUM_OUTPUTS = OUT_1 + C2VCNV
+		NUM_OUTPUTS 
 	};
 	enum LightIds
 	{
 		NUM_LIGHTS
 	};
 
-	c2v() : Module()
+	c3v() : Module()
 	{
 		config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS);
-		for(int k = 0; k < C2VCNV; k++)
+		for(int k = 0; k < C3VCNV; k++)
 			configParam(OUT_1+k, LVL_MIN, LVL_MAX, LVL_OFF);
-		v=0;
 	}
 	void process(const ProcessArgs &args) override;
 
 private:
-	float v;
 };
