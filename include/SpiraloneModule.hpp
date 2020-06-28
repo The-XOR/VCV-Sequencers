@@ -17,6 +17,7 @@ struct Spiralone : Module
 
 	enum InputIds
 	{
+		M_RESET_IN,
 		RANDOMIZONE,
 		RESET_1,
 		INLENGHT_1 = RESET_1 + NUM_SEQUENCERS,
@@ -24,8 +25,7 @@ struct Spiralone : Module
 		INXPOSE_1 = INSTRIDE_1 + NUM_SEQUENCERS,
 		CLOCK_1 = INXPOSE_1 + NUM_SEQUENCERS,
 		RANGE_IN = CLOCK_1 + NUM_SEQUENCERS,
-		M_RESET_IN = RANGE_IN + cvStrip::CVSTRIP_INPUTS,
-		NUM_INPUTS 
+		NUM_INPUTS  = RANGE_IN + cvStrip::CVSTRIP_INPUTS
 	};
 
 	enum OutputIds
