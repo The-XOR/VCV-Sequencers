@@ -38,6 +38,7 @@
 #include "../include/m581expV.hpp"
 #include "../include/dice.hpp"
 #include "../include/gate.hpp"
+#include "../include/pwc.hpp"
 
 // The pluginInstance-wide instance of the Plugin class
 Plugin *pluginInstance;
@@ -90,6 +91,7 @@ void init(rack::Plugin *p)
 	p->addModel(createModel<c3v, c3vWidget>("c3v"));
 	p->addModel(createModel<dice, diceWidget>("dice"));
 	p->addModel(createModel<gate, gateWidget>("gate"));
+	p->addModel(createModel<pwc, pwcWidget>("PWC"));
 
 	// Any other pluginInstance initialization may go here.
 	// As an alternative, consider lazy-loading assets and lookup tables when your module is created to reduce startup times of Rack.

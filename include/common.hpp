@@ -675,7 +675,7 @@ struct PulseGenerator2
 			return 1;
 		} else if(inProgress)
 		{
-			inProgress = false;
+			reset();
 			return -1;
 		}
 
@@ -690,6 +690,12 @@ struct PulseGenerator2
 			remaining = duration;
 			inProgress = true;
 		}
+	}
+
+	void triggerAdd(float duration = 1e-3f)
+	{
+		remaining += duration;
+		inProgress = true;
 	}
 };
 
