@@ -341,6 +341,14 @@
       "tags": [
         "Utility"
       ]
-    }
+    },
+    {
+      "slug": "cclk",
+      "name": "cclk",
+      "description": "clock mangler",
+      "tags": [
+        "Utility"
+      ]
+    }    
   ]
 }
