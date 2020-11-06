@@ -25,7 +25,7 @@ void dice::process(const ProcessArgs &args)
 diceWidget::diceWidget(dice *module)
 {
 	CREATE_PANEL(module, this, 3, "res/modules/dice.svg");
-	addInput(createInput<portSmall>(Vec(mm2px(4.678), yncscape(97.491, 5.885)), module, dice::IN));
+	addInput(createInput<portBLUSmall>(Vec(mm2px(4.678), yncscape(97.491, 5.885)), module, dice::IN));
 	addInput(createInput<portSmall>(Vec(mm2px(4.678), yncscape(81.812, 5.885)), module, dice::MIN_IN));
 	addInput(createInput<portSmall>(Vec(mm2px(4.678), yncscape(60.116, 5.885)), module, dice::MAX_IN));
 	addParam(createParam<Davies1900hFixWhiteKnobSmall>(Vec(mm2px(3.620), yncscape(72.225, 8)), module, dice::MIN));

@@ -29,8 +29,8 @@ void pwc::process(const ProcessArgs &args)
 pwcWidget::pwcWidget(pwc *module)
 {
 	CREATE_PANEL(module, this, 3, "res/modules/pwc.svg");
-	addInput(createInput<portSmall>(Vec(mm2px(4.678), yncscape(97.491, 5.885)), module, pwc::IN));
+	addInput(createInput<portRSmall>(Vec(mm2px(4.678), yncscape(97.491, 5.885)), module, pwc::IN));
 	addParam(createParam<Davies1900hFixWhiteKnobSmall>(Vec(mm2px(3.620), yncscape(55.82, 8)), module, pwc::PW));
-	addOutput(createOutput<portGSmall>(Vec(mm2px(4.678), yncscape(9.385, 5.885)), module, pwc::OUT));
+	addOutput(createOutput<portRSmall>(Vec(mm2px(4.678), yncscape(9.385, 5.885)), module, pwc::OUT));
 }
 
