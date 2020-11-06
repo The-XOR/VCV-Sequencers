@@ -11,7 +11,7 @@ void Boole::process(const ProcessArgs &args)
 		if(isSwitchOn(this, INVERT_1 + k))
 			o = !o;
 		lights[LED_OUT + k].value = o ? LED_ON : LED_OFF;
-		outputs[OUT_1 + k].value = o ? LVL_ON : LVL_OFF;
+		outputs[OUT_1 + k].setVoltage( o ? LVL_ON : LVL_OFF);
 	}
 }
 

@@ -14,15 +14,15 @@ void Uncertain::load()
 void Uncertain::process(const ProcessArgs &args)
 {
 	if(inputs[CLOCK_FLUCT].isConnected())
-		out_fluct(clock_fluct.process(inputs[CLOCK_FLUCT].value));
+		out_fluct(clock_fluct.process(inputs[CLOCK_FLUCT].getVoltage()));
 	else
 		fluctParams.reset();
 
 	if(inputs[CLOCK_QUANTIZED].isConnected())
-		out_quantized(clock_quantized.process(inputs[CLOCK_QUANTIZED].value));
+		out_quantized(clock_quantized.process(inputs[CLOCK_QUANTIZED].getVoltage()));
 
 	if(inputs[CLOCK_STORED].isConnected())
-		out_stored(clock_stored.process(inputs[CLOCK_STORED].value));
+		out_stored(clock_stored.process(inputs[CLOCK_STORED].getVoltage()));
 }
 
 void Uncertain::out_quantized(int clk)
@@ -30,9 +30,9 @@ void Uncertain::out_quantized(int clk)
 	if(clk == 1)
 	{
 		int position = (int)roundf(getModulableParam(this, QUANTIZED_AMT, IN_QUANTIZED, 0.0, 5.0)) + 1;
-		outputs[OUT_QUANTIZED_N1].value = roundf(rescale(random::uniform(), 0.0, 1.0, 0.0, position));		// 1V
+		outputs[OUT_QUANTIZED_N1].setVoltage( roundf(rescale(random::uniform(), 0.0, 1.0, 0.0, position)));		// 1V
 		float n2= roundf(rescale(random::uniform(), 0.0, 1.0, 1.0, 2 << position));
-		outputs[OUT_QUANTIZED_2N].value = clamp(SEMITONE*n2, LVL_OFF, LVL_ON);
+		outputs[OUT_QUANTIZED_2N].setVoltage( clamp(SEMITONE*n2, LVL_OFF, LVL_ON));
 	}
 }
 
@@ -40,8 +40,8 @@ void Uncertain::out_stored(int clk)
 {
 	if(clk == 1)
 	{
-		outputs[OUT_STORED_RND].value = clamp(roundf(rescale(random::uniform(), 0.0, 1.0, LVL_OFF, LVL_ON)), LVL_OFF, LVL_ON);
-		outputs[OUT_STORED_BELL].value = rndGaussianVoltage();
+		outputs[OUT_STORED_RND].setVoltage( clamp(roundf(rescale(random::uniform(), 0.0, 1.0, LVL_OFF, LVL_ON)), LVL_OFF, LVL_ON));
+		outputs[OUT_STORED_BELL].setVoltage( rndGaussianVoltage());
 	}
 }
 
@@ -73,7 +73,7 @@ void Uncertain::out_fluct(int clk)
 		{
 			if(fluctParams.duration == 0)	// 0 if first cycle
 			{
-				outputs[OUT_FLUCT].value = fluctParams.vA = fluctParams.vB = rndFluctVoltage();
+				outputs[OUT_FLUCT].setVoltage( fluctParams.vA = fluctParams.vB = rndFluctVoltage());
 			}
 
 			fluctParams.tStart = clock();
@@ -99,7 +99,7 @@ void Uncertain::out_fluct(int clk)
 			{
 				clock_t elapsed = clock() - fluctParams.tStart;
 				float v = fluctParams.vA + fluctParams.deltaV * elapsed;
-				outputs[OUT_FLUCT].value = clamp(v, LVL_MIN, LVL_MAX);
+				outputs[OUT_FLUCT].setVoltage( clamp(v, LVL_MIN, LVL_MAX));
 			}
 		}
 		break;

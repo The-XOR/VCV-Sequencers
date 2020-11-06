@@ -75,7 +75,7 @@ void volt::process_keys()
 	{
 		float v = inputs[IN_1].getNormalVoltage(0.0);
 		float approx = 1.0f / (12.0f * divider);
-		outputs[OUT_1].value = round(v / approx) * approx;
+		outputs[OUT_1].setVoltage( round(v / approx) * approx);
 	}
 }
 

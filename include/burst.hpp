@@ -73,7 +73,7 @@ private:
 	void prepare_step();
 	void next_step();
 	void end_step();
-	void port(int n, bool on) { lights[LEDOUT_1 + n].value = outputs[OUT_1 + n].value = on ? LVL_MAX : LVL_OFF; }
+	void port(int n, bool on) { outputs[OUT_1 + n].setVoltage(lights[LEDOUT_1 + n].value = on ? LVL_MAX : LVL_OFF); }
 	void invert_port(int n) { port(n, outputs[OUT_1 + n].value < LVL_MAX); }
 
 private:

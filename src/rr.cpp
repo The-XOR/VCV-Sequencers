@@ -6,7 +6,7 @@ void RR::process(const ProcessArgs &args)
 	{
 		bool mode_sequential = isSwitchOn(this, MODE);
 		float deltaTime = 1.0 / args.sampleRate;
-		int clk = clockTrigger.process(inputs[CLOCK_IN].value); // 1=rise, -1=fall
+		int clk = clockTrigger.process(inputs[CLOCK_IN].getVoltage()); // 1=rise, -1=fall
 		bool desc = isSwitchOn(this,EDGE);
 		if(clk == 1)
 		{

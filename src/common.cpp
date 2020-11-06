@@ -36,7 +36,7 @@ bool IsExpansion(Module *pm, float *dest, int expansionID, int inputID, int ledI
 {
 	if(pm->inputs[inputID].isConnected())
 	{
-		*dest = pm->inputs[inputID].value;
+		*dest = pm->inputs[inputID].getVoltage();
 		uint8_t *addr = (uint8_t *)dest;
 		if((*(addr+3) & 0xf0) == expansionID)
 		{

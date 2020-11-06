@@ -28,12 +28,12 @@ int Nordschleife::paths[NORDPATHS][64] =
 
 void Nordschleife::process(const ProcessArgs &args)
 {
-	if(masterReset.process(params[M_RESET].value + inputs[MRESET_IN].value))
+	if(masterReset.process(params[M_RESET].value + inputs[MRESET_IN].getVoltage()))
 	{
 		reset();
 	} else
 	{
-		if(pWidget != NULL && rndTrigger.process(inputs[RANDOMIZONE].value))
+		if(pWidget != NULL && rndTrigger.process(inputs[RANDOMIZONE].getVoltage()))
 			randrandrand();
 
 		if(lazyCheck++ % 20 == 0)

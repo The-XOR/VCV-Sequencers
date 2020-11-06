@@ -24,7 +24,7 @@ void Renato::setOut(int l, bool on)
 		{
 			int n = c + r * 4;
 			lights[LED_1 + n].value = l == n ? LED_ON : LED_OFF;
-			outputs[CV_OUTSTEP1 + n].value = (on && l == n) ? LVL_ON : LVL_OFF;
+			outputs[CV_OUTSTEP1 + n].setVoltage( (on && l == n) ? LVL_ON : LVL_OFF);
 		}
 	}
 }
@@ -41,18 +41,18 @@ void Renato::load()
 }
 void Renato::process(const ProcessArgs &args)
 {
-	if(resetTrigger.process(inputs[RESET].value) || masterReset.process(params[M_RESET].value))
+	if(resetTrigger.process(inputs[RESET].getVoltage()) || masterReset.process(params[M_RESET].value))
 	{
 		seqX.Reset();
 		seqY.Reset();
-	} else if(resetAccess.process(inputs[INIT_IN].value))
+	} else if(resetAccess.process(inputs[INIT_IN].getVoltage()))
 	{
 		pWidget->resetAccess();
 	} else
 	{
 		if(pWidget != NULL)
 		{
-			if(accessRndTrigger.process(inputs[RANDOMIZONE].value))
+			if(accessRndTrigger.process(inputs[RANDOMIZONE].getVoltage()))
 				randrandrand();
 		}
 
@@ -83,7 +83,7 @@ void Renato::process(const ProcessArgs &args)
 					on = true;
 			}
 
-			outputs[CV].value = cvs.TransposeableValue(params[VOLTAGE_1 + n].value);
+			outputs[CV].setVoltage( cvs.TransposeableValue(params[VOLTAGE_1 + n].value));
 			setOut(n, on);
 			led(n);
 		}

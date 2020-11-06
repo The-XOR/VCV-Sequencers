@@ -37,18 +37,18 @@ void ascii::process(const ProcessArgs &args)
 {
 	if(textField != NULL)
 	{
-		if(resetTrigger.process(inputs[RESET].value) || masterReset.process(params[M_RESET].value))
+		if(resetTrigger.process(inputs[RESET].getVoltage()) || masterReset.process(params[M_RESET].value))
 		{
 			textField->cursor = textField->selection = 0;
-			outputs[OUT].value = LVL_OFF;
+			outputs[OUT].setVoltage( LVL_OFF);
 		} else if(manifestoTrigger.process(params[FTM].value))
 		{
 			textField->cursor = textField->selection = 0;
-			outputs[OUT].value = LVL_OFF;
+			outputs[OUT].setVoltage( LVL_OFF);
 			manifesto();
 		} else
 		{
-			int clk = clockTrig.process(inputs[CLK].value); // 1=rise, -1=fall
+			int clk = clockTrig.process(inputs[CLK].getVoltage()); // 1=rise, -1=fall
 			if(clk == 1)
 			{
 				std::string safecopy = textField->text;
@@ -59,9 +59,9 @@ void ascii::process(const ProcessArgs &args)
 						textField->cursor = 0;
 					char c = safecopy.at(textField->cursor++);
 					textField->selection = textField->cursor;
-					outputs[OUT].value = getValue(c);
+					outputs[OUT].setVoltage( getValue(c));
 				} else
-					outputs[OUT].value = LVL_OFF;
+					outputs[OUT].setVoltage( LVL_OFF);
 
 			}
 		}

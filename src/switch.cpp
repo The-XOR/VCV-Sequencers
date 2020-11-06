@@ -11,17 +11,17 @@ void XSwitch::process(const ProcessArgs &args)
 	for(int k = 0; k < NUM_SWITCHES; k++)
 	{
 		if(inputs[IN_1 + k].isConnected())
-			last_value = inputs[IN_1 + k].value;
+			last_value = inputs[IN_1 + k].getVoltage();
 
 		if(getSwitch(k, reset_state))
 		{
 			lights[LED_1 + k].value = LED_ON;
-			outputs[OUT_1 + k].value = last_value;
+			outputs[OUT_1 + k].setVoltage( last_value);
 		} else
 		{
 			lights[LED_1 + k].value = LED_OFF;
 			if(!isSwitchOn(this, OUTMODE))
-				outputs[OUT_1 + k].value = LVL_OFF;
+				outputs[OUT_1 + k].setVoltage( LVL_OFF);
 		}
 	}
 }

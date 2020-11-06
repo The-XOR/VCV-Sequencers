@@ -83,7 +83,7 @@ void Spiralone::process(const ProcessArgs &args)
 	{
 		if(pWidget != NULL)
 		{
-			if(rndTrigger.process(inputs[RANDOMIZONE].value))
+			if(rndTrigger.process(inputs[RANDOMIZONE].getVoltage()))
 				randrandrand();
 		}
 

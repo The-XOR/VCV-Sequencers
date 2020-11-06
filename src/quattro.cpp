@@ -6,12 +6,12 @@ int quattro::ledStrips[4] = {LEDSTRIP1, LEDSTRIP2, LEDSTRIP3, LEDSTRIP4};
 void quattro::process(const ProcessArgs &args)
 {
 	float deltaTime = 1.0 / args.sampleRate;
-	if(masterReset.process(params[M_RESET].value + inputs[MRESET_IN].value))
+	if(masterReset.process(params[M_RESET].value + inputs[MRESET_IN].getVoltage()))
 	{
 		reset(deltaTime);
 	} else
 	{
-		if(pWidget != NULL && rndTrigger.process(inputs[RANDOMIZONE].value))
+		if(pWidget != NULL && rndTrigger.process(inputs[RANDOMIZONE].getVoltage()))
 			randrandrand();
 
 		float rec_smp;
@@ -24,7 +24,7 @@ void quattro::process(const ProcessArgs &args)
 		int forceStep = -1;
 		for(int k = 0; k < QUATTRO_NUM_STEPS && forceStep == -1; k++)
 		{
-			if(setStepTrig[k].process(inputs[quattro::SETSTEP1 + k].value))
+			if(setStepTrig[k].process(inputs[quattro::SETSTEP1 + k].getVoltage()))
 			{
 				forceStep = k;
 				break;
@@ -212,7 +212,7 @@ void quattroStrip::process(int forceStep, float deltaTime)
 {
 	if(pModule != NULL)
 	{
-		if(resetTrig.process(pModule->inputs[quattro::RESET1 + stripID].value))
+		if(resetTrig.process(pModule->inputs[quattro::RESET1 + stripID].getVoltage()))
 			reset(deltaTime);
 		else
 		{
@@ -222,7 +222,7 @@ void quattroStrip::process(int forceStep, float deltaTime)
 				if(forceStep >= 0)
 					prenotazioneDiChiamata = forceStep;
 
-				int clk = clockTrigger.process(pModule->inputs[quattro::CLOCK1 + stripID].value); // 1=rise, -1=fall
+				int clk = clockTrigger.process(pModule->inputs[quattro::CLOCK1 + stripID].getVoltage()); // 1=rise, -1=fall
 				if(clk == 1)
 				{
 					move_next();
@@ -371,10 +371,10 @@ quattroStrip::STEPMODE quattroStrip::getStepMode()
 void quattroStrip::beginPulse(bool silent)
 {
 	int abcd = (int)roundf(pModule->params[quattro::STRIPSEL_1 + curStep].value);
-	pModule->outputs[quattro::CV1 + stripID].value = pModule->cvs.TransposeableValue(pModule->params[quattro::VOLTAGE_1 + curStep].value);
-	pModule->outputs[quattro::GATE1 + stripID].value = silent ? LVL_OFF : LVL_ON;
+	pModule->outputs[quattro::CV1 + stripID].setVoltage( pModule->cvs.TransposeableValue(pModule->params[quattro::VOLTAGE_1 + curStep].value));
+	pModule->outputs[quattro::GATE1 + stripID].setVoltage( silent ? LVL_OFF : LVL_ON);
 	if(stripID == abcd)
-		pModule->outputs[quattro::CURSTEP1 + curStep].value = LVL_ON;
+		pModule->outputs[quattro::CURSTEP1 + curStep].setVoltage( LVL_ON);
 	for(int k = 0; k < QUATTRO_NUM_STEPS; k++)
 		pModule->lights[quattro::ledStrips[stripID] + k].value = k == curStep ? LED_ON : LED_OFF;
 }
@@ -382,9 +382,9 @@ void quattroStrip::beginPulse(bool silent)
 void quattroStrip::endPulse(bool slide)
 {
 	if(!slide)
-		pModule->outputs[quattro::GATE1 + stripID].value = LVL_OFF;
+		pModule->outputs[quattro::GATE1 + stripID].setVoltage( LVL_OFF);
 	for(int k = 0; k < QUATTRO_NUM_STEPS; k++)
-		pModule->outputs[quattro::CURSTEP1 + k].value = LVL_OFF;
+		pModule->outputs[quattro::CURSTEP1 + k].setVoltage( LVL_OFF);
 }
 
 void quattroStrip::reset(float deltaTime)

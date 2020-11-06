@@ -15,9 +15,9 @@ void flop::process(const ProcessArgs &args)
 void flop::setOutput(int index, bool on)
 {
 	lights[LED_OUT + index].value = on ? LED_ON : LED_OFF;
-	outputs[OUT_1 + index].value = on ? LVL_ON : LVL_OFF;
+	outputs[OUT_1 + index].setVoltage( on ? LVL_ON : LVL_OFF);
 	lights[LED_OUTNEG + index].value = on ? LED_OFF : LED_ON;
-	outputs[OUTNEG_1 + index].value = on ? LVL_OFF : LVL_ON;
+	outputs[OUTNEG_1 + index].setVoltage( on ? LVL_OFF : LVL_ON);
 }
 
 float flop::getVoltage(int index, bool hiz)
@@ -69,9 +69,9 @@ void flop::process(int num_op, bool hiz, bool compare)
 bool flop::flipflip_SR(bool s, bool r)
 {
 	/*
-	s=0 e r=1 il flip-flop si resetta, cioè porta a 0 il valore della variabile d'uscita q 
-	s=1 e r=0 il flip-flop si setta cioè porta a 1 il valore della variabile d'uscita q 
-	s=0 e r=0 il flip-flop conserva, cioè mantiene inalterato 
+	s=0 e r=1 il flip-flop si resetta, cioï¿½ porta a 0 il valore della variabile d'uscita q 
+	s=1 e r=0 il flip-flop si setta cioï¿½ porta a 1 il valore della variabile d'uscita q 
+	s=0 e r=0 il flip-flop conserva, cioï¿½ mantiene inalterato 
 	s=1 e r=1 non viene utilizzata in quanto instabile 
 	*/
 	if(s)

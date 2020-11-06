@@ -8,7 +8,7 @@ void kExp::process(const ProcessArgs &args)
 	{
 		if(inputs[CLOCK_IN].isConnected())
 		{
-			int clk = clockTrigger.process(inputs[CLOCK_IN].value); // 1=rise, -1=fall
+			int clk = clockTrigger.process(inputs[CLOCK_IN].getVoltage()); // 1=rise, -1=fall
 			if(clk == 1)
 				and_mask = 0xff;
 			else if(clk == -1)

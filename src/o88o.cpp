@@ -29,7 +29,7 @@ void o88o::process(const ProcessArgs &args)
 {
 	process_keys();
 	getPatternLimits();
-	if(masterReset.process(params[M_RESET].value + inputs[RESET_IN].value))
+	if(masterReset.process(params[M_RESET].value + inputs[RESET_IN].getVoltage()))
 	{
 		reset();
 	} else
@@ -41,13 +41,13 @@ void o88o::process(const ProcessArgs &args)
 		if(ptn != curPtn)
 			loadPattern();
 
-		if(rndTrigger.process(inputs[RANDOMIZE_IN].value) || rndBtnTrig.process(params[RANDOMIZE].value))
+		if(rndTrigger.process(inputs[RANDOMIZE_IN].getVoltage()) || rndBtnTrig.process(params[RANDOMIZE].value))
 			randPattrn();
 		
-		int clk = clockTrigger.process(inputs[CLOCK_IN].value); // 1=rise, -1=fall
+		int clk = clockTrigger.process(inputs[CLOCK_IN].getVoltage()); // 1=rise, -1=fall
 		bool gate = getModulableSwitch(this, GATE, GATE_IN);
 		
-		if(recIn.process(inputs[REC_IN].value))
+		if(recIn.process(inputs[REC_IN].getVoltage()))
 			toggleCell(curRow, curCol);
 
 		if(clk == 1 && gate)
@@ -58,7 +58,7 @@ void o88o::process(const ProcessArgs &args)
 			close_gate();
 	}
 
-	if(generationTrigger.process(inputs[GENERATION_IN].value) || generationBtn.process(params[GENERATE].value))
+	if(generationTrigger.process(inputs[GENERATION_IN].getVoltage()) || generationBtn.process(params[GENERATE].value))
 	{
 		if(pg.next_generation())
 			emptyTrig.trigger(PULSE_TIME);
@@ -67,10 +67,10 @@ void o88o::process(const ProcessArgs &args)
 	float deltaTime = 1.0 / args.sampleRate;
 	if(emptyTrig.process(deltaTime))
 	{
-		outputs[TRIGGER_EMPTY].value = LVL_ON;
+		outputs[TRIGGER_EMPTY].setVoltage( LVL_ON);
 	} else
 	{
-		outputs[TRIGGER_EMPTY].value = LVL_OFF;
+		outputs[TRIGGER_EMPTY].setVoltage( LVL_OFF);
 	}
 }
 
@@ -120,8 +120,8 @@ void o88o::reset()
 
 void o88o::out_position()
 { 
-	outputs[CURROW_OUT].value = curRow;
-	outputs[CURCOL_OUT].value = curCol;
+	outputs[CURROW_OUT].setVoltage( curRow);
+	outputs[CURCOL_OUT].setVoltage( curCol);
 }
 
 void o88o::open_gate()
@@ -130,18 +130,18 @@ void o88o::open_gate()
 	{
 		if(getCell(curRow, curCol))
 		{
-			outputs[GATE_OUT].value = LVL_ON;
+			outputs[GATE_OUT].setVoltage( LVL_ON);
 			params[LED_GATE].value = LVL_ON;
 		} else
-			outputs[NGATE_OUT].value = LVL_ON;
+			outputs[NGATE_OUT].setVoltage( LVL_ON);
 	}
 	out_position();
 }
 
 void o88o::close_gate()
 {
-	outputs[GATE_OUT].value = LVL_OFF;
-	outputs[NGATE_OUT].value = LVL_OFF;
+	outputs[GATE_OUT].setVoltage( LVL_OFF);
+	outputs[NGATE_OUT].setVoltage( LVL_OFF);
 	params[LED_GATE].value = LVL_OFF;
 	out_position();
 }

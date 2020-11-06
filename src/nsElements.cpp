@@ -7,7 +7,7 @@ void NordschleifeCar::stepTrig()
 {
 	stepTrigger.trigger(PULSE_TIME);
 	ledStepTrigger.trigger(0.1);
-	pNord->outputs[Nordschleife::CAR_TRIG + myID].value = LVL_ON;
+	pNord->outputs[Nordschleife::CAR_TRIG + myID].setVoltage( LVL_ON);
 	pNord->lights[Nordschleife::TRIG_LED+myID].value = LED_ON;
 }
 
@@ -16,19 +16,19 @@ bool NordschleifeCar::process(float deltaTime)
 	bool step_moved = false;
 	if(!lapPulse.process(deltaTime))
 	{
-		pNord->outputs[Nordschleife::CAR_LAP+myID].value = LVL_OFF;
+		pNord->outputs[Nordschleife::CAR_LAP+myID].setVoltage( LVL_OFF);
 	}
 	if(!ledLapPulse.process(deltaTime))
 		pNord->lights[Nordschleife::LAP_LED + myID].value = LED_OFF;
 
 	if(!stepTrigger.process(deltaTime))
-		pNord->outputs[Nordschleife::CAR_TRIG + myID].value = LVL_OFF;
+		pNord->outputs[Nordschleife::CAR_TRIG + myID].setVoltage( LVL_OFF);
 	
 	if(!ledStepTrigger.process(deltaTime))
 		pNord->lights[Nordschleife::TRIG_LED+myID].value = LED_OFF;
 	
 
-	if(resetTrig.process(pNord->inputs[Nordschleife::CAR_RESET+myID].value))
+	if(resetTrig.process(pNord->inputs[Nordschleife::CAR_RESET+myID].getVoltage()))
 	{
 		reset();
 		step_moved = true;
@@ -38,7 +38,7 @@ bool NordschleifeCar::process(float deltaTime)
 		step_moved = true;
 	} else
 	{
-		int clk = clockTrigger.process(pNord->inputs[Nordschleife::CAR_CLOCK + myID].value); // 1=rise, -1=fall
+		int clk = clockTrigger.process(pNord->inputs[Nordschleife::CAR_CLOCK + myID].getVoltage()); // 1=rise, -1=fall
 		if(clk == 1)
 		{
 			step_moved = true;
@@ -143,7 +143,7 @@ void NordschleifeCar::pulseTrig()
 {
 	lapPulse.trigger(PULSE_TIME);
 	ledLapPulse.trigger(0.1);
-	pNord->outputs[Nordschleife::CAR_LAP + myID].value = LVL_ON;
+	pNord->outputs[Nordschleife::CAR_LAP + myID].setVoltage( LVL_ON);
 	pNord->lights[Nordschleife::LAP_LED +myID].value = LED_ON;
 }
 
@@ -233,7 +233,7 @@ void NordschleifeCar::reset()
 	playingStep= curStepCounter=startGrid;
 	totalCounter = lapCounter = pitStopCounter = 0;
 	pitstop = false;
-	pNord->outputs[Nordschleife::CAR_GATE + myID].value = LVL_OFF;
+	pNord->outputs[Nordschleife::CAR_GATE + myID].setVoltage( LVL_OFF);
 	NordschleifeStep::Mute(pNord, myID);
 }
 
@@ -283,13 +283,13 @@ void NordschleifeStep::beginPulse(Nordschleife *pNord, int carID, float lastPuls
 	pNord->lights[NordschleifeCar::CarLed[carID] + myID].value = LED_ON;
 	if(outA[carID])
 	{
-		pNord->outputs[Nordschleife::OUT_A + myID].value = LVL_ON;
+		pNord->outputs[Nordschleife::OUT_A + myID].setVoltage( LVL_ON);
 	}
 
 	if(outB[carID])
 	{
 		stepPulseB.trigger(PULSE_TIME);
-		pNord->outputs[Nordschleife::OUT_B + myID].value = LVL_ON;
+		pNord->outputs[Nordschleife::OUT_B + myID].setVoltage( LVL_ON);
 	}
 
 	if(trigger)
@@ -299,7 +299,7 @@ void NordschleifeStep::beginPulse(Nordschleife *pNord, int carID, float lastPuls
 
 	if(mode[carID] == Off)  //step off: non suona, non ripete
 	{
-		pNord->outputs[Nordschleife::CAR_GATE + carID].value = LVL_OFF;
+		pNord->outputs[Nordschleife::CAR_GATE + carID].setVoltage( LVL_OFF);
 		return;
 	}
 
@@ -337,7 +337,7 @@ void NordschleifeStep::beginPulse(Nordschleife *pNord, int carID, float lastPuls
 
 NordschleifeStep::StepMode NordschleifeStep::endPulse(Nordschleife *pNord, int carID)  
 {
-	pNord->outputs[Nordschleife::OUT_A + myID].value = LVL_OFF;
+	pNord->outputs[Nordschleife::OUT_A + myID].setVoltage( LVL_OFF);
 
 	if(mode[carID] != Skip) // skip: lo step "non esiste", viene completamente ignorato
 	{
@@ -357,7 +357,7 @@ void NordschleifeStep::process(Nordschleife *pNord, int carID, float deltaTime)
 {
 	elapsedTime[carID] += deltaTime;
 	if(!stepPulseB.process(deltaTime))
-		pNord->outputs[Nordschleife::OUT_B + myID].value = LVL_OFF;
+		pNord->outputs[Nordschleife::OUT_B + myID].setVoltage( LVL_OFF);
 
 	if(cvDelay[carID] > 0 && elapsedTime[carID] >= cvDelay[carID])
 	{

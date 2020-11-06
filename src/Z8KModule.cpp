@@ -186,12 +186,12 @@ void Z8K::process(const ProcessArgs &args)
 	int activeSteps[16];
 	for(int k = 0; k < 16; k++)
 		activeSteps[k] = LVL_OFF;
-	if (masterReset.process(params[M_RESET].value) || masterResetIn.process(inputs[MASTERRESET].value))
+	if (masterReset.process(params[M_RESET].value) || masterResetIn.process(inputs[MASTERRESET].getVoltage()))
 	{
 		reset();
 	} else
 	{
-		if (randomizeTrigger.process(inputs[RANDOMIZE].value))
+		if (randomizeTrigger.process(inputs[RANDOMIZE].getVoltage()))
 			pWidget->std_randomize(VOLTAGE_1, VOLTAGE_1 + 16);
 
 		float rec_smp;
@@ -258,7 +258,7 @@ void Z8K::process(const ProcessArgs &args)
 
 		outputs[EXP_PORT].setVoltage(expander_out);
 		for (int k = 0; k < 16; k++)
-			outputs[ACTIVE_STEP + k].value = activeSteps[k];
+			outputs[ACTIVE_STEP + k].setVoltage( activeSteps[k]);
 	}
 
 }

@@ -21,7 +21,7 @@ void Burst::all_off()
 
 void Burst::process(const ProcessArgs &args)
 {
-	if(resetTrigger.process(inputs[RESET].value))
+	if(resetTrigger.process(inputs[RESET].getVoltage()))
 	{
 		onReset();
 	} else
@@ -32,7 +32,7 @@ void Burst::process(const ProcessArgs &args)
 			trigger_pending = trigger.process(params[TRIGGER].value + tv);
 		}
 
-		int clk = clock.process(inputs[CLOCK_IN].value); // 1=rise, -1=fall
+		int clk = clock.process(inputs[CLOCK_IN].getVoltage()); // 1=rise, -1=fall
 
 		if(clk == 1)
 		{

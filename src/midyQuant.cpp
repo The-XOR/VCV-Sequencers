@@ -3,12 +3,12 @@
 
 void midyQuant::process(const ProcessArgs &args)
 {
-	if(resetTrigger.process(inputs[RESET].value))
+	if(resetTrigger.process(inputs[RESET].getVoltage()))
 	{
 		midiOutput.reset();
 	} else 
 	{
-		int clk = gate.process(inputs[GATE].value); // 1=rise, -1=fall
+		int clk = gate.process(inputs[GATE].getVoltage()); // 1=rise, -1=fall
 		if(clk != 0)
 		{
 			int vel = (int)rescale(inputs[VEL].getNormalVoltage(0.5), 0.0, 1.0, 0, 127);

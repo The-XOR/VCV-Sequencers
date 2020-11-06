@@ -8,7 +8,7 @@ void Attenuator::process(const ProcessArgs &args)
 	for(int k = 0; k < NUM_ATTENUATORS; k++)
 	{
 		if(outputs[OUT_1 + k].isConnected())
-			outputs[OUT_1 + k].value = (inputs[IN_1 + k].getVoltage() * params[ATT_1 + k].value)+params[OFFS_1 + k].value;
+			outputs[OUT_1 + k].setVoltage( (inputs[IN_1 + k].getVoltage() * params[ATT_1 + k].value)+params[OFFS_1 + k].value);
 	}
 
 	for(int k = 0; k < NUM_VLIMITERS; k++)
@@ -18,9 +18,9 @@ void Attenuator::process(const ProcessArgs &args)
 			float mi = std::min(params[LIM1_MIN + k].value, params[LIM1_MAX + k].value);
 			float ma = std::max(params[LIM1_MIN + k].value, params[LIM1_MAX + k].value);
 			if(am)
-				outputs[OUT_1 + k + NUM_ATTENUATORS].value = rescale(inputs[IN_1 + k + NUM_ATTENUATORS].getVoltage(), LVL_MIN, LVL_MAX, mi, ma);
+				outputs[OUT_1 + k + NUM_ATTENUATORS].setVoltage( rescale(inputs[IN_1 + k + NUM_ATTENUATORS].getVoltage(), LVL_MIN, LVL_MAX, mi, ma));
 			else
-				outputs[OUT_1 + k + NUM_ATTENUATORS].value = clamp(inputs[IN_1 + k + NUM_ATTENUATORS].getVoltage(), mi, ma);
+				outputs[OUT_1 + k + NUM_ATTENUATORS].setVoltage( clamp(inputs[IN_1 + k + NUM_ATTENUATORS].getVoltage(), mi, ma));
 		}
 	}
 

@@ -46,16 +46,16 @@ void Klee::process(const ProcessArgs &args)
 {
 	float deltaTime = 1.0 / args.sampleRate;
 
-	if(loadTrigger.process(params[LOAD_PARAM].value + inputs[LOAD_INPUT].value))
+	if(loadTrigger.process(params[LOAD_PARAM].value + inputs[LOAD_INPUT].getVoltage()))
 	{
 		load();
-	} else if(rndTrigger.process(inputs[RANDOMIZONE].value))
+	} else if(rndTrigger.process(inputs[RANDOMIZONE].getVoltage()))
 	{
 		if(pWidget != NULL)
 			randrandrand();
 	}
 
-	int clk = clockTrigger.process(inputs[EXT_CLOCK_INPUT].value + params[STEP_PARAM].value); // 1=rise, -1=fall
+	int clk = clockTrigger.process(inputs[EXT_CLOCK_INPUT].getVoltage() + params[STEP_PARAM].value); // 1=rise, -1=fall
 	if(clk == 1)
 	{
 		sr_rotate();
@@ -118,7 +118,7 @@ void Klee::check_triggers(float deltaTime)
 	{
 		if(outputs[TRIG_OUT + k].value > 0.5 && !triggers[k].process(deltaTime))
 		{
-			outputs[TRIG_OUT + k].value = LVL_OFF;
+			outputs[TRIG_OUT + k].setVoltage( LVL_OFF);
 		}
 	}
 }
@@ -130,11 +130,11 @@ void Klee::populate_gate(int clk)
 		// gate
 		if(clk == 1)  // rise
 		{
-			outputs[GATE_OUT + k].value = bus_active[k] ? LVL_ON : LVL_OFF;
+			outputs[GATE_OUT + k].setVoltage( bus_active[k] ? LVL_ON : LVL_OFF);
 		} else // fall
 		{
 			if(!bus_active[k] || !isSwitchOn(this, BUS_MERGE + k))
-				outputs[GATE_OUT + k].value = LVL_OFF;
+				outputs[GATE_OUT + k].setVoltage( LVL_OFF);
 		}
 	}
 }
@@ -145,7 +145,7 @@ void Klee::populate_outputs()
 	{
 		if(bus_active[k])
 		{
-			outputs[TRIG_OUT + k].value = LVL_ON;
+			outputs[TRIG_OUT + k].setVoltage( LVL_ON);
 			triggers[k].trigger(PULSE_TIME);
 		}
 	}
@@ -171,10 +171,10 @@ void Klee::populate_outputs()
 	}
 
 	outputs[EXPANDER_OUT].setVoltage(expander_out);
-	outputs[CV_A].value = clamp(a, LVL_MIN, LVL_MAX);
-	outputs[CV_B].value = clamp(b, LVL_MIN, LVL_MAX);
-	outputs[CV_AB].value = clamp(a + b, LVL_MIN, LVL_MAX);
-	outputs[CV_A__B].value = clamp(a - b, LVL_MIN, LVL_MAX);
+	outputs[CV_A].setVoltage( clamp(a, LVL_MIN, LVL_MAX));
+	outputs[CV_B].setVoltage( clamp(b, LVL_MIN, LVL_MAX));
+	outputs[CV_AB].setVoltage( clamp(a + b, LVL_MIN, LVL_MAX));
+	outputs[CV_A__B].setVoltage( clamp(a - b, LVL_MIN, LVL_MAX));
 }
 
 void Klee::showValues()

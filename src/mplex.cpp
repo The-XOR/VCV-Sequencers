@@ -46,7 +46,7 @@ void Mplex::process(const ProcessArgs &args)
 	process_keys();
 	int num_inputs = roundf(num_inputs_f);
 
-	if(reset.process(inputs[RESET].value))
+	if(reset.process(inputs[RESET].getVoltage()))
 	{
 		set_output(0);
 	} else if(inputs[CV].isConnected())
@@ -55,22 +55,22 @@ void Mplex::process(const ProcessArgs &args)
 		set_output(cur_sel);
 	} else
 	{
-		if(random.process(inputs[RANDOM].value))
+		if(random.process(inputs[RANDOM].getVoltage()))
 		{
 			set_output(getRand(num_inputs_f));
-		} else if(upTrigger.process(params[BTDN].value + inputs[INDN].value))
+		} else if(upTrigger.process(params[BTDN].value + inputs[INDN].getVoltage()))
 		{
 			if(++cur_sel >= num_inputs)
 				cur_sel = 0;
 			set_output(cur_sel);
-		} else if(dnTrigger.process(params[BTUP].value + inputs[INUP].value))
+		} else if(dnTrigger.process(params[BTUP].value + inputs[INUP].getVoltage()))
 		{
 			if(--cur_sel < 0)
 				cur_sel = num_inputs - 1;
 			set_output(cur_sel);
 		}
 	}
-	outputs[OUT_1].value = inputs[IN_1 + cur_sel].value;
+	outputs[OUT_1].setVoltage( inputs[IN_1 + cur_sel].getVoltage());
 }
 
 MplexWidget::MplexWidget(Mplex *module) : ModuleWidget()

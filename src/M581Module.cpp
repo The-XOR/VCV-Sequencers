@@ -90,12 +90,12 @@ void M581::randrandrand(int action)
 
 void M581::process(const ProcessArgs &args)
 {
-	if(resetTrigger.process(inputs[RESET].value) || masterReset.process(params[M_RESET].value))
+	if(resetTrigger.process(inputs[RESET].getVoltage()) || masterReset.process(params[M_RESET].value))
 	{
 		_reset();
 	} else
 	{
-		if(pWidget != NULL && rndTrigger.process(inputs[RANDOMIZONE].value))
+		if(pWidget != NULL && rndTrigger.process(inputs[RANDOMIZONE].getVoltage()))
 			randrandrand();
 
 		float rec_smp;
@@ -107,11 +107,11 @@ void M581::process(const ProcessArgs &args)
 
 		_timer.Step();
 
-		if(clockTrigger.process(inputs[CLOCK].value) && any())
+		if(clockTrigger.process(inputs[CLOCK].getVoltage()) && any())
 			beginNewStep();
 
-		outputs[CV].value = cvControl.Play(_timer.Elapsed(args.sampleRate));
-		outputs[GATE].value = gateControl.Play(&_timer, stepCounter.PulseCounter(), args.sampleRate);
+		outputs[CV].setVoltage( cvControl.Play(_timer.Elapsed(args.sampleRate)));
+		outputs[GATE].setVoltage( gateControl.Play(&_timer, stepCounter.PulseCounter(), args.sampleRate));
 	}
 
 }

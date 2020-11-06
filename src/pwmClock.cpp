@@ -67,7 +67,7 @@ void PwmClock::process_active(const ProcessArgs &args)
 {
 	onStopPulse.reset();
 	onManualStep.reset();
-	if(resetTrigger.process(inputs[RESET].value))
+	if(resetTrigger.process(inputs[RESET].getVoltage()))
 	{
 		_reset();
 	} else 
@@ -98,22 +98,22 @@ void PwmClock::process_inactive(const ProcessArgs &args)
 		{
 			optimize_manualStep = false;
 			for(int k = 0; k < OUT_SOCKETS; k++)
-				outputs[OUT_1 + k].value = LVL_OFF;
+				outputs[OUT_1 + k].setVoltage( LVL_OFF);
 
 			lights[ACTIVE].value = LED_OFF;
 		}
-		if((manualTrigger.process(params[PULSE].value) || pulseTrigger.process(inputs[PULSE_IN].value)))
+		if((manualTrigger.process(params[PULSE].value) || pulseTrigger.process(inputs[PULSE_IN].getVoltage())))
 		{
 			onManualStep.trigger(PULSE_TIME);
 			optimize_manualStep = true;
 			for(int k = 0; k < OUT_SOCKETS; k++)
 			{
-				outputs[OUT_1 + k].value = LVL_ON;
+				outputs[OUT_1 + k].setVoltage( LVL_ON);
 			}
 			lights[ACTIVE].value = LED_ON;
 		}
 	}
-	outputs[ONSTOP].value = onStopPulse.process(deltaTime) ? LVL_ON : LVL_OFF;
+	outputs[ONSTOP].setVoltage( onStopPulse.process(deltaTime) ? LVL_ON : LVL_OFF);
 }
 
 bool PwmClock::isGeneratorActive()
@@ -164,7 +164,7 @@ void PwmClock::process(const ProcessArgs &args)
 		{
 			lights[ACTIVE].value = LED_OFF;
 			for(int k = 0; k < OUT_SOCKETS; k++)
-				outputs[OUT_1 + k].value = LVL_OFF;
+				outputs[OUT_1 + k].setVoltage( LVL_OFF);
 		}
 	}
 }

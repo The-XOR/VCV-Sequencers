@@ -17,7 +17,7 @@ void nag::reset()
 	for (int k = 0; k < NUM_NAGS; k++)
 	{
 		sequencer[k].reset();
-		outputs[OUT_1 + k].value = LVL_OFF;
+		outputs[OUT_1 + k].setVoltage( LVL_OFF);
 	}
 	theCounter = 0;
 	counterRemaining = 0;
@@ -43,14 +43,14 @@ void nag::updateNags(float dt)
 int nag::degPerClock() { return  getInput(0, DEGXCLK_IN, DEGXCLK, MIN_DEGXCLOCK, MAX_DEGXCLOCK); }
 void nag::process(const ProcessArgs &args)
 {
-	if (resetTrig.process(inputs[RESET].value) || masterReset.process(params[M_RESET].value))
+	if (resetTrig.process(inputs[RESET].getVoltage()) || masterReset.process(params[M_RESET].value))
 	{
 		reset();
 	} else
 	{
 		if (pWidget != NULL)
 		{
-			if (rndTrigger.process(inputs[RANDOMIZONE].value))
+			if (rndTrigger.process(inputs[RANDOMIZONE].getVoltage()))
 				randrandrand();
 		}
 		int degclk = degPerClock();
@@ -59,7 +59,7 @@ void nag::process(const ProcessArgs &args)
 		float deltaTime = 1.0 / args.sampleRate;
 		updateNags(deltaTime);
 
-		int clk = clockTrig.process(inputs[CLOCK].value); // 1=rise, -1=fall
+		int clk = clockTrig.process(inputs[CLOCK].getVoltage()); // 1=rise, -1=fall
 		if (clk == 1)
 		{
 			counterRemaining = degclk;
@@ -84,7 +84,7 @@ void nag::sclocca(bool dm, float dt)
 		}
 		for (int k = 0; k < NUM_NAGS; k++)
 		{
-			outputs[OUT_1 + k].value = sequencer[k].bang(theCounter, dt) ? LVL_ON : LVL_OFF;
+			outputs[OUT_1 + k].setVoltage( sequencer[k].bang(theCounter, dt) ? LVL_ON : LVL_OFF);
 		}
 	}
 }

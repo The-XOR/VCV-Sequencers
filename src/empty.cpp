@@ -46,7 +46,7 @@ struct emptyDisplay : LedDisplayChoice
 
 void empty::process(const ProcessArgs &args)
 {
-	if (rndTrigger.process(inputs[MOTTETTO].value) || btnTrig.process(params[MOTTBTN].value))
+	if (rndTrigger.process(inputs[MOTTETTO].getVoltage()) || btnTrig.process(params[MOTTBTN].value))
 		getMottett();
 }
 

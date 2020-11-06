@@ -17,7 +17,7 @@ void Counter::reset()
 	outPulse.reset();
 	toggle_status = false;
 	lights[TOGGLESTAT].value = LED_OFF;
-	outputs[OUT_TGL].value = LVL_OFF;
+	outputs[OUT_TGL].setVoltage( LVL_OFF);
 }
 
 void Counter::process_keys()
@@ -55,7 +55,7 @@ void Counter::process(const ProcessArgs &args)
 	countDown = n - curCounter;
 	float deltaTime = 1.0 / args.sampleRate;
 
-	if(resetTrigger.process(inputs[RESET].value))
+	if(resetTrigger.process(inputs[RESET].getVoltage()))
 	{
 		reset();
 
@@ -63,7 +63,7 @@ void Counter::process(const ProcessArgs &args)
 	{
 		if(!oneshot_mode || !toggle_status)
 		{
-			if(counterTigger.process(inputs[IN_1].value))
+			if(counterTigger.process(inputs[IN_1].getVoltage()))
 			{
 				++curCounter;
 				if(curCounter >= n)
@@ -75,11 +75,11 @@ void Counter::process(const ProcessArgs &args)
 	if(outPulse.process(deltaTime))
 	{
 		lights[ACTIVE].value = LED_ON;
-		outputs[OUT_1].value = LVL_ON;
+		outputs[OUT_1].setVoltage( LVL_ON);
 	} else
 	{
 		lights[ACTIVE].value = LED_OFF;
-		outputs[OUT_1].value = LVL_OFF;
+		outputs[OUT_1].setVoltage( LVL_OFF);
 	}
 }
 
@@ -89,7 +89,7 @@ void Counter::trig_out()
 	outPulse.trigger(PULSE_TIME);
 	toggle_status = !toggle_status;
 	lights[TOGGLESTAT].value = toggle_status ? LED_ON : LED_OFF;
-	outputs[OUT_TGL].value =   toggle_status ? LVL_ON : LVL_OFF;
+	outputs[OUT_TGL].setVoltage(   toggle_status ? LVL_ON : LVL_OFF);
 }
 
 CounterWidget::CounterWidget(Counter *module) : SequencerWidget()
