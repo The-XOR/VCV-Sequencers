@@ -640,6 +640,7 @@ struct XorPanel : SvgPanel
 
 	void AddScrews(ModuleWidget *pWidget)
 	{
+		return; // tired of the screws, not screwing.
 		int px = units < 6 ? 0 : RACK_GRID_WIDTH;
 		int orco_can = int(random::uniform() * 16); //ma perche???????? :-(
 		if(orco_can != 0) pWidget->addChild(createWidget<Screw>(Vec(px, 0))); else pWidget->addChild(createWidget<ScrewH>(Vec(px, 0)));

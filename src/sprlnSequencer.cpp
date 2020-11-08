@@ -40,10 +40,11 @@ void spiraloneSequencer::Step(Spiralone *pSpir)
 				else
 					curPos -= stride;
 			}
-			if(curPos < 0)
+			while(curPos < 0)
 				curPos = numSteps + curPos;
 
 			curPos %= numSteps;
+
 
 			outputVoltage(pSpir);
 			gate(clk, pSpir);

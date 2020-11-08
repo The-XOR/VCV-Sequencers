@@ -10,7 +10,6 @@ common characteristics:
 
 ![legend](/repository/legenda.png?raw=true "legend")
 
-- warning: the millboard front panels require special screws (polygonal holes). they are easy to miss and we do not provide spares.
 
 **** 1.1.1 update ****
 i was really, really tired of the voltage level mismatch between the modules available. so, the output level 
