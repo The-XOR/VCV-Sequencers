@@ -7,13 +7,13 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="3.095412mm"
+   width="2.7mm"
    height="5.098516mm"
    version="1.1"
-   viewBox="0 0 3.0959669 5.0990061"
+   viewBox="0 0 2.7004841 5.0990061"
    id="svg7344"
    sodipodi:docname="BefacoSlidePotHandle.svg"
-   inkscape:version="0.92.2 (5c3e80d, 2017-08-06)">
+   inkscape:version="1.0.1 (3bc2e813f5, 2020-09-07)">
   <metadata
      id="metadata7350">
     <rdf:RDF>
@@ -37,38 +37,29 @@
      guidetolerance="10"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:window-width="732"
-     inkscape:window-height="480"
+     inkscape:window-width="1920"
+     inkscape:window-height="1017"
      id="namedview7346"
      showgrid="false"
      units="mm"
      inkscape:document-units="mm"
      inkscape:zoom="12.247016"
-     inkscape:cx="5.849984"
+     inkscape:cx="-5.7038508"
      inkscape:cy="9.6349863"
-     inkscape:window-x="0"
-     inkscape:window-y="0"
-     inkscape:window-maximized="0"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
      inkscape:current-layer="svg7344"
      fit-margin-top="0"
      fit-margin-left="0"
      fit-margin-right="0"
-     fit-margin-bottom="0" />
-  <g
-     transform="translate(-156.51503,-100.30812)"
-     id="g7342">
-    <g
-       transform="matrix(0.2566,0,0,-0.2566,-287.9,711)"
-       id="g7340">
-      <g
-         transform="translate(1744,2370)"
-         id="g7338">
-        <path
-           d="m 0,0 c -0.072,-5.55 -1.296,-9.915 -5.786,-9.935 -4.598,-0.02 -6.277,4.247 -6.277,9.843 0,5.502 1.494,10.03 6.178,10.03 4.422,0 5.956,-4.44 5.885,-9.935"
-           id="path7336"
-           inkscape:connector-curvature="0"
-           style="fill:#ff0000" />
-      </g>
-    </g>
-  </g>
+     fit-margin-bottom="0"
+     inkscape:document-rotation="0" />
+  <rect
+     style="fill:#ff0000;stroke-width:0.289262"
+     id="rect13"
+     width="1.7003047"
+     height="5.0999141"
+     x="0.5000897"
+     y="-0.00045394723" />
 </svg>
