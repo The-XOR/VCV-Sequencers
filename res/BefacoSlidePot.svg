@@ -7,39 +7,39 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="2.2731199mm"
-   height="27.51667mm"
-   viewBox="0 0 2.2731198 27.51667"
-   version="1.1"
-   id="svg1579"
+   inkscape:version="1.0 (4035a4fb49, 2020-05-01)"
    sodipodi:docname="BefacoSlidePot.svg"
-   inkscape:version="1.0.1 (3bc2e813f5, 2020-09-07)">
+   id="svg1579"
+   version="1.1"
+   viewBox="0 0 2.1999999 27.51667"
+   height="27.51667mm"
+   width="2.2mm">
   <defs
      id="defs1573" />
   <sodipodi:namedview
-     id="base"
-     pagecolor="#ffffff"
-     bordercolor="#666666"
-     borderopacity="1.0"
-     inkscape:pageopacity="0.0"
-     inkscape:pageshadow="2"
-     inkscape:zoom="15.839192"
-     inkscape:cx="-16.594337"
-     inkscape:cy="65.460209"
-     inkscape:document-units="mm"
-     inkscape:current-layer="layer1"
-     showgrid="false"
-     fit-margin-top="0"
-     fit-margin-left="0"
-     fit-margin-right="0"
-     fit-margin-bottom="0"
-     units="mm"
-     inkscape:window-width="1920"
-     inkscape:window-height="1017"
-     inkscape:window-x="-8"
-     inkscape:window-y="-8"
+     inkscape:document-rotation="0"
      inkscape:window-maximized="1"
-     inkscape:document-rotation="0" />
+     inkscape:window-y="-11"
+     inkscape:window-x="-11"
+     inkscape:window-height="1120"
+     inkscape:window-width="1920"
+     units="mm"
+     fit-margin-bottom="0"
+     fit-margin-right="0"
+     fit-margin-left="0"
+     fit-margin-top="0"
+     showgrid="false"
+     inkscape:current-layer="layer1"
+     inkscape:document-units="mm"
+     inkscape:cy="56.68009"
+     inkscape:cx="-33.407946"
+     inkscape:zoom="7.919596"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     borderopacity="1.0"
+     bordercolor="#666666"
+     pagecolor="#ffffff"
+     id="base" />
   <metadata
      id="metadata1576">
     <rdf:RDF>
@@ -53,17 +53,16 @@
     </rdf:RDF>
   </metadata>
   <g
-     inkscape:label="Layer 1"
-     inkscape:groupmode="layer"
-     id="layer1"
      transform="translate(-157.03322,-91.343367)"
-     sodipodi:insensitive="true">
+     id="layer1"
+     inkscape:groupmode="layer"
+     inkscape:label="Layer 1">
     <rect
-       style="fill:#000000;fill-rule:evenodd;stroke-width:0.268581"
-       id="rect10"
-       width="2.2731199"
-       height="27.51667"
+       y="91.343369"
        x="157.03322"
-       y="91.343369" />
+       height="27.51667"
+       width="2.2"
+       id="rect10"
+       style="fill:#000000;fill-rule:evenodd;stroke-width:0.264226" />
   </g>
 </svg>

@@ -190,7 +190,7 @@ M581Widget::M581Widget(M581 *module) : SequencerWidget()
 	
 		// page #1 (Note): Notes
 		// step notes
-		pwdg = createParam<BefacoSlidePotFix>(Vec(mm2px(14.943 + k * dist_h), yncscape(95.822, 27.517)), module, M581::STEP_NOTES + k);
+		pwdg = createParam<BefacoSlidePotFix>(Vec(mm2px(14.943 + k * dist_h), yncscape(94.39, 27.517)), module, M581::STEP_NOTES + k);
 		((BefacoSlidePotFix *)pwdg)->SetID(module, M581::STEP_NOTES + k);
 		addParam(pwdg);
 

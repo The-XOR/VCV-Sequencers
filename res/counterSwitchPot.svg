@@ -1,6 +1,4 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- Created with Inkscape (http://www.inkscape.org/) -->
-
 <svg
    xmlns:dc="http://purl.org/dc/elements/1.1/"
    xmlns:cc="http://creativecommons.org/ns#"
@@ -9,38 +7,39 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="2.3mm"
-   height="24mm"
-   viewBox="0 0 2.2999999 23.999999"
-   version="1.1"
-   id="svg1579"
+   inkscape:version="1.0 (4035a4fb49, 2020-05-01)"
    sodipodi:docname="counterSwitchPot.svg"
-   inkscape:version="0.92.4 (5da689c313, 2019-01-14)">
+   id="svg1579"
+   version="1.1"
+   viewBox="0 0 2.2999999 23.999999"
+   height="24mm"
+   width="2.3mm">
   <defs
      id="defs1573" />
   <sodipodi:namedview
-     id="base"
-     pagecolor="#ffffff"
-     bordercolor="#666666"
-     borderopacity="1.0"
-     inkscape:pageopacity="0.0"
-     inkscape:pageshadow="2"
-     inkscape:zoom="0.98994949"
-     inkscape:cx="-241.80088"
-     inkscape:cy="-190.70866"
-     inkscape:document-units="mm"
-     inkscape:current-layer="g1558"
-     showgrid="false"
-     fit-margin-top="0"
-     fit-margin-left="0"
-     fit-margin-right="0"
-     fit-margin-bottom="0"
+     inkscape:document-rotation="0"
+     inkscape:window-maximized="1"
+     inkscape:window-y="-11"
+     inkscape:window-x="-11"
+     inkscape:window-height="1120"
+     inkscape:window-width="1920"
      units="mm"
-     inkscape:window-width="1858"
-     inkscape:window-height="1057"
-     inkscape:window-x="54"
-     inkscape:window-y="-8"
-     inkscape:window-maximized="1" />
+     fit-margin-bottom="0"
+     fit-margin-right="0"
+     fit-margin-left="0"
+     fit-margin-top="0"
+     showgrid="false"
+     inkscape:current-layer="g1558"
+     inkscape:document-units="mm"
+     inkscape:cy="20.342001"
+     inkscape:cx="-64.343039"
+     inkscape:zoom="5.6"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     borderopacity="1.0"
+     bordercolor="#666666"
+     pagecolor="#ffffff"
+     id="base" />
   <metadata
      id="metadata1576">
     <rdf:RDF>
@@ -54,23 +53,21 @@
     </rdf:RDF>
   </metadata>
   <g
-     inkscape:label="Layer 1"
-     inkscape:groupmode="layer"
+     transform="translate(-157.03322,-94.860036)"
      id="layer1"
-     transform="translate(-157.03322,-94.860036)">
+     inkscape:groupmode="layer"
+     inkscape:label="Layer 1">
     <g
-       transform="matrix(0.25661767,0,0,-0.25661767,-287.89299,711.01086)"
-       id="g1558">
-      <g
-         transform="matrix(1.0118255,0,0,0.74351361,1737.261,2401.0461)"
-         id="g6763"
-         style="fill:#000000">
-        <path
-           inkscape:connector-curvature="0"
-           id="path6765"
-           style="fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none"
-           d="M 0,0 H 2.036 C 3.92,0 5.447,-2.028 5.447,-4.529 v -116.729 c 0,-2.502 -1.527,-4.529 -3.411,-4.529 H 0 c -1.884,0 -3.411,2.027 -3.411,4.529 V -4.529 C -3.411,-2.028 -1.884,0 0,0" />
-      </g>
+       id="g1558"
+       transform="matrix(0.25661767,0,0,-0.25661767,-287.89299,711.01086)">
+      <rect
+         transform="scale(1,-1)"
+         y="-2400.4104"
+         x="1734.4452"
+         height="92.253281"
+         width="7.6916862"
+         id="rect10"
+         style="fill:#000000;stroke:#333333;stroke-width:1.27106" />
     </g>
   </g>
 </svg>

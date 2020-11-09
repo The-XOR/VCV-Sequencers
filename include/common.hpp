@@ -425,6 +425,7 @@ struct NKK1 : app::SvgSwitch
 	{
 		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/NKK_0.svg")));
 		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/NKK_2.svg")));
+		fb->removeChild(shadow);
 	}
 
 	void randomize() override
@@ -440,6 +441,7 @@ struct NKK2 : app::SvgSwitch
 		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/NKK_0.svg")));
 		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/NKK_1.svg")));
 		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/NKK_2.svg")));
+		fb->removeChild(shadow);
 	}
 
 	void randomize() override

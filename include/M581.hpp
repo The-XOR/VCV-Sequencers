@@ -65,10 +65,10 @@ struct BefacoSlidePotFix : SvgSlider
 	{
 		pModule = NULL;
 		myID = -1;
-		Vec margin = Vec(4.5, 4.5);
+		Vec margin = Vec(0.5, 0.5);
 
-		maxHandlePos = Vec(mm2px(-3.09541 / 2.0 + 2.27312 / 2.0), -mm2px(5.09852 / 2.0)).plus(margin);
-		minHandlePos = Vec(mm2px(-3.09541 / 2.0 + 2.27312 / 2.0), mm2px(27.51667 - 5.09852 / 2.0)).plus(margin);
+		maxHandlePos = Vec(0, 0).plus(margin);
+		minHandlePos = Vec(0, mm2px(27.51667 - 5.09852)).plus(margin);
 		setBackgroundSvg(APP->window->loadSvg(asset::plugin(pluginInstance, "res/BefacoSlidePot.svg")));
 		setHandleSvg(APP->window->loadSvg(asset::plugin(pluginInstance, "res/BefacoSlidePotHandle.svg")));
 		background->box.pos = margin;
