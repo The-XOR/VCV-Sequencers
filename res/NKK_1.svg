@@ -8,7 +8,7 @@
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    sodipodi:docname="NKK_1.svg"
-   inkscape:version="1.0 (4035a4fb49, 2020-05-01)"
+   inkscape:version="0.92.4 (5da689c313, 2019-01-14)"
    id="svg20198"
    version="1.1"
    viewBox="0 0 8.46663 11.61058"
@@ -21,11 +21,11 @@
      showguides="true"
      inkscape:document-rotation="0"
      units="mm"
-     inkscape:window-maximized="0"
-     inkscape:window-y="109"
-     inkscape:window-x="433"
-     inkscape:window-height="1040"
-     inkscape:window-width="1267"
+     inkscape:window-maximized="1"
+     inkscape:window-y="-8"
+     inkscape:window-x="-8"
+     inkscape:window-height="1027"
+     inkscape:window-width="1920"
      fit-margin-bottom="0"
      fit-margin-right="0"
      fit-margin-left="0"
@@ -34,7 +34,7 @@
      inkscape:current-layer="g20169-3"
      inkscape:document-units="mm"
      inkscape:cy="4.3957644"
-     inkscape:cx="30.87959"
+     inkscape:cx="-12.423981"
      inkscape:zoom="11.2"
      inkscape:pageshadow="2"
      inkscape:pageopacity="0.0"
@@ -45,11 +45,13 @@
     <sodipodi:guide
        id="guide31"
        orientation="1,0"
-       position="0.86862598,4.7283901" />
+       position="0.86862598,4.7283901"
+       inkscape:locked="false" />
     <sodipodi:guide
        id="guide33"
        orientation="0,-1"
-       position="-0.80180858,9.1049287" />
+       position="-0.80180858,9.1049287"
+       inkscape:locked="false" />
   </sodipodi:namedview>
   <metadata
      id="metadata20195">
@@ -59,7 +61,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -83,7 +85,7 @@
            cy="1156.6243"
            cx="-893.33673"
            id="path5084"
-           style="fill:#ff0000;fill-opacity:1;stroke:#000000;stroke-width:0.59959;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:markers fill stroke" />
+           style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.59959;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:markers fill stroke" />
         <ellipse
            transform="scale(-1,1)"
            ry="6.9661665"
@@ -99,7 +101,7 @@
            cy="1156.6243"
            cx="-893.33673"
            id="path5092"
-           style="fill:#e6e6e6;fill-opacity:1;stroke:#000000;stroke-width:0.322001;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:markers fill stroke" />
+           style="fill:#4d4d4d;fill-opacity:1;stroke:#000000;stroke-width:0.322001;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:markers fill stroke" />
         <ellipse
            transform="scale(1,-1)"
            ry="4.0240169"
@@ -107,7 +109,7 @@
            cy="-1156.6243"
            cx="893.33673"
            id="path5109"
-           style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.322001;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:markers fill stroke" />
+           style="opacity:1;fill:#ff0000;fill-opacity:1;stroke:#000000;stroke-width:0.322001;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:markers fill stroke" />
       </g>
     </g>
   </g>
