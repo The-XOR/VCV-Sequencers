@@ -50,14 +50,6 @@ struct TheXORBtn : SvgSwitch
 	}
 };
 
-struct PatternBtn : SvgSwitch
-{
-	PatternBtn()
-	{
-		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/Patternbtn_0.svg")));
-		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/Patternbtn_1.svg")));
-	}
-};
 
 struct HiddenButton : SvgSwitch
 {
@@ -419,12 +411,12 @@ struct SchmittTrigger2
 	}
 };
 
-struct NKK1 : app::SvgSwitch
+struct LevettaR : app::SvgSwitch
 {
-	NKK1()
+	LevettaR()
 	{
-		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/NKK_0.svg")));
-		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/NKK_2.svg")));
+		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/LevettaR_0.svg")));
+		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/LevettaR_2.svg")));
 		fb->removeChild(shadow);
 	}
 
@@ -434,13 +426,75 @@ struct NKK1 : app::SvgSwitch
 	}
 };
 
-struct NKK2 : app::SvgSwitch
+struct Levetta3PosR : app::SvgSwitch
 {
-	NKK2()
+	Levetta3PosR()
 	{
-		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/NKK_0.svg")));
-		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/NKK_1.svg")));
-		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/NKK_2.svg")));
+		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/LevettaR_0.svg")));
+		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/LevettaR_1.svg")));
+		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/LevettaR_2.svg")));
+		fb->removeChild(shadow);
+	}
+
+	void randomize() override
+	{
+		paramQuantity->setValue(roundf(rescale(random::uniform(), 0.0, 1.0, paramQuantity->getMinValue(), paramQuantity->getMaxValue())));
+	}
+};
+
+struct LevettaB : app::SvgSwitch
+{
+	LevettaB()
+	{
+		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/LevettaB_0.svg")));
+		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/LevettaB_2.svg")));
+		fb->removeChild(shadow);
+	}
+
+	void randomize() override
+	{
+		paramQuantity->setValue(roundf(rescale(random::uniform(), 0.0, 1.0, paramQuantity->getMinValue(), paramQuantity->getMaxValue())));
+	}
+};
+
+struct Levetta3PosB : app::SvgSwitch
+{
+	Levetta3PosB()
+	{
+		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/LevettaB_0.svg")));
+		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/LevettaB_1.svg")));
+		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/LevettaB_2.svg")));
+		fb->removeChild(shadow);
+	}
+
+	void randomize() override
+	{
+		paramQuantity->setValue(roundf(rescale(random::uniform(), 0.0, 1.0, paramQuantity->getMinValue(), paramQuantity->getMaxValue())));
+	}
+};
+
+struct LevettaW : app::SvgSwitch
+{
+	LevettaW()
+	{
+		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/LevettaW_0.svg")));
+		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/LevettaW_2.svg")));
+		fb->removeChild(shadow);
+	}
+
+	void randomize() override
+	{
+		paramQuantity->setValue(roundf(rescale(random::uniform(), 0.0, 1.0, paramQuantity->getMinValue(), paramQuantity->getMaxValue())));
+	}
+};
+
+struct Levetta3PosW : app::SvgSwitch
+{
+	Levetta3PosW()
+	{
+		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/LevettaW_0.svg")));
+		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/LevettaW_1.svg")));
+		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/LevettaW_2.svg")));
 		fb->removeChild(shadow);
 	}
 

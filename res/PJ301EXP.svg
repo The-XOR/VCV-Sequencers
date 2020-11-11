@@ -15,7 +15,7 @@
    version="1.1"
    id="svg15246"
    sodipodi:docname="PJ301EXP.svg"
-   inkscape:version="0.92.2 (5c3e80d, 2017-08-06)">
+   inkscape:version="0.92.4 (5da689c313, 2019-01-14)">
   <defs
      id="defs15240">
     <clipPath
@@ -147,16 +147,16 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="11.2"
-     inkscape:cx="-17.763763"
+     inkscape:cx="-29.90662"
      inkscape:cy="5.9688197"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      showgrid="false"
-     inkscape:window-width="1920"
-     inkscape:window-height="1057"
-     inkscape:window-x="1912"
-     inkscape:window-y="-8"
-     inkscape:window-maximized="1"
+     inkscape:window-width="663"
+     inkscape:window-height="405"
+     inkscape:window-x="130"
+     inkscape:window-y="130"
+     inkscape:window-maximized="0"
      units="px"
      fit-margin-top="0"
      fit-margin-left="0"
@@ -179,6 +179,13 @@
      inkscape:groupmode="layer"
      id="layer1"
      transform="translate(-88.611154,-119.19859)">
+    <ellipse
+       style="fill:#b3b3b3;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+       id="path847"
+       cx="92.788963"
+       cy="123.37643"
+       rx="2.9232602"
+       ry="2.8966682" />
     <path
        style="fill:#ff5555;fill-opacity:1;fill-rule:nonzero;stroke:#ff2a2a;stroke-width:0.56692916;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        d="M 15.791016 0.47265625 C 7.343095 0.47265625 0.47265625 7.3431668 0.47265625 15.791016 C 0.47265625 24.239016 7.343095 31.107422 15.791016 31.107422 C 24.238925 31.107422 31.107422 24.239016 31.107422 15.791016 C 31.107422 7.3431668 24.238925 0.47265625 15.791016 0.47265625 z M 15.791016 4.7597656 C 21.87435 4.7597656 26.822266 9.7077148 26.822266 15.791016 C 26.822266 21.874354 21.87435 26.822266 15.791016 26.822266 C 9.7076846 26.822266 4.7597656 21.874354 4.7597656 15.791016 C 4.7597656 9.7077148 9.7076846 4.7597656 15.791016 4.7597656 z "

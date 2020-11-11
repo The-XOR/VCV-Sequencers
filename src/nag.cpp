@@ -104,7 +104,7 @@ nagWidget::nagWidget(nag *module) : SequencerWidget()
 	for (int index = 0; index < NUM_NAGS; index++)
 	{
 		float delta_y = 19.122 * index;
-		ParamWidget *pwdg = createParam<NKK1>(Vec(mm2px(80.628), yncscape(110.388 - delta_y, 7.336)), module, nag::ENABLE_1 + index);
+		ParamWidget *pwdg = createParam<LevettaR>(Vec(mm2px(80.628), yncscape(110.388 - delta_y, 7.336)), module, nag::ENABLE_1 + index);
 		addParam(pwdg);
 		
 		addInput(createInput<portBLUSmall>(Vec(mm2px(74.46), yncscape(109.113-delta_y, 8.255)), module, nag::ENAB_IN1 + index));

@@ -7,7 +7,7 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   sodipodi:docname="NKK_1.svg"
+   sodipodi:docname="LevettaW_2.svg"
    inkscape:version="0.92.4 (5da689c313, 2019-01-14)"
    id="svg20198"
    version="1.1"
@@ -33,9 +33,9 @@
      showgrid="false"
      inkscape:current-layer="g20169-3"
      inkscape:document-units="mm"
-     inkscape:cy="4.3957644"
-     inkscape:cx="-12.423981"
-     inkscape:zoom="11.2"
+     inkscape:cy="19.232763"
+     inkscape:cx="11.039622"
+     inkscape:zoom="22.4"
      inkscape:pageshadow="2"
      inkscape:pageopacity="0.0"
      borderopacity="1.0"
@@ -61,7 +61,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -85,7 +85,7 @@
            cy="1156.6243"
            cx="-893.33673"
            id="path5084"
-           style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.59959;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:markers fill stroke" />
+           style="fill:#333333;fill-opacity:1;stroke:#000000;stroke-width:0.59959;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:markers fill stroke" />
         <ellipse
            transform="scale(-1,1)"
            ry="6.9661665"
@@ -102,14 +102,11 @@
            cx="-893.33673"
            id="path5092"
            style="fill:#4d4d4d;fill-opacity:1;stroke:#000000;stroke-width:0.322001;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:markers fill stroke" />
-        <ellipse
-           transform="scale(1,-1)"
-           ry="4.0240169"
-           rx="4.0260353"
-           cy="-1156.6243"
-           cx="893.33673"
-           id="path5109"
-           style="opacity:1;fill:#ff0000;fill-opacity:1;stroke:#000000;stroke-width:0.322001;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:markers fill stroke" />
+        <path
+           inkscape:connector-curvature="0"
+           id="path5092-2-6"
+           d="m 893.33603,1171.9068 a 4.8312431,4.8288205 0 0 0 4.83178,-4.8294 4.8312431,4.8288205 0 0 0 -0.0152,-0.3726 l -0.79725,-10.2875 a 4.0260357,4.0240169 0 0 0 -0.0115,-0.1457 l -0.008,-0.1031 h -0.005 a 4.0260357,4.0240169 0 0 0 -3.99458,-3.565 4.0260357,4.0240169 0 0 0 -3.99791,3.565 h -0.002 l -0.002,0.027 a 4.0260357,4.0240169 0 0 0 -0.008,0.1049 l -0.80725,10.4006 h 0.005 a 4.8312431,4.8288205 0 0 0 -0.0183,0.3727 4.8312431,4.8288205 0 0 0 4.83012,4.8293 z"
+           style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.322001;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:markers fill stroke" />
       </g>
     </g>
   </g>

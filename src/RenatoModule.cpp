@@ -177,13 +177,13 @@ RenatoWidget::RenatoWidget(Renato *module) : SequencerWidget()
 		module->cvs.Create(this, 196.797f, 6.159f, Renato::NUM_INPUTS - cvStrip::CVSTRIP_INPUTS, Renato::NUM_PARAMS - cvStrip::CVSTRIP_PARAMS, 16);
 
 	// page 0 (SESSION)
-	ParamWidget *pwdg = createParam<NKK2>(Vec(mm2px(60.319), yncscape(115.727 + 1, 8.467)), module, Renato::COUNTMODE_X);
+	ParamWidget *pwdg = createParam<Levetta3PosR>(Vec(mm2px(60.319), yncscape(115.727 + 1, 8.467)), module, Renato::COUNTMODE_X);
 	addParam(pwdg);
 	
-	pwdg = createParam<NKK2>(Vec(mm2px(84.044), yncscape(115.727 + 1, 8.467)), module, Renato::COUNTMODE_Y);
+	pwdg = createParam<Levetta3PosR>(Vec(mm2px(84.044), yncscape(115.727 + 1, 8.467)), module, Renato::COUNTMODE_Y);
 	addParam(pwdg);
 	
-	pwdg = createParam<NKK1>(Vec(mm2px(96.126), yncscape(115.727 + 1, 8.467)), module, Renato::SEEKSLEEP);
+	pwdg = createParam<LevettaR>(Vec(mm2px(96.126), yncscape(115.727 + 1, 8.467)), module, Renato::SEEKSLEEP);
 	addParam(pwdg);
 	
 	addOutput(createOutput<PJ301GPort>(Vec(mm2px(181.436), yncscape(115.267, 8.255)), module, Renato::CV));

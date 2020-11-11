@@ -213,7 +213,7 @@ void SpiraloneWidget::createSequencer(int seq)
 	addInput(createInput<PJ301RPort>(Vec(mm2px(143.251), yncscape(115.825 + dist_v * seq, 8.255)), module, Spiralone::CLOCK_1 + seq));
 	addInput(createInput<PJ301YPort>(Vec(mm2px(143.251), yncscape(104.395 + dist_v * seq, 8.255)), module, Spiralone::RESET_1 + seq));
 
-	ParamWidget *pwdg = createParam<NKK2>(Vec(mm2px(158.607), yncscape(109.773 + dist_v * seq, 9.488)), module, Spiralone::MODE_1 + seq);
+	ParamWidget *pwdg = createParam<Levetta3PosR>(Vec(mm2px(158.607), yncscape(109.773 + dist_v * seq, 9.488)), module, Spiralone::MODE_1 + seq);
 	addParam(pwdg);
 	
 
