@@ -262,7 +262,7 @@ KleeWidget::KleeWidget(Klee *module) : SequencerWidget()
 	float dist_v = 60.582 - 76.986;
 	for(int k = 0; k < 3; k++)
 	{
-		ParamWidget *pwdg = createParam<LevettaR>(Vec(mm2px(184.360), yncscape(76.986 + nkk_offs + k * dist_v, 7.336)), module, Klee::BUS_MERGE + k);
+		ParamWidget *pwdg = createParam<LevettaB>(Vec(mm2px(184.360), yncscape(76.986 + nkk_offs + k * dist_v, 7.336)), module, Klee::BUS_MERGE + k);
 		addParam(pwdg);
 		
 		ModuleLightWidget *plight = createLight<LargeLight<BlueLight>>(Vec(mm2px(205.425), yncscape(78.065 + k * dist_v, 5.179)), module, Klee::LED_BUS + k);
@@ -281,7 +281,7 @@ KleeWidget::KleeWidget(Klee *module) : SequencerWidget()
 
 	addInput(createInput<PJ301BPort>(Vec(mm2px(9.218), yncscape(77.058, 8.255)), module, Klee::LOAD_INPUT));
 
-	pwdg = createParam<LevettaR>(Vec(mm2px(25.627), yncscape(91.395 + nkk_offs, 7.336)), module, Klee::BUS1_LOAD);
+	pwdg = createParam<LevettaB>(Vec(mm2px(25.627), yncscape(91.395 + nkk_offs, 7.336)), module, Klee::BUS1_LOAD);
 	addParam(pwdg);
 
 	//step
@@ -299,13 +299,13 @@ KleeWidget::KleeWidget(Klee *module) : SequencerWidget()
 	addOutput(createOutput<PJ301EXP>(Vec(mm2px(230.822), yncscape(25.109, 8.255)), module, Klee::EXPANDER_OUT));
 
 	// mode
-	pwdg = createParam<LevettaR>(Vec(mm2px(68.915), yncscape(60.582 + nkk_offs, 7.336)), module, Klee::X28_X16);
+	pwdg = createParam<LevettaB>(Vec(mm2px(68.915), yncscape(60.582 + nkk_offs, 7.336)), module, Klee::X28_X16);
 	addParam(pwdg);     // 2x8 1x16
 
-	pwdg = createParam<LevettaR>(Vec(mm2px(97.459), yncscape(60.582 + nkk_offs, 7.336)), module, Klee::RND_PAT);
+	pwdg = createParam<LevettaB>(Vec(mm2px(97.459), yncscape(60.582 + nkk_offs, 7.336)), module, Klee::RND_PAT);
 	addParam(pwdg);     // rnd/pattern
 
-	pwdg = createParam<LevettaR>(Vec(mm2px(126.004), yncscape(60.582 + nkk_offs, 7.336)), module, Klee::B_INV);
+	pwdg = createParam<LevettaB>(Vec(mm2px(126.004), yncscape(60.582 + nkk_offs, 7.336)), module, Klee::B_INV);
 	addParam(pwdg);     // norm /B inverted
 	
 	addInput(createInput<PJ301HPort>(Vec(mm2px(184.466), yncscape(25.109, 8.255)), module, Klee::RANDOMIZONE));

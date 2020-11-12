@@ -292,7 +292,7 @@ void NordschleifeStep::beginPulse(Nordschleife *pNord, int carID, float lastPuls
 		pNord->outputs[Nordschleife::OUT_B + myID].setVoltage( LVL_ON);
 	}
 
-	if(trigger)
+	if(trigger[carID])
 	{
 		pNord->cars[carID].stepTrig();
 	}

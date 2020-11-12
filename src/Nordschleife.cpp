@@ -202,10 +202,12 @@ void Nordschleife::randrandrand()
 		randrandrand(8);
 	else if(theRandomizer & NordschleifeWidget::RANDOMIZE_STEPOFFSET)
 		randrandrand(9);
+	else if (theRandomizer & NordschleifeWidget::RANDOMIZE_AUX)
+		randrandrand(10);
 
 	if(theRandomizer & NordschleifeWidget::RANDOMIZE_LAQUALUNQUE)
 	{
-		randrandrand(int(random::uniform() * 10));
+		randrandrand(int(random::uniform() * 11));
 	}
 }
 
@@ -261,7 +263,12 @@ void Nordschleife::randrandrand(int action)
 			for(int k = 0; k < NORDSTEPS; k++)
 				steps[k].offset[selectedCar] = int(random::uniform() * 49) - 24;
 			break;
-	}
+
+		case 10: //aux
+			for (int k = 0; k < NORDSTEPS; k++)
+				steps[k].aux[selectedCar] = int(LVL_MAX * 2000.f) - LVL_MIN * 1000.f;
+			break;
+	}		 
 }
 
 void Nordschleife::QuantizePitch()
@@ -525,6 +532,7 @@ Menu *NordschleifeWidget::addContextMenu(Menu *menu)
 	menu->addChild(new SeqMenuItem<NordschleifeWidget>("Randomize Angle", this, RANDOMIZE_ANGLE));
 	menu->addChild(new SeqMenuItem<NordschleifeWidget>("Randomize Car Offset", this, RANDOMIZE_OFFSET));
 	menu->addChild(new SeqMenuItem<NordschleifeWidget>("Randomize Step Offset", this, RANDOMIZE_STEPOFFSET));
+	menu->addChild(new SeqMenuItem<NordschleifeWidget>("Randomize AUXs", this, RANDOMIZE_AUX));
 
 	menu->addChild(new SeqMenuItem<NordschleifeWidget>("Pitch Quantization", this, QUANTIZE_PITCH));
 	menu->addChild(new SeqMenuItem<NordschleifeWidget>("Set all steps to <current>", this, SET_VOLTAGE_TO_CURRENT));
@@ -545,6 +553,7 @@ void NordschleifeWidget::onMenu(int action)
 		case RANDOMIZE_ANGLE:		((Nordschleife *)module)->randrandrand(7); break;
 		case RANDOMIZE_OFFSET:		((Nordschleife *)module)->randrandrand(8); break;
 		case RANDOMIZE_STEPOFFSET:	((Nordschleife *)module)->randrandrand(9); break;
+		case RANDOMIZE_AUX: 		((Nordschleife *)module)->randrandrand(10); break;
 		case QUANTIZE_PITCH:		((Nordschleife *)module)->QuantizePitch(); break;
 		case SET_VOLTAGE_TO_CURRENT:((Nordschleife *)module)->setAllCurrent(); break;
 	}
