@@ -216,22 +216,22 @@ M581Widget::M581Widget(M581 *module) : SequencerWidget()
 	addParam(pwdg);    // in sec
 
 	// Slide time
-	pwdg = createParam<Davies1900hFixWhiteKnob>(Vec(mm2px(121.032), yncscape(95.480, 9.525)), module, M581::SLIDE_TIME);
+	pwdg = createParam<Davies1900hFixWhiteKnob>(Vec(mm2px(113.229), yncscape(95.480, 9.525)), module, M581::SLIDE_TIME);
 	addParam(pwdg); // in sec
 	// step div
-	pwdg = createParam<VerticalSwitch>(Vec(mm2px(123.494), yncscape(75.482, 13.2)), module, M581::STEP_DIV);
+	pwdg = createParam<VerticalSwitch>(Vec(mm2px(115.557), yncscape(69.132, 13.2)), module, M581::STEP_DIV);
 	addParam(pwdg);
 	// input
-	addInput(createInput<PJ301RPort>(Vec(mm2px(113.864), yncscape(22.128, 8.255)), module, M581::CLOCK));
-	addInput(createInput<PJ301YPort>(Vec(mm2px(124.178), yncscape(22.128, 8.255)), module, M581::RESET));
-	addChild(createParam<BefacoPushBig>(Vec(mm2px(134.427), yncscape(21.756, 8.999)), module, M581::M_RESET));
+	addInput(createInput<PJ301RPort>(Vec(mm2px(145.085), yncscape(7.228, 8.255)), module, M581::CLOCK));
+	addInput(createInput<PJ301YPort>(Vec(mm2px(143.694), yncscape(114.96, 8.255)), module, M581::RESET));
+	addChild(createParam<BefacoPushBig>(Vec(mm2px(130.66), yncscape(114.588, 8.999)), module, M581::M_RESET));
 
-	addInput(createInput<PJ301HPort>(Vec(mm2px(106.516), yncscape(114.960, 8.255)), module, M581::RANDOMIZONE));
+	addInput(createInput<PJ301HPort>(Vec(mm2px(113.864), yncscape(114.960, 8.255)), module, M581::RANDOMIZONE));
 
 	// OUTPUTS
 	addOutput(createOutput<PJ301GPort>(Vec(mm2px(113.864), yncscape(7.228, 8.255)), module, M581::CV));
 	addOutput(createOutput<PJ301WPort>(Vec(mm2px(129.469), yncscape(7.228, 8.255)), module, M581::GATE));
-	addOutput(createOutput<PJ301EXP>(Vec(mm2px(134.763), yncscape(114.960, 8.255)), module, M581::EXPANDER_OUT));
+	addOutput(createOutput<PJ301EXP>(Vec(mm2px(129.469), yncscape(22.126, 8.255)), module, M581::EXPANDER_OUT));
 	// # STEPS
 	SigDisplayWidget *display2 = new SigDisplayWidget(2);
 	display2->box.pos = Vec(mm2px(127.229), yncscape(37.851, 9.525));
@@ -246,16 +246,7 @@ M581Widget::M581Widget(M581 *module) : SequencerWidget()
 	addParam(pwdg);
 
 	// run mode
-	RunModeDisplay *display = new RunModeDisplay();
-	display->box.pos = Vec(mm2px(127.229), yncscape(57.259, 9.525));
-	display->box.size = Vec(42, 20);
-	if(module != NULL)
-	{
-		display->mode = module->getAddress(0);
-	}
-	addChild(display);
-	pwdg = createParam<Davies1900hFixWhiteKnob>(Vec(mm2px(113.229), yncscape(58.259, 9.525)), module, M581::RUN_MODE);
-	((Davies1900hKnob *)pwdg)->snap = true;
+	pwdg = createParam<VerticalSwitch>(Vec(mm2px(131.432), yncscape(69.132, 13.2)), module, M581::RUN_MODE);
 	addParam(pwdg);
 
 	if(module != NULL)

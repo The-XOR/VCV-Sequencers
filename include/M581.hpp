@@ -101,61 +101,6 @@ struct CounterSwitch : SvgSlider
 	void randomize() override { paramQuantity->setValue(roundf(random::uniform() * paramQuantity->getMaxValue())); }
 };
 
-struct RunModeDisplay : TransparentWidget
-{
-	float *mode;
-	std::shared_ptr<Font> font;
-
-	RunModeDisplay()
-	{
-		mode = NULL;
-		font = APP->window->loadFont(asset::plugin(pluginInstance, "res/Segment7Standard.ttf"));
-	}
-
-	void draw(const DrawArgs &args) override
-	{
-		if(mode != NULL)
-		{
-			// Background
-			NVGcolor backgroundColor = nvgRGB(0x20, 0x20, 0x20);
-			NVGcolor borderColor = nvgRGB(0x10, 0x10, 0x10);
-			nvgBeginPath(args.vg);
-			nvgRoundedRect(args.vg, 0.0, 0.0, box.size.x, box.size.y, 4.0);
-			nvgFillColor(args.vg, backgroundColor);
-			nvgFill(args.vg);
-			nvgStrokeWidth(args.vg, 1.0);
-			nvgStrokeColor(args.vg, borderColor);
-			nvgStroke(args.vg);
-			// text
-			nvgFontSize(args.vg, 18);
-			nvgFontFaceId(args.vg, font->handle);
-			nvgTextLetterSpacing(args.vg, 2.5);
-
-			Vec textPos = Vec(2, 18);
-			NVGcolor textColor = nvgRGB(0xdf, 0xd2, 0x2c);
-			nvgFillColor(args.vg, nvgTransRGBA(textColor, 16));
-			nvgText(args.vg, textPos.x, textPos.y, "~~", NULL);
-
-			textColor = nvgRGB(0xda, 0xe9, 0x29);
-			nvgFillColor(args.vg, nvgTransRGBA(textColor, 16));
-			nvgText(args.vg, textPos.x, textPos.y, "\\\\", NULL);
-
-			textColor = nvgRGB(0xf0, 0x00, 0x00);
-			nvgFillColor(args.vg, textColor);
-			nvgText(args.vg, textPos.x, textPos.y, run_modes[int(std::round(*mode))], NULL);
-		}
-	}
-
-private:
-	const char *run_modes[5] = {
-		"FWD",
-		"BWD",
-		"PNG",
-		"BRN",
-		"RND"
-	};
-};
-
 struct M581 : Module
 {
 	enum ParamIds
