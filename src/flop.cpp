@@ -137,7 +137,7 @@ flopWidget::flopWidget(flop *module) : ModuleWidget()
 		addChild(createLight<SmallLight<RedLight>>(Vec(mm2px(53.069f), yncscape(97.866f - k * 27.103f, 2.176)), module, flop::LED_OUTNEG + k));
 	}
 
-	addParam(createParam<TL1105HSw>(Vec(mm2px(10.228), yncscape(120.086, 4.477)), module, flop::COMPAREMODE));
-	addParam(createParam<TL1105HSw>(Vec(mm2px(21.197), yncscape(2.319, 4.477)), module, flop::HIZ));
+	addParam(createParam<TL1105HSw>(Vec(mm2px(15.928), yncscape(3.378, 4.477)), module, flop::COMPAREMODE));
+	addParam(createParam<TL1105HSw>(Vec(mm2px(50.854), yncscape(3.378, 4.477)), module, flop::HIZ));
 }
 

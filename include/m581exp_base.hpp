@@ -15,10 +15,10 @@ struct m581exp : Module
 public:
 	void createWidget(SequencerWidget *pwdg) 
 	{ 
-		pWidget = pwdg; 
+		pWidget = pwdg;
 
-		pWidget->addInput(createInput<PJ301EXP>(Vec(mm2px(7.757), yncscape(10.517, 8.255)), this, M581EXP_INPUT));
-		pWidget->addChild(createLight<TinyLight<WhiteLight>>(Vec(mm2px(7.757 - 2.047), yncscape(10.517 + 7.176, 1.088)), this, M581EXP_LEDINPUT));
+		pWidget->addInput(createInput<PJ301EXP>(Vec(mm2px(3.559), yncscape(8.93, 8.255)), this, M581EXP_INPUT));
+		pWidget->addChild(createLight<TinyLight<WhiteLight>>(Vec(mm2px(3.559 - 2.047), yncscape(8.93 + 7.176, 1.088)), this, M581EXP_LEDINPUT));
 		onCreateWidget();
 	}
 	int ledID(int n) { return n + M581EXP_LED_1; }

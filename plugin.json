@@ -1,7 +1,7 @@
 {
   "slug": "TheXOR",
   "name": "TheXOR",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "license": "CC0-1.0",
   "brand": "TheXOR",
   "author": "The XOR",
@@ -13,27 +13,60 @@
   "donateUrl": "",
   "modules": [
     {
-      "slug": "Klee",
-      "name": "Klee",
-      "description": "Klee Sequencer",
+      "slug": "ascii",
+      "name": "ascii",
+      "description": "ascii Sequencer - make notes sing",
       "tags": [
         "Sequencer"
       ]
     },
     {
-      "slug": "PWC",
-      "name": "PWC",
-      "description": "Clock Pulse Width",
+      "slug": "AttAmp",
+      "name": "AttAmp",
+      "description": "attenuator/amplifier/offset",
+      "tags": [
+        "Attenuator",
+        "Amplifier"
+      ]
+    },
+    {
+      "slug": "Boole",
+      "name": "Boole",
+      "description": "boolean logic for your signals",
+      "tags": [
+        "Logic"
+      ]
+    },
+    {
+      "slug": "Burst",
+      "name": "Burst",
+      "description": "quick output bursts",
+      "tags": [
+        "Arpeggiator"
+      ]
+    },
+     {
+      "slug": "c2v",
+      "name": "c2v",
+      "description": "cv to voltage",
+      "tags": [
+        "Utility"
+      ]
+    },
+	  {
+      "slug": "c3v",
+      "name": "c3v",
+      "description": "cv to voltage",
       "tags": [
         "Utility"
       ]
     },
     {
-      "slug": "kExp",
-      "name": "Klee Expander",
-      "description": "Klee Sequencer Expander",
+      "slug": "cclk",
+      "name": "cclk",
+      "description": "clock mangler",
       "tags": [
-        "Utility"
+        "Clock modulator"
       ]
     },
     {
@@ -45,13 +78,107 @@
       ]
     },
     {
-      "slug": "ascii",
-      "name": "ascii",
-      "description": "ascii Sequencer - make notes sing",
+      "slug": "Counter",
+      "name": "Counter",
+      "description": "count inputs and generate a signal when reaches 0",
+      "tags": [
+        "Utility"
+      ]
+    },
+    {
+      "slug": "Dmplex",
+      "name": "Dmplex",
+      "description": "Demultiplexer",
+      "tags": [
+        "Switch"
+      ]
+    },
+    {
+      "slug": "dice",
+      "name": "dice",
+      "description": "random generator",
+      "tags": [
+        "Random"
+      ]
+    },
+    {
+      "slug": "empty",
+      "name": "empty",
+      "description": "a strategy to waste your precious rack space",
+      "tags": [
+        "Blank"
+      ]
+    },
+    {
+      "slug": "flop",
+      "name": "flop",
+      "description": "flop (and flip) logic for your signals",
+      "tags": [
+        "Logic"
+      ]
+    },
+    {
+      "slug": "gate",
+      "name": "gate",
+      "description": "port switcher",
+      "tags": [
+        "Utility"
+      ]
+    },
+    {
+      "slug": "Klee",
+      "name": "Klee",
+      "description": "Klee Sequencer",
       "tags": [
         "Sequencer"
       ]
     },
+    {
+      "slug": "kExp",
+      "name": "Klee Expander",
+      "description": "Klee Sequencer Expander",
+      "tags": [
+        "Expander"
+      ]
+    },
+    {
+      "slug": "M581CExp",
+      "name": "M581 C Expander",
+      "description": "M581 Sequencer CV Expander",
+      "tags": [
+        "Expander"
+      ]
+    },
+    {
+      "slug": "M581MExp",
+      "name": "M581 M Expander",
+      "description": "M581 Sequencer Matrix Expander",
+      "tags": [
+        "Expander"
+      ]
+    },    
+    {
+      "slug": "M581TExp",
+      "name": "M581 T Expander",
+      "description": "M581 Sequencer Trigger Expander",
+      "tags": [
+        "Expander"
+      ]
+    },
+    {
+      "slug": "M581VExp",
+      "name": "M581 V Expander",
+      "description": "M581 Sequencer Voltage Expander",
+      "tags": [
+        "Expander"
+      ]
+    },
+
+
+
+
+
+
     {
       "slug": "M581",
       "name": "M581",
@@ -61,33 +188,9 @@
       ]
     },
     {
-      "slug": "M581TExp",
-      "name": "M581 T Expander",
-      "description": "M581 Sequencer Trigger Expander",
-      "tags": [
-        "Utility"
-      ]
-    },
-    {
-      "slug": "M581CExp",
-      "name": "M581 C Expander",
-      "description": "M581 Sequencer CV Expander",
-      "tags": [
-        "Utility"
-      ]
-    },
-    {
-      "slug": "M581MExp",
-      "name": "M581 M Expander",
-      "description": "M581 Sequencer Matrix Expander",
-      "tags": [
-        "Utility"
-      ]
-    },
-    {
-      "slug": "M581VExp",
-      "name": "M581 V Expander",
-      "description": "M581 Sequencer Voltage Expander",
+      "slug": "PWC",
+      "name": "PWC",
+      "description": "Clock Pulse Width",
       "tags": [
         "Utility"
       ]
@@ -173,14 +276,6 @@
       ]
     },
     {
-      "slug": "Burst",
-      "name": "Burst",
-      "description": "quick output bursts",
-      "tags": [
-        "Utility"
-      ]
-    },
-    {
       "slug": "Uncertain",
       "name": "Uncertain",
       "description": "uncertain, buchla-esque voltages",
@@ -214,31 +309,6 @@
       ]
     },
     {
-      "slug": "AttAmp",
-      "name": "AttAmp",
-      "description": "attenuator/amplifier/offset",
-      "tags": [
-        "Attenuator",
-        "Amplifier"
-      ]
-    },
-    {
-      "slug": "Boole",
-      "name": "Boole",
-      "description": "boolean logic for your signals",
-      "tags": [
-        "Logic"
-      ]
-    },
-    {
-      "slug": "flop",
-      "name": "flop",
-      "description": "flop (and flip) logic for your signals",
-      "tags": [
-        "Logic"
-      ]
-    },
-    {
       "slug": "XSwitch",
       "name": "XSwitch",
       "description": "circuit breaker",
@@ -255,14 +325,6 @@
       ]
     },
     {
-      "slug": "Counter",
-      "name": "Counter",
-      "description": "count inputs and generate a signal when reaches 0",
-      "tags": [
-        "Utility"
-      ]
-    },
-    {
       "slug": "Mplex",
       "name": "Mplex",
       "description": "Multiplexer",
@@ -270,14 +332,7 @@
         "Switch"
       ]
     },
-    {
-      "slug": "Dmplex",
-      "name": "Dmplex",
-      "description": "Demultiplexer",
-      "tags": [
-        "Switch"
-      ]
-    },
+
     {
       "slug": "quattro",
       "name": "quattro",
@@ -295,60 +350,13 @@
       ]
     },
     {
-      "slug": "empty",
-      "name": "empty",
-      "description": "a strategy to waste your precious rack space",
-      "tags": [
-        "Blank"
-      ]
-    },
-    {
       "slug": "volt",
       "name": "volt",
       "description": "microtonal quantizer",
       "tags": [
         "Quantizer"
       ]
-    },
-    {
-      "slug": "dice",
-      "name": "dice",
-      "description": "random generator",
-      "tags": [
-        "Random"
-      ]
-    },
-     {
-      "slug": "c2v",
-      "name": "c2v",
-      "description": "cv to voltage",
-      "tags": [
-        "Utility"
-      ]
-    },
-    {
-      "slug": "gate",
-      "name": "gate",
-      "description": "port switcher",
-      "tags": [
-        "Utility"
-      ]
-    },
-    	{
-      "slug": "c3v",
-      "name": "c3v",
-      "description": "cv to voltage",
-      "tags": [
-        "Utility"
-      ]
-    },
-    {
-      "slug": "cclk",
-      "name": "cclk",
-      "description": "clock mangler",
-      "tags": [
-        "Utility"
-      ]
     }    
+ 
   ]
 }

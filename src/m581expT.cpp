@@ -27,25 +27,27 @@ void m581expT::process(const ProcessArgs &args)
 
 m581expTWidget::m581expTWidget(m581expT *module)
 {
-	CREATE_PANEL(module, this, 25, "res/modules/m581expT.svg");
+	CREATE_PANEL(module, this, 18, "res/modules/m581expT.svg");
 
 	if(module != NULL)
 		module->createWidget(this);
 
-	addParam(createParam<Davies1900hFixRedKnob>(Vec(mm2px(73.979), yncscape(9.882, 9.525)), module, m581expT::Z8PULSE_TIME));
+	addParam(createParam<Davies1900hFixRedKnobSmall>(Vec(mm2px(79.067), yncscape(9.058, 8.0)), module, m581expT::Z8PULSE_TIME));
 
-	float dist_h=15;
-	float dist_v=11;
-	float y = 22;
-	for(int c = 0; c < 8; c++)
+	float dist_h = 14.52 - 3.559;
+	float dist_v = 97.737 - 86.980;
+	float y = 23.016;
+	float dled = 10.064 - 3.559;
+	float dledY = 102.571 - 97.737;
+	for (int c = 0; c < 8; c++)
 	{
 		for(int r = 0; r < 8; r++)
 		{
-			int n = c *8+ r;
-			int posx= 7.757 + dist_h * c;
-			addOutput(createOutput<PJ301BLUPort>(Vec(mm2px(posx), yncscape(y+dist_v * r, 9.525)), module, m581expT::OUT_1 + n));
+			int n = c * 8 + r;
+			int posx = 3.559 + dist_h * c;
+			addOutput(createOutput<portBLUSmall>(Vec(mm2px(posx), yncscape(y + dist_v * r, 5.885)), module, m581expT::OUT_1 + n));
 			if(module != NULL)
-				addChild(createLight<SmallLight<RedLight>>(Vec(mm2px(8.583+posx), yncscape(y+6.758+dist_v * r, 2.176)), module, module->ledID(n)));
+				addChild(createLight<TinyLight<RedLight>>(Vec(mm2px(dled + posx), yncscape(y + dledY + dist_v * r, 1.088)), module, module->ledID(n)));
 		}
 	}
 }
