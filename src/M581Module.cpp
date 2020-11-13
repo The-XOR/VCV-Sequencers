@@ -212,7 +212,7 @@ M581Widget::M581Widget(M581 *module) : SequencerWidget()
 	}
 
 	// Gate time
-	ParamWidget *pwdg = createParam<Davies1900hFixWhiteKnob>(Vec(mm2px(134.129), yncscape(95.480, 9.525)), module, M581::GATE_TIME);
+	ParamWidget *pwdg = createParam<Davies1900hFixWhiteKnob>(Vec(mm2px(132.144), yncscape(95.480, 9.525)), module, M581::GATE_TIME);
 	addParam(pwdg);    // in sec
 
 	// Slide time

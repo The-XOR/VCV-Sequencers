@@ -245,67 +245,70 @@ o88oWidget::o88oWidget(o88o *module)
 		display->SetModule(module);
 		addChild(display);
 	}
-	ParamWidget *pwdg = createParam<BefacoPushBig>(Vec(mm2px(5.988), yncscape(105.884, 8.999)), module, o88o::M_RESET);
+	ParamWidget *pwdg = createParam<BefacoPushBig>(Vec(mm2px(5.530), yncscape(118.054, 8.999)), module, o88o::M_RESET);
 	addParam(pwdg);
-	addInput(createInput<PJ301RPort>(Vec(mm2px(6.361), yncscape(79.07, 8.255)), module, o88o::CLOCK_IN));
-	addInput(createInput<PJ301BPort>(Vec(mm2px(6.361), yncscape(95.204, 8.255)), module, o88o::RESET_IN));
-	addInput(createInput<PJ301BPort>(Vec(mm2px(6.361), yncscape(62.564, 8.255)), module, o88o::GATE_IN));
+	addInput(createInput<PJ301BPort>(Vec(mm2px(5.903), yncscape(107.375, 8.255)), module, o88o::RESET_IN));
+	addInput(createInput<PJ301RPort>(Vec(mm2px(5.903), yncscape(87.375, 8.255)), module, o88o::CLOCK_IN));
+	addInput(createInput<PJ301BPort>(Vec(mm2px(2.657), yncscape(67.271, 8.255)), module, o88o::GATE_IN));
+	addParam(createParam<TL1105Sw>(Vec(mm2px(12.928), yncscape(68.095f, 6.607)), module, o88o::GATE));
 
-	addParam(createParam<TL1105HSw>(Vec(mm2px(7.185), yncscape(51.316, 4.477)), module, o88o::GATE));
-	
-	addInput(createInput<PJ301BPort>(Vec(mm2px(36.642), yncscape(10.017, 8.255)), module, o88o::SWLOOP_IN));
-	addInput(createInput<PJ301BPort>(Vec(mm2px(53.383), yncscape(10.017, 8.255)), module, o88o::SWVERT_IN));
-	addInput(createInput<PJ301BPort>(Vec(mm2px(70.124), yncscape(10.017, 8.255)), module, o88o::SWBACK_IN));
-	addInput(createInput<PJ301BPort>(Vec(mm2px(86.864), yncscape(10.017, 8.255)), module, o88o::SWINVERT_IN));
+	addInput(createInput<PJ301BPort>(Vec(mm2px(5.903), yncscape(48.479, 8.255)), module, o88o::REC_IN));
 
-	addParam(createParam<TL1105Sw>(Vec(mm2px(79.437), yncscape(10.379f, 6.607)), module, o88o::SWITCH_BACKW));
-	addParam(createParam<TL1105Sw>(Vec(mm2px(62.697), yncscape(10.379f, 6.607)), module, o88o::SWITCH_VERT));
-	addParam(createParam<TL1105Sw>(Vec(mm2px(45.956), yncscape(10.379f, 6.607)), module, o88o::SWITCH_LOOP));
-	addParam(createParam<TL1105Sw>(Vec(mm2px(96.178), yncscape(10.379f, 6.607)), module, o88o::SWITCH_INVERT));
+	addInput(createInput<PJ301BPort>(Vec(mm2px(19.946), yncscape(15.941, 8.255)), module, o88o::SWLOOP_IN));
+	addParam(createParam<TL1105Sw>(Vec(mm2px(29.260), yncscape(16.765f, 6.607)), module, o88o::SWITCH_LOOP));
 
-	addOutput(createOutput<PJ301WPort>(Vec(mm2px(41.712), yncscape(118.495, 8.255)), module, o88o::GATE_OUT));
-	addOutput(createOutput<PJ301WPort>(Vec(mm2px(92.785), yncscape(118.495, 8.255)), module, o88o::NGATE_OUT));
+	addInput(createInput<PJ301BPort>(Vec(mm2px(19.946), yncscape(3.137, 8.255)), module, o88o::SWVERT_IN));
+	addParam(createParam<TL1105Sw>(Vec(mm2px(29.260), yncscape(3.808, 6.607)), module, o88o::SWITCH_VERT));
 
-	addInput(createInput<PJ301BPort>(Vec(mm2px(128.294), yncscape(109.960, 8.255)), module, o88o::FIRSTROW_IN));
-	pwdg = createParam<Davies1900hFixWhiteKnobSmall>(Vec(mm2px(115.900), yncscape(110.087, 8.0)), module, o88o::FIRSTROW);
+	addInput(createInput<PJ301BPort>(Vec(mm2px(50.015), yncscape(15.941, 8.255)), module, o88o::SWBACK_IN));
+	addParam(createParam<TL1105Sw>(Vec(mm2px(59.329), yncscape(16.765, 6.607)), module, o88o::SWITCH_BACKW));
+
+	addInput(createInput<PJ301BPort>(Vec(mm2px(50.015), yncscape(3.137, 8.255)), module, o88o::SWINVERT_IN));
+	addParam(createParam<TL1105Sw>(Vec(mm2px(59.329), yncscape(3.808, 6.607)), module, o88o::SWITCH_INVERT));
+
+	addOutput(createOutput<PJ301WPort>(Vec(mm2px(128.294), yncscape(13.449, 8.255)), module, o88o::GATE_OUT));
+	addOutput(createOutput<PJ301WPort>(Vec(mm2px(128.294), yncscape(2.256, 8.255)), module, o88o::NGATE_OUT));
+
+	addInput(createInput<PJ301BPort>(Vec(mm2px(128.294), yncscape(111.018, 8.255)), module, o88o::FIRSTROW_IN));
+	pwdg = createParam<Davies1900hFixWhiteKnobSmall>(Vec(mm2px(115.900), yncscape(111.146, 8.0)), module, o88o::FIRSTROW);
 	((Davies1900hFixRedKnobSmall *)pwdg)->snap = true;
 	addParam(pwdg);
 	
-	addParam(createParam<BefacoPushBig>(Vec(mm2px(115.399), yncscape(31.529, 8.999)), module, o88o::GENERATE));
-	addInput(createInput<PJ301BPort>(Vec(mm2px(128.294), yncscape(31.901, 8.255)), module, o88o::GENERATION_IN));
-	addOutput(createOutput<PJ301WPort>(Vec(mm2px(6.351), yncscape(40.361, 8.255)), module, o88o::TRIGGER_EMPTY));
+	addParam(createParam<BefacoPushBig>(Vec(mm2px(115.399), yncscape(26.238, 8.999)), module, o88o::GENERATE));
+	addInput(createInput<PJ301BPort>(Vec(mm2px(128.294), yncscape(26.610, 8.255)), module, o88o::GENERATION_IN));
 
-	addInput(createInput<PJ301BPort>(Vec(mm2px(20.653), yncscape(118.495, 8.255)), module, o88o::REC_IN));
-	addInput(createInput<PJ301BPort>(Vec(mm2px(128.294), yncscape(95.143, 8.255)), module, o88o::LASTROW_IN));
-	pwdg = createParam<Davies1900hFixWhiteKnobSmall>(Vec(mm2px(115.900), yncscape(95.271, 8.0)), module, o88o::LASTROW);
+	addOutput(createOutput<PJ301WPort>(Vec(mm2px(5.903), yncscape(30.554, 8.255)), module, o88o::TRIGGER_EMPTY));
+
+	addInput(createInput<PJ301BPort>(Vec(mm2px(128.294), yncscape(95.539, 8.255)), module, o88o::LASTROW_IN));
+	pwdg = createParam<Davies1900hFixWhiteKnobSmall>(Vec(mm2px(115.900), yncscape(95.667, 8.0)), module, o88o::LASTROW);
 	((Davies1900hFixRedKnobSmall *)pwdg)->snap = true;
 	addParam(pwdg);
 
-	addOutput(createOutput<PJ301WPort>(Vec(mm2px(128.294), yncscape(81.699, 8.255)), module, o88o::CURROW_OUT));
+	addOutput(createOutput<PJ301WPort>(Vec(mm2px(128.294), yncscape(80.060, 8.255)), module, o88o::CURROW_OUT));
 
-	addInput(createInput<PJ301BPort>(Vec(mm2px(128.294), yncscape(71.331, 8.255)), module, o88o::FIRSTCOL_IN));
-	pwdg = createParam<Davies1900hFixBlackKnobSmall>(Vec(mm2px(115.900), yncscape(71.458, 8.0)), module, o88o::FIRSTCOL);
+	addInput(createInput<PJ301BPort>(Vec(mm2px(128.294), yncscape(68.285, 8.255)), module, o88o::FIRSTCOL_IN));
+	pwdg = createParam<Davies1900hFixBlackKnobSmall>(Vec(mm2px(115.900), yncscape(68.412, 8.0)), module, o88o::FIRSTCOL);
 	((Davies1900hFixRedKnobSmall *)pwdg)->snap = true;
 	addParam(pwdg);
 
-	addInput(createInput<PJ301BPort>(Vec(mm2px(128.294), yncscape(56.514, 8.255)), module, o88o::LASTCOL_IN));
-	pwdg = createParam<Davies1900hFixBlackKnobSmall>(Vec(mm2px(115.900), yncscape(56.642, 8.0)), module, o88o::LASTCOL);
+	addInput(createInput<PJ301BPort>(Vec(mm2px(128.294), yncscape(52.276, 8.255)), module, o88o::LASTCOL_IN));
+	pwdg = createParam<Davies1900hFixBlackKnobSmall>(Vec(mm2px(115.900), yncscape(52.404, 8.0)), module, o88o::LASTCOL);
 	((Davies1900hFixRedKnobSmall *)pwdg)->snap = true;
 	addParam(pwdg);
 
-	addOutput(createOutput<PJ301WPort>(Vec(mm2px(128.294), yncscape(43.070, 8.255)), module, o88o::CURCOL_OUT));
+	addOutput(createOutput<PJ301WPort>(Vec(mm2px(128.294), yncscape(37.855, 8.255)), module, o88o::CURCOL_OUT));
 
-	addInput(createInput<PJ301BPort>(Vec(mm2px(128.294), yncscape(10.017, 8.255)), module, o88o::PATTERN_IN));
-	pwdg = createParam<Davies1900hFixRedKnobSmall>(Vec(mm2px(115.900), yncscape(10.144, 8.0)), module, o88o::PATTERN);
+	addInput(createInput<PJ301BPort>(Vec(mm2px(87.115), yncscape(3.137, 8.255)), module, o88o::PATTERN_IN));
+	pwdg = createParam<Davies1900hFixRedKnobSmall>(Vec(mm2px(87.115), yncscape(16.069, 8.0)), module, o88o::PATTERN);
 	((Davies1900hFixRedKnobSmall *)pwdg)->snap = true;
 	addParam(pwdg);
 
-	addChild(new o88o7Segm(module != NULL ? module : NULL, 103.832, 10.320));
-	addParam(createParam<RIGHTSWITCH>(Vec(mm2px(109.255), yncscape(4.358, 4.627)), module, o88o::PTN_INC));
-	addParam(createParam<LEFTSWITCH>(Vec(mm2px(103.832), yncscape(4.358, 4.627)), module, o88o::PTN_DEC));
+	addChild(new o88o7Segm(module != NULL ? module : NULL, 96.513, 16.244));
+	addParam(createParam<UPSWITCH>(Vec(mm2px(106.573), yncscape(20.307, 4.627)), module, o88o::PTN_INC));
+	addParam(createParam<DNSWITCH>(Vec(mm2px(106.573), yncscape(15.715, 4.627)), module, o88o::PTN_DEC));
 	addParam(createParam<HiddenButton>(Vec(mm2px(0), yncscape(0, 5.08)), module, o88o::RANDOMIZE));
-	addInput(createInput<PJ301HPort>(Vec(mm2px(6.361), yncscape(21.609, 8.255)), module, o88o::RANDOMIZE_IN));
-	addParam(createParam<TheXORBtn>(Vec(mm2px(6.489), yncscape(10.144, 8)), module, o88o::LED_GATE));
+	addInput(createInput<PJ301HPort>(Vec(mm2px(4.244), yncscape(3.618, 8.255)), module, o88o::RANDOMIZE_IN));
+	addParam(createParam<TheXORBtn>(Vec(mm2px(115.399), yncscape(7.980, 8)), module, o88o::LED_GATE));
 }
 
 void o88oWidget::SetPattern(int ptn)

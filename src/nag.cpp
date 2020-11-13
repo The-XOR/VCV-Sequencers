@@ -104,22 +104,23 @@ nagWidget::nagWidget(nag *module) : SequencerWidget()
 	for (int index = 0; index < NUM_NAGS; index++)
 	{
 		float delta_y = 19.122 * index;
-		ParamWidget *pwdg = createParam<LevettaR>(Vec(mm2px(80.628), yncscape(110.388 - delta_y, 7.336)), module, nag::ENABLE_1 + index);
+		ParamWidget *pwdg = createParam<LevettaR>(Vec(mm2px(82.745), yncscape(110.388 - delta_y, 7.336)), module, nag::ENABLE_1 + index);
 		addParam(pwdg);
 		
-		addInput(createInput<portBLUSmall>(Vec(mm2px(74.46), yncscape(109.113-delta_y, 8.255)), module, nag::ENAB_IN1 + index));
+		addInput(createInput<PJ301BLUPort>(Vec(mm2px(72.710), yncscape(107.928 - delta_y, 8.255)), module, nag::ENAB_IN1 + index));
 
-		pwdg = createParam<Davies1900hFixRedKnobSmall>(Vec(mm2px(105.824), yncscape(108.056 - delta_y, 8.0)), module, nag::VERTEX_1 + index);
+
+		pwdg = createParam<Davies1900hFixRedKnobSmall>(Vec(mm2px(107.941), yncscape(108.056 - delta_y, 8.0)), module, nag::VERTEX_1 + index);
 		((Davies1900hFixRedKnobSmall *)pwdg)->snap = true;
 		addParam(pwdg);
 		
-		addInput(createInput<PJ301GRPort>(Vec(mm2px(118.218), yncscape(108.2 - delta_y, 8.255)), module, nag::INVERTEX_1 + index));
+		addInput(createInput<PJ301GRPort>(Vec(mm2px(120.335), yncscape(108.2 - delta_y, 8.255)), module, nag::INVERTEX_1 + index));
 
-		pwdg = createParam<Davies1900hFixWhiteKnobSmall>(Vec(mm2px(139.902), yncscape(108.056 - delta_y, 8.0)), module, nag::ROTATE_1 + index);
+		pwdg = createParam<Davies1900hFixWhiteKnobSmall>(Vec(mm2px(142.019), yncscape(108.056 - delta_y, 8.0)), module, nag::ROTATE_1 + index);
 		((Davies1900hFixRedKnobSmall *)pwdg)->snap = true;
 		addParam(pwdg);
 		
-		addInput(createInput<PJ301GRPort>(Vec(mm2px(152.296), yncscape(108.2 - delta_y, 8.255)), module, nag::INROTATE_1 + index));
+		addInput(createInput<PJ301GRPort>(Vec(mm2px(154.413), yncscape(108.2 - delta_y, 8.255)), module, nag::INROTATE_1 + index));
 
 		pwdg = createParam<Davies1900hFixBlackKnobSmall>(Vec(mm2px(173.604), yncscape(108.056 - delta_y, 8.0)), module, nag::SKEW_1 + index);
 		((Davies1900hFixRedKnobSmall *)pwdg)->snap = true;
@@ -128,8 +129,8 @@ nagWidget::nagWidget(nag *module) : SequencerWidget()
 		addInput(createInput<PJ301GRPort>(Vec(mm2px(185.998), yncscape(108.2-delta_y, 8.255)), module, nag::INSKEW_1 + index));
 
 		addOutput(createOutput<PJ301WPort>(Vec(mm2px(208.211), yncscape(107.928-delta_y, 8.255)), module, nag::OUT_1 + index));
-		addChild(createLight<SmallLight<WhiteLight>>(Vec(mm2px(219.375), yncscape(115.230 - delta_y, 2.176)), module, nag::ON_1 + index));
-		addChild(new nag7Segm(module != NULL ? &module->sequencer[index] : NULL, 92.499, 108.231 - delta_y));
+		addChild(createLight<SmallLight<WhiteLight>>(Vec(mm2px(217.259), yncscape(115.230 - delta_y, 2.176)), module, nag::ON_1 + index));
+		addChild(new nag7Segm(module != NULL ? &module->sequencer[index] : NULL, 94.615, 108.231 - delta_y));
 	}
 	
 	ParamWidget *pwdg = createParam<Davies1900hFixRedKnobSmall>(Vec(mm2px(40.702), yncscape(12.631, 8.0)), module, nag::DEGXCLK);

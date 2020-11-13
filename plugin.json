@@ -142,6 +142,14 @@
       ]
     },
     {
+      "slug": "M581",
+      "name": "M581",
+      "description": "581 Sequencer",
+      "tags": [
+        "Sequencer"
+      ]
+    },
+    {
       "slug": "M581CExp",
       "name": "M581 C Expander",
       "description": "M581 Sequencer CV Expander",
@@ -173,16 +181,43 @@
         "Expander"
       ]
     },
-
-
-
-
-
-
     {
-      "slug": "M581",
-      "name": "M581",
-      "description": "581 Sequencer",
+      "slug": "midyQuant",
+      "name": "midyQuant",
+      "description": "quantized MIDI output",
+      "tags": [
+        "Quantizer",
+        "MIDI"
+      ]
+    },
+    {
+      "slug": "Mplex",
+      "name": "Mplex",
+      "description": "Multiplexer",
+      "tags": [
+        "Switch"
+      ]
+    },
+    {
+      "slug": "nag",
+      "name": "nag nag nag",
+      "description": "nag nag nag Sequencer",
+      "tags": [
+        "Sequencer"
+      ]
+    },
+    {
+      "slug": "Nordschleife",
+      "name": "Nordschleife",
+      "description": "the only sequencer with Karussell",
+      "tags": [
+        "Sequencer"
+      ]
+    },
+    {
+      "slug": "o88o",
+      "name": "o88o",
+      "description": "o88o Sequencer",
       "tags": [
         "Sequencer"
       ]
@@ -195,6 +230,25 @@
         "Utility"
       ]
     },
+
+
+
+
+
+
+    
+    {
+      "slug": "PWMClock",
+      "name": "PWMClock",
+      "description": "PWM Clock Generator",
+      "tags": [
+        "Clock generator"
+      ]
+    },
+
+
+   
+   
     {
       "slug": "Z8K",
       "name": "Z8K",
@@ -259,22 +313,8 @@
         "Sequencer"
       ]
     },
-    {
-      "slug": "nag",
-      "name": "nag nag nag",
-      "description": "nag nag nag Sequencer",
-      "tags": [
-        "Sequencer"
-      ]
-    },
-    {
-      "slug": "o88o",
-      "name": "o88o",
-      "description": "o88o Sequencer",
-      "tags": [
-        "Sequencer"
-      ]
-    },
+ 
+   
     {
       "slug": "Uncertain",
       "name": "Uncertain",
@@ -283,14 +323,7 @@
         "Random"
       ]
     },
-    {
-      "slug": "PWMClock",
-      "name": "PWMClock",
-      "description": "PWM Clock Generator",
-      "tags": [
-        "Clock generator"
-      ]
-    },
+
     {
       "slug": "Quantizer",
       "name": "Quantizer",
@@ -299,15 +332,7 @@
         "Quantizer"
       ]
     },
-    {
-      "slug": "midyQuant",
-      "name": "midyQuant",
-      "description": "quantized MIDI output",
-      "tags": [
-        "Quantizer",
-        "MIDI"
-      ]
-    },
+
     {
       "slug": "XSwitch",
       "name": "XSwitch",
@@ -324,14 +349,7 @@
         "Switch"
       ]
     },
-    {
-      "slug": "Mplex",
-      "name": "Mplex",
-      "description": "Multiplexer",
-      "tags": [
-        "Switch"
-      ]
-    },
+ 
 
     {
       "slug": "quattro",
@@ -341,14 +359,7 @@
         "Sequencer"
       ]
     },
-    {
-      "slug": "Nordschleife",
-      "name": "Nordschleife",
-      "description": "the only sequencer with Karussell",
-      "tags": [
-        "Sequencer"
-      ]
-    },
+  
     {
       "slug": "volt",
       "name": "volt",
