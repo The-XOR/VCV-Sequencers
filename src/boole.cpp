@@ -70,14 +70,14 @@ BooleWidget::BooleWidget(Boole *module) : ModuleWidget()
 	float pot_x = mm2px(20.561);
 	float out_x = mm2px(58.091);
 	float y = 112.349;
-	float yout = 112.349;
+	float yout = y;
 	float ypot = 112.477;
 	float yled = 115.389;
 	float yinv = 97.892;
-	float yled_out = 115.389;
-	float delta_y =- 14.771;
-	float sub_dy = -11.92;
-	float out_dy = -26.691;
+	float yled_out = yled;
+	float delta_y = 98.636-yout;
+	float sub_dy = 86.716-98.636;
+	float out_dy = 67.044-92.676;
 	
 	for(int k = 0; k < NUM_BOOL_OP; k++)
 	{
@@ -106,7 +106,7 @@ BooleWidget::BooleWidget(Boole *module) : ModuleWidget()
 		{
 			addParam(createParam<TL1105Sw>(Vec(mm2px(52.727), yncscape(118.714, 6.607)), module, Boole::INVERT_1 + k));
 			yled_out -= 20.731;
-			yout -= 20.731;
+			yout = 92.676;
 		} else
 		{
 			addParam(createParam<TL1105Sw>(Vec(mm2px(52.727), yncscape(yinv,6.607)), module, Boole::INVERT_1 + k));
@@ -120,7 +120,7 @@ BooleWidget::BooleWidget(Boole *module) : ModuleWidget()
 		yled += delta_y;
 	}
 
-	addParam(createParam<TL1105HSw>(Vec(mm2px(10.228), yncscape(122.202, 4.477)), module, Boole::COMPAREMODE));
-	addParam(createParam<TL1105HSw>(Vec(mm2px(39.832), yncscape(2.319, 4.477)), module, Boole::HIZ));
+	addParam(createParam<TL1105HSw>(Vec(mm2px(20.980), yncscape(2.143, 4.477)), module, Boole::COMPAREMODE));
+	addParam(createParam<TL1105HSw>(Vec(mm2px(46.711), yncscape(2.143, 4.477)), module, Boole::HIZ));
 }
 
