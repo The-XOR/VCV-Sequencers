@@ -89,9 +89,9 @@ asciiWidget::asciiWidget(ascii *module)
 	addParam(createParam<HiddenButton>(Vec(mm2px(26.642), yncscape(114.398, 5.08)), module, ascii::FTM));
 
 	addInput(createInput<PJ301RPort>(Vec(mm2px(10.932), yncscape(4.233, 8.255)), module, ascii::CLK));
-	addInput(createInput<PJ301YPort>(Vec(mm2px(36.512), yncscape(4.233, 8.255)), module, ascii::RESET));
-	addOutput(createOutput<PJ301GPort>(Vec(mm2px(62.092), yncscape(4.233, 8.255)), module, ascii::OUT));
-	addChild(createParam<BefacoPushBig>(Vec(mm2px(3.400), yncscape(116.611, 8.999)), module, ascii::M_RESET));
+	addInput(createInput<PJ301YPort>(Vec(mm2px(48.154), yncscape(4.233, 8.255)), module, ascii::RESET));
+	addOutput(createOutput<PJ301GPort>(Vec(mm2px(76.379), yncscape(4.233, 8.255)), module, ascii::OUT));
+	addChild(createParam<BefacoPushBig>(Vec(mm2px(29.555), yncscape(3.861, 9.001)), module, ascii::M_RESET));
 	if(module != NULL)
 		module->cvs.Create(this, 80.179f, 41.284f, ascii::NUM_INPUTS - cvMiniStrip::CVMINISTRIP_INPUTS, ascii::NUM_PARAMS - cvMiniStrip::CVMINISTRIP_PARAMS);
 

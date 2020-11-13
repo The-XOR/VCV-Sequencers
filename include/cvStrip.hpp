@@ -65,10 +65,10 @@ protected:
 		pWidget->addInput(createInput<portSmall>(Vec(pos_x(x, 1.072f), pos_y(y, corr + 74.942f, 5.885f)), pWidget->module, RANGE_FROM));
 		pWidget->addInput(createInput<portSmall>(Vec(pos_x(x, 1.072f), pos_y(y, corr + 58.942f, 5.885f)), pWidget->module, RANGE_TO));
 
-		ParamWidget *pwdg = createParam<daviesVerySmall>(Vec(pos_x(x, 1.015f), pos_y(y, corr + 81.885f, 6.f)), pWidget->module, PARAM_FROM);
+		ParamWidget *pwdg = createParam<daviesVerySmallBlack>(Vec(pos_x(x, 1.015f), pos_y(y, corr + 81.885f, 6.f)), pWidget->module, PARAM_FROM);
 		pWidget->addParam(pwdg);
 
-		pwdg = createParam<daviesVerySmall>(Vec(pos_x(x, 1.015f), pos_y(y, corr + 65.886f, 6.f)), pWidget->module, PARAM_TO);
+		pwdg = createParam<daviesVerySmallBlack>(Vec(pos_x(x, 1.015f), pos_y(y, corr + 65.886f, 6.f)), pWidget->module, PARAM_TO);
 		pWidget->addParam(pwdg);
 	}
 

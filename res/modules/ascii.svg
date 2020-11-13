@@ -306,8 +306,8 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="1.4"
-     inkscape:cx="115.32105"
-     inkscape:cy="273.14351"
+     inkscape:cx="321.93614"
+     inkscape:cy="244.57208"
      inkscape:document-units="mm"
      inkscape:current-layer="layer4"
      showgrid="false"
@@ -315,9 +315,9 @@
      fit-margin-left="0"
      fit-margin-right="0"
      fit-margin-bottom="0"
-     inkscape:window-width="1858"
-     inkscape:window-height="1057"
-     inkscape:window-x="54"
+     inkscape:window-width="1920"
+     inkscape:window-height="1027"
+     inkscape:window-x="-8"
      inkscape:window-y="-8"
      inkscape:window-maximized="1"
      inkscape:snap-bbox="true"
@@ -331,7 +331,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -358,7 +358,7 @@
     <g
        style="display:inline"
        id="g910"
-       transform="translate(-17.308566)">
+       transform="translate(-30.687765)">
       <g
          transform="matrix(0.25059372,0,0,0.25059373,32.49241,-2.3123362)"
          id="g1293"
@@ -467,17 +467,17 @@
           <polygon
              id="_196665264"
              class="fil2 str0"
-             points="207.953,75.7262 189.431,50.734 171.116,75.7262 178.83,75.7262 178.747,101.794 200.556,101.754 200.556,75.7262 "
+             points="171.116,75.7262 178.83,75.7262 178.747,101.794 200.556,101.754 200.556,75.7262 207.953,75.7262 189.431,50.734 "
              style="fill:#000000;stroke:#000000;stroke-width:0.0762" />
           <polygon
              id="_196665048"
              class="fil0 str2"
-             points="207.953,202.598 189.431,177.606 171.116,202.598 178.83,202.598 178.747,228.666 200.556,228.625 200.556,202.598 "
+             points="171.116,202.598 178.83,202.598 178.747,228.666 200.556,228.625 200.556,202.598 207.953,202.598 189.431,177.606 "
              style="fill:#000000;stroke:#ffffff;stroke-width:0.0762" />
           <polygon
              id="_196666392"
              class="fil1 str1"
-             points="207.953,139.162 189.431,114.17 171.116,139.162 178.83,139.162 178.747,165.23 200.556,165.189 200.556,139.162 "
+             points="171.116,139.162 178.83,139.162 178.747,165.23 200.556,165.189 200.556,139.162 207.953,139.162 189.431,114.17 "
              style="fill:#000000;stroke:#ff0000;stroke-width:0.0762" />
         </g>
       </g>
@@ -514,23 +514,23 @@
     <text
        id="text1343"
        y="120.78867"
-       x="52.306229"
+       x="66.593742"
        style="font-style:italic;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:2.82222223px;line-height:1.25;font-family:Consolas;-inkscape-font-specification:'Consolas Bold Italic';letter-spacing:0px;word-spacing:0px;display:inline;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.26458332"
        xml:space="preserve"><tspan
          style="font-style:italic;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:2.82222223px;font-family:Consolas;-inkscape-font-specification:'Consolas Bold Italic';fill:#ffffff;stroke-width:0.26458332"
          y="120.78867"
-         x="52.306229"
+         x="66.593742"
          id="tspan1341"
          sodipodi:role="line">output</tspan></text>
     <text
        xml:space="preserve"
        style="font-style:italic;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:2.82222223px;line-height:1.25;font-family:Consolas;-inkscape-font-specification:'Consolas Bold Italic';letter-spacing:0px;word-spacing:0px;display:inline;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.26458332"
-       x="28.280972"
+       x="39.393482"
        y="121.04636"
        id="text1347"><tspan
          sodipodi:role="line"
          id="tspan1345"
-         x="28.280972"
+         x="39.393482"
          y="121.04636"
          style="font-style:italic;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:2.82222223px;font-family:Consolas;-inkscape-font-specification:'Consolas Bold Italic';fill:#ffffff;stroke-width:0.26458332">reset</tspan></text>
   </g>
@@ -606,7 +606,7 @@
        aria-label="output"
        style="font-style:italic;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:2.82222223px;line-height:1.25;font-family:Consolas;-inkscape-font-specification:'Consolas Bold Italic';letter-spacing:0px;word-spacing:0px;display:inline;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.26458332"
        id="text1125"
-       transform="translate(0,-2.6457404)">
+       transform="translate(14.287503,-2.6457404)">
       <path
          d="m 52.949772,123.4662 q -0.130913,0 -0.235644,-0.0317 -0.104731,-0.0331 -0.179145,-0.0978 -0.07304,-0.0661 -0.112999,-0.16537 -0.03996,-0.10059 -0.03996,-0.23564 0,-0.11851 0.0248,-0.23289 0.02618,-0.11575 0.07441,-0.21911 0.04961,-0.10473 0.11989,-0.19154 0.07166,-0.0882 0.163986,-0.15159 0.09371,-0.0648 0.205328,-0.1006 0.112999,-0.0358 0.243913,-0.0358 0.129535,0 0.234266,0.0331 0.106109,0.0317 0.179145,0.0978 0.07441,0.0648 0.114377,0.16536 0.03996,0.0992 0.03996,0.23427 0,0.11851 -0.02618,0.23427 -0.02481,0.11437 -0.07304,0.21773 -0.04823,0.10335 -0.11989,0.19154 -0.07166,0.0882 -0.163986,0.15297 -0.09233,0.0634 -0.205328,0.0992 -0.112999,0.0358 -0.243913,0.0358 z m 0.479558,-0.89848 q 0,-0.13642 -0.06752,-0.20395 -0.06615,-0.0689 -0.191547,-0.0689 -0.07441,0 -0.135048,0.0289 -0.06063,0.0276 -0.110243,0.0744 -0.04823,0.0469 -0.08406,0.10887 -0.03583,0.062 -0.05926,0.12954 -0.02343,0.0675 -0.03583,0.13642 -0.01102,0.0675 -0.01102,0.12816 0,0.13642 0.06752,0.20533 0.06752,0.0689 0.192926,0.0689 0.07441,0 0.135047,-0.0276 0.06063,-0.0289 0.108865,-0.0758 0.04823,-0.0482 0.08406,-0.10887 0.03583,-0.062 0.05926,-0.12954 0.02343,-0.0675 0.03445,-0.13642 0.0124,-0.0689 0.0124,-0.12954 z"
          style="font-style:italic;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:2.82222223px;font-family:Consolas;-inkscape-font-specification:'Consolas Bold Italic';fill:#ffffff;stroke-width:0.26458332"
@@ -642,7 +642,7 @@
        aria-label="reset"
        style="font-style:italic;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:2.82222223px;line-height:1.25;font-family:Consolas;-inkscape-font-specification:'Consolas Bold Italic';letter-spacing:0px;word-spacing:0px;display:inline;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.26458332"
        id="text1129"
-       transform="translate(0,-2.6458204)">
+       transform="translate(11.112501,-2.6458204)">
       <path
          d="m 29.404073,122.83644 q 0.01929,-0.0841 0.02067,-0.14056 0.0014,-0.0565 -0.01378,-0.0896 -0.01516,-0.0345 -0.04685,-0.0482 -0.03032,-0.0152 -0.07579,-0.0152 -0.06614,0 -0.136425,0.0551 -0.0689,0.0537 -0.132292,0.14331 -0.06201,0.0882 -0.111621,0.20395 -0.04961,0.11438 -0.07441,0.23565 l -0.100597,0.51125 h -0.344509 l 0.148828,-0.74828 q 0.0083,-0.0427 0.01654,-0.0937 0.0083,-0.051 0.01654,-0.12403 0.0096,-0.0744 0.02067,-0.17914 0.01102,-0.10473 0.02618,-0.25494 h 0.272851 l -0.01378,0.27423 q 0.03032,-0.0551 0.07717,-0.10886 0.04823,-0.0551 0.110243,-0.0978 0.06201,-0.0441 0.139182,-0.0703 0.07855,-0.0276 0.170877,-0.0276 0.119889,0 0.203949,0.0386 0.08544,0.0386 0.132292,0.11162 0.04685,0.073 0.05512,0.18053 0.0096,0.1061 -0.02205,0.24391 z"
          style="font-style:italic;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:2.82222223px;font-family:Consolas;-inkscape-font-specification:'Consolas Bold Italic';fill:#ffffff;stroke-width:0.26458332"
@@ -717,7 +717,7 @@
          style="fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.35277775" />
     </g>
     <g
-       transform="translate(-52.149217,-3.2381315)"
+       transform="translate(-40.507543,-3.2381315)"
        id="g919"
        inkscape:label="Layer 1"
        style="display:inline;enable-background:new">
@@ -737,7 +737,7 @@
        style="display:inline;enable-background:new"
        inkscape:label="Layer 1"
        id="g939"
-       transform="translate(-26.569534,-3.2381315)">
+       transform="translate(-12.282025,-3.2381315)">
       <path
          inkscape:connector-curvature="0"
          style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:#cccccc;stroke-width:0.56692916;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
@@ -752,7 +752,7 @@
     </g>
     <g
        id="g6703"
-       transform="matrix(0.22180738,0,0,-0.22180738,-217.37943,264.14129)"
+       transform="matrix(0.22180738,0,0,-0.22180738,-191.22362,376.89111)"
        style="display:inline;stroke-width:1.59046912;enable-background:new">
       <g
          id="g836-5"

@@ -156,9 +156,27 @@ struct Davies1900hFixRedKnobSmall : _davies1900base
 };
 
 
-struct daviesVerySmall : _davies1900base
+struct daviesVerySmallBlack : _davies1900base
 {
-	daviesVerySmall() : _davies1900base("res/Davies1900hBlackVerySmall.svg") {}
+	daviesVerySmallBlack() : _davies1900base("res/Davies1900hBlackVerySmall.svg") {}
+	void randomize() override
+	{
+		// do NOT randomaiz
+	}
+};
+
+struct daviesVerySmallWhite : _davies1900base
+{
+	daviesVerySmallWhite() : _davies1900base("res/Davies1900hWhiteVerySmall.svg") {}
+	void randomize() override
+	{
+		// do NOT randomaiz
+	}
+};
+
+struct daviesVerySmallRed : _davies1900base
+{
+	daviesVerySmallRed() : _davies1900base("res/Davies1900hRedVerySmall.svg") {}
 	void randomize() override
 	{
 		// do NOT randomaiz
@@ -193,6 +211,11 @@ struct portYSmall : _ioPort
 struct portGSmall : _ioPort
 {
 	portGSmall() : _ioPort("res/PJ301Gsmall.svg") {}
+};
+
+struct portGRSmall : _ioPort
+{
+	portGRSmall() : _ioPort("res/PJ301GRsmall.svg") {}
 };
 
 struct portRSmall : _ioPort

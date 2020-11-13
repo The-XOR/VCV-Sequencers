@@ -30,34 +30,33 @@ AttenuatorWidget::AttenuatorWidget(Attenuator *module) : ModuleWidget()
 {
 	CREATE_PANEL(module, this, 8, "res/modules/attenuator.svg");
 
-	float y = yncscape(104.285, 8.255);
-	float ypot = yncscape(104.418, 8.0);
-	float delta_y = mm2px(14.301);
+	float y = yncscape(104.213, 5.885);
+	float ypot = yncscape(104.098, 6.0);
+	float delta_y = mm2px(104.213-95.041);
 	
 	for(int k = 0; k < NUM_ATTENUATORS; k++)
 	{
-		addInput(createInput<PJ301GRPort>(Vec(mm2px(1.432), y), module, Attenuator::IN_1 + k));
-		addParam(createParam<Davies1900hFixWhiteKnobSmall>(Vec(mm2px(11.558), ypot), module, Attenuator::OFFS_1+k));
-		addParam(createParam<Davies1900hFixWhiteKnobSmall>(Vec(mm2px(21.612), ypot), module, Attenuator::ATT_1+k));
-		addOutput(createOutput<PJ301GPort>(Vec(mm2px(30.953), y), module, Attenuator::OUT_1+k));
+		addInput(createInput<portGRSmall>(Vec(mm2px(1.432), y), module, Attenuator::IN_1 + k));
+		addParam(createParam<daviesVerySmallWhite>(Vec(mm2px(11.558), ypot), module, Attenuator::OFFS_1 + k));
+		addParam(createParam<daviesVerySmallWhite>(Vec(mm2px(21.612), ypot), module, Attenuator::ATT_1 + k));
+		addOutput(createOutput<portGSmall>(Vec(mm2px(30.953), y), module, Attenuator::OUT_1 + k));
 		y += delta_y;
 		ypot += delta_y;
 	}
 
-	y = yncscape(45.170, 8.255);
-	ypot = yncscape(45.298, 8.0);
+	y = yncscape(41.771, 5.885);
+	ypot = yncscape(41.656, 6.0);
 
 	for(int k = 0; k < NUM_VLIMITERS; k++)
 	{
-		addInput(createInput<PJ301GRPort>(Vec(mm2px(1.432), y), module, Attenuator::IN_1 + k+NUM_ATTENUATORS));
-		addParam(createParam<Davies1900hFixRedKnobSmall>(Vec(mm2px(11.558), ypot), module, Attenuator::LIM1_MIN+k));
-		addParam(createParam<Davies1900hFixRedKnobSmall>(Vec(mm2px(21.612), ypot), module, Attenuator::LIM1_MAX+k));
-		addOutput(createOutput<PJ301GPort>(Vec(mm2px(30.953), y), module, Attenuator::OUT_1+k+NUM_ATTENUATORS));
+		addInput(createInput<portGRSmall>(Vec(mm2px(1.432), y), module, Attenuator::IN_1 + k + NUM_ATTENUATORS));
+		addParam(createParam<daviesVerySmallRed>(Vec(mm2px(11.558), ypot), module, Attenuator::LIM1_MIN + k));
+		addParam(createParam<daviesVerySmallRed>(Vec(mm2px(21.612), ypot), module, Attenuator::LIM1_MAX + k));
+		addOutput(createOutput<portGSmall>(Vec(mm2px(30.953), y), module, Attenuator::OUT_1 + k + NUM_ATTENUATORS));
 		y += delta_y;
 		ypot += delta_y;
 	}
 
-	addParam(createParam<TL1105HBSw>(Vec(mm2px(17.017), yncscape(59.783, 4.477)), module, Attenuator::ATTMODE));
-
+	addParam(createParam<TL1105HBSw>(Vec(mm2px(17.017), yncscape(57.138, 4.477)), module, Attenuator::ATTMODE));
 }
 

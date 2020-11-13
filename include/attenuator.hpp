@@ -6,8 +6,8 @@
 using namespace rack;
 extern Plugin *pluginInstance;
 
-#define NUM_ATTENUATORS  (3)
-#define NUM_VLIMITERS  (3)
+#define NUM_ATTENUATORS  (4)
+#define NUM_VLIMITERS  (4)
 
 struct Attenuator;
 struct AttenuatorWidget : ModuleWidget
@@ -46,7 +46,7 @@ struct Attenuator : Module
 
 		for(int k = 0; k < NUM_ATTENUATORS; k++)
 		{
-			configParam(Attenuator::ATT_1+k, 0.0, 2.0, 1.0, "Amplitude", "%", 0, 100);
+			configParam(Attenuator::ATT_1+k, 0.0, 5.0, 1.0, "Amplitude", "%", 0, 100);
 			configParam(Attenuator::OFFS_1+k, LVL_MIN, LVL_MAX, 0.0, "Offset", "V");
 		}
 
