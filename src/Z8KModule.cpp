@@ -305,28 +305,29 @@ Z8KWidget::Z8KWidget(Z8K *module) : SequencerWidget()
 		addParam(createParam<TL1105Sw>(Vec(mm2px(61.517+k*dist_h), yncscape(106.520, 6.607)), module, Z8K::DIRSW_A+k));		
 	}
 
-	addInput(createInput<PJ301YPort>( Vec(mm2px(153.479), yncscape(108.914,8.255)), module, Z8K::RESET_VERT ));
-	addInput(createInput<PJ301BPort>( Vec(mm2px(162.059), yncscape(100.658,8.255)), module, Z8K::DIR_VERT));
-	addInput(createInput<PJ301RPort>( Vec(mm2px(170.638), yncscape(108.914,8.255)), module, Z8K::CLOCK_VERT ));
-	addOutput(createOutput<PJ301GPort>(Vec(mm2px(179.218), yncscape(100.658,8.255)), module, Z8K::CV_VERT) );
-	addParam(createParam<TL1105HSw>(Vec(mm2px(154.303), yncscape(100.658, 4.477)), module, Z8K::DIRSW_VERT));
+	float x = 165.034;
+	addInput(createInput<portYSmall>( Vec(mm2px(x), yncscape(114.587,5.885)), module, Z8K::RESET_VERT ));
+	addInput(createInput<portSmall>( Vec(mm2px(x), yncscape(107.179,5.885)), module, Z8K::DIR_VERT));
+	addInput(createInput<portRSmall>( Vec(mm2px(x), yncscape(99.770,5.885)), module, Z8K::CLOCK_VERT ));
+	addOutput(createOutput<portGSmall>(Vec(mm2px(x), yncscape(92.362,5.885)), module, Z8K::CV_VERT) );
+	addParam(createParam<TL1105Sw>(Vec(mm2px(178.677), yncscape(106.818, 6.607)), module, Z8K::DIRSW_VERT));
 
-	addInput(createInput<PJ301YPort> (Vec(mm2px(153.479), yncscape(78.675, 8.255)), module, Z8K::RESET_HORIZ));
-	addInput(createInput<PJ301BPort> (Vec(mm2px(162.059), yncscape(70.420, 8.255)), module, Z8K::DIR_HORIZ ));
-	addInput(createInput<PJ301RPort> (Vec(mm2px(170.638), yncscape(78.675, 8.255)), module, Z8K::CLOCK_HORIZ));
-	addOutput(createOutput<PJ301GPort>(Vec(mm2px(179.218), yncscape(70.420, 8.255)), module, Z8K::CV_HORIZ));
-	addParam(createParam<TL1105HSw>(Vec(mm2px(154.303), yncscape(70.420, 4.477)), module, Z8K::DIRSW_HORZ));
+	addInput(createInput<portYSmall>  (Vec(mm2px(x), yncscape(77.545, 5.885)), module, Z8K::RESET_HORIZ));
+	addInput(createInput<portSmall>  (Vec(mm2px(x), yncscape(70.137, 5.885)), module, Z8K::DIR_HORIZ ));
+	addInput(createInput<portRSmall>  (Vec(mm2px(x), yncscape(62.729, 5.885)), module, Z8K::CLOCK_HORIZ));
+	addOutput(createOutput<portGSmall>(Vec(mm2px(x), yncscape(55.320, 5.885)), module, Z8K::CV_HORIZ));
+	addParam(createParam<TL1105Sw>(Vec(mm2px(178.677), yncscape(69.776, 6.607)), module, Z8K::DIRSW_HORZ));
 
-	addInput(createInput<PJ301YPort>  (Vec(mm2px(153.479), yncscape(48.513, 8.255)), module, Z8K::RESET_PATH));
-	addInput(createInput<PJ301BPort>  (Vec(mm2px(162.059), yncscape(40.257, 8.255)), module, Z8K::DIR_PATH ));
-	addInput(createInput<PJ301RPort>  (Vec(mm2px(170.638), yncscape(48.513, 8.255)), module, Z8K::CLOCK_PATH));
-	addOutput(createOutput<PJ301GPort>(Vec(mm2px(179.218), yncscape(40.257, 8.255)), module, Z8K::CV_PATH));
-	addParam(createParam<TL1105HSw>(Vec(mm2px(154.303), yncscape(40.257, 4.477)), module, Z8K::DIRSW_PATH));
+	addInput(createInput<portYSmall>  (Vec(mm2px(x), yncscape(40.317, 5.885)), module, Z8K::RESET_PATH));
+	addInput(createInput<portSmall>  (Vec(mm2px(x), yncscape(32.909, 5.885)), module, Z8K::DIR_PATH ));
+	addInput(createInput<portRSmall>  (Vec(mm2px(x), yncscape(25.500, 5.885)), module, Z8K::CLOCK_PATH));
+	addOutput(createOutput<portGSmall>(Vec(mm2px(x), yncscape(18.092, 5.885)), module, Z8K::CV_PATH));
+	addParam(createParam<TL1105Sw>(Vec(mm2px(154.303), yncscape(32.548, 6.607)), module, Z8K::DIRSW_PATH));
 
-	addInput(createInput<PJ301BPort> (Vec(mm2px(175.449), yncscape(29.253, 8.255)), module, Z8K::PATH_SELECT));
-	addParam(createParam<UPSWITCH>(Vec(mm2px(157.247), yncscape(33.619, 4.627)), module, Z8K::PTN_INC));
-	addParam(createParam<DNSWITCH>(Vec(mm2px(157.247), yncscape(29.027, 4.627)), module, Z8K::PTN_DEC));
-	addChild(new Z8K7Segm(module != NULL ? module : NULL, 163.893, 29.556));
+	addParam(createParam<UPSWITCH>(Vec(mm2px(165.721), yncscape(12.899, 4.627)), module, Z8K::PTN_INC));
+	addParam(createParam<DNSWITCH>(Vec(mm2px(165.721), yncscape(8.307, 4.627)), module, Z8K::PTN_DEC));
+	addChild(new Z8K7Segm(module != NULL ? module : NULL, 172.366, 8.836));
+	addInput(createInput<portSmall> (Vec(mm2px(184.021), yncscape(9.718, 5.885)), module, Z8K::PATH_SELECT));
 
 	addInput(createInput<PJ301BPort>(Vec(mm2px(33.774), yncscape(115.442, 8.255)), module, Z8K::RANDOMIZE));
 	addInput(createInput<PJ301YPort> (Vec(mm2px(17.012), yncscape(115.442, 8.255)), module, Z8K::MASTERRESET));
