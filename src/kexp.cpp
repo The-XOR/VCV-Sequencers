@@ -16,23 +16,38 @@ void kExp::process(const ProcessArgs &args)
 		} else
 			and_mask = 0xff;
 		
-		int addr = isSwitchOn(this, SEQ_SELECT) ? 2 : 1;
-		uint8_t bstat = and_mask & *(p+addr);
+		bool seq_b = isSwitchOn(this, SEQ_SELECT);
+		uint8_t astat = and_mask & *(p+1);
+		uint8_t bstat = and_mask & *(p+2);
 		
 		float v_out = 0;
 		for(int k = 0; k < 8; k++)
 		{
-			if(bstat & 0x01)
+			if(astat & 0x01)
 			{
-				outputs[BUS_OUT+k].setVoltage(LVL_ON);
-				lights[LD1+k].value = LED_ON;
-				v_out += params[KNOB_1+k].value;
+				outputs[BUS_OUTA+k].setVoltage(LVL_ON);
+				lights[LDA+k].value = LED_ON;
+				if(!seq_b)
+					v_out += params[KNOB_1+k].value;
 			} else
 			{
-				outputs[BUS_OUT+k].setVoltage(LVL_OFF);
-				lights[LD1+k].value = LED_OFF;
+				outputs[BUS_OUTA+k].setVoltage(LVL_OFF);
+				lights[LDA+k].value = LED_OFF;
 			}
-			bstat >>=1;
+
+			if(bstat & 0x01)
+			{
+				outputs[BUS_OUTB+k].setVoltage(LVL_ON);
+				lights[LDB+k].value = LED_ON;
+				if(seq_b)
+					v_out += params[KNOB_1+k].value;	
+			} else
+			{
+				outputs[BUS_OUTB+k].setVoltage(LVL_OFF);
+				lights[LDB+k].value = LED_OFF;
+			}			
+			bstat >>= 1;
+			astat >>=1;
 		}
 
 		outputs[OUT].setVoltage(v_out);
@@ -50,9 +65,9 @@ kExpWidget::kExpWidget(kExp *module)
 {
 	CREATE_PANEL(module, this, 11, "res/modules/kexp.svg");
 
-	addParam(createParam<TL1105Sw>(Vec(mm2px(20.93), yncscape(110.471, 6.607)), module, kExp::SEQ_SELECT));
+	addParam(createParam<TL1105Sw2>(Vec(mm2px(37.863), yncscape(112.059, 6.607)), module, kExp::SEQ_SELECT));
 	addInput(createInput<PJ301EXP>(Vec(mm2px(7.816), yncscape(111.234, 8.255)), module, kExp::EXP_IN));
-	addInput(createInput<PJ301RPort>(Vec(mm2px(29.561), yncscape(111.234, 8.255)), module, kExp::CLOCK_IN));
+	addInput(createInput<PJ301RPort>(Vec(mm2px(23.793), yncscape(111.234, 8.255)), module, kExp::CLOCK_IN));
 	addOutput(createOutput<PJ301GPort>(Vec(mm2px(44.246), yncscape(111.234, 8.255)), module, kExp::OUT));
 	addChild(createLight<TinyLight<WhiteLight>>(Vec(mm2px(5.769), yncscape(118.410, 1.088)), module, kExp::EXP_LED));
 
@@ -60,16 +75,18 @@ kExpWidget::kExpWidget(kExp *module)
 	for(int k=0; k < 8; k++)
 	{
 		addParam(createParam<Davies1900hFixRedKnobSmall>(Vec(mm2px(44.734), yncscape(95.060-k*y_inc, 8.0)), module, kExp::KNOB_1+k));
-		addOutput(createOutput<PJ301WPort>(Vec(mm2px(7.816), yncscape(94.932-k*y_inc, 8.255)), module, kExp::BUS_OUT+k));
-		addChild(createLight<SmallLight<WhiteLight>>(Vec(mm2px(4.136), yncscape(100.617-k*y_inc, 2.176)), module, kExp::LD1+k));
+		addOutput(createOutput<portWSmall>(Vec(mm2px(4.768), yncscape(96.117-k*y_inc, 5.885)), module, kExp::BUS_OUTA+k));
+		addChild(createLight<SmallLight<RedLight>>(Vec(mm2px(2.592), yncscape(100.617-k*y_inc, 2.176)), module, kExp::LDA+k));
+		addOutput(createOutput<portWSmall>(Vec(mm2px(12.539), yncscape(96.117-k*y_inc, 5.885)), module, kExp::BUS_OUTB+k));
+		addChild(createLight<SmallLight<WhiteLight>>(Vec(mm2px(18.424), yncscape(100.617-k*y_inc, 2.176)), module, kExp::LDB+k));
 	}
 
 	for(int k=0; k < 4; k++)
 	{
-		addInput(createInput<portWSmall>(Vec(mm2px(20.226), yncscape(96.117-2*k*y_inc, 5.885)), module, kExp::ANDIN_1+k));
-		addInput(createInput<portWSmall>(Vec(mm2px(20.226), yncscape(83.353-2*k*y_inc, 5.885)), module, kExp::ANDIN_2+k));
-		addOutput(createOutput<portWSmall>(Vec(mm2px(30.746), yncscape(89.735-2*k*y_inc, 5.885)), module, kExp::ANDOUT+k));
-		addChild(createLight<SmallLight<WhiteLight>>(Vec(mm2px(32.601), yncscape(97.972-2*k*y_inc, 2.176)), module, kExp::LDAND+k));
+		addInput(createInput<portWSmall>(Vec(mm2px(24.459), yncscape(96.117-2*k*y_inc, 5.885)), module, kExp::ANDIN_1+k));
+		addInput(createInput<portWSmall>(Vec(mm2px(24.459), yncscape(83.353-2*k*y_inc, 5.885)), module, kExp::ANDIN_2+k));
+		addOutput(createOutput<portWSmall>(Vec(mm2px(34.980), yncscape(89.735-2*k*y_inc, 5.885)), module, kExp::ANDOUT+k));
+		addChild(createLight<SmallLight<BlueLight>>(Vec(mm2px(30.081), yncscape(91.597-2*k*y_inc, 2.176)), module, kExp::LDAND+k));
 	}
 }
 

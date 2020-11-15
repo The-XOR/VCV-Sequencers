@@ -390,6 +390,22 @@ struct TL1105Sw : app::SvgSwitch
 	bool randomizable;
 };
 
+struct TL1105Sw2 : app::SvgSwitch
+{
+	TL1105Sw2()
+	{
+		randomizable = true;
+		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/TL1105_2.svg")));
+		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/TL1105_1.svg")));
+	};
+	void randomize() override
+	{
+		if(randomizable)
+			app::SvgSwitch::randomize();
+	}
+	bool randomizable;
+};
+
 struct SchmittTrigger2
 {
 	// UNKNOWN is used to represent a stable state when the previous state is not yet set

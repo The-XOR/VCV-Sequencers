@@ -28,14 +28,16 @@ struct kExp : Module
 	enum OutputIds
 	{
 		ANDOUT,
-		BUS_OUT = ANDOUT+4,
-		OUT = BUS_OUT+8,
+		BUS_OUTA = ANDOUT+4,
+		BUS_OUTB = BUS_OUTA+8,
+		OUT = BUS_OUTB+8,
 		NUM_OUTPUTS
 	};
 	enum LightIds
 	{
-		LD1,
-		LDAND = LD1+8,
+		LDA,
+		LDB = LDA+8,
+		LDAND = LDB+8,
 		EXP_LED = LDAND+4,
 		NUM_LIGHTS
 	};

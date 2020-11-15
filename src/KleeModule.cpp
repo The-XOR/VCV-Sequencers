@@ -80,6 +80,7 @@ void Klee::load()
 	{
 		shiftRegister.P[k] = isSwitchOn(this, LOAD_BUS + k);
 	}
+	populate_outputs();
 }
 
 
