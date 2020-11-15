@@ -14,7 +14,8 @@
         "sstream": "cpp",
         "string": "cpp",
         "string_view": "cpp",
-        "algorithm": "cpp"
+        "algorithm": "cpp",
+        "iostream": "cpp"
     },
 "terminal.integrated.shell.windows": "C:\\msys64\\usr\\bin\\bash.exe",
 "terminal.integrated.shellArgs.windows": [

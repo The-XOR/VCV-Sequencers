@@ -118,22 +118,22 @@ void Z8K::load()
 	{
 		int base = VOLTAGE_1 + 4 * k;
 		std::vector<int> steps = {base, base + 1, base + 2, base + 3};
-		seq[SEQ_1 + k].Init(&inputs[RESET_1 + k], &inputs[DIR_1 + k], &inputs[CLOCK_1 + k], &outputs[CV_1 + k], &lights[LED_ROW], params, steps);
+		seq[SEQ_1 + k].Init(RESET_1 + k, DIR_1 + k, DIRSW_1+k, CLOCK_1 + k, CV_1 + k, &lights[LED_ROW], params, steps);
 	}
 	// sequencer A-D
 	for(int k = 0; k < 4; k++)
 	{
 		std::vector<int> steps = {k, k + 4, k + 8, k + 12};
-		seq[SEQ_A + k].Init(&inputs[RESET_A + k], &inputs[DIR_A + k], &inputs[CLOCK_A + k], &outputs[CV_A + k], &lights[LED_COL], params, steps);
+		seq[SEQ_A + k].Init(RESET_A + k, DIR_A + k, DIRSW_A+k, CLOCK_A + k, CV_A + k, &lights[LED_COL], params, steps);
 	}
 	// horiz
 	std::vector<int> steps_h = {0,1,2,3,7,6,5,4,8,9,10,11,15,14,13,12};
-	seq[SEQ_HORIZ].Init(&inputs[RESET_HORIZ], &inputs[DIR_HORIZ], &inputs[CLOCK_HORIZ], &outputs[CV_HORIZ], &lights[LED_HORIZ], params, steps_h);
+	seq[SEQ_HORIZ].Init(RESET_HORIZ, DIR_HORIZ, DIRSW_HORZ, CLOCK_HORIZ, CV_HORIZ, &lights[LED_HORIZ], params, steps_h);
 	//vert
 	std::vector<int> steps_v = {0,4,8,12,13,9,5,1,2,6,10,14,15,11,7,3};
-	seq[SEQ_VERT].Init(&inputs[RESET_VERT], &inputs[DIR_VERT], &inputs[CLOCK_VERT], &outputs[CV_VERT], &lights[LED_VERT], params, steps_v);
+	seq[SEQ_VERT].Init(RESET_VERT, DIR_VERT, DIRSW_VERT, CLOCK_VERT, CV_VERT, &lights[LED_VERT], params, steps_v);
 	//path
-	seq[SEQ_PATH].Init(&inputs[RESET_PATH], &inputs[DIR_PATH], &inputs[CLOCK_PATH], &outputs[CV_PATH], &lights[LED_PATH], params, getPath());
+	seq[SEQ_PATH].Init(RESET_PATH, DIR_PATH, DIRSW_PATH, CLOCK_PATH, CV_PATH, &lights[LED_PATH], params, getPath());
 
 	reset();
 }
@@ -284,7 +284,7 @@ Z8KWidget::Z8KWidget(Z8K *module) : SequencerWidget()
 	if(module != NULL)
 		module->setWidget(this);
 
-	CREATE_PANEL(module, this, 39, "res/modules/Z8KModule.svg");
+	CREATE_PANEL(module, this, 40, "res/modules/Z8KModule.svg");
 
 	float dist_h = 22.225;
 	float dist_v = -18.697;
@@ -293,7 +293,8 @@ Z8KWidget::Z8KWidget(Z8K *module) : SequencerWidget()
 	{
 		addInput(createInput<PJ301YPort>(Vec(mm2px(5.738), yncscape(82.210+k*dist_v,8.255)), module, Z8K::RESET_1 + k));
 		addInput(createInput<PJ301BPort>(Vec(mm2px(16.544), yncscape(82.210+k*dist_v,8.255)), module, Z8K::DIR_1 + k));
-		addInput(createInput<PJ301RPort>(Vec(mm2px(27.349), yncscape(82.210+k*dist_v,8.255)), module, Z8K::CLOCK_1 + k));
+		addInput(createInput<PJ301RPort>(Vec(mm2px(34.758), yncscape(82.210+k*dist_v,8.255)), module, Z8K::CLOCK_1 + k));
+		addParam(createParam<TL1105Sw>(Vec(mm2px(26.387), yncscape(83.035+k*dist_v, 6.607)), module, Z8K::DIRSW_1+k));		
 	}
 
 	for(int k = 0; k < 4; k++)
@@ -301,32 +302,36 @@ Z8KWidget::Z8KWidget(Z8K *module) : SequencerWidget()
 		addInput(createInput<PJ301YPort>(Vec(mm2px(52.168+k*dist_h), yncscape(115.442,8.255)), module, Z8K::RESET_A + k));
 		addInput(createInput<PJ301BPort>(Vec(mm2px(52.168+k*dist_h), yncscape(105.695,8.255)), module, Z8K::DIR_A + k));
 		addInput(createInput<PJ301RPort>(Vec(mm2px(52.168+k*dist_h), yncscape(95.948,8.255)), module, Z8K::CLOCK_A + k));
+		addParam(createParam<TL1105Sw>(Vec(mm2px(61.517+k*dist_h), yncscape(106.520, 6.607)), module, Z8K::DIRSW_A+k));		
 	}
 
-	addInput(createInput<PJ301YPort>( Vec(mm2px(135.416), yncscape(111.040,8.255)), module, Z8K::RESET_VERT ));
-	addInput(createInput<PJ301BPort>( Vec(mm2px(143.995), yncscape(102.785,8.255)), module, Z8K::DIR_VERT));
-	addInput(createInput<PJ301RPort>( Vec(mm2px(152.575), yncscape(111.040,8.255)), module, Z8K::CLOCK_VERT ));
-	addOutput(createOutput<PJ301GPort>(Vec(mm2px(161.154), yncscape(102.785,8.255)), module, Z8K::CV_VERT) );
+	addInput(createInput<PJ301YPort>( Vec(mm2px(153.479), yncscape(108.914,8.255)), module, Z8K::RESET_VERT ));
+	addInput(createInput<PJ301BPort>( Vec(mm2px(162.059), yncscape(100.658,8.255)), module, Z8K::DIR_VERT));
+	addInput(createInput<PJ301RPort>( Vec(mm2px(170.638), yncscape(108.914,8.255)), module, Z8K::CLOCK_VERT ));
+	addOutput(createOutput<PJ301GPort>(Vec(mm2px(179.218), yncscape(100.658,8.255)), module, Z8K::CV_VERT) );
+	addParam(createParam<TL1105HSw>(Vec(mm2px(154.303), yncscape(100.658, 4.477)), module, Z8K::DIRSW_VERT));
 
-	addInput(createInput<PJ301YPort> (Vec(mm2px(5.738), yncscape(10.941, 8.255)), module, Z8K::RESET_HORIZ));
-	addInput(createInput<PJ301BPort> (Vec(mm2px(14.318), yncscape(2.685, 8.255)), module, Z8K::DIR_HORIZ ));
-	addInput(createInput<PJ301RPort> (Vec(mm2px(22.897), yncscape(10.941, 8.255)), module, Z8K::CLOCK_HORIZ));
-	addOutput(createOutput<PJ301GPort>(Vec(mm2px(31.477), yncscape(2.685, 8.255)), module, Z8K::CV_HORIZ));
+	addInput(createInput<PJ301YPort> (Vec(mm2px(153.479), yncscape(78.675, 8.255)), module, Z8K::RESET_HORIZ));
+	addInput(createInput<PJ301BPort> (Vec(mm2px(162.059), yncscape(70.420, 8.255)), module, Z8K::DIR_HORIZ ));
+	addInput(createInput<PJ301RPort> (Vec(mm2px(170.638), yncscape(78.675, 8.255)), module, Z8K::CLOCK_HORIZ));
+	addOutput(createOutput<PJ301GPort>(Vec(mm2px(179.218), yncscape(70.420, 8.255)), module, Z8K::CV_HORIZ));
+	addParam(createParam<TL1105HSw>(Vec(mm2px(154.303), yncscape(70.420, 4.477)), module, Z8K::DIRSW_HORZ));
 
-	addInput(createInput<PJ301YPort>  (Vec(mm2px(164.760), yncscape(82.210+0*dist_v, 8.255)), module, Z8K::RESET_PATH));
-	addInput(createInput<PJ301BPort>  (Vec(mm2px(164.760), yncscape(82.210+1*dist_v, 8.255)), module, Z8K::DIR_PATH ));
-	addInput(createInput<PJ301RPort>  (Vec(mm2px(164.760), yncscape(82.210+2*dist_v, 8.255)), module, Z8K::CLOCK_PATH));
-	addOutput(createOutput<PJ301GPort>(Vec(mm2px(164.760), yncscape(82.210+3*dist_v, 8.255)), module, Z8K::CV_PATH));
+	addInput(createInput<PJ301YPort>  (Vec(mm2px(153.479), yncscape(48.513, 8.255)), module, Z8K::RESET_PATH));
+	addInput(createInput<PJ301BPort>  (Vec(mm2px(162.059), yncscape(40.257, 8.255)), module, Z8K::DIR_PATH ));
+	addInput(createInput<PJ301RPort>  (Vec(mm2px(170.638), yncscape(48.513, 8.255)), module, Z8K::CLOCK_PATH));
+	addOutput(createOutput<PJ301GPort>(Vec(mm2px(179.218), yncscape(40.257, 8.255)), module, Z8K::CV_PATH));
+	addParam(createParam<TL1105HSw>(Vec(mm2px(154.303), yncscape(40.257, 4.477)), module, Z8K::DIRSW_PATH));
 
-	addInput(createInput<PJ301BPort> (Vec(mm2px(173.861), yncscape(10.211, 8.255)), module, Z8K::PATH_SELECT));
-	addParam(createParam<UPSWITCH>(Vec(mm2px(155.659), yncscape(14.577, 4.627)), module, Z8K::PTN_INC));
-	addParam(createParam<DNSWITCH>(Vec(mm2px(155.659), yncscape(9.985, 4.627)), module, Z8K::PTN_DEC));
-	addChild(new Z8K7Segm(module != NULL ? module : NULL, 162.305, 10.514));
+	addInput(createInput<PJ301BPort> (Vec(mm2px(175.449), yncscape(29.253, 8.255)), module, Z8K::PATH_SELECT));
+	addParam(createParam<UPSWITCH>(Vec(mm2px(157.247), yncscape(33.619, 4.627)), module, Z8K::PTN_INC));
+	addParam(createParam<DNSWITCH>(Vec(mm2px(157.247), yncscape(29.027, 4.627)), module, Z8K::PTN_DEC));
+	addChild(new Z8K7Segm(module != NULL ? module : NULL, 163.893, 29.556));
 
-	addInput(createInput<PJ301BPort>(Vec(mm2px(16.544), yncscape(102.575, 8.255)), module, Z8K::RANDOMIZE));
-	addInput(createInput<PJ301YPort> (Vec(mm2px(26.912), yncscape(115.442, 8.255)), module, Z8K::MASTERRESET));
+	addInput(createInput<PJ301BPort>(Vec(mm2px(33.774), yncscape(115.442, 8.255)), module, Z8K::RANDOMIZE));
+	addInput(createInput<PJ301YPort> (Vec(mm2px(17.012), yncscape(115.442, 8.255)), module, Z8K::MASTERRESET));
 
-	addOutput(createOutput<PJ301EXP>(Vec(mm2px(137.342), yncscape(2.685, 8.255)), module, Z8K::EXP_PORT));
+	addOutput(createOutput<PJ301EXP>(Vec(mm2px(192.767), yncscape(115.442, 8.255)), module, Z8K::EXP_PORT));
 
 	for(int r = 0; r < 4; r++)
 	{
@@ -356,28 +361,27 @@ Z8KWidget::Z8KWidget(Z8K *module) : SequencerWidget()
 
 			addOutput(createOutput<portWSmall>(Vec(mm2px(58.645 + dist_h * c), yncscape(75.161 + dist_v * r, 5.885)), module, Z8K::ACTIVE_STEP + n));
 		}
-		addOutput(createOutput<PJ301GPort>(Vec(mm2px(146.867), yncscape(82.210+r*dist_v, 8.255)), module, Z8K::CV_1 + r));
+		addOutput(createOutput<PJ301GPort>(Vec(mm2px(140.517), yncscape(82.210+r*dist_v, 8.255)), module, Z8K::CV_1 + r));
 	}
 
 	addChild(createParam<BefacoPushBig>(Vec(mm2px(5.366), yncscape(115.070, 9.001)), module, Z8K::M_RESET));
 
 	if(module != NULL)
-		module->cvs.Create(this, 184.935f, 14.045f, Z8K::NUM_INPUTS - cvStrip::CVSTRIP_INPUTS, Z8K::NUM_PARAMS - cvStrip::CVSTRIP_PARAMS, 16);
-
+		module->cvs.Create(this, 191.814, 14.045f, Z8K::NUM_INPUTS - cvStrip::CVSTRIP_INPUTS, Z8K::NUM_PARAMS - cvStrip::CVSTRIP_PARAMS, 16);
 }
 
 int z8kSequencer::Step(Z8K *pModule)
 {
-	if(resetTrigger.process(pReset->value))
+	if(resetTrigger.process(pModule->inputs[pReset].getVoltage()))
 	{
 		Reset();
-	} else if(clockTrigger.process(pClock->value))
+	} else if(clockTrigger.process(pModule->inputs[pClock].getVoltage()))
 	{
 		if(random)
 			curStep = int(random::uniform() * numSteps);
 		else
 		{
-			if(pDirection->value > 0.5)
+			if(getModulableSwitch(pModule, pDirSwitch, pDirection))
 			{
 				if(--curStep < 0)
 					curStep = numSteps - 1;
@@ -387,8 +391,8 @@ int z8kSequencer::Step(Z8K *pModule)
 					curStep = 0;
 			}
 		}
-		if(pOutput->isConnected())
-			pOutput->value = pModule->cvs.TransposeableValue(sequence[curStep]->value);
+		if(pModule->outputs[pOutput].isConnected())
+			pModule->outputs[pOutput].setVoltage(pModule->cvs.TransposeableValue(sequence[curStep]->value));
 		for(int k = 0; k < numSteps; k++)
 			leds[k]->value = k == curStep ? LED_ON : LED_OFF;
 	}

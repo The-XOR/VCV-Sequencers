@@ -238,31 +238,76 @@
         "Clock generator"
       ]
     },
-
-
-
-
-
-
-
-    
-  
-   
-   
+    {
+      "slug": "Quantizer",
+      "name": "Quantizer",
+      "description": "note quantizer",
+      "tags": [
+        "Quantizer"
+      ]
+    },
+    {
+      "slug": "quattro",
+      "name": "quattro",
+      "description": "quattro lines for otto steps",
+      "tags": [
+        "Sequencer"
+      ]
+    },
+    {
+      "slug": "Renato",
+      "name": "Renato",
+      "description": "Renato Sequencer",
+      "tags": [
+        "Sequencer"
+      ]
+    },
+    {
+      "slug": "RR",
+      "name": "Round Robin",
+      "description": "Clock round robin",
+      "tags": [
+        "Switch"
+      ]
+    },
+    {
+      "slug": "Spiralone",
+      "name": "Spiralone",
+      "description": "Spiralone Sequencer",
+      "tags": [
+        "Sequencer"
+      ]
+    },
+    {
+      "slug": "XSwitch",
+      "name": "XSwitch",
+      "description": "circuit breaker",
+      "tags": [
+        "Switch"
+      ]
+    },
+    {
+      "slug": "Uncertain",
+      "name": "Uncertain",
+      "description": "uncertain, buchla-esque voltages",
+      "tags": [
+        "Random"
+      ]
+    },
+    {
+      "slug": "volt",
+      "name": "volt",
+      "description": "microtonal quantizer",
+      "tags": [
+        "Quantizer"
+      ]
+    },    
     {
       "slug": "Z8K",
       "name": "Z8K",
       "description": "Z8000 Sequencer",
       "tags": [
         "Sequencer"
-      ]
-    },
-    {
-      "slug": "Z8KVExp",
-      "name": "Z8K V Expander",
-      "description": "Z8000 Sequencer Voltage Expander",
-      "tags": [
-        "Utility"
       ]
     },
     {
@@ -290,84 +335,20 @@
       ]
     },
     {
+      "slug": "Z8KVExp",
+      "name": "Z8K V Expander",
+      "description": "Z8000 Sequencer Voltage Expander",
+      "tags": [
+        "Expander"
+      ]
+    },
+    {
       "slug": "Z8KXExp",
       "name": "Z8K Matrix Expander",
       "description": "Z8000 Sequencer Trigger Expander",
       "tags": [
-        "Utility"
+        "Expander"
       ]
-    },  
-    {
-      "slug": "Renato",
-      "name": "Renato",
-      "description": "Renato Sequencer",
-      "tags": [
-        "Sequencer"
-      ]
-    },
-    {
-      "slug": "Spiralone",
-      "name": "Spiralone",
-      "description": "Spiralone Sequencer",
-      "tags": [
-        "Sequencer"
-      ]
-    },
- 
-   
-    {
-      "slug": "Uncertain",
-      "name": "Uncertain",
-      "description": "uncertain, buchla-esque voltages",
-      "tags": [
-        "Random"
-      ]
-    },
-
-    {
-      "slug": "Quantizer",
-      "name": "Quantizer",
-      "description": "note quantizer",
-      "tags": [
-        "Quantizer"
-      ]
-    },
-
-    {
-      "slug": "XSwitch",
-      "name": "XSwitch",
-      "description": "circuit breaker",
-      "tags": [
-        "Switch"
-      ]
-    },
-    {
-      "slug": "RR",
-      "name": "Round Robin",
-      "description": "Clock round robin",
-      "tags": [
-        "Switch"
-      ]
-    },
- 
-
-    {
-      "slug": "quattro",
-      "name": "quattro",
-      "description": "quattro lines for otto steps",
-      "tags": [
-        "Sequencer"
-      ]
-    },
-  
-    {
-      "slug": "volt",
-      "name": "volt",
-      "description": "microtonal quantizer",
-      "tags": [
-        "Quantizer"
-      ]
-    }    
- 
+    } 
   ]
 }

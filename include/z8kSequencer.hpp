@@ -4,11 +4,12 @@ struct Z8K;
 struct z8kSequencer
 {
 public:
-	void Init(Input *pRst, Input *pDir, Input *pClk, Output *pOut, Light *pLights, std::vector<Param> &params, std::vector<int> steps)
+	void Init(int pRst, int pDir, int pDirSw, int pClk, int pOut, Light *pLights, std::vector<Param> &params, std::vector<int> steps)
 	{
 		curStep = 0;
 		pReset = pRst;
 		pDirection = pDir;
+		pDirSwitch = pDirSw;
 		pClock = pClk;
 		pOutput = pOut;
 		numSteps = steps.size();
@@ -46,20 +47,17 @@ public:
 
 	z8kSequencer()
 	{
-		pReset = NULL;
-		pDirection = NULL;
-		pClock = NULL;
-		pOutput = NULL;
 		random = false;
 	}
 
 private:
 	dsp::SchmittTrigger clockTrigger;
 	dsp::SchmittTrigger resetTrigger;
-	Input *pReset;
-	Input *pDirection;
-	Input *pClock;
-	Output *pOutput;
+	int pReset;
+	int pDirection;
+	int pDirSwitch;
+	int pClock;
+	int pOutput;
 	std::vector<Param *> sequence;
 	std::vector<Light *> leds;
 	std::vector<int> chain;

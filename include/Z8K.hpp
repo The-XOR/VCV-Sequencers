@@ -28,6 +28,11 @@ struct Z8K : Module
 	{
 		VOLTAGE_1,
 		M_RESET = VOLTAGE_1 + 16,
+		DIRSW_1,
+		DIRSW_A = DIRSW_1+4,
+		DIRSW_VERT = DIRSW_A+4,
+		DIRSW_HORZ,
+		DIRSW_PATH,
 		PTN_INC,
 		PTN_DEC,
 		RANGE,
