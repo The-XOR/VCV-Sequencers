@@ -299,10 +299,10 @@ Z8KWidget::Z8KWidget(Z8K *module) : SequencerWidget()
 
 	for(int k = 0; k < 4; k++)
 	{
-		addInput(createInput<PJ301YPort>(Vec(mm2px(52.168+k*dist_h), yncscape(115.442,8.255)), module, Z8K::RESET_A + k));
-		addInput(createInput<PJ301BPort>(Vec(mm2px(52.168+k*dist_h), yncscape(105.695,8.255)), module, Z8K::DIR_A + k));
-		addInput(createInput<PJ301RPort>(Vec(mm2px(52.168+k*dist_h), yncscape(95.948,8.255)), module, Z8K::CLOCK_A + k));
-		addParam(createParam<TL1105Sw>(Vec(mm2px(61.517+k*dist_h), yncscape(106.520, 6.607)), module, Z8K::DIRSW_A+k));		
+		addInput(createInput<PJ301YPort>(Vec(mm2px(57.460+k*dist_h), yncscape(115.442,8.255)), module, Z8K::RESET_A + k));
+		addInput(createInput<PJ301BPort>(Vec(mm2px(57.460+k*dist_h), yncscape(105.695,8.255)), module, Z8K::DIR_A + k));
+		addInput(createInput<PJ301RPort>(Vec(mm2px(57.460+k*dist_h), yncscape(95.948,8.255)), module, Z8K::CLOCK_A + k));
+		addParam(createParam<TL1105Sw>(Vec(mm2px(66.809+k*dist_h), yncscape(106.520, 6.607)), module, Z8K::DIRSW_A+k));		
 	}
 
 	float x = 165.034;
@@ -322,7 +322,7 @@ Z8KWidget::Z8KWidget(Z8K *module) : SequencerWidget()
 	addInput(createInput<portSmall>  (Vec(mm2px(x), yncscape(32.909, 5.885)), module, Z8K::DIR_PATH ));
 	addInput(createInput<portRSmall>  (Vec(mm2px(x), yncscape(25.500, 5.885)), module, Z8K::CLOCK_PATH));
 	addOutput(createOutput<portGSmall>(Vec(mm2px(x), yncscape(18.092, 5.885)), module, Z8K::CV_PATH));
-	addParam(createParam<TL1105Sw>(Vec(mm2px(154.303), yncscape(32.548, 6.607)), module, Z8K::DIRSW_PATH));
+	addParam(createParam<TL1105Sw>(Vec(mm2px(178.677), yncscape(32.548, 6.607)), module, Z8K::DIRSW_PATH));
 
 	addParam(createParam<UPSWITCH>(Vec(mm2px(165.721), yncscape(12.899, 4.627)), module, Z8K::PTN_INC));
 	addParam(createParam<DNSWITCH>(Vec(mm2px(165.721), yncscape(8.307, 4.627)), module, Z8K::PTN_DEC));
@@ -332,37 +332,28 @@ Z8KWidget::Z8KWidget(Z8K *module) : SequencerWidget()
 	addInput(createInput<PJ301BPort>(Vec(mm2px(33.774), yncscape(115.442, 8.255)), module, Z8K::RANDOMIZE));
 	addInput(createInput<PJ301YPort> (Vec(mm2px(17.012), yncscape(115.442, 8.255)), module, Z8K::MASTERRESET));
 
-	addOutput(createOutput<PJ301EXP>(Vec(mm2px(192.767), yncscape(115.442, 8.255)), module, Z8K::EXP_PORT));
+	addOutput(createOutput<PJ301EXP>(Vec(mm2px(145.809), yncscape(2.685, 8.255)), module, Z8K::EXP_PORT));
 
 	for(int r = 0; r < 4; r++)
 	{
 		for(int c = 0; c < 4; c++)
 		{
 			int n = c + r * 4;
-			ParamWidget *pctrl = createParam<Davies1900hFixRedKnob>(Vec(mm2px(51.533 + dist_h * c), yncscape(81.575+ dist_v * r,9.525)), module, Z8K::VOLTAGE_1 + n);
+			ParamWidget *pctrl = createParam<Davies1900hFixRedKnob>(Vec(mm2px(56.825 + dist_h * c), yncscape(81.575 + dist_v * r, 9.525)), module, Z8K::VOLTAGE_1 + n);
 			addParam(pctrl);
 
-			ModuleLightWidget *plight = createLight<SmallLight<RedLight>>(Vec(mm2px(62.116 + dist_h * c), yncscape(85.272 + dist_v * r, 2.132)), module, Z8K::LED_ROW + n);
-			addChild(plight);
-
-			plight = createLight<SmallLight<GreenLight>>(Vec(mm2px(55.230 + dist_h * c), yncscape(78.385 + dist_v * r, 2.132)), module, Z8K::LED_COL + n);
-			addChild(plight);
-
-			plight = createLight<SmallLight<YellowLight>>(Vec(mm2px(51.533 + dist_h * c), yncscape(78.385 + dist_v * r, 2.132)), module, Z8K::LED_VERT + n);
-			addChild(plight);
-
-			plight = createLight<SmallLight<BlueLight>>(Vec(mm2px(62.116 + dist_h * c), yncscape(81.575 +  dist_v * r, 2.132)), module, Z8K::LED_HORIZ + n);
-			addChild(plight);
-
-			plight = createLight<SmallLight<WhiteLight>>(Vec(mm2px(62.116 + dist_h * c), yncscape(88.969 +  dist_v * r, 2.132)), module, Z8K::LED_PATH + n);
-			addChild(plight);
+			addChild(createLight<TinyLight<RedLight>>(Vec(mm2px(62.129 + dist_h * c), yncscape(78.633 + dist_v * r, 1.088)), module, Z8K::LED_ROW + n));
+			addChild(createLight<TinyLight<GreenLight>>(Vec(mm2px(63.626 + dist_h * c), yncscape(80.129 + dist_v * r, 1.088)), module, Z8K::LED_COL + n));
+			addChild(createLight<TinyLight<YellowLight>>(Vec(mm2px(64.951 + dist_h * c), yncscape(81.455 + dist_v * r, 1.088)), module, Z8K::LED_VERT + n));
+			addChild(createLight<TinyLight<BlueLight>>(Vec(mm2px(66.277 + dist_h * c), yncscape(82.781 + dist_v * r, 1.088)), module, Z8K::LED_HORIZ + n));
+			addChild(createLight<TinyLight<WhiteLight>>(Vec(mm2px(67.603 + dist_h * c), yncscape(84.107 + dist_v * r, 1.088)), module, Z8K::LED_PATH + n));
 
 			if(r == 3)
-				addOutput(createOutput<PJ301GPort>(Vec(mm2px(52.168+ dist_h * c), yncscape(2.685, 8.255)), module, Z8K::CV_A + c));
+				addOutput(createOutput<PJ301GPort>(Vec(mm2px(57.460 + dist_h * c), yncscape(2.685, 8.255)), module, Z8K::CV_A + c));
 
-			addOutput(createOutput<portWSmall>(Vec(mm2px(58.645 + dist_h * c), yncscape(75.161 + dist_v * r, 5.885)), module, Z8K::ACTIVE_STEP + n));
+			addOutput(createOutput<portWSmall>(Vec(mm2px(64.995 + dist_h * c), yncscape(75.690 + dist_v * r, 5.885)), module, Z8K::ACTIVE_STEP + n));
 		}
-		addOutput(createOutput<PJ301GPort>(Vec(mm2px(140.517), yncscape(82.210+r*dist_v, 8.255)), module, Z8K::CV_1 + r));
+		addOutput(createOutput<PJ301GPort>(Vec(mm2px(145.809), yncscape(82.210 + r * dist_v, 8.255)), module, Z8K::CV_1 + r));
 	}
 
 	addChild(createParam<BefacoPushBig>(Vec(mm2px(5.366), yncscape(115.070, 9.001)), module, Z8K::M_RESET));

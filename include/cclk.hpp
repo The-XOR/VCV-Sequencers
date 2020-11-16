@@ -44,6 +44,8 @@ struct cclk : Module
 	cclk() : Module()
 	{
 		pWidget = NULL;
+		autoreset_f = 0;
+		counter_f=4;
 		config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS);
 		configParam(cclk::COUNTER_INC, 0.0, 1.0, 0.0);
 		configParam(cclk::COUNTER_DEC, 0.0, 1.0, 0.0);
