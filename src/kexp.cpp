@@ -55,9 +55,10 @@ void kExp::process(const ProcessArgs &args)
 
 	for(int k = 0; k < 4; k++)
 	{
-		bool b = inputs[ANDIN_1+k].getNormalVoltage(0.0) != LVL_OFF && inputs[ANDIN_2+k].getNormalVoltage(0.0) != LVL_OFF;
-		outputs[ANDOUT+k].setVoltage(b ? LVL_ON : LVL_OFF);
-		lights[LDAND+k].value = b ? LED_ON : LED_OFF;
+		bool a = inputs[ANDIN_1 + k].getNormalVoltage(0.0) > 0.5;
+		bool b = inputs[ANDIN_2 + k].getNormalVoltage(0.0) > 0.5;
+		outputs[ANDOUT + k].setVoltage(a && b ? LVL_ON : LVL_OFF);
+		outputs[OROUT + k].setVoltage(a || b ? LVL_ON : LVL_OFF);
 	}
 }
 
@@ -85,8 +86,8 @@ kExpWidget::kExpWidget(kExp *module)
 	{
 		addInput(createInput<portWSmall>(Vec(mm2px(24.459), yncscape(96.117-2*k*y_inc, 5.885)), module, kExp::ANDIN_1+k));
 		addInput(createInput<portWSmall>(Vec(mm2px(24.459), yncscape(83.353-2*k*y_inc, 5.885)), module, kExp::ANDIN_2+k));
-		addOutput(createOutput<portWSmall>(Vec(mm2px(34.980), yncscape(89.735-2*k*y_inc, 5.885)), module, kExp::ANDOUT+k));
-		addChild(createLight<SmallLight<BlueLight>>(Vec(mm2px(30.081), yncscape(91.597-2*k*y_inc, 2.176)), module, kExp::LDAND+k));
+		addOutput(createOutput<portWSmall>(Vec(mm2px(32.863), yncscape(94.530 - 2 * k * y_inc, 5.885)), module, kExp::OROUT + k));
+		addOutput(createOutput<portWSmall>(Vec(mm2px(32.863), yncscape(84.941 - 2 * k * y_inc, 5.885)), module, kExp::ANDOUT + k));
 	}
 }
 

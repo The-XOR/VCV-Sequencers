@@ -66,7 +66,7 @@ BooleWidget::BooleWidget(Boole *module) : ModuleWidget()
 
 	float in_x = mm2px(5.170);
 	float in_led_x = mm2px(15.778);
-	float out_led_x = mm2px(53.878);
+	float out_led_x = mm2px(67.636);
 	float pot_x = mm2px(20.561);
 	float out_x = mm2px(58.091);
 	float y = 112.349;
