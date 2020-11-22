@@ -70,7 +70,7 @@ struct Klee : Module
 		BUS_MERGE,
 		BUS2_MODE = BUS_MERGE + 3,
 		RANGE,
-		NUM_PARAMS = RANGE + cvMiniStrip::CVMINISTRIP_PARAMS
+		NUM_PARAMS = RANGE + cvStrip::CVSTRIP_PARAMS
 	};
 
 	enum InputIds
@@ -80,7 +80,7 @@ struct Klee : Module
 		RND_THRES_IN,
 		RANDOMIZONE,
 		RANGE_IN,
-		NUM_INPUTS = RANGE_IN + cvMiniStrip::CVMINISTRIP_INPUTS
+		NUM_INPUTS = RANGE_IN + cvStrip::CVSTRIP_INPUTS
 	};
 
 	enum OutputIds
@@ -110,7 +110,7 @@ struct Klee : Module
 		theRandomizer = 0;
 
 		config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS);
-		cvs.configure(this, NUM_PARAMS - cvMiniStrip::CVMINISTRIP_PARAMS);
+		cvs.configure(this, NUM_PARAMS - cvStrip::CVSTRIP_PARAMS);
 
 		for(int k = 0; k < 8; k++)
 		{
@@ -166,7 +166,7 @@ struct Klee : Module
 	void onRandomize() override { load(); }
 
 	int theRandomizer;
-	cvMiniStrip cvs;
+	cvStrip cvs;
 
 private:
 	static uint8_t bitfield[8];

@@ -138,6 +138,7 @@ struct nagDisplay : OpenGlWidget
 
 		for (int k = 0; k < NUM_NAGS; k++)
 		{
+			float el_fatturun = 1.0 - k * 0.14;
 			NagSeq *pseq = &(pmodule->sequencer[k]);
 			if (pseq->enabled)
 			{
@@ -158,7 +159,7 @@ struct nagDisplay : OpenGlWidget
 					glBegin(GL_LINES);
 					glVertex3f(0, 0, 0);
 					float rad = pseq->sequence[0] * fctr2;
-					glVertex3f(cos(rad), sin(rad), 0);
+					glVertex3f(el_fatturun*cos(rad), el_fatturun*sin(rad), 0);
 				}
 				else
 				{
@@ -166,7 +167,7 @@ struct nagDisplay : OpenGlWidget
 					for (int j = 0; j < pseq->numVertici; j++)
 					{
 						float rad = pseq->sequence[j] * fctr2;
-						glVertex3f(cos(rad), sin(rad), 0);
+						glVertex3f(el_fatturun*cos(rad), el_fatturun*sin(rad), 0);
 					}
 				}
 				glEnd();

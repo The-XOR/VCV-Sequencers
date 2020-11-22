@@ -43,7 +43,7 @@ void midyQuantWidget::onMenu(int action)
 {
 	switch(action)
 	{
-		case MIDIPANIC: ((midyQuant *)module)->midiOutput.panic();
+		case MIDIPANIC: ((midyQuant *)module)->midiOutput.reset();
 			break;
 	}
 }
