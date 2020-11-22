@@ -10,7 +10,7 @@ extern Plugin *pluginInstance;
 
 
 struct Mplex;
-struct MplexWidget : ModuleWidget
+struct MplexWidget : SequencerWidget
 {
 	MplexWidget(Mplex * module);
 };
@@ -21,7 +21,8 @@ struct Mplex : Module
 	{
 		BTUP, BTDN,
 		OUTPUT_INC, OUTPUT_DEC,
-		NUM_PARAMS
+		DIRECT_1,
+		NUM_PARAMS = 	DIRECT_1 + NUM_MPLEX_INPUTS
 	};
 	enum InputIds
 	{
@@ -30,7 +31,7 @@ struct Mplex : Module
 		RESET,
 		RANDOM,
 		CV,
-		IN_1,		
+		IN_1,	
 		NUM_INPUTS = IN_1 + NUM_MPLEX_INPUTS
 	};
 	enum OutputIds
@@ -40,20 +41,22 @@ struct Mplex : Module
 	};
 	enum LightIds
 	{
-		LED_1,
-		NUM_LIGHTS = LED_1 + NUM_MPLEX_INPUTS
+		NUM_LIGHTS 
 	};
 
 	Mplex() : Module()
 	{		
+		pWidget = NULL;
 		num_inputs_f = NUM_MPLEX_INPUTS;
 
 		config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS);
 		configParam(Mplex::BTUP, 0.0, 1.0, 0.0);
 		configParam(Mplex::BTDN, 0.0, 1.0, 0.0);
+		configParam(Mplex::DIRECT_1, 0.0, 1.0, 1.0);
 
 		load();
 	}
+	void setWidget(MplexWidget *pwdg) { pWidget = pwdg; }
 
 	json_t *dataToJson() override
 	{
@@ -79,6 +82,7 @@ struct Mplex : Module
 		set_output(getRand(num_inputs_f));
 	}
 	float num_inputs_f;
+	MplexWidget *pWidget;
 
 private:
 	void load();
@@ -87,6 +91,7 @@ private:
 	void process_keys();
 
 	int cur_sel;
+	dsp::SchmittTrigger direct[NUM_MPLEX_INPUTS];
 	dsp::SchmittTrigger upTrigger;
 	dsp::SchmittTrigger dnTrigger;
 	dsp::SchmittTrigger reset;
