@@ -83,7 +83,10 @@ void Dmplex::process(const ProcessArgs &args)
 			}
 		}
 	}
-	outputs[OUT_1 + cur_sel].setVoltage( inputs[IN_1].getVoltage());
+	if (isSwitchOn(this, DIRECT_1 + cur_sel))
+		outputs[OUT_1 + cur_sel].setVoltage(inputs[IN_1].getVoltage());
+	else
+		outputs[OUT_1 + cur_sel].setVoltage(LVL_OFF);
 }
 
 DmplexWidget::DmplexWidget(Dmplex *module) : SequencerWidget()

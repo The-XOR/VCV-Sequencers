@@ -84,7 +84,10 @@ void Mplex::process(const ProcessArgs &args)
 		}
 		
 	}
-	outputs[OUT_1].setVoltage( inputs[IN_1 + cur_sel].getVoltage());
+	if (isSwitchOn(this, DIRECT_1 + cur_sel))
+		outputs[OUT_1].setVoltage(inputs[IN_1 + cur_sel].getVoltage());
+	else
+		outputs[OUT_1].setVoltage(LVL_OFF);
 }
 
 MplexWidget::MplexWidget(Mplex *module) : SequencerWidget()
