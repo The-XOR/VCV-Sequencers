@@ -198,7 +198,7 @@ PwmClockWidget::PwmClockWidget(PwmClock *module) : SequencerWidget()
 	addInput(createInput<portSmall>(Vec(mm2px(25.464), yncscape(100.229, 5.885)), module, PwmClock::PULSE_IN));
 
 	addParam(createParam<LevettaR>(Vec(mm2px(8.304), yncscape(89.447, 9.488)), module, PwmClock::OFFON));
-	addChild(createLight<SmallLight<RedLight>>(Vec(mm2px(2.788), yncscape(91.500, 2.176)), module, PwmClock::ACTIVE));
+	addChild(createLight<LargeLight<RedLight>>(Vec(mm2px(1.195), yncscape(90.208, 5.179)), module, PwmClock::ACTIVE));
 	addInput(createInput<portSmall>(Vec(mm2px(25.464), yncscape(89.855, 5.885)), module, PwmClock::REMOTE_IN));
 	
 	addParam(createParam<daviesVerySmallRed>(Vec(mm2px(25.407), yncscape(79.424, 6)), module, PwmClock::PWM));

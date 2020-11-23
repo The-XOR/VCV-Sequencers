@@ -40,7 +40,7 @@ float flop::getVoltage(int index, bool hiz)
 
 bool flop::logicLevel(float v1, float v2, bool compare)
 {	
-	return compare ? fabs(v1 - v2) < std::numeric_limits<float>::epsilon() : v1 > v2;
+	return compare ? voltNear(v1, v2) : v1 > v2;
 }
 
 void flop::process(int num_op, bool hiz, bool compare)

@@ -18,12 +18,16 @@ struct cclk : Module
 		COUNTER_DEC,
 		COUNTER_INC2,
 		COUNTER_DEC2,
+		COUNTR_IN_ATT,
+		RESET_IN_ATT,
 		NUM_PARAMS
 	};
 	enum InputIds
 	{
 		RESET,
 		IN_1,
+		COUNTR_IN,
+		RESET_IN,
 		NUM_INPUTS
 	};
 
@@ -50,7 +54,8 @@ struct cclk : Module
 		configParam(cclk::COUNTER_INC, 0.0, 1.0, 0.0);
 		configParam(cclk::COUNTER_DEC, 0.0, 1.0, 0.0);
 		configParam(cclk::COUNTER_INC2, 0.0, 1.0, 0.0);
-		configParam(cclk::COUNTER_DEC2, 0.0, 1.0, 0.0);
+		configParam(cclk::COUNTR_IN_ATT,CCLK_MINVALUE, CCLK_MAXVALUE, 0.0);
+		configParam(cclk::RESET_IN_ATT,CCLK_MINVALUE, CCLK_MAXVALUE, 0.0);
 
 		on_loaded();
 	}

@@ -27,14 +27,6 @@ struct MidiOutput : midi::Output
 		for (int note = 0; note < 128; note++) 
 		{
 			lastGates[note] = false;
-		}
-	}
-
-	void panic() 
-	{
-		reset();
-		for (int note = 0; note < 128; note++) 
-		{
 			// Note off
 			midi::Message m;
 			m.setStatus(0x8);

@@ -38,6 +38,7 @@ float getModulableParam(Module *pm, int paramId, int inputId, float minVal, floa
 bool isSwitchOn(Module *pm, int paramId);
 bool IsExpansion(Module *pm, float *dest, int expansionID, int inputID, int ledID);
 bool testaCroce();
+bool voltNear(float v1, float v2);
 
 struct TheXORBtn : SvgSwitch
 {
@@ -104,6 +105,22 @@ struct RIGHTSWITCH : SvgSwitch
 		fb->removeChild(shadow);
 	}
 };
+
+
+struct CKD6Bsmall : app::SvgSwitch
+{
+	CKD6Bsmall()
+	{
+		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/CKD6B_0small.svg")));
+		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/CKD6B_1small.svg")));
+		fb->removeChild(shadow);
+	}
+	void randomize() override
+	{
+		// do NOT randomaiz
+	}
+};
+
 struct _davies1900base : Davies1900hKnob
 {
 	_davies1900base(const char *res)

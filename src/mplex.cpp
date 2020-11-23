@@ -14,9 +14,12 @@ void Mplex::load()
 void Mplex::set_output(int n)
 {
 	cur_sel = n;
-	for(int k = 0; k < NUM_MPLEX_INPUTS; k++)
+	if(pWidget != NULL)
 	{
-		lights[LED_1 + k].value = k == cur_sel ? LVL_ON : LVL_OFF;
+		for(int k = 0; k < NUM_MPLEX_INPUTS; k++)
+		{
+			pWidget->SetValue( Mplex::DIRECT_1+k, k == cur_sel ? 1.0 : 0.0);
+		}
 	}
 }
 
@@ -68,12 +71,23 @@ void Mplex::process(const ProcessArgs &args)
 			if(--cur_sel < 0)
 				cur_sel = num_inputs - 1;
 			set_output(cur_sel);
+		} else
+		{
+			for(int k = 0; k < NUM_MPLEX_INPUTS; k++)
+			{
+				if(direct[k].process(params[DIRECT_1+k].value))
+				{
+					set_output(k);
+					break;
+				}
+			}
 		}
+		
 	}
 	outputs[OUT_1].setVoltage( inputs[IN_1 + cur_sel].getVoltage());
 }
 
-MplexWidget::MplexWidget(Mplex *module) : ModuleWidget()
+MplexWidget::MplexWidget(Mplex *module) : SequencerWidget()
 {
 	CREATE_PANEL(module, this, 10, "res/modules/mplex.svg");
 
@@ -94,20 +108,26 @@ MplexWidget::MplexWidget(Mplex *module) : ModuleWidget()
 	display->box.size = Vec(15, 22);
 	display->box.pos = Vec(mm2px(42.319), yncscape(4.539, px2mm(display->box.size.y)));
 	if(module != NULL)
+	{
 		display->value = &module->num_inputs_f;
+		module->setWidget(this);	
+	}
 	addChild(display);
 
 	float y = 105.068;
 	float x = 3.558;
-	float led_x = 13.843;
-	float y_offs = y - 108.108;
+	float y_offs = 107.196;
 	float delta_y = 92.529 - 105.068;
 	for(int k = 0; k < NUM_MPLEX_INPUTS; k++)
 	{
 		addInput(createInput<PJ301GRPort>(Vec(mm2px(x), yncscape(y, 8.255)), module, Mplex::IN_1 + k));
-		addChild(createLight<SmallLight<RedLight>>(Vec(mm2px(led_x), yncscape(y - y_offs, 2.176)), module, Mplex::LED_1 + k));
+		addParam(createParam<CKD6Bsmall>(Vec(mm2px(12.931), yncscape(y_offs, 4)), module, Mplex::DIRECT_1+k));
 		y += delta_y;
+		y_offs += delta_y;
 		if(k == 3)
+		{
 			y -= 2.117;
+			y_offs -= 2.117;
+		}
 	}
 }

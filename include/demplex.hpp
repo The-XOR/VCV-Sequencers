@@ -10,7 +10,7 @@ extern Plugin *pluginInstance;
 
 
 struct Dmplex;
-struct DmplexWidget : ModuleWidget
+struct DmplexWidget : SequencerWidget
 {
 	DmplexWidget(Dmplex * module);
 };
@@ -21,7 +21,8 @@ struct Dmplex : Module
 	{
 		BTUP, BTDN,
 		OUTPUT_INC, OUTPUT_DEC,
-		NUM_PARAMS
+		DIRECT_1,
+		NUM_PARAMS = 	DIRECT_1 + NUM_DEMULTIPLEX_OUTPUTS
 	};
 	enum InputIds
 	{
@@ -40,19 +41,21 @@ struct Dmplex : Module
 	};
 	enum LightIds
 	{
-		LED_1,
-		NUM_LIGHTS = LED_1 + NUM_DEMULTIPLEX_OUTPUTS
+		NUM_LIGHTS 
 	};
 
 	Dmplex() : Module()
 	{		
+		pWidget = NULL;
 		num_outputs_f = NUM_DEMULTIPLEX_OUTPUTS;
 		config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS);
 		configParam(Dmplex::BTUP, 0.0, 1.0, 0.0);
 		configParam(Dmplex::BTDN, 0.0, 1.0, 0.0);
+		configParam(Dmplex::DIRECT_1, 0.0, 1.0, 1.0);
 
 		load();
 	}
+	void setWidget(DmplexWidget *pwdg) { pWidget = pwdg; }
 
 	json_t *dataToJson() override
 	{
@@ -77,6 +80,7 @@ struct Dmplex : Module
 		set_output(getRand(roundf(num_outputs_f)));
 	}
 	float num_outputs_f;
+	DmplexWidget *pWidget;
 
 private:
 	void load();
@@ -86,6 +90,7 @@ private:
 	int getRand(int rndMax) { return int(random::uniform() * rndMax); }
 
 	int cur_sel;
+	dsp::SchmittTrigger direct[NUM_DEMULTIPLEX_OUTPUTS];
 	dsp::SchmittTrigger upTrigger;
 	dsp::SchmittTrigger dnTrigger;
 	dsp::SchmittTrigger reset;

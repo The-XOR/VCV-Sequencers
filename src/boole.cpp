@@ -35,7 +35,7 @@ float Boole::getVoltage(int index, bool hiz)
 
 bool Boole::logicLevel(float v1, float v2, bool compare)
 {	
-	return compare ? fabs(v1 - v2) < std::numeric_limits<float>::epsilon() : v1 > v2;
+	return compare ? voltNear(v1, v2) : v1 > v2;
 }
 
 bool Boole::process(int num_op, bool hiz, bool compare)

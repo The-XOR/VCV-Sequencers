@@ -5,6 +5,7 @@ uint8_t Klee::bitfield[8] = {0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80};
 void Klee::on_loaded()
 {
 	load();
+	cvs.Init(pWidget);
 }
 
 void Klee::randrandrand()
@@ -53,6 +54,13 @@ void Klee::process(const ProcessArgs &args)
 	{
 		if(pWidget != NULL)
 			randrandrand();
+	}
+
+	float rec_smp;
+	int rec_step;
+	if(cvs.IsRecAvailable(&rec_smp, &rec_step))
+	{
+		pWidget->SetValue(PITCH_KNOB + rec_step, rec_smp);
 	}
 
 	int clk = clockTrigger.process(inputs[EXT_CLOCK_INPUT].getVoltage() + params[STEP_PARAM].value); // 1=rise, -1=fall
@@ -299,7 +307,7 @@ KleeWidget::KleeWidget(Klee *module) : SequencerWidget()
 	addOutput(createOutput<PJ301GPort>(Vec(mm2px(226.854), yncscape(97.207, 8.255)), module, Klee::CV_AB));
 	addOutput(createOutput<PJ301GPort>(Vec(mm2px(240.347), yncscape(97.207, 8.255)), module, Klee::CV_B__A));
 
-	addOutput(createOutput<PJ301EXP>(Vec(mm2px(230.822), yncscape(25.109, 8.255)), module, Klee::EXPANDER_OUT));
+	addOutput(createOutput<PJ301EXP>(Vec(mm2px(213.360), yncscape(25.109, 8.255)), module, Klee::EXPANDER_OUT));
 
 	// mode
 	pwdg = createParam<LevettaB>(Vec(mm2px(68.915), yncscape(60.582 + nkk_offs, 7.336)), module, Klee::X28_X16);
@@ -319,7 +327,7 @@ KleeWidget::KleeWidget(Klee *module) : SequencerWidget()
 	addInput(createInput<PJ301BPort>(Vec(mm2px(230.822), yncscape(9.863, 8.255)), module, Klee::RND_THRES_IN));
 
 	if(module != NULL)
-		module->cvs.Create(this, 241.724f, 41.284f, Klee::NUM_INPUTS - cvMiniStrip::CVMINISTRIP_INPUTS, Klee::NUM_PARAMS - cvMiniStrip::CVMINISTRIP_PARAMS);
+		module->cvs.Create(this, 241.724f, 18.530f, Klee::NUM_INPUTS - cvStrip::CVSTRIP_INPUTS, Klee::NUM_PARAMS - cvStrip::CVSTRIP_PARAMS, 16);
 
 	// pitch Knobs + leds
 	float pot_x[8] = {39.440, 45.104, 60.976, 83.912, 109.368, 132.304, 148.175, 153.840};
