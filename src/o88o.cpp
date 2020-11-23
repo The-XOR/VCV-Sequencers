@@ -2,7 +2,6 @@
 #include "../include/o88oDisplay.hpp"
 #include "../include/o88oData.hpp"
 
-
 void o88o::process_keys()
 {
 	if(pWidget != NULL)

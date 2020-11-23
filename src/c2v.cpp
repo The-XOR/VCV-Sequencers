@@ -7,7 +7,7 @@ void c2v::process(const ProcessArgs &args)
 		v = 0;
 	for (int k = 0; k < C2VCNV; k++)
 	{
-		if(inputs[IN_1 + k].getNormalVoltage(0.f) > 0)
+		if (isLevelOn(this, IN_1 + k))
 		{
 			if(!active)
 			{

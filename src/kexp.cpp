@@ -55,8 +55,8 @@ void kExp::process(const ProcessArgs &args)
 
 	for(int k = 0; k < 4; k++)
 	{
-		bool a = inputs[ANDIN_1 + k].getNormalVoltage(0.0) > 0.5;
-		bool b = inputs[ANDIN_2 + k].getNormalVoltage(0.0) > 0.5;
+		bool a = isLevelOn(this, ANDIN_1 + k);
+		bool b = isLevelOn(this, ANDIN_2 + k);
 		outputs[ANDOUT + k].setVoltage(a && b ? LVL_ON : LVL_OFF);
 		outputs[OROUT + k].setVoltage(a || b ? LVL_ON : LVL_OFF);
 	}

@@ -327,7 +327,7 @@ KleeWidget::KleeWidget(Klee *module) : SequencerWidget()
 	addInput(createInput<PJ301BPort>(Vec(mm2px(230.822), yncscape(9.863, 8.255)), module, Klee::RND_THRES_IN));
 
 	if(module != NULL)
-		module->cvs.Create(this, 241.724f, 18.530f, Klee::NUM_INPUTS - cvStrip::CVSTRIP_INPUTS, Klee::NUM_PARAMS - cvStrip::CVSTRIP_PARAMS, 16);
+		module->cvs.Create(this, 241.724f, 0.538f, Klee::NUM_INPUTS - cvStrip::CVSTRIP_INPUTS, Klee::NUM_PARAMS - cvStrip::CVSTRIP_PARAMS, 16);
 
 	// pitch Knobs + leds
 	float pot_x[8] = {39.440, 45.104, 60.976, 83.912, 109.368, 132.304, 148.175, 153.840};

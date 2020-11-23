@@ -27,9 +27,14 @@ bool isSwitchOn(Module *pm, int paramId)
 	return (pm->params[paramId].getValue() > SWITCH_ON);
 }
 
+bool isLevelOn(Module *pm, int inputId)
+{
+	return (pm->inputs[inputId].getNormalVoltage(0.f) > SWITCH_ON);
+}
+
 bool getModulableSwitch(Module *pm, int paramId, int inputId)
-{ 
-	return (pm->inputs[inputId].getNormalVoltage(0.0) > SWITCH_ON) || isSwitchOn(pm, paramId); 
+{
+	return (isLevelOn(pm, inputId) || isSwitchOn(pm, paramId));
 }
 
 float getModulableParam(Module *pm, int paramId, int inputId, float minValue, float maxValue)

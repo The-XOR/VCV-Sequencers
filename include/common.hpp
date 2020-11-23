@@ -36,6 +36,7 @@ inline float NearestSemitone(float v) {return round(v / SEMITONE) * SEMITONE;}
 bool getModulableSwitch(Module *pm, int paramId, int inputId);
 float getModulableParam(Module *pm, int paramId, int inputId, float minVal, float maxVal);
 bool isSwitchOn(Module *pm, int paramId);
+bool isLevelOn(Module *pm, int inputId);
 bool IsExpansion(Module *pm, float *dest, int expansionID, int inputID, int ledID);
 bool testaCroce();
 bool voltNear(float v1, float v2);

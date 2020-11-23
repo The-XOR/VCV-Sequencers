@@ -109,7 +109,6 @@ nagWidget::nagWidget(nag *module) : SequencerWidget()
 		
 		addInput(createInput<PJ301BLUPort>(Vec(mm2px(72.710), yncscape(107.928 - delta_y, 8.255)), module, nag::ENAB_IN1 + index));
 
-
 		pwdg = createParam<Davies1900hFixRedKnobSmall>(Vec(mm2px(107.941), yncscape(108.056 - delta_y, 8.0)), module, nag::VERTEX_1 + index);
 		((Davies1900hFixRedKnobSmall *)pwdg)->snap = true;
 		addParam(pwdg);

@@ -5,8 +5,8 @@ void c3v::process(const ProcessArgs &args)
 	float v = 0;
 	for (int k = 0; k < C3VCNV; k++)
 	{
-		if(inputs[IN_1 + k].getNormalVoltage(0.f) > 0)
-			v += params[CV_1+k].value;
+		if (isLevelOn(this, IN_1 + k))
+			v += params[CV_1 + k].value;
 	}
 
 	outputs[OUT_1].setVoltage(v);

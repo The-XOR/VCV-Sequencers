@@ -172,11 +172,11 @@ private:
 	void load();
 	void led(int n);
 	void setOut(int n, bool on);
-	int xy(int x, int y) { return 4 * y + x; }
-	inline bool getLogic(int inputID, bool cond) {return inputs[inputID].getNormalVoltage(0.0) > 0 ? !cond : cond;}
-	inline bool _access(int n) {return getLogic(NOT_ACC, getModulableSwitch(this, ACCESS_1 + n, ACCESS_IN1 + n) > 0); }
-	inline bool _gateX(int n) {return getLogic(NOT_X, getModulableSwitch(this, GATEX_1 + n, GATEX_IN1 + n) > 0); }
-	inline bool _gateY(int n) {return getLogic(NOT_Y, getModulableSwitch(this, GATEY_1 + n, GATEY_IN1 + n) > 0); }
+	int xy(int x, int y) { return 4 * y + x; } 
+	inline bool getLogic(int inputID, bool cond) {return isLevelOn(this, inputID) ? !cond : cond;}
+	inline bool _access(int n) {return getLogic(NOT_ACC, getModulableSwitch(this, ACCESS_1 + n, ACCESS_IN1 + n)); }
+	inline bool _gateX(int n) {return getLogic(NOT_X, getModulableSwitch(this, GATEX_1 + n, GATEX_IN1 + n)); }
+	inline bool _gateY(int n) {return getLogic(NOT_Y, getModulableSwitch(this, GATEY_1 + n, GATEY_IN1 + n)); }
 	rntSequencer seqX;
 	rntSequencer seqY;
 };
