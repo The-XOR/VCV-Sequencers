@@ -89,6 +89,7 @@ struct Klee : Module
 		CV_B,
 		CV_AB,
 		CV_A__B,
+		CV_B__A,
 		GATE_OUT,
 		TRIG_OUT = GATE_OUT + 3,
 		EXPANDER_OUT = TRIG_OUT + 3,

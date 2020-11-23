@@ -175,7 +175,8 @@ void Klee::populate_outputs()
 	outputs[CV_A].setVoltage( clamp(a, LVL_MIN, LVL_MAX));
 	outputs[CV_B].setVoltage( clamp(b, LVL_MIN, LVL_MAX));
 	outputs[CV_AB].setVoltage( clamp(a + b, LVL_MIN, LVL_MAX));
-	outputs[CV_A__B].setVoltage( clamp(a - b, LVL_MIN, LVL_MAX));
+	outputs[CV_A__B].setVoltage(clamp(a - b, LVL_MIN, LVL_MAX));
+	outputs[CV_B__A].setVoltage(clamp(b - a, LVL_MIN, LVL_MAX));
 }
 
 void Klee::showValues()
@@ -292,10 +293,11 @@ KleeWidget::KleeWidget(Klee *module) : SequencerWidget()
 	addInput(createInput<PJ301RPort>(Vec(mm2px(9.218), yncscape(25.109, 8.255)), module, Klee::EXT_CLOCK_INPUT));
 
 	// CV Out
-	addOutput(createOutput<PJ301GPort>(Vec(mm2px(213.360), yncscape(113.612, 8.255)), module, Klee::CV_A));
-	addOutput(createOutput<PJ301GPort>(Vec(mm2px(230.822), yncscape(113.612, 8.255)), module, Klee::CV_B));
+	addOutput(createOutput<PJ301GPort>(Vec(mm2px(220.107), yncscape(113.612, 8.255)), module, Klee::CV_A));
+	addOutput(createOutput<PJ301GPort>(Vec(mm2px(233.600), yncscape(113.612, 8.255)), module, Klee::CV_B));
 	addOutput(createOutput<PJ301GPort>(Vec(mm2px(213.360), yncscape(97.207, 8.255)), module, Klee::CV_A__B));
-	addOutput(createOutput<PJ301GPort>(Vec(mm2px(230.822), yncscape(97.207, 8.255)), module, Klee::CV_AB));
+	addOutput(createOutput<PJ301GPort>(Vec(mm2px(226.854), yncscape(97.207, 8.255)), module, Klee::CV_AB));
+	addOutput(createOutput<PJ301GPort>(Vec(mm2px(240.347), yncscape(97.207, 8.255)), module, Klee::CV_B__A));
 
 	addOutput(createOutput<PJ301EXP>(Vec(mm2px(230.822), yncscape(25.109, 8.255)), module, Klee::EXPANDER_OUT));
 
