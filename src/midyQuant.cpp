@@ -8,21 +8,13 @@ void midyQuant::process(const ProcessArgs &args)
 		midiOutput.reset();
 	} else 
 	{
-		int clk = gate.process(inputs[GATE].getVoltage()); // 1=rise, -1=fall
-		if(clk != 0)
+		for (int c = 0; c < inputs[CV].getChannels(); c++)
 		{
-			int vel = (int)rescale(inputs[VEL].getNormalVoltage(0.5), 0.0, 1.0, 0, 127);
-			if(note_playing >= 0 && clk == -1)
-			{
-				midiOutput.sendNote(false, note_playing, vel);
-				note_playing = -1;
-			} else if(clk == 1)
-			{
-				float v = inputs[CV].getNormalVoltage(0.0);
-				float semitone = NearestSemitone(v);
-				note_playing = clamp(std::round(semitone * 12.0 + 60.0), 0, 127);
-				midiOutput.sendNote(true, note_playing, vel);
-			}
+
+			bool gate = inputs[GATE].getPolyVoltage(c) >= 1.f; // 1=rise, -1=fall
+			int vel = clamp((int)std::round(inputs[VEL].getNormalPolyVoltage(10.f * 100 / 127, c) / 10.f * 127), 0, 127);
+			int note = clamp((int) std::round(NearestSemitone(inputs[CV].getVoltage(c)) * 12.f + 60.f), 0, 127);
+			midiOutput.playNote(gate, note, vel);
 		}
 	}
 }

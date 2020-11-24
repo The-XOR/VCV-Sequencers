@@ -15,7 +15,7 @@ static std::vector<const char *> QuantizerRootNotes = {"C", "C#", "D", "D#", "E"
 
 struct MidiOutput : midi::Output 
 {
-	bool lastGates[128];
+	bool playingNotes[128];
 
 	MidiOutput() 
 	{
@@ -24,9 +24,9 @@ struct MidiOutput : midi::Output
 
 	void reset() 
 	{
-		for (int note = 0; note < 128; note++) 
+		for(int note = 0; note < 128; note++) 
 		{
-			lastGates[note] = false;
+			playingNotes[note] = false;
 			// Note off
 			midi::Message m;
 			m.setStatus(0x8);
@@ -36,26 +36,17 @@ struct MidiOutput : midi::Output
 		}
 	}
 
-	void sendNote(bool gate, int note, int vel) 
+	void playNote(bool gate, int note, int vel) 
 	{
-		if (gate && !lastGates[note]) 
+		if(gate != playingNotes[note]) 
 		{
-			// Note on
 			midi::Message m;
-			m.setStatus(0x9);
+			m.setStatus(gate ? 0x9 : 0x08);
 			m.setNote(note);
 			m.setValue(vel);
-			sendMessage(m);
-		} else if (!gate && lastGates[note]) 
-		{
-			// Note off
-			midi::Message m;
-			m.setStatus(0x8);
-			m.setNote(note);
-			m.setValue(vel);
-			sendMessage(m);
+			sendMessage(m);		
+			playingNotes[note] = gate;
 		}
-		lastGates[note] = gate;
 	}
 };
 
@@ -329,7 +320,6 @@ struct midyQuant : Module, quantizeModule
 	midyQuant() : Module(), quantizeModule()
 	{		
 		pWidget = NULL;
-		note_playing = -1;
 		config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS);
 	}
 
@@ -354,7 +344,6 @@ struct midyQuant : Module, quantizeModule
 
 	void onReset() override 
 	{
-		note_playing = -1;
 		midiOutput.reset();
 	}
 
@@ -365,7 +354,5 @@ private:
 	void on_loaded();
 	void load() {}
 	midyQuantWidget *pWidget;
-	SchmittTrigger2 gate;
 	dsp::SchmittTrigger resetTrigger;
-	int note_playing;
 };
