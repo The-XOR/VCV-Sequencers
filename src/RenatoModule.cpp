@@ -158,7 +158,7 @@ RenatoWidget::RenatoWidget(Renato *module) : SequencerWidget()
 	if(module != NULL)
 		module->setWidget(this);
 
-	CREATE_PANEL(module, this, 41, "res/modules/RenatoModule.svg");
+	CREATE_PANEL(module, this, 43, "res/modules/RenatoModule.svg");
 
 	addInput(createInput<PJ301RPort>(Vec(mm2px(33.509), yncscape(115.267, 8.255)), module, Renato::XCLK));
 	addInput(createInput<PJ301RPort>(Vec(mm2px(49.222), yncscape(115.267, 8.255)), module, Renato::YCLK));
@@ -174,7 +174,7 @@ RenatoWidget::RenatoWidget(Renato *module) : SequencerWidget()
 	addChild(createParam<BefacoPushBig>(Vec(mm2px(108.494), yncscape(114.895, 8.999)), module, Renato::M_RESET));
 
 	if(module != NULL)
-		module->cvs.Create(this, 196.797f, 6.159f, Renato::NUM_INPUTS - cvStrip::CVSTRIP_INPUTS, Renato::NUM_PARAMS - cvStrip::CVSTRIP_PARAMS, 16);
+		module->cvs.Create(this, 207.592f, 3.048f, Renato::NUM_INPUTS - cvStrip::CVSTRIP_INPUTS, Renato::NUM_PARAMS - cvStrip::CVSTRIP_PARAMS, 16);
 
 	// page 0 (SESSION)
 	ParamWidget *pwdg = createParam<Levetta3PosR>(Vec(mm2px(60.319), yncscape(115.727 + 1, 8.467)), module, Renato::COUNTMODE_X);

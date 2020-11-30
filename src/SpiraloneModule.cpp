@@ -202,7 +202,7 @@ SpiraloneWidget::SpiraloneWidget(Spiralone *module) : SequencerWidget()
 	addInput(createInput<PJ301HPort>(Vec(mm2px(62.766), yncscape(59.593, 8.255)), module, Spiralone::RANDOMIZONE));
 
 	if(module != NULL)
-		module->cvs.Create(this, 258.022f, 18.530f, Spiralone::NUM_INPUTS - cvStrip::CVSTRIP_INPUTS, Spiralone::NUM_PARAMS - cvStrip::CVSTRIP_PARAMS, TOTAL_STEPS);
+		module->cvs.Create(this, 258.022f, 3.048f, Spiralone::NUM_INPUTS - cvStrip::CVSTRIP_INPUTS, Spiralone::NUM_PARAMS - cvStrip::CVSTRIP_PARAMS, TOTAL_STEPS);
 
 }
 

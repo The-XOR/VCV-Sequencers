@@ -66,6 +66,6 @@ z8expVWidget::z8expVWidget(z8expV *module)
 	}
 
 	if(module != NULL)
-		module->cvs.Create(this, 90.089f, 18.530f, z8expV::NUM_INPUTS - cvStrip::CVSTRIP_INPUTS, z8expV::NUM_PARAMS - cvStrip::CVSTRIP_PARAMS, 16);
+		module->cvs.Create(this, 90.089f, 3.048f, z8expV::NUM_INPUTS - cvStrip::CVSTRIP_INPUTS, z8expV::NUM_PARAMS - cvStrip::CVSTRIP_PARAMS, 16);
 }
 

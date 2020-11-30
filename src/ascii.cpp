@@ -93,6 +93,5 @@ asciiWidget::asciiWidget(ascii *module)
 	addOutput(createOutput<PJ301GPort>(Vec(mm2px(76.379), yncscape(4.233, 8.255)), module, ascii::OUT));
 	addChild(createParam<BefacoPushBig>(Vec(mm2px(29.555), yncscape(3.861, 9.001)), module, ascii::M_RESET));
 	if(module != NULL)
-		module->cvs.Create(this, 80.179f, 41.284f, ascii::NUM_INPUTS - cvMiniStrip::CVMINISTRIP_INPUTS, ascii::NUM_PARAMS - cvMiniStrip::CVMINISTRIP_PARAMS);
-
+		module->cvs.Create(this, 80.179f, 26.440f, ascii::NUM_INPUTS - cvMiniStrip::CVMINISTRIP_INPUTS, ascii::NUM_PARAMS - cvMiniStrip::CVMINISTRIP_PARAMS);
 }

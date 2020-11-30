@@ -445,7 +445,7 @@ NordschleifeWidget::NordschleifeWidget(Nordschleife *module)
 	{
 		module->setWidget(this);
 		addChild(module->createDisplay(Vec(mm2px(243.430), yncscape(6.954f, 105.408f))));
-		module->cvs.Create(this, 289.747f, 18.542f, Nordschleife::NUM_INPUTS - cvStrip::CVSTRIP_INPUTS, Nordschleife::NUM_PARAMS - cvStrip::CVSTRIP_PARAMS, NORDSTEPS);
+		module->cvs.Create(this, 292.572f, 3.048f, Nordschleife::NUM_INPUTS - cvStrip::CVSTRIP_INPUTS, Nordschleife::NUM_PARAMS - cvStrip::CVSTRIP_PARAMS, NORDSTEPS);
 	}
 	addInput(createInput<PJ301HPort>(Vec(mm2px(187.153), yncscape(112.077f, 8.255f)), module, Nordschleife::RANDOMIZONE));
 	addParam(createParam<BefacoPushBig>(Vec(mm2px(202.852f), yncscape(111.705f, 8.999)), module, Nordschleife::M_RESET));

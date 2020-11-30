@@ -112,7 +112,7 @@ quattroWidget::quattroWidget(quattro *module) : SequencerWidget()
 
 	addInput(createInput<PJ301HPort>(Vec(mm2px(231.288f), yncscape(11.951f, 8.255)), module, quattro::RANDOMIZONE));
 	if(module != NULL)
-		module->cvs.Create(this, 251.717f, 18.530f, quattro::NUM_INPUTS-cvStrip::CVSTRIP_INPUTS, quattro::NUM_PARAMS - cvStrip::CVSTRIP_PARAMS, QUATTRO_NUM_STEPS);
+		module->cvs.Create(this, 251.717f, 3.048f, quattro::NUM_INPUTS-cvStrip::CVSTRIP_INPUTS, quattro::NUM_PARAMS - cvStrip::CVSTRIP_PARAMS, QUATTRO_NUM_STEPS);
 
 	ParamWidget *pwdg = createParam<BefacoPushBig>(Vec(mm2px(24.889f), yncscape(112.537f, 8.999)), module, quattro::M_RESET);
 	addParam(pwdg);

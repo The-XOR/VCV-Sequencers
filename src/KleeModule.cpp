@@ -303,9 +303,9 @@ KleeWidget::KleeWidget(Klee *module) : SequencerWidget()
 	// CV Out
 	addOutput(createOutput<PJ301GPort>(Vec(mm2px(220.107), yncscape(113.612, 8.255)), module, Klee::CV_A));
 	addOutput(createOutput<PJ301GPort>(Vec(mm2px(233.600), yncscape(113.612, 8.255)), module, Klee::CV_B));
-	addOutput(createOutput<PJ301GPort>(Vec(mm2px(213.360), yncscape(97.207, 8.255)), module, Klee::CV_A__B));
-	addOutput(createOutput<PJ301GPort>(Vec(mm2px(226.854), yncscape(97.207, 8.255)), module, Klee::CV_AB));
-	addOutput(createOutput<PJ301GPort>(Vec(mm2px(240.347), yncscape(97.207, 8.255)), module, Klee::CV_B__A));
+	addOutput(createOutput<PJ301GPort>(Vec(mm2px(206.481), yncscape(97.207, 8.255)), module, Klee::CV_A__B));
+	addOutput(createOutput<PJ301GPort>(Vec(mm2px(220.107), yncscape(97.207, 8.255)), module, Klee::CV_AB));
+	addOutput(createOutput<PJ301GPort>(Vec(mm2px(233.6), yncscape(97.207, 8.255)), module, Klee::CV_B__A));
 
 	addOutput(createOutput<PJ301EXP>(Vec(mm2px(213.360), yncscape(25.109, 8.255)), module, Klee::EXPANDER_OUT));
 
@@ -327,7 +327,7 @@ KleeWidget::KleeWidget(Klee *module) : SequencerWidget()
 	addInput(createInput<PJ301BPort>(Vec(mm2px(230.822), yncscape(9.863, 8.255)), module, Klee::RND_THRES_IN));
 
 	if(module != NULL)
-		module->cvs.Create(this, 241.724f, 0.538f, Klee::NUM_INPUTS - cvStrip::CVSTRIP_INPUTS, Klee::NUM_PARAMS - cvStrip::CVSTRIP_PARAMS, 16);
+		module->cvs.Create(this, 243.592f, 3.048f, Klee::NUM_INPUTS - cvStrip::CVSTRIP_INPUTS, Klee::NUM_PARAMS - cvStrip::CVSTRIP_PARAMS, 16);
 
 	// pitch Knobs + leds
 	float pot_x[8] = {39.440, 45.104, 60.976, 83.912, 109.368, 132.304, 148.175, 153.840};

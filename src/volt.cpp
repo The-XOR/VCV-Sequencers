@@ -58,6 +58,12 @@ public:
 void volt::process(const ProcessArgs &args)
 {
 	process_keys();
+	if (outputs[OUT_1].isConnected())
+	{
+		float v = inputs[IN_1].getNormalVoltage(0.0);
+		float approx = 1.0f / (12.0f * divider);
+		outputs[OUT_1].setVoltage(round(v / approx) * approx);
+	}
 }
 
 void volt::process_keys()
@@ -70,12 +76,6 @@ void volt::process_keys()
 	{
 		if(divider > DIVIDER_MIN)
 			divider--;
-	}
-	if(outputs[OUT_1].isConnected())
-	{
-		float v = inputs[IN_1].getNormalVoltage(0.0);
-		float approx = 1.0f / (12.0f * divider);
-		outputs[OUT_1].setVoltage( round(v / approx) * approx);
 	}
 }
 

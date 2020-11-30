@@ -359,7 +359,7 @@ Z8KWidget::Z8KWidget(Z8K *module) : SequencerWidget()
 	addChild(createParam<BefacoPushBig>(Vec(mm2px(5.366), yncscape(115.070, 9.001)), module, Z8K::M_RESET));
 
 	if(module != NULL)
-		module->cvs.Create(this, 191.814, 14.045f, Z8K::NUM_INPUTS - cvStrip::CVSTRIP_INPUTS, Z8K::NUM_PARAMS - cvStrip::CVSTRIP_PARAMS, 16);
+		module->cvs.Create(this, 191.814, 3.048f, Z8K::NUM_INPUTS - cvStrip::CVSTRIP_INPUTS, Z8K::NUM_PARAMS - cvStrip::CVSTRIP_PARAMS, 16);
 }
 
 int z8kSequencer::Step(Z8K *pModule)

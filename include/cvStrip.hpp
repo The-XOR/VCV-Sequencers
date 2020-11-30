@@ -4,24 +4,29 @@
 #define RANGE_TO		(portID+1)
 #define CV_IN			(portID+2)
 #define GATE_IN			(portID+3)
-#define PARAM_FROM		(paramID)
+#define PARAM_FROM		(paramID+0)
 #define PARAM_TO  		(paramID+1)
-#define PARAM_REC 		(paramID+2)
-#define PARAM_MANU		(paramID+3)
-#define PARAM_NEXT		(paramID+4)
-#define PARAM_PREV      (paramID+5)
+#define PARAM_QTZ 		(paramID + 2)
+#define PARAM_NOTE 		(paramID + 3)
+#define __LAST_NOTE 	(PARAM_NOTE + 12)
+#define PARAM_REC 		(__LAST_NOTE)
+#define PARAM_MANU 		(__LAST_NOTE+1)
+#define PARAM_NEXT 		(__LAST_NOTE+2)
+#define PARAM_PREV 		(__LAST_NOTE+3)
 
 // 10.160 x 33.728 mm
 
 struct cvMicroStrip
 {
-public:
+	protected:
+		static constexpr float CVMICROSTRIP_HEIGHT = 65.853f;
+	
+	public: 
 	static const int CVMICROSTRIP_INPUTS = 2;
-	static const int CVMICROSTRIP_PARAMS = 2;
+	static const int CVMICROSTRIP_PARAMS = 15;
 
 	cvMicroStrip()
 	{
-
 	}
 
 	void Create(ModuleWidget *pWidget, float x, float y, int port, int param)
@@ -29,12 +34,12 @@ public:
 		portID = port;
 		paramID = param;
 
-		SvgWidget *pw = createWidget<SvgWidget>(Vec(mm2px(x), yncscape(y, 33.728f)));
+		SvgWidget *pw = createWidget<SvgWidget>(Vec(mm2px(x), yncscape(y, CVMICROSTRIP_HEIGHT)));
 		pw->setSvg(APP->window->loadSvg(asset::plugin(pluginInstance, "res/cvMicroStrip.svg")));
 		pw->wrap();
 		pWidget->addChild(pw);
 
-		addMicroStrip(pWidget, x, y, -57.712f);
+		addMicroStrip(pWidget, x, y, 0);
 	}
 
 	void configure(Module *pModule, int param)
@@ -43,13 +48,19 @@ public:
 		paramID = param;
 		module->configParam(PARAM_FROM, LVL_MIN, LVL_MAX, -3.f, "Output Range: Min Voltage", "V");
 		module->configParam(PARAM_TO, LVL_MIN, LVL_MAX, 3.f, "Output Range: Max Voltage", "V");
+		module->configParam(PARAM_QTZ, 0.f, 1.f, 0.f, "Quantize output", "Off/On");
+		for (int k = 0; k < 12; k++)
+		{
+			const char *Notes[12] = {"C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"};
+			module->configParam(PARAM_NOTE + k, 0.f, 1.f, 1.f, Notes[k], "Off/On");
+		}
 	}
 
 	float Value(float v) const //v normalizzato 0-1
 	{
 		float vmin = getModulableParam(module, PARAM_FROM, RANGE_FROM, LVL_MIN, LVL_MAX);
 		float vmax = getModulableParam(module, PARAM_TO, RANGE_TO, LVL_MIN, LVL_MAX);
-		return clamp(rescale(v, 0.0, 1.0, std::min(vmin, vmax), std::max(vmin, vmax)), LVL_MIN, LVL_MAX);
+		return quantize(clamp(rescale(v, 0.0, 1.0, std::min(vmin, vmax), std::max(vmin, vmax)), LVL_MIN, LVL_MAX));
 	}
 
 	float Reverse(float v) const
@@ -59,17 +70,46 @@ public:
 		return clamp(rescale(v, std::min(vmin, vmax), std::max(vmin, vmax), 0.0, 1.0), 0.0, 1.0);
 	}
 
+private:
+	float quantize(float v) const
+	{
+		if(isSwitchOn(module, PARAM_QTZ))
+		{
+			//todo
+		}
+
+		return v;
+	}
+
+	struct smallKey : SvgSwitch
+	{
+		smallKey()
+		{
+			momentary = false;
+			addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/smallKey_0.svg")));
+			addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/smallKey_1.svg")));
+			fb->removeChild(shadow);
+		}
+	};
+
 protected:
 	void addMicroStrip(ModuleWidget *pWidget, float x, float y, float corr)
 	{
-		pWidget->addInput(createInput<portSmall>(Vec(pos_x(x, 1.072f), pos_y(y, corr + 74.942f, 5.885f)), pWidget->module, RANGE_FROM));
-		pWidget->addInput(createInput<portSmall>(Vec(pos_x(x, 1.072f), pos_y(y, corr + 58.942f, 5.885f)), pWidget->module, RANGE_TO));
-
-		ParamWidget *pwdg = createParam<daviesVerySmallBlack>(Vec(pos_x(x, 1.015f), pos_y(y, corr + 81.885f, 6.f)), pWidget->module, PARAM_FROM);
-		pWidget->addParam(pwdg);
-
-		pwdg = createParam<daviesVerySmallBlack>(Vec(pos_x(x, 1.015f), pos_y(y, corr + 65.886f, 6.f)), pWidget->module, PARAM_TO);
-		pWidget->addParam(pwdg);
+		pWidget->addInput(createInput<portSmall>(Vec(pos_x(x, 1.072f), pos_y(y, corr + 49.355f, 5.885f)), pWidget->module, RANGE_FROM));
+		pWidget->addInput(createInput<portSmall>(Vec(pos_x(x, 1.072f), pos_y(y, corr + 33.356f, 5.885f)), pWidget->module, RANGE_TO));
+		pWidget->addParam(createParam<daviesVerySmallBlack>(Vec(pos_x(x, 1.015f), pos_y(y, corr + 56.298f, 6.f)), pWidget->module, PARAM_FROM));
+		pWidget->addParam(createParam<daviesVerySmallBlack>(Vec(pos_x(x, 1.015f), pos_y(y, corr + 40.299f, 6.f)), pWidget->module, PARAM_TO));
+		pWidget->addParam(createParam<TL1105HSw>(Vec(pos_x(x, 1.755f), pos_y(y, corr + 24.217f, 4.477f)), pWidget->module, PARAM_QTZ));
+		for(int k = 0;k<12;k++)		
+		{
+			float xk;
+			if(k == 1 || k ==3 || k==6 || k==8 ||k==10)
+				xk = 1.054f;
+			else
+				xk = 5.563f;
+			float yk[12] = {1.757, 3.344, 4.932, 6.519, 8.107, 11.282, 12.869, 14.457, 16.044, 17.632, 19.219, 20.807};
+			pWidget->addParam(createParam<smallKey>(Vec(pos_x(x, xk), pos_y(y, corr + yk[k], 2.2f)), pWidget->module, PARAM_NOTE + k));
+		}
 	}
 
 	float pos_x(float x, float offs)
@@ -91,7 +131,10 @@ protected:
 // 10.160 x 45.932 mm
 struct cvMiniStrip : cvMicroStrip
 {
-	public:
+protected:
+	static constexpr float CVMINISTRIP_HEIGHT = 76.226f;
+
+public:
 	static const int CVMINISTRIP_INPUTS = CVMICROSTRIP_INPUTS+1;
 	static const int CVMINISTRIP_PARAMS = CVMICROSTRIP_PARAMS;
 
@@ -105,19 +148,19 @@ struct cvMiniStrip : cvMicroStrip
 		portID = port;
 		paramID = param;
 
-		SvgWidget *pw = createWidget<SvgWidget>(Vec(mm2px(x), yncscape(y, 45.932f)));
+		SvgWidget *pw = createWidget<SvgWidget>(Vec(mm2px(x), yncscape(y, CVMINISTRIP_HEIGHT)));
 		pw->setSvg(APP->window->loadSvg(asset::plugin(pluginInstance, "res/cvMiniStrip.svg")));
 		pw->wrap();
 		pWidget->addChild(pw);
 
-		addMiniStrip(pWidget, x, y, -45.508f);
+		addMiniStrip(pWidget, x, y, 0);
 	}
 
 	protected:
 	void addMiniStrip(ModuleWidget *pWidget, float x, float y, float corr)
 	{
-		pWidget->addInput(createInput<portSmall>(Vec(pos_x(x, 1.072f), pos_y(y, corr + 48.441f, 5.885f)), pWidget->module, CV_IN));
-		addMicroStrip(pWidget, x, y, corr);
+		pWidget->addInput(createInput<portSmall>(Vec(pos_x(x, 1.072f), pos_y(y, corr + 2.536f, 5.885f)), pWidget->module, CV_IN));
+		addMicroStrip(pWidget, x, y, corr + CVMINISTRIP_HEIGHT-CVMICROSTRIP_HEIGHT);
 	}
 
 	public:		
@@ -137,7 +180,10 @@ struct cvMiniStrip : cvMicroStrip
 // W=0.4 H=3.6 in = 10.160 x 91.440 mm
 struct cvStrip : cvMiniStrip
 {
-	private:
+protected:
+	static constexpr float CVSTRIP_HEIGHT = 122.403f;
+
+private:
 	const float NO_SAMPLE = -1000.f;
 	struct cv7segm : TransparentWidget
 	{
@@ -216,12 +262,12 @@ struct cvStrip : cvMiniStrip
 		paramID = param;
 		maxStep = max_steps;
 
-		SvgWidget *pw = createWidget<SvgWidget>(Vec(mm2px(x), yncscape(y, 91.440f)));
+		SvgWidget *pw = createWidget<SvgWidget>(Vec(mm2px(x), yncscape(y, CVSTRIP_HEIGHT)));
 		pw->setSvg(APP->window->loadSvg(asset::plugin(pluginInstance, "res/cvStrip.svg")));
 		pw->wrap();
 		pWidget->addChild(pw);
 
-		addMiniStrip(pWidget, x, y, 0.f);
+		addMiniStrip(pWidget, x, y, CVSTRIP_HEIGHT - CVMINISTRIP_HEIGHT);
 		pWidget->addInput(createInput<portSmall>(Vec(pos_x(x, 1.072f), pos_y(y, 1.358f, 5.885f)), pWidget->module, GATE_IN));
 
 		ParamWidget *pwdg = createParam<TL1105HSwRed>(Vec(pos_x(x, 1.130f), pos_y(y, 37.650f, 4.477f)), pWidget->module, PARAM_REC);

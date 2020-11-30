@@ -68,6 +68,6 @@ m581expVWidget::m581expVWidget(m581expV *module)
 	}
 
 	if(module != NULL)
-		module->cvs.Create(this, 94.086f, 18.530f, m581expV::NUM_INPUTS - cvStrip::CVSTRIP_INPUTS, m581expV::NUM_PARAMS - cvStrip::CVSTRIP_PARAMS, 64);
+		module->cvs.Create(this, 94.086f, 3.048f, m581expV::NUM_INPUTS - cvStrip::CVSTRIP_INPUTS, m581expV::NUM_PARAMS - cvStrip::CVSTRIP_PARAMS, 64);
 }
 

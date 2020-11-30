@@ -174,7 +174,7 @@ M581Widget::M581Widget(M581 *module) : SequencerWidget()
 	if(module != NULL)
 		module->setWidget(this);
 
-	CREATE_PANEL(module, this, 31, "res/modules/M581Module.svg");
+	CREATE_PANEL(module, this, 33, "res/modules/M581Module.svg");
 
 	float dist_h = 11.893;
 	for(int k = 0; k < 8; k++)
@@ -250,7 +250,7 @@ M581Widget::M581Widget(M581 *module) : SequencerWidget()
 	addParam(pwdg);
 
 	if(module != NULL)
-		module->cvs.Create(this, 146.802f, 18.530f, M581::NUM_INPUTS - cvStrip::CVSTRIP_INPUTS, M581::NUM_PARAMS - cvStrip::CVSTRIP_PARAMS, 8);
+		module->cvs.Create(this, 156.951f, 3.048f, M581::NUM_INPUTS - cvStrip::CVSTRIP_INPUTS, M581::NUM_PARAMS - cvStrip::CVSTRIP_PARAMS, 8);
 
 }
 
