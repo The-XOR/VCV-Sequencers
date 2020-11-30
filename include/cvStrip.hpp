@@ -76,7 +76,7 @@ private:
 		if(isSwitchOn(module, PARAM_QTZ))
 		{
 			v = NearestSemitone(v);
-			int nota = (int)(round(v - (int)v)/SEMITONE);
+			int nota = (int)fabs((round(v - (int)v)/SEMITONE));
 			for(int k=0;k<12;k++)
 			{
 				int offs = (k+nota)%12;
