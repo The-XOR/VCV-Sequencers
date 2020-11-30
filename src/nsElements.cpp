@@ -102,6 +102,8 @@ void NordschleifeCar::onCollision()
 		onCollision(collision);
 }
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wswitch" 
 void NordschleifeCar::onCollision(CarCollision n)
 {
 	switch(n)
@@ -137,7 +139,7 @@ void NordschleifeCar::onCollision(CarCollision n)
 			break;
 	}
 }
-
+#pragma GCC diagnostic pop
 
 void NordschleifeCar::pulseTrig()
 {
@@ -147,6 +149,8 @@ void NordschleifeCar::pulseTrig()
 	pNord->lights[Nordschleife::LAP_LED +myID].value = LED_ON;
 }
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wswitch"
 int NordschleifeCar::get_next_step()
 {
 	switch(direction)
@@ -206,6 +210,7 @@ int NordschleifeCar::get_next_step()
 
 	return Nordschleife::paths[path][pNord->rotation[angle][curStepCounter]];
 }
+#pragma GCC diagnostic pop
 
 int NordschleifeCar::move_next(int carID)
 {
