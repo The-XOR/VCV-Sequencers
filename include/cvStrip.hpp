@@ -70,7 +70,7 @@ struct cvMicroStrip
 		return clamp(rescale(v, std::min(vmin, vmax), std::max(vmin, vmax), 0.0, 1.0), 0.0, 1.0);
 	}
 
-private:
+protected:
 	float quantize(float v) const
 	{
 		if(isSwitchOn(module, PARAM_QTZ))
@@ -88,6 +88,7 @@ private:
 		return v;
 	}
 
+private:
 	struct smallKey : SvgSwitch
 	{
 		smallKey()
@@ -150,6 +151,15 @@ public:
 		recording = false;
 	}
 
+	float TransposeableValue(float v) const
+	{
+		float trnsps = recording ? 0.f : module->inputs[CV_IN].getNormalVoltage(0.0);
+		float vmin = getModulableParam(module, PARAM_FROM, RANGE_FROM, LVL_MIN, LVL_MAX);
+		float vmax = getModulableParam(module, PARAM_TO, RANGE_TO, LVL_MIN, LVL_MAX);
+		float vnt = rescale(v, 0.0, 1.0, std::min(vmin, vmax), std::max(vmin, vmax));
+		return quantize(clamp(vnt + trnsps, LVL_MIN, LVL_MAX));
+	}
+
 	void Create(ModuleWidget *pWidget, float x, float y, int port, int param)
 	{
 		portID = port;
@@ -170,17 +180,6 @@ public:
 		addMicroStrip(pWidget, x, y, corr + CVMINISTRIP_HEIGHT-CVMICROSTRIP_HEIGHT);
 	}
 
-	public:		
-	float TransposeableValue(float v)
-	{
-		float trnsps = recording ? 0.f : module->inputs[CV_IN].getNormalVoltage(0.0);
-		float vmin = getModulableParam(module, PARAM_FROM, RANGE_FROM, LVL_MIN, LVL_MAX);
-		float vmax = getModulableParam(module, PARAM_TO, RANGE_TO, LVL_MIN, LVL_MAX);
-		float vnt = rescale(v, 0.0, 1.0, std::min(vmin, vmax), std::max(vmin, vmax));
-		return clamp(vnt + trnsps, LVL_MIN, LVL_MAX);
-	}
-	
-	protected:
 	bool recording = false;
 };
 
