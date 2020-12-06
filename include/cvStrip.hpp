@@ -76,12 +76,15 @@ protected:
 		if(isSwitchOn(module, PARAM_QTZ))
 		{
 			v = NearestSemitone(v);
-			int nota = (int)fabs((round(v - (int)v)/SEMITONE));
+	    	int sgn = v>=0 ? 1 : -1;
+			int nota = (int)fmod(round(fabs(v)/SEMITONE),12);
 			for(int k=0;k<12;k++)
 			{
 				int offs = (k+nota)%12;
 				if(isSwitchOn(module, PARAM_NOTE+offs))
-					return v + (offs-nota)*SEMITONE;
+				{
+					return v + sgn*k*SEMITONE;
+				}
 			}
 		}
 
