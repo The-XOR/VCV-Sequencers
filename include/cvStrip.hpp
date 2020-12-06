@@ -81,7 +81,7 @@ protected:
 			{
 				int offs = (k+nota)%12;
 				if(isSwitchOn(module, PARAM_NOTE+offs))
-					return v + offs*SEMITONE;
+					return v + (offs-nota)*SEMITONE;
 			}
 		}
 
